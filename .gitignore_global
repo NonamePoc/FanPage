@@ -1,0 +1,27 @@
+# Ignore .NET 7 API-related
+/bin/
+/obj/
+/publish/
+/*.dbmdl
+/*.jfm
+
+# Ignore Angular-related
+node_modules/
+/dist/
+/dist-server/
+/.ng_build/
+/.ng_deps/
+/.ng_packagr/
+/.ng_test/
+/.ng_tools/
+*.log
+*.vue
+
+# Ignore Docker-related
+.docker/
+docker-compose.yml
+docker-compose.override.yml
+*.Dockerfile
+
+# Ignore the .vs folder
+.vs/
