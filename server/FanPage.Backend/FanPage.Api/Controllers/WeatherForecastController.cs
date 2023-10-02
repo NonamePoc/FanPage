@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace FanPage.Controllers
+namespace FanPage.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]

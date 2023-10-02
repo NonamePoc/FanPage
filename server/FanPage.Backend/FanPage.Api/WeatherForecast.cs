@@ -1,4 +1,4 @@
-namespace FanPage
+namespace FanPage.Api
 {
     public class WeatherForecast
     {
