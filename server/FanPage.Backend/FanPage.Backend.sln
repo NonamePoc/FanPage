@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FanPage.Api", "FanPage.Api", "{88298184-736A-42C2-B348-C63E170C1A5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanPage.Api", "FanPage.Api\FanPage.Api.csproj", "{86CD0651-9709-415F-B5BC-857B6B917F7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanPage.Api", "FanPage.Api\FanPage.Api.csproj", "{86CD0651-9709-415F-B5BC-857B6B917F7D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FanPage.Application", "FanPage.Application", "{4B14E28A-7E23-4FEE-B792-A68373FDA61F}"
 EndProject
@@ -17,15 +17,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FanPage.Infrastructure", "F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FanPage.Common", "FanPage.Common", "{53B709FE-098A-4CCE-A897-CAAFF78218AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanPage.Application", "FanPage.Application\FanPage.Application.csproj", "{B5987826-8EDD-40E2-A9CC-F1034F07C6E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanPage.Application", "FanPage.Application\FanPage.Application.csproj", "{B5987826-8EDD-40E2-A9CC-F1034F07C6E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanPage.Common", "FanPage.Common\FanPage.Common.csproj", "{6D23181F-BA0A-4D8C-BFD2-85B4A23AB0FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanPage.Common", "FanPage.Common\FanPage.Common.csproj", "{6D23181F-BA0A-4D8C-BFD2-85B4A23AB0FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanPage.Domain", "FanPage.Domain\FanPage.Domain.csproj", "{C65ABB82-E3A3-451F-AE8C-EA5EF50F3F2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanPage.Domain", "FanPage.Domain\FanPage.Domain.csproj", "{C65ABB82-E3A3-451F-AE8C-EA5EF50F3F2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanPage.Infrastructure", "FanPage.Infrastructure\FanPage.Infrastructure.csproj", "{D7A3EE38-13FB-4B3A-A471-FA77E25828A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanPage.Infrastructure", "FanPage.Infrastructure\FanPage.Infrastructure.csproj", "{D7A3EE38-13FB-4B3A-A471-FA77E25828A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanPage.Persistence", "FanPage.Persistence\FanPage.Persistence.csproj", "{6A2AE451-6D09-4EB3-AA76-3FDE788966C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanPage.Persistence", "FanPage.Persistence\FanPage.Persistence.csproj", "{6A2AE451-6D09-4EB3-AA76-3FDE788966C1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ACC8F0C5-6DC2-4061-A549-342D9B5606CC}"
 EndProject
