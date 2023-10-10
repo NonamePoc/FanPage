@@ -1,10 +1,5 @@
-﻿using FanPage.Domain.Fanfik;
+﻿using FanPage.Domain.Entities.Fanfik;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FanPage.Persistence.Context
 {
@@ -17,5 +12,7 @@ namespace FanPage.Persistence.Context
         public DbSet<Fanfic> Fanfics { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
     }
 }

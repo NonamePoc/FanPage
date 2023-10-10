@@ -6,4 +6,25 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Flurl" Version="3.0.7" />
+    <PackageReference Include="MailKit" Version="4.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FanPage.Application\FanPage.Application.csproj" />
+    <ProjectReference Include="..\FanPage.Common\FanPage.Common.csproj" />
+    <ProjectReference Include="..\FanPage.Domain\FanPage.Domain.csproj" />
+    <ProjectReference Include="..\FanPage.EmailService\FanPage.EmailService.csproj" />
+    <ProjectReference Include="..\FanPage.Exception\FanPage.Exceptions.csproj" />
+    <ProjectReference Include="..\FanPage.Persistence\FanPage.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>

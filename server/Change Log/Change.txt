@@ -3,3 +3,14 @@
 ### Version 1.0.0 Pavlo Shaban (03.10.2023)
 - Setting Arhitech Project
 - Setting Database
+### Version 1.0.0 Pavlo Shaban (10.10.2023)
+- Setting Logger and Exeception 
+- Setting Swager 
+- Add Custom exception
+- Added Controller Account and Aut 
+- Added send email confirm 
+- Add Email Service 
+- Update Database
+- Add Migration DataBase 
+- Add Jwt configure and ServiceCollectionExtensions
+- Add Mapper 

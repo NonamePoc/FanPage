@@ -22,7 +22,35 @@ namespace FanPage.Persistence.Migrations.Fanfik
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("FanPage.Domain.Fanfik.Fanfic", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Fanfik.Comment", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CommentId"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("FanficId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("FanficId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("FanPage.Domain.Entities.Fanfik.Fanfic", b =>
                 {
                     b.Property<int>("FanficId")
                         .ValueGeneratedOnAdd()
@@ -44,6 +72,21 @@ namespace FanPage.Persistence.Migrations.Fanfik
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("OriginFandom")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("Tag")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -55,7 +98,7 @@ namespace FanPage.Persistence.Migrations.Fanfik
                     b.ToTable("Fanfics");
                 });
 
-            modelBuilder.Entity("FanPage.Domain.Fanfik.Like", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Fanfik.Like", b =>
                 {
                     b.Property<int>("LikeId")
                         .ValueGeneratedOnAdd()
@@ -79,7 +122,7 @@ namespace FanPage.Persistence.Migrations.Fanfik
                     b.ToTable("Likes");
                 });
 
-            modelBuilder.Entity("FanPage.Domain.Fanfik.PaymentMethod", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Fanfik.PaymentMethod", b =>
                 {
                     b.Property<int>("PaymentMethodId")
                         .ValueGeneratedOnAdd()
@@ -114,7 +157,7 @@ namespace FanPage.Persistence.Migrations.Fanfik
                     b.ToTable("PaymentMethods");
                 });
 
-            modelBuilder.Entity("FanPage.Domain.Identity.Bookmark", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Identity.Bookmark", b =>
                 {
                     b.Property<int>("BookmarkId")
                         .ValueGeneratedOnAdd()
@@ -138,7 +181,7 @@ namespace FanPage.Persistence.Migrations.Fanfik
                     b.ToTable("Bookmark");
                 });
 
-            modelBuilder.Entity("FanPage.Domain.Identity.CustomizationSettings", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Identity.CustomizationSettings", b =>
                 {
                     b.Property<int>("CustomizationSettingsId")
                         .ValueGeneratedOnAdd()
@@ -146,12 +189,16 @@ namespace FanPage.Persistence.Migrations.Fanfik
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CustomizationSettingsId"));
 
+                    b.Property<string>("BannerUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("CustomizationSettingsId");
 
                     b.ToTable("CustomizationSettings");
                 });
 
-            modelBuilder.Entity("FanPage.Domain.Identity.Follower", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Identity.Follower", b =>
                 {
                     b.Property<int>("FollowerId")
                         .ValueGeneratedOnAdd()
@@ -160,7 +207,6 @@ namespace FanPage.Persistence.Migrations.Fanfik
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FollowerId"));
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("FollowerId");
@@ -170,7 +216,7 @@ namespace FanPage.Persistence.Migrations.Fanfik
                     b.ToTable("Follower");
                 });
 
-            modelBuilder.Entity("FanPage.Domain.Identity.Friendship", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Identity.Friendship", b =>
                 {
                     b.Property<int>("FriendshipId")
                         .ValueGeneratedOnAdd()
@@ -195,7 +241,29 @@ namespace FanPage.Persistence.Migrations.Fanfik
                     b.ToTable("Friendship");
                 });
 
-            modelBuilder.Entity("FanPage.Domain.Identity.User", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Identity.Sticker", b =>
+                {
+                    b.Property<int>("StickerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("StickerId"));
+
+                    b.Property<int>("CustomizationSettingsId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("StickerId");
+
+                    b.HasIndex("CustomizationSettingsId");
+
+                    b.ToTable("Sticker");
+                });
+
+            modelBuilder.Entity("FanPage.Domain.Entities.Identity.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -256,9 +324,28 @@ namespace FanPage.Persistence.Migrations.Fanfik
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("FanPage.Domain.Fanfik.Fanfic", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Fanfik.Comment", b =>
                 {
-                    b.HasOne("FanPage.Domain.Identity.User", "Author")
+                    b.HasOne("FanPage.Domain.Entities.Fanfik.Fanfic", "Fanfic")
+                        .WithMany("Comments")
+                        .HasForeignKey("FanficId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FanPage.Domain.Entities.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Fanfic");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FanPage.Domain.Entities.Fanfik.Fanfic", b =>
+                {
+                    b.HasOne("FanPage.Domain.Entities.Identity.User", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -267,15 +354,15 @@ namespace FanPage.Persistence.Migrations.Fanfik
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("FanPage.Domain.Fanfik.Like", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Fanfik.Like", b =>
                 {
-                    b.HasOne("FanPage.Domain.Fanfik.Fanfic", "Fanfic")
+                    b.HasOne("FanPage.Domain.Entities.Fanfik.Fanfic", "Fanfic")
                         .WithMany("Likes")
                         .HasForeignKey("FanficId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FanPage.Domain.Identity.User", "User")
+                    b.HasOne("FanPage.Domain.Entities.Identity.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -286,13 +373,13 @@ namespace FanPage.Persistence.Migrations.Fanfik
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FanPage.Domain.Fanfik.PaymentMethod", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Fanfik.PaymentMethod", b =>
                 {
-                    b.HasOne("FanPage.Domain.Fanfik.Fanfic", null)
+                    b.HasOne("FanPage.Domain.Entities.Fanfik.Fanfic", null)
                         .WithMany("PaymentMethods")
                         .HasForeignKey("FanficId");
 
-                    b.HasOne("FanPage.Domain.Identity.User", "User")
+                    b.HasOne("FanPage.Domain.Entities.Identity.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -301,15 +388,15 @@ namespace FanPage.Persistence.Migrations.Fanfik
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FanPage.Domain.Identity.Bookmark", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Identity.Bookmark", b =>
                 {
-                    b.HasOne("FanPage.Domain.Fanfik.Fanfic", "Fanfic")
+                    b.HasOne("FanPage.Domain.Entities.Fanfik.Fanfic", "Fanfic")
                         .WithMany("Bookmarks")
                         .HasForeignKey("FanficId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FanPage.Domain.Identity.User", "User")
+                    b.HasOne("FanPage.Domain.Entities.Identity.User", "User")
                         .WithMany("Bookmarks")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -320,26 +407,24 @@ namespace FanPage.Persistence.Migrations.Fanfik
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FanPage.Domain.Identity.Follower", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Identity.Follower", b =>
                 {
-                    b.HasOne("FanPage.Domain.Identity.User", "User")
+                    b.HasOne("FanPage.Domain.Entities.Identity.User", "User")
                         .WithMany("Followers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FanPage.Domain.Identity.Friendship", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Identity.Friendship", b =>
                 {
-                    b.HasOne("FanPage.Domain.Identity.User", "Friend")
+                    b.HasOne("FanPage.Domain.Entities.Identity.User", "Friend")
                         .WithMany("FriendsOfMine")
                         .HasForeignKey("FriendId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FanPage.Domain.Identity.User", "User")
+                    b.HasOne("FanPage.Domain.Entities.Identity.User", "User")
                         .WithMany("MyFriends")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -350,9 +435,20 @@ namespace FanPage.Persistence.Migrations.Fanfik
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FanPage.Domain.Identity.User", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Identity.Sticker", b =>
                 {
-                    b.HasOne("FanPage.Domain.Identity.CustomizationSettings", "CustomizationSettings")
+                    b.HasOne("FanPage.Domain.Entities.Identity.CustomizationSettings", "CustomizationSettings")
+                        .WithMany("CustomStickers")
+                        .HasForeignKey("CustomizationSettingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CustomizationSettings");
+                });
+
+            modelBuilder.Entity("FanPage.Domain.Entities.Identity.User", b =>
+                {
+                    b.HasOne("FanPage.Domain.Entities.Identity.CustomizationSettings", "CustomizationSettings")
                         .WithMany()
                         .HasForeignKey("CustomizationSettingsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -361,16 +457,23 @@ namespace FanPage.Persistence.Migrations.Fanfik
                     b.Navigation("CustomizationSettings");
                 });
 
-            modelBuilder.Entity("FanPage.Domain.Fanfik.Fanfic", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Fanfik.Fanfic", b =>
                 {
                     b.Navigation("Bookmarks");
+
+                    b.Navigation("Comments");
 
                     b.Navigation("Likes");
 
                     b.Navigation("PaymentMethods");
                 });
 
-            modelBuilder.Entity("FanPage.Domain.Identity.User", b =>
+            modelBuilder.Entity("FanPage.Domain.Entities.Identity.CustomizationSettings", b =>
+                {
+                    b.Navigation("CustomStickers");
+                });
+
+            modelBuilder.Entity("FanPage.Domain.Entities.Identity.User", b =>
                 {
                     b.Navigation("Bookmarks");
 

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FanPage.Domain.Identity;
 using Microsoft.EntityFrameworkCore;
+using FanPage.Domain.Entities.Identity;
 
 namespace FanPage.Persistence.Context
 {
@@ -19,6 +19,7 @@ namespace FanPage.Persistence.Context
 
         public DbSet<Friendship> Friendships { get; set; }
 
+        public DbSet<Sticker> Stickers { get; set; }
         public UserContext(DbContextOptions<UserContext> options) :
         base(options)
         {
