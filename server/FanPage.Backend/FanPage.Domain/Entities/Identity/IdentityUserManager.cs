@@ -18,7 +18,7 @@ namespace FanPage.Domain.Entities.Identity
             : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
         {
             Options.User.AllowedUserNameCharacters = null;
-            Options.SignIn.RequireConfirmedEmail = true;
+            Options.SignIn.RequireConfirmedEmail = false;
         }
 
 

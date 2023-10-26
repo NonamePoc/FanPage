@@ -14,3 +14,6 @@
 - Add Migration DataBase 
 - Add Jwt configure and ServiceCollectionExtensions
 - Add Mapper 
+
+### Version 1.0.0 Teslewitch Mihailo (26.10.2023)
+-Add Admin Menu (Without restriction of access)

@@ -43,7 +43,6 @@ app.UseApiLogging();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.SeedIdentity();

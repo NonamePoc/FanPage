@@ -12,7 +12,7 @@ namespace FanPage.Domain.Entities.Identity
         [Key]
         public int CustomizationSettingsId { get; set; }
 
-        public string BannerUrl { get; set; }
+        public string BannerUrl { get; set; } = string.Empty;
 
         public ICollection<Sticker> CustomStickers { get; set; }
 
