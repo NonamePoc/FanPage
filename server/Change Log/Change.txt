@@ -14,3 +14,16 @@
 - Add Migration DataBase 
 - Add Jwt configure and ServiceCollectionExtensions
 - Add Mapper 
+## Version 1.0.0 Pavlo Shaban (30.11.2023)
+- Update Database (added new logic fanfic and user) 
+- Setting Logger and Exeception
+- Add logic tag 
+- Add logic category
+- Add logic chapter
+- Add logic fanfic
+- Add logic chapter
+- Update register (unique username) 
+- Update artitech project (now everything looks more like a modular monolith, everything is divided into repositories)
+- Add repos Tag,Category,Photo,Fanfic,Review,Chapter
+- Add method global rating fanfic( average review) 
+- Add Fanfic detail (controller management get method from fanfic )
