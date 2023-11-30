@@ -1,5 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
 
+namespace FanPage.Api.Swagger;
+
 public static class ApplicationBuilderExtensions
 {
     private const string SwaggerPath = "/swagger/v1/swagger.json";
@@ -17,7 +19,7 @@ public static class ApplicationBuilderExtensions
             c.PreSerializeFilters.Add((swagger, httpReq) =>
             {
                 swagger.Servers = new List<OpenApiServer>
-                        {new OpenApiServer {Url = $"{httpReq.Scheme}://{httpReq.Host.Value}"}};
+                    { new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" } };
             });
             c.RouteTemplate = "swagger/{documentName}/swagger.json";
         });

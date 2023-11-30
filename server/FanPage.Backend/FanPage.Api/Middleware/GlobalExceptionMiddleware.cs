@@ -1,8 +1,7 @@
-﻿using Newtonsoft.Json;
-using System.Net;
-using System.Text.Json;
+﻿using System.Net;
+using Newtonsoft.Json;
 
-namespace FanPage.APi.Middware
+namespace FanPage.Api.Middleware
 {
     public sealed class GlobalExceptionMiddleware
     {

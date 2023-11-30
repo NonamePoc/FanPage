@@ -17,8 +17,8 @@ namespace FanPage.Common.Implementations
         private const int DefaultMaxPasswordLength = 16;
 
         public UserPasswordSettings(bool includeLowercase, bool includeUppercase, bool includeNumeric,
-           bool includeSpecial,
-           int passwordLength, int maximumAttempts, bool usingDefaults)
+            bool includeSpecial,
+            int passwordLength, int maximumAttempts, bool usingDefaults)
         {
             IncludeLowercase = includeLowercase;
             IncludeUppercase = includeUppercase;

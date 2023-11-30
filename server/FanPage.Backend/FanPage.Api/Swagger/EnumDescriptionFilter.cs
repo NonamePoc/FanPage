@@ -48,6 +48,7 @@ namespace FanPage.Api.Swagger
             {
                 sb.AppendLine(value);
             }
+
             schema.Description = sb.ToString();
         }
     }

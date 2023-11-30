@@ -9,12 +9,8 @@ namespace FanPage.Domain.Entities.Identity
 {
     public class CustomizationSettings
     {
-        [Key]
-        public int CustomizationSettingsId { get; set; }
-
-        public string BannerUrl { get; set; }
+        [Key] public int CustomizationSettingsId { get; set; }
 
         public ICollection<Sticker> CustomStickers { get; set; }
-
     }
 }

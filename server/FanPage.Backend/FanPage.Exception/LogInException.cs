@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace FanPage.Exceptions
 {
-
     [Serializable]
     public class LogInException : ClientExceptionBase
     {

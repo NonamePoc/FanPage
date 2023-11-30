@@ -19,17 +19,19 @@ namespace FanPage.Common.Implementations
             _jwtConfiguration = options;
             _tokenHandler = tokenHandler;
 
+     
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfiguration.Key));
             _credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
         }
 
 
-        public string CreateToken(string email, string userId)
+        public string CreateToken(string email, string userId, string userName)
         {
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Email, email),
-                new Claim(JwtRegisteredClaimNames.Sub, userId)
+                new Claim(JwtRegisteredClaimNames.Sub, userId),
+                new Claim(JwtRegisteredClaimNames.Name, userName)
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -66,4 +68,3 @@ namespace FanPage.Common.Implementations
         }
     }
 }
-

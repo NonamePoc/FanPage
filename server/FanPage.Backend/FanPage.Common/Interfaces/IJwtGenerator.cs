@@ -8,7 +8,7 @@ namespace FanPage.Common.Interfaces
 {
     public interface IJwtGenerator
     {
-        string CreateToken(string email, string userId);
+        string CreateToken(string email, string userId, string userName);
 
         string RefreshToken(string token, string email, string userId);
     }

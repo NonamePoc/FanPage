@@ -1,5 +1,4 @@
-﻿
-namespace FanPage.EmailService.Configuration
+﻿namespace FanPage.EmailService.Configuration
 {
     public class SmtpConfiguration
     {

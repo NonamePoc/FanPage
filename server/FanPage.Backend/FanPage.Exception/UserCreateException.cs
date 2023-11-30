@@ -8,7 +8,9 @@ namespace FanPage.Exceptions
     [Serializable]
     public class UserCreateException : ClientExceptionBase
     {
-        public UserCreateException() { }
+        public UserCreateException()
+        {
+        }
 
 
         public UserCreateException(string message) : base(message)

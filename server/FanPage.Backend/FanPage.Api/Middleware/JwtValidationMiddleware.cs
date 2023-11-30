@@ -24,4 +24,3 @@ namespace FanPage.Api.Middleware
         }
     }
 }
-

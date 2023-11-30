@@ -13,10 +13,12 @@ namespace FanPage.Common.Interfaces
 
         Task<bool> IsTokenExists(HttpRequest request);
 
-        string GenerateToken(string email, string userId);
+        string GenerateToken(string email, string userId, string userName);
 
         string RefreshToken(string token, string email, string userId);
 
         string GetUserIdFromToken(HttpRequest request);
+
+        string GetUserNameFromToken(HttpRequest request);
     }
 }

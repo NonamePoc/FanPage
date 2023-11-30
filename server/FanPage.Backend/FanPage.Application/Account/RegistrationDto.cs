@@ -16,7 +16,5 @@ namespace FanPage.Application.Account
         public string? Password { get; set; }
 
         public UrlInformationDto ConfirmEmailUrl { get; set; }
-
-
     }
 }

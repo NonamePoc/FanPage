@@ -1,6 +1,4 @@
-﻿// Ignore Spelling: Api
-
-using FanPage.Common.Configurations;
+﻿using FanPage.Common.Configurations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -32,28 +30,20 @@ namespace FanPage.Infrastructure.Implementations
 
         public void LogApiRequest(HttpContext context)
         {
-            if (_configuration.EnableApiLogging)
-            {
-                _logger.LogInformation($"Request: {context.Request.Method} {context.Request.Path} {DateTime.Now}");
-                // to do
-            }
-            else
-            {
-                _logger.LogInformation($"Request: {nameof(LogApiRequest)} {DateTime.Now}");
-            }
+            _logger.LogInformation(_configuration.EnableApiLogging
+                ? $"Request: {context.Request.Method} {context.Request.Path} {DateTime.Now} "
+                : $"Request: {nameof(LogApiRequest)} {DateTime.Now}");
+            
+            // to do
         }
 
         public void LogApiResponse(HttpContext context)
         {
-            if (_configuration.EnableApiLogging)
-            {
-                _logger.LogInformation($"Response: {context.Response.StatusCode} {DateTime.Now}");
-                // to do
-            }
-            else
-            {
-                _logger.LogInformation($"Request: {nameof(LogApiResponse)} {DateTime.Now}");
-            }
+            _logger.LogInformation(_configuration.EnableApiLogging
+                ? $"Response: {context.Response.StatusCode} {DateTime.Now}"
+                : $"Request: {nameof(LogApiResponse)} {DateTime.Now} {context.Response.StatusCode} ");
+            
+            // to do
         }
 
         public void LogInformation(string message)

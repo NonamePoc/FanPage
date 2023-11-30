@@ -1,9 +1,9 @@
 using FanPage.Api.Mapper;
-using FanPage.APi.Configure;
-using FanPage.APi.Middware;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
-
+using System.Text.Json.Serialization;
+using FanPage.Api.Configure;
+using FanPage.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +24,18 @@ builder.Services.ConfigureSmtp(builder.Configuration);
 builder.Services.ConfigureApplication(builder.Configuration);
 builder.Services.ConfigureBusinessServices();
 builder.Services.ConfigureMapper();
+builder.Services.ConfigureRepository();
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        corsPolicyBuilder => corsPolicyBuilder
+            .WithOrigins("*")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
 
 var app = builder.Build();
 

@@ -1,17 +1,12 @@
 ﻿using FanPage.Common.Interfaces;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace FanPage.Common.Implementations
 {
     public class JwtTokenManager : IJwtTokenManager
     {
-
         private readonly IJwtGenerator _jwtGenerator;
         private readonly JwtSecurityTokenHandler _tokenHandler;
 
@@ -36,9 +31,9 @@ namespace FanPage.Common.Implementations
                 : null;
         }
 
-        public string GenerateToken(string email, string userId)
+        public string GenerateToken(string email, string userId, string userName)
         {
-            return _jwtGenerator.CreateToken(email, userId);
+            return _jwtGenerator.CreateToken(email, userId, userName);
         }
 
         public string RefreshToken(string token, string email, string userId)
@@ -55,6 +50,15 @@ namespace FanPage.Common.Implementations
 
             return claim?.Value;
         }
+
+        public string GetUserNameFromToken(HttpRequest request)
+        {
+            var token = GetTokenFromHeader(request);
+
+            var jwtToken = _tokenHandler.ReadJwtToken(token);
+            var claim = jwtToken.Claims.SingleOrDefault(w => w.Type == JwtRegisteredClaimNames.Name);
+
+            return claim?.Value;
+        }
     }
 }
-
