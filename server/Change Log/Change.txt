@@ -17,3 +17,5 @@
 
 ### Version 1.0.0 Teslewitch Mihailo (26.10.2023)
 -Add Admin Menu (Without restriction of access)
+### Version 1.0.0 Teslewitch Mihailo (03.12.2023)
+-Admin Menu (now with restriction of access and UserInfo)

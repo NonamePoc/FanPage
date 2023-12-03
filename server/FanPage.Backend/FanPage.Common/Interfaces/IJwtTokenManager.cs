@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace FanPage.Common.Interfaces
 
         Task<bool> IsTokenExists(HttpRequest request);
 
-        string GenerateToken(string email, string userId);
+        Task<string> GenerateToken(IdentityUser user);
 
         string RefreshToken(string token, string email, string userId);
 

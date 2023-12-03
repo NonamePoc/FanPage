@@ -33,6 +33,9 @@ namespace FanPage.Api.Mapper
             CreateMap<BanModel, BanDto>();
             CreateMap<UnbanModel, UnbanDto>();
             CreateMap<ChangeRoleModel, ChangeRoleDto>();
+            CreateMap<UserInfoModel, UserInfoDto>();
+
+            CreateMap<UserInfoResponseDto, UserInfoViewModel>();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using FanPage.Common.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -36,9 +37,9 @@ namespace FanPage.Common.Implementations
                 : null;
         }
 
-        public string GenerateToken(string email, string userId)
+        public async Task<string> GenerateToken(IdentityUser user)
         {
-            return _jwtGenerator.CreateToken(email, userId);
+            return await _jwtGenerator.CreateToken(user);
         }
 
         public string RefreshToken(string token, string email, string userId)

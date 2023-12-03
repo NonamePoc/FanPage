@@ -2,18 +2,20 @@
 using FanPage.Domain.Entities.Identity;
 using FanPage.Exceptions;
 using FanPage.Infrastructure.Interfaces;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace FanPage.Infrastructure.Implementations
 {
     public class AdminService : IAdmin
     {
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public AdminService(UserManager<User> userManager)
+        public AdminService(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
         public async Task<bool> Delete(DeleteDto userId)
         {
@@ -70,6 +72,7 @@ namespace FanPage.Infrastructure.Implementations
         public async Task<IdentityResult> ChangeRole(ChangeRoleDto userId)
         {
             var user = await _userManager.FindByIdAsync(userId.Id);
+
             if (user == null)
             {
                 throw new UserNotFoundException("User not found");
@@ -79,14 +82,33 @@ namespace FanPage.Infrastructure.Implementations
             {
                 throw new InvalidOperationException("Cannot change the role of another admin.");
             }
-            var result = await _userManager.RemoveFromRolesAsync(user, roles);
-
-            if (!result.Succeeded)
-            {
-                return result;
-            }
-
+            await _userManager.RemoveFromRolesAsync(user, roles);
             return await _userManager.AddToRoleAsync(user, userId.NewRole);
         }
+        public async Task<UserInfoResponseDto> GetUserInformation(UserInfoDto userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.id);
+
+            if (user == null)
+            {
+                throw new UserNotFoundException("User not found");
+            }
+            if (user.LockoutEnabled == false)
+            {
+                return new UserInfoResponseDto
+                {
+                    IsBanned = true,
+                    BanExpirationDate = (DateTimeOffset)user.LockoutEnd
+                };
+            }
+
+            return new UserInfoResponseDto
+            {
+                Email = user.Email,
+                Number = user.PhoneNumber
+            };
+        }
     }
+
 }
+
