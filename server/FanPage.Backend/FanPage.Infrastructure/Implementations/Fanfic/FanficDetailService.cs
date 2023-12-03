@@ -29,6 +29,7 @@ public class FanficDetailService : IFanficDetail
         {
             Id = fanfic.FanficId,
             AuthorName = fanfic.AuthorName,
+            Title = fanfic.Title,
             Description = fanfic.Description,
             OriginFandom = fanfic.OriginFandom,
             Stage = fanfic.Stage,
@@ -64,6 +65,7 @@ public class FanficDetailService : IFanficDetail
         {
             Id = fanfic.FanficId,
             AuthorName = fanfic.AuthorName,
+            Title = fanfic.Title,
             Description = fanfic.Description,
             OriginFandom = fanfic.OriginFandom,
             Stage = fanfic.Stage,
@@ -99,6 +101,7 @@ public class FanficDetailService : IFanficDetail
         {
             Id = fanfic.FanficId,
             AuthorName = fanfic.AuthorName,
+            Title = fanfic.Title,
             Description = fanfic.Description,
             OriginFandom = fanfic.OriginFandom,
             Stage = fanfic.Stage,
@@ -138,6 +141,7 @@ public class FanficDetailService : IFanficDetail
         return fanficList.Select(fanfic => new FanficDto()
         {
             Id = fanfic.FanficId,
+            Title = fanfic.Title,
             AuthorName = fanfic.AuthorName,
             Description = fanfic.Description,
             OriginFandom = fanfic.OriginFandom,

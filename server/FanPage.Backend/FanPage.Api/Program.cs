@@ -47,6 +47,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
+// app.UseMiddleware<JwtValidationMiddleware>();
 
 
 app.UseApiLogging();

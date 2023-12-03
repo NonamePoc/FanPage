@@ -40,7 +40,7 @@ namespace FanPage.Api.Mapper
             CreateMap<FanficDto, FanficViewModel>();
             CreateMap<UpdateDto, Fanfic>();
             CreateMap<UpdateModel, UpdateDto>();
-            
+
             // photo
             CreateMap<FanficPhotoDto, FanficPhoto>();
             CreateMap<FanficPhotoModel, FanficPhotoDto>();
@@ -55,7 +55,7 @@ namespace FanPage.Api.Mapper
             CreateMap<ReviewsDto, Reviews>();
             CreateMap<Reviews, ReviewsDto>();
             CreateMap<ReviewsDto, ReviewViewModel>();
-            
+
             // category
             CreateMap<CategoryDto, CategoryViewModel>();
             CreateMap<Category, CategoryDto>();
@@ -67,8 +67,8 @@ namespace FanPage.Api.Mapper
             CreateMap<TagDto, TagViewModel>();
             CreateMap<Tag, TagDto>();
             CreateMap<FanficTag, TagDto>();
-            
-            
+
+
             CreateMap<FanficCategory, FanficCategoryDto>()
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId))
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));

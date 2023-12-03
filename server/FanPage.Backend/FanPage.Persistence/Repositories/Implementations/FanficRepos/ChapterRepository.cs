@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FanPage.Persistence.Repositories.Implementations.FanficRepos;
 
-public class ChapterRepository : IChapterRepository
+public class ChapterRepository : RepositoryBase<Chapter>, IChapterRepository
 {
     private readonly FanficContext _context;
 
     private readonly IMapper _mapper;
 
-    public ChapterRepository(FanficContext context, IMapper mapper)
+    public ChapterRepository(FanficContext context, IMapper mapper) : base(context)
     {
         _context = context;
         _mapper = mapper;

@@ -15,7 +15,6 @@ using FanPage.EmailService.Interfaces;
 using FanPage.Infrastructure.Implementations;
 using FanPage.Infrastructure.Implementations.Fanfic;
 using FanPage.Infrastructure.Implementations.User;
-using FanPage.Infrastructure.Interfaces;
 using FanPage.Infrastructure.Interfaces.Fanfic;
 using FanPage.Infrastructure.Interfaces.User;
 using FanPage.Persistence.Context;

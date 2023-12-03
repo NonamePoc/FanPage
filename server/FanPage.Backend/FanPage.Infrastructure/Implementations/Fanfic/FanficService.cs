@@ -70,6 +70,7 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
             var result = new FanficDto
             {
                 Id = fanficResult.Id,
+                Title = createFanfic.Title,
                 AuthorName = fanficDto.AuthorName,
                 Image = createFanfic.Image,
                 Stage = createFanfic.Stage,
@@ -104,6 +105,7 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
             fanfic.Description = updateFanfic.Description ?? fanfic.Description;
             fanfic.OriginFandom = updateFanfic.OriginFandom ?? fanfic.OriginFandom;
             fanfic.Stage = updateFanfic.Stage ?? fanfic.Stage;
+            fanfic.Title = updateFanfic.Title ?? fanfic.Title;
             resultPhoto.Image = updateFanfic.Photo.Select(s => s.Image).FirstOrDefault() ?? resultPhoto.Image;
 
             var result = new UpdateDto()
@@ -127,6 +129,7 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
             {
                 Id = fanficId,
                 AuthorName = userName,
+                Title = fanfic.Title,
                 Description = fanfic.Description,
                 OriginFandom = fanfic.OriginFandom,
                 Stage = fanfic.Stage,

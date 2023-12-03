@@ -8,6 +8,7 @@ namespace FanPage.Domain.Entities.Fanfic
 
         public ICollection<Chapter> Chapters { get; set; }
 
+        public string Title { get; set; }
         public string AuthorName { get; set; }
 
         public string Language { get; set; }

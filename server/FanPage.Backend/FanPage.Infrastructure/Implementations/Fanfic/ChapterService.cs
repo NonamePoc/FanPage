@@ -14,25 +14,26 @@ public class ChapterService : IChapter
     private readonly IMapper _mapper;
     private readonly IJwtTokenManager _jwtTokenManager;
     private readonly IFanficRepository _fanficRepository;
-    
-    public ChapterService(IChapterRepository chapterRepository, IMapper mapper, IJwtTokenManager jwtTokenManager, IFanficRepository fanficRepository)
+
+    public ChapterService(IChapterRepository chapterRepository, IMapper mapper, IJwtTokenManager jwtTokenManager,
+        IFanficRepository fanficRepository)
     {
         _chapterRepository = chapterRepository;
         _mapper = mapper;
         _jwtTokenManager = jwtTokenManager;
         _fanficRepository = fanficRepository;
     }
-    
+
     public async Task<ChapterDto> CreateChapterAsync(ChapterDto chapterDto, HttpRequest request)
     {
         var fanfic = await _fanficRepository.GetByIdAsync(chapterDto.FanficId);
         var userName = _jwtTokenManager.GetUserNameFromToken(request);
-        var result = await _chapterRepository.CreateAsync(chapterDto);
-
         if (fanfic.AuthorName != userName && fanfic == null)
         {
             throw new FanficException("Error update");
         }
+
+        var result = await _chapterRepository.CreateAsync(chapterDto);
 
         return new ChapterDto()
         {
@@ -84,13 +85,13 @@ public class ChapterService : IChapter
         var chapters = await _chapterRepository.GetAllByFanficIdAsync(fanficId);
         return _mapper.Map<List<ChapterDto>>(chapters);
     }
-    
+
     public async Task<List<ChapterDto>> GetAllChaptersAsync()
     {
         var chapters = await _chapterRepository.GetAllAsync();
         return _mapper.Map<List<ChapterDto>>(chapters);
     }
-    
+
     public async Task<ChapterDto> GetByIdAsync(int id)
     {
         var chapter = await _chapterRepository.GetByIdAsync(id);

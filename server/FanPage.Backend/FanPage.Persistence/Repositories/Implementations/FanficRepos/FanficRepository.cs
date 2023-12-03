@@ -115,21 +115,46 @@ namespace FanPage.Persistence.Repositories.Implementations.FanficRepos
 
         public async Task<List<Fanfic>> SearchAsync(string searchString, HttpRequest request)
         {
-            var result = await _fanficContext.Fanfic
+            var searchWords = searchString.Split(' ');
+
+            var query = _fanficContext.Fanfic
                 .Include(f => f.FanficCategories)
                 .ThenInclude(fc => fc.Category)
                 .Include(f => f.FanficTags)
                 .ThenInclude(ft => ft.Tag)
                 .Include(f => f.Chapters)
                 .Include(f => f.Photos)
-                .Where(w => w.Chapters.Any(a => a.Title.Contains(searchString)) ||
-                            w.FanficTags.Any(a => a.Tag.Name.Contains(searchString)) ||
-                            w.FanficCategories.Any(a =>
-                                a.Category.Name.Contains(searchString)) ||
-                            w.Description.Contains(searchString) || w.AuthorName == searchString)
-                .ToListAsync();
+                .Include(f => f.Reviews)
+                .AsQueryable();
+
+            foreach (var searchWord in searchWords)
+            {
+                query = query.Where(w =>
+                    EF.Functions.Like(w.Title, $"%{searchWord}%") ||
+                    w.FanficTags.Any(a => EF.Functions.Like(a.Tag.Name, $"%{searchWord}%")) ||
+                    w.FanficCategories.Any(a => EF.Functions.Like(a.Category.Name, $"%{searchWord}%")) ||
+                    EF.Functions.Like(w.Description, $"%{searchWord}%") ||
+                    EF.Functions.Like(w.AuthorName, $"%{searchWord}%") ||
+                    EF.Functions.Like(w.Language, $"%{searchWord}%") ||
+                    w.Chapters.Any(a =>
+                        EF.Functions.Like(a.Title, $"%{searchWord}%") ||
+                        EF.Functions.Like(a.Content, $"%{searchWord}%")) ||
+                    w.Reviews.Any(a =>
+                        EF.Functions.Like(a.Text, $"%{searchWord}%") ||
+                        EF.Functions.Like(a.UserName, $"%{searchWord}%"))
+                );
+            }
+
+            if (searchWords.Any(w => bool.TryParse(w, out _)))
+            {
+                var boolSearchValue = searchWords.First(w => bool.TryParse(w, out _));
+                query = query.Where(w => w.OriginFandom == bool.Parse(boolSearchValue));
+            }
+
+            var result = await query.ToListAsync();
             return result;
         }
+
 
         public async Task<ReviewsDto> CreateReviewAsync(int fanficId, ReviewsDto reviewsDto)
         {

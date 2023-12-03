@@ -23,7 +23,7 @@ namespace FanPage.Persistence.Repositories.Implementations.FanficRepos
             var category = await _context.Categories.Where(x => x.Name == name).FirstOrDefaultAsync();
             return _mapper.Map<CategoryDto>(category);
         }
-        
+
         public async Task<CategoryDto> GetByIdAsync(int id)
         {
             var category = await _context.Categories.FindAsync(id);
@@ -42,7 +42,7 @@ namespace FanPage.Persistence.Repositories.Implementations.FanficRepos
             await _context.FanficCategories.AddAsync(fanficCategory);
             await _context.SaveChangesAsync();
         }
-        
+
         public async Task DeleteCategoryFromFanficAsync(int fanficId, int categoryId)
         {
             var fanficCategory = await _context.FanficCategories
@@ -50,8 +50,8 @@ namespace FanPage.Persistence.Repositories.Implementations.FanficRepos
             _context.FanficCategories.Remove(fanficCategory);
             await _context.SaveChangesAsync();
         }
-        
-        public async Task<CategoryDto> GetCategoryByFanficIdAsync (int fanficId , int categoryId)
+
+        public async Task<CategoryDto> GetCategoryByFanficIdAsync(int fanficId, int categoryId)
         {
             var fanficCategory = await _context.FanficCategories
                 .Where(x => x.FanficId == fanficId && x.CategoryId == categoryId).FirstOrDefaultAsync();
@@ -61,7 +61,7 @@ namespace FanPage.Persistence.Repositories.Implementations.FanficRepos
         public async Task<List<CategoryDto>> GetAllCategoryByFanficIdAsync(int fanficId)
         {
             var category = await _context.FanficCategories.Where(x => x.FanficId == fanficId)
-                .Select(s=> s.Category).ToListAsync();
+                .Select(s => s.Category).ToListAsync();
             return _mapper.Map<List<CategoryDto>>(category);
         }
     }
