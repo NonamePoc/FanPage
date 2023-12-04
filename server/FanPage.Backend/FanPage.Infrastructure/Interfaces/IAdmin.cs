@@ -5,11 +5,11 @@ namespace FanPage.Infrastructure.Interfaces
 {
     public interface IAdmin
     {
-        Task<bool> Delete(DeleteDto userId);
+        Task<bool> Delete(string Id);
         Task<bool> Ban(BanDto user);
-        Task<bool> Unban(UnbanDto banId);
-        Task<IdentityResult> ChangeRole(ChangeRoleDto userId);
-        Task<UserInfoResponseDto> GetUserInformation(UserInfoDto userId);
+        Task<bool> Unban(string Id);
+        Task<IdentityResult> ChangeRole(ChangeRoleDto user);
+        Task<UserInfoResponseDto> GetUserInformation(string Id);
 
     }
 }

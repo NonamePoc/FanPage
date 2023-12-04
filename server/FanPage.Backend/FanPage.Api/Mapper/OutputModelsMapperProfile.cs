@@ -11,7 +11,8 @@ namespace FanPage.Api.Mapper
 {
     public class OutputModelsMapperProfile : Profile
     {
-        public OutputModelsMapperProfile() {
+        public OutputModelsMapperProfile()
+        {
             RegisterAuthMaps();
             AdminMaps();
         }
@@ -23,18 +24,15 @@ namespace FanPage.Api.Mapper
             CreateMap<RegistrationModel, RegistrationDto>();
             CreateMap<ConfirmEmailModel, ConfirmEmailDto>();
             CreateMap<AuthModel, AuthDto>();
-            CreateMap<RestorePasswordModel,RestorePasswordDto>();
+            CreateMap<RestorePasswordModel, RestorePasswordDto>();
             CreateMap<RequestToRestorePassModel, RequestRestorePasswordDto>();
-            CreateMap<PasswordChangeModel, ChangePasswordDto>();           
+            CreateMap<PasswordChangeModel, ChangePasswordDto>();
         }
         private void AdminMaps()
         {
-            CreateMap<DeleteModel, DeleteDto>();
-            CreateMap<BanModel, BanDto>();
-            CreateMap<UnbanModel, UnbanDto>();
-            CreateMap<ChangeRoleModel, ChangeRoleDto>();
-            CreateMap<UserInfoModel, UserInfoDto>();
 
+            CreateMap<BanModel, BanDto>();
+            CreateMap<ChangeRoleModel, ChangeRoleDto>();
             CreateMap<UserInfoResponseDto, UserInfoViewModel>();
         }
     }

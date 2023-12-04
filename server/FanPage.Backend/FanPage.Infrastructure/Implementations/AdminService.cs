@@ -2,7 +2,6 @@
 using FanPage.Domain.Entities.Identity;
 using FanPage.Exceptions;
 using FanPage.Infrastructure.Interfaces;
-using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNetCore.Identity;
 
 namespace FanPage.Infrastructure.Implementations
@@ -10,27 +9,21 @@ namespace FanPage.Infrastructure.Implementations
     public class AdminService : IAdmin
     {
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
 
-        public AdminService(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AdminService(UserManager<User> userManager)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
         }
-        public async Task<bool> Delete(DeleteDto userId)
+        public async Task<bool> Delete(string Id)
         {
-            var userToDelete = await _userManager.FindByIdAsync(userId.Id);
+            var userToDelete = await _userManager.FindByIdAsync(Id);
             if (userToDelete == null)
             {
                 throw new UserNotFoundException("User not found");
             }
             var result = await _userManager.DeleteAsync(userToDelete);
 
-            if (result.Succeeded)
-            {
-                return true;
-            }
-            throw new UserDeleteException("Unsucceed delete");
+            return result.Succeeded ? true : throw new UserDeleteException("Unsucceed delete");
         }
 
         public async Task<bool> Ban(BanDto user)
@@ -45,16 +38,12 @@ namespace FanPage.Infrastructure.Implementations
             var lockoutEndDate = DateTime.UtcNow.AddDays((double)user.days);
             var result = await _userManager.SetLockoutEndDateAsync(userToBlock, lockoutEndDate);
 
-            if (result.Succeeded)
-            {
-                return true;
-            }
-            throw new Exception("Failed to ban user.");
+            return result.Succeeded ? true : throw new Exception("Failed to ban user.");
         }
 
-        public async Task<bool> Unban(UnbanDto userId)
+        public async Task<bool> Unban(string Id)
         {
-            var userToUnblock = await _userManager.FindByIdAsync(userId.Id);
+            var userToUnblock = await _userManager.FindByIdAsync(Id);
 
             if (userToUnblock == null)
             {
@@ -63,49 +52,42 @@ namespace FanPage.Infrastructure.Implementations
 
             var result = await _userManager.SetLockoutEndDateAsync(userToUnblock, null);
 
-            if (result.Succeeded)
-            {
-                return true;
-            }
-            throw new Exception("Failed to unban user.");
+            return result.Succeeded ? true : throw new Exception("Failed to unban user.");
         }
-        public async Task<IdentityResult> ChangeRole(ChangeRoleDto userId)
+        public async Task<IdentityResult> ChangeRole(ChangeRoleDto user)
         {
-            var user = await _userManager.FindByIdAsync(userId.Id);
+            var userForChangeRole = await _userManager.FindByIdAsync(user.Id);
 
             if (user == null)
             {
                 throw new UserNotFoundException("User not found");
             }
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await _userManager.GetRolesAsync(userForChangeRole);
             if (roles.Contains("Admin"))
             {
                 throw new InvalidOperationException("Cannot change the role of another admin.");
             }
-            await _userManager.RemoveFromRolesAsync(user, roles);
-            return await _userManager.AddToRoleAsync(user, userId.NewRole);
+            await _userManager.RemoveFromRolesAsync(userForChangeRole, roles);
+            return await _userManager.AddToRoleAsync(userForChangeRole, user.NewRole);
         }
-        public async Task<UserInfoResponseDto> GetUserInformation(UserInfoDto userId)
+        public async Task<UserInfoResponseDto> GetUserInformation(string Id)
         {
-            var user = await _userManager.FindByIdAsync(userId.id);
-
+            var user = await _userManager.FindByIdAsync(Id);
+            bool ban = false;
+            var roles = await _userManager.GetRolesAsync(user);
+            string roleString = roles.FirstOrDefault();
             if (user == null)
             {
                 throw new UserNotFoundException("User not found");
             }
-            if (user.LockoutEnabled == false)
-            {
-                return new UserInfoResponseDto
-                {
-                    IsBanned = true,
-                    BanExpirationDate = (DateTimeOffset)user.LockoutEnd
-                };
-            }
-
+            ban = (user.LockoutEnd != null) ? true : false;
             return new UserInfoResponseDto
             {
+                IsBanned = ban,
+                BanExpirationDate = user.LockoutEnd,
                 Email = user.Email,
-                Number = user.PhoneNumber
+                PhoneNumber = user.PhoneNumber,
+                Role = roleString
             };
         }
     }

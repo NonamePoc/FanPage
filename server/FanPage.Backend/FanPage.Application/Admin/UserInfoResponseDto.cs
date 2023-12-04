@@ -13,7 +13,9 @@ namespace FanPage.Application.Admin
 
         public string? Email { get; set; }
 
-        public string? Number { get; set; }
+        public string? PhoneNumber { get; set; }
+
+        public string? Role { get; set;}
 
     }
 }
