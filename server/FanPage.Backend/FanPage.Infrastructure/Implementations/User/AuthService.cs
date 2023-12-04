@@ -36,6 +36,7 @@ namespace FanPage.Infrastructure.Implementations.User
             if (!result.Succeeded)
                 throw new LogInException("Wrong login or password");
 
+            var token = await _jwtTokenManager.GenerateToken(user);
             var token = _jwtTokenManager.GenerateToken(user.Email, user.Id, user.UserName);
 
             return new LogInResponseDto

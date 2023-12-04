@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using FanPage.Api.Models.Account;
+using FanPage.Api.Models.Admin;
 using FanPage.Api.Models.Auth;
 using FanPage.Api.Models.Fanfic;
 using FanPage.Api.ViewModels;
 using FanPage.Api.ViewModels.Fanfic;
 using FanPage.Api.ViewModels.User;
 using FanPage.Application.Account;
+using FanPage.Application.Admin;
 using FanPage.Application.Auth;
 using FanPage.Application.Fanfic;
 using FanPage.Domain.Entities.Fanfic;
@@ -17,6 +19,7 @@ namespace FanPage.Api.Mapper
         public OutputModelsMapperProfile()
         {
             RegisterAuthMaps();
+            AdminMaps();
             FanficAuthMaps();
         }
 
@@ -31,6 +34,13 @@ namespace FanPage.Api.Mapper
             CreateMap<RestorePasswordModel, RestorePasswordDto>();
             CreateMap<RequestToRestorePassModel, RequestRestorePasswordDto>();
             CreateMap<PasswordChangeModel, ChangePasswordDto>();
+        }
+        private void AdminMaps()
+        {
+
+            CreateMap<BanModel, BanDto>();
+            CreateMap<ChangeRoleModel, ChangeRoleDto>();
+            CreateMap<UserInfoResponseDto, UserInfoViewModel>();
         }
 
         private void FanficAuthMaps()

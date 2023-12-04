@@ -37,6 +37,7 @@ namespace FanPage.Api.Configure
         public static IServiceCollection DataBase(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton(configuration.GetSection("DefaultUserConfiguration").Get<DefaultUserConfiguration>());
+            services.AddSingleton(configuration.GetSection("DefaultUserConfiguration").Get<DefaultUserConfiguration>());
 
             services.AddDbContext<UserContext>(optionsAction =>
             {
@@ -166,6 +167,8 @@ namespace FanPage.Api.Configure
         public static IServiceCollection ConfigureBusinessServices(this IServiceCollection services)
         {
             services.AddScoped<IAccount, AccountServiсe>();
+            services.AddScoped<IAuth, AuthService>(); 
+            services.AddScoped<IAdmin, AdminService>();
             services.AddScoped<IAuth, AuthService>();
             services.AddScoped<IFanfic, FanficService>();
             services.AddScoped<IFanficDetail, FanficDetailService>();

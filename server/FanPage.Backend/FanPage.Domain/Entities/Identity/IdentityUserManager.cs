@@ -14,7 +14,7 @@ namespace FanPage.Domain.Entities.Identity
                 services, logger)
         {
             Options.User.AllowedUserNameCharacters = null;
-            Options.SignIn.RequireConfirmedEmail = true;
+            Options.SignIn.RequireConfirmedEmail = false;
         }
     }
 }

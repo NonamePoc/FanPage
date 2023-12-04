@@ -31,8 +31,10 @@ namespace FanPage.Common.Implementations
                 : null;
         }
 
+        public async Task<string> GenerateToken(IdentityUser user)
         public string GenerateToken(string email, string userId, string userName)
         {
+            return await _jwtGenerator.CreateToken(user);
             return _jwtGenerator.CreateToken(email, userId, userName);
         }
 

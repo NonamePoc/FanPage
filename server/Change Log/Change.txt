@@ -14,6 +14,11 @@
 - Add Migration DataBase 
 - Add Jwt configure and ServiceCollectionExtensions
 - Add Mapper 
+
+### Version 1.0.0 Teslewitch Mihailo (26.10.2023)
+-Add Admin Menu (Without restriction of access)
+### Version 1.0.0 Teslewitch Mihailo (03.12.2023)
+-Admin Menu (now with restriction of access and UserInfo)
 ## Version 1.0.0 Pavlo Shaban (30.11.2023)
 - Update Database (added new logic fanfic and user) 
 - Setting Logger and Exeception
