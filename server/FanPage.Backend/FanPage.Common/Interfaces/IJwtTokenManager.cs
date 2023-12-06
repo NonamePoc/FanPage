@@ -15,7 +15,6 @@ namespace FanPage.Common.Interfaces
         Task<bool> IsTokenExists(HttpRequest request);
 
         Task<string> GenerateToken(IdentityUser user);
-        string GenerateToken(string email, string userId, string userName);
 
         string RefreshToken(string token, string email, string userId);
 

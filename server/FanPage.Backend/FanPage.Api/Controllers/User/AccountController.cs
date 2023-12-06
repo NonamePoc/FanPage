@@ -4,7 +4,6 @@ using FanPage.Api.Models.Account;
 using FanPage.Application.Account;
 using FanPage.Application.Url;
 using FanPage.Domain.Configurations;
-using FanPage.Infrastructure.Interfaces;
 using FanPage.Infrastructure.Interfaces.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace FanPage.Api.Controllers
+namespace FanPage.Api.Controllers.User
 {
     [ApiController]
     [Route(Route)]
@@ -109,7 +109,7 @@ namespace FanPage.Api.Controllers
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [Authorize(Roles = "Admin, Moderator")]
-        public async Task<UserInfoResponseDto> UserInfo( string id)
+        public async Task<UserInfoResponseDto> UserInfo(string id)
         {
             var response = _admin.GetUserInformation(id);
             return await response;

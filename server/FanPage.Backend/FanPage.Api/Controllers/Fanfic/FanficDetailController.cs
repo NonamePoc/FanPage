@@ -21,7 +21,7 @@ public class FanficDetailController : BaseController
         _fanficDetail = fanfic;
         _mapper = mapper;
     }
-    
+
     /// <summary>
     /// rating fanfic
     /// </summary>
@@ -66,7 +66,7 @@ public class FanficDetailController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> GetById([FromHeader]int id)
+    public async Task<IActionResult> GetById([FromHeader] int id)
     {
         var fanfic = await _fanficDetail.GetByIdAsync(id);
         return Ok(fanfic);

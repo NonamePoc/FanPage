@@ -15,7 +15,7 @@ namespace FanPage.Common.Implementations
         private readonly JwtConfiguration _jwtConfiguration;
         private readonly JwtSecurityTokenHandler _tokenHandler;
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole>_roleManager;
 
         public JwtGenerator(JwtConfiguration options, JwtSecurityTokenHandler tokenHandler, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -31,16 +31,8 @@ namespace FanPage.Common.Implementations
 
 
         public async Task<string> CreateToken(IdentityUser user)
-        public string CreateToken(string email, string userId, string userName)
         {
             var claims = await GetValidClaim(user);
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Email, email),
-                new Claim(JwtRegisteredClaimNames.Sub, userId),
-                new Claim(JwtRegisteredClaimNames.Name, userName)
-            };
-
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
@@ -56,7 +48,8 @@ namespace FanPage.Common.Implementations
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id)
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(JwtRegisteredClaimNames.Name, user.UserName)
             };
             var userClaim = await _userManager.GetClaimsAsync((User)user);
             claims.AddRange(userClaim);

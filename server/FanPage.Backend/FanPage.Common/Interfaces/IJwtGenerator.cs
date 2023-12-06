@@ -10,7 +10,6 @@ namespace FanPage.Common.Interfaces
     public interface IJwtGenerator
     {
         Task<string> CreateToken(IdentityUser user);
-        string CreateToken(string email, string userId, string userName);
 
         string RefreshToken(string token, string email, string userId);
     }

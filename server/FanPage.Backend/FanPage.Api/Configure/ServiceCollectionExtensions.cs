@@ -1,6 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using FanPage.Api.Mapper;
 using FanPage.Api.Middleware;
 using FanPage.Api.Swagger;
@@ -15,6 +13,7 @@ using FanPage.EmailService.Interfaces;
 using FanPage.Infrastructure.Implementations;
 using FanPage.Infrastructure.Implementations.Fanfic;
 using FanPage.Infrastructure.Implementations.User;
+using FanPage.Infrastructure.Interfaces;
 using FanPage.Infrastructure.Interfaces.Fanfic;
 using FanPage.Infrastructure.Interfaces.User;
 using FanPage.Persistence.Context;
@@ -29,6 +28,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PasswordGenerator;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 
 namespace FanPage.Api.Configure
 {
@@ -167,9 +168,8 @@ namespace FanPage.Api.Configure
         public static IServiceCollection ConfigureBusinessServices(this IServiceCollection services)
         {
             services.AddScoped<IAccount, AccountServiсe>();
-            services.AddScoped<IAuth, AuthService>(); 
-            services.AddScoped<IAdmin, AdminService>();
             services.AddScoped<IAuth, AuthService>();
+            services.AddScoped<IAdmin, AdminService>();
             services.AddScoped<IFanfic, FanficService>();
             services.AddScoped<IFanficDetail, FanficDetailService>();
             services.AddScoped<ICategory, CategoryService>();

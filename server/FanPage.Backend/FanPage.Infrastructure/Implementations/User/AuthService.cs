@@ -2,7 +2,6 @@
 using FanPage.Common.Interfaces;
 using FanPage.Domain.Entities.Identity;
 using FanPage.Exceptions;
-using FanPage.Infrastructure.Interfaces;
 using FanPage.Infrastructure.Interfaces.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -37,8 +36,6 @@ namespace FanPage.Infrastructure.Implementations.User
                 throw new LogInException("Wrong login or password");
 
             var token = await _jwtTokenManager.GenerateToken(user);
-            var token = _jwtTokenManager.GenerateToken(user.Email, user.Id, user.UserName);
-
             return new LogInResponseDto
             {
                 Id = user.Id,

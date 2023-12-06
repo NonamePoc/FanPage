@@ -1,16 +1,15 @@
 ﻿using FanPage.Application.Admin;
-using FanPage.Domain.Entities.Identity;
 using FanPage.Exceptions;
 using FanPage.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace FanPage.Infrastructure.Implementations
+namespace FanPage.Infrastructure.Implementations.User
 {
     public class AdminService : IAdmin
     {
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<Domain.Entities.Identity.User> _userManager;
 
-        public AdminService(UserManager<User> userManager)
+        public AdminService(UserManager<Domain.Entities.Identity.User> userManager)
         {
             _userManager = userManager;
         }
@@ -80,7 +79,7 @@ namespace FanPage.Infrastructure.Implementations
             {
                 throw new UserNotFoundException("User not found");
             }
-            ban = (user.LockoutEnd != null) ? true : false;
+            ban = user.LockoutEnd != null ? true : false;
             return new UserInfoResponseDto
             {
                 IsBanned = ban,
@@ -90,6 +89,7 @@ namespace FanPage.Infrastructure.Implementations
                 Role = roleString
             };
         }
+
     }
 
 }

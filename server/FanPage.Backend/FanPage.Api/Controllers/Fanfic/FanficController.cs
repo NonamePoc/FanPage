@@ -3,7 +3,6 @@ using FanPage.Api.JsonResponse;
 using FanPage.Api.Models.Fanfic;
 using FanPage.Api.ViewModels.Fanfic;
 using FanPage.Application.Fanfic;
-using FanPage.Infrastructure.Interfaces;
 using FanPage.Infrastructure.Interfaces.Fanfic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -83,7 +82,7 @@ namespace FanPage.Api.Controllers.Fanfic
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Delete([FromHeader]int id)
+        public async Task<IActionResult> Delete([FromHeader] int id)
         {
             await _fanfic.DeleteAsync(id, HttpContext.Request);
             return Ok();
