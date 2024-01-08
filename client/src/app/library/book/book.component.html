@@ -1,0 +1,119 @@
+<section class="grid grid-cols-1 md:grid-cols-[auto_1fr] xl:px-48">
+    <img class='object-cover h-[30rem] md:h-[30rem] md:w-[25rem] md:px-8 rounded drop-shadow-lg mx-auto'
+        src="https://picsum.photos/1000" alt="Book Image">
+    <div class="py-3 grid gap-2">
+        <div>
+            <h2 class="text-xl lg:text-4xl font-semibold">
+                Book Title
+            </h2>
+            <div class='flex gap-1 items-center'>
+                <img class='rounded-full h-[25px] md:h-[30px]' src="https://picsum.photos/200" alt="User">
+                <h3
+                    class="md:text-lg text-sky-800 font-semibold cursor-pointer hover:text-sky-900 transition duration-300">
+                    by AllieWoke
+                </h3>
+            </div>
+        </div>
+        <hr />
+        <p class="text-sm lg:text-base text-neutral-800">
+            Lorem ipsum dolor, sit amet consectetur adipisicing
+            elit. Animi, ipsa unde ullam quibusdam, voluptatum,
+            quas quia a aut voluptatem quod quos. Quisquam,
+            voluptates. Quisquam.
+        </p>
+        <div class='grid items-end grid-cols-[1fr_auto] gap-3 py-2'>
+            <button class='p-2 bg-neutral-700 hover:bg-neutral-800 rounded text-white  transition duration-300'>
+                <a class='flex gap-1 justify-center items-center' routerLink="/books/1/chapters/1">
+                    Start
+                    reading
+                    <span class="material-symbols-rounded text-xl">
+                        arrow_outward
+                    </span>
+                </a>
+            </button>
+            <div>
+                <span
+                    class="bookmark material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 transition duration-300">
+                    bookmark
+                </span>
+                <ul
+                    class='bookmark-menu drop-shadow-lg px-2 py-2 opacity-0 -z-1 mt-2 absolute bg-stone-200 rounded transition duration-300 -translate-x-5 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:left-3 before:w-4 before:h-4 before:bg-stone-200 before:rounded before:rotate-45'>
+                    <li class='cursor-pointer hover:bg-stone-100 px-1 py-1 rounded flex gap-1 items-center'>
+                        <span class="material-symbols-rounded">
+                            schedule
+                        </span> Reading
+                    </li>
+                    <li class='cursor-pointer hover:bg-stone-100 px-1 py-1 rounded flex gap-1 items-center'>
+                        <span class="material-symbols-rounded">
+                            done
+                        </span>Done
+                    </li>
+                </ul>
+                <a routerLink='/books/1/edit'>
+                    <span
+                        class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 transition duration-300">
+                        edit
+                    </span>
+                </a>
+                <span
+                    class="material-symbols-rounded p-2 rounded-full bg-rose-200 cursor-pointer hover:bg-rose-300 transition duration-300">
+                    delete
+                </span>
+            </div>
+        </div>
+        <hr />
+        <div class='grid grid-cols-[auto_1fr] gap-y-3 gap-x-6 py-3'>
+            <h3 class='font-semibold'>Categories</h3>
+            <div class="flex flex-wrap gap-1 text-sm">
+                <p class=" bg-rose-200 rounded-xl px-2 py-1 hover:bg-rose-300 cursor-pointer transition
+                                                                                      duration-300">
+                    Romance
+                </p>
+                <p
+                    class="bg-purple-200 rounded-xl px-2 py-1 hover:bg-purple-300 cursor-pointer transition duration-300">
+                    Fantasy
+                </p>
+            </div>
+            <h3 class='font-semibold'>Tags</h3>
+            <div class="flex flex-wrap gap-1 text-sm">
+                <p
+                    class="text-sm text-neutral-600 bg-neutral-200 rounded-xl px-2 py-1 cursor-pointer hover:bg-neutral-300 transition duration-300">
+                    Zombi
+                </p>
+                <p
+                    class="text-sm text-neutral-600 bg-neutral-200 rounded-xl px-2 py-1 cursor-pointer hover:bg-neutral-300 transition duration-300">
+                    Rebirth
+                </p>
+                <p
+                    class="text-sm text-neutral-600 bg-neutral-200 rounded-xl px-2 py-1 cursor-pointer hover:bg-neutral-300 transition duration-300">
+                    Catastrophe
+                </p>
+                <p
+                    class="text-sm text-neutral-600 bg-neutral-200 rounded-xl px-2 py-1 cursor-pointer hover:bg-neutral-300 transition duration-300">
+                    Angels&Demons
+                </p>
+                <p
+                    class="text-sm text-neutral-600 bg-neutral-200 rounded-xl px-2 py-1 cursor-pointer hover:bg-neutral-300 transition duration-300">
+                    Bible
+                </p>
+                <p
+                    class="text-sm text-neutral-600 bg-neutral-200 rounded-xl px-2 py-1 cursor-pointer hover:bg-neutral-300 transition duration-300">
+                    Death
+                </p>
+            </div>
+            <hr />
+            <hr />
+            <h3 class='font-semibold'>Language</h3>
+            <span>English</span>
+            <h3 class='font-semibold'>Date Updated</h3>
+            <span>17th May 2023</span>
+
+        </div>
+        <hr />
+    </div>
+</section>
+
+<article class='grid grid-cols-1 lg:grid-cols-2 md:ml-6 md:my-5 gap-6'>
+    <app-reviews></app-reviews>
+    <app-chapters></app-chapters>
+</article>

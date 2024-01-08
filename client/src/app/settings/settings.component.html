@@ -1,0 +1,61 @@
+<h1 class='text-lg lg:text-2xl font-semibold md:mb-4'>Personalization</h1>
+<div class='md:flex gap-1'>
+    <div class='pl-1 my-2'>
+        <label for='username' class='text-lg font-medium mb-2'>Username</label>
+        <input id='username' name='username'
+            class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200'
+            placeholder="johndoe" />
+        <p class='text-sm text-stone-700 mt-2'>Enter a unique username that will represent you across
+            the
+            platform.</p>
+    </div>
+
+    <div class='pl-1 my-2'>
+        <label for='email' class='text-lg font-medium mb-2'>Email</label>
+        <input id='email' name='email' type='email'
+            class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200'
+            placeholder="johndoe@mail.com" />
+        <p class='text-sm text-stone-700 mt-2'>This email will be used for important communications,
+            such
+            as account recovery and notifications.</p>
+    </div>
+    <div class='pl-1 my-2'>
+        <label for='password' class='text-lg font-medium mb-2'>Password</label>
+        <div class='grid grid-cols-2 items-center gap-1'>
+            <input id='password' name='curPassword' type='password'
+                class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200'
+                placeholder="Current Password" />
+            <input id='password' name='newPassword' type='password'
+                class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200'
+                placeholder="New password" />
+        </div>
+        <p class='text-sm text-stone-700 mt-2'>Strengthen your account security by creating a new
+            password.</p>
+    </div>
+</div>
+
+<hr class='my-2'>
+
+<div class='pl-1'>
+    <h2 class='text-lg font-medium mb-2'>Avatar & Profile Cover Images</h2>
+    <p class='text-sm text-stone-700 mt-2 mb-3'>Personalize your profile with an avatar and a
+        cover
+        image.
+        Your avatar is a small image that represents you across the
+        platform, visible to other users. Upload a clear and recognizable image of yourself or
+        choose an icon that reflects your
+        personality. The profile cover image is a larger banner that adds a unique touch to your
+        profile page. Upload an image
+        that resonates with your interests or showcases your individuality.</p>
+    <div class='rounded'>
+        <!-- <img class='max-h-[8rem] md:max-h-[13rem] object-cover object-center w-full rounded'
+                                                src="https://picsum.photos/800" alt="User Cover"> -->
+        <div
+            class='h-[5rem] md:h-[10rem] bg-stone-300 w-full rounded hover:bg-stone-400 transition duration-300 cursor-pointer'>
+        </div>
+    </div>
+    <div class='grid sm:grid-cols-[25%_1fr] px-3'>
+        <img class='transform -translate-y-10 md:-translate-y-16 rounded-full h-20 w-20 md:h-32 md:w-32 object-cover mx-auto border-4 border-neutral-100 cursor-pointer'
+            src="https://picsum.photos/400" alt="User">
+    </div>
+</div>

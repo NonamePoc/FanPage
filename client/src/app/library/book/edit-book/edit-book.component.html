@@ -1,0 +1,195 @@
+<h1 class='text-lg lg:text-2xl font-semibold md:mb-4'>Tell us more about your story</h1>
+
+<div class='grid md:grid-cols-3 gap-10 bg-neutral-100 rounded py-5 px-4'>
+
+    <div class='grid grid-cols-[auto_1fr] gap-2'>
+        <span class="material-symbols-rounded text-3xl text-blue-600 font-semibold">
+            title
+        </span>
+        <div class='mt-1'>
+            <h2 class='text-xl font-medium mb-2'>Title</h2>
+            <input
+                class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200'
+                type="text" placeholder="My story" />
+            <p class='text-sm text-stone-700 mt-2'>
+                Provide the accurate and complete name of the book to
+                ensure proper identification and
+                cataloging.
+            </p>
+        </div>
+    </div>
+
+    <div class='grid grid-cols-[auto_1fr] gap-2'>
+        <span class="material-symbols-rounded text-3xl text-blue-600 font-semibold">
+            signature
+        </span>
+        <div class='mt-1'>
+            <h2 class='text-xl font-medium mb-2'>Description</h2>
+            <textarea
+                class='resize-none py-1 px-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200'
+                name="" id="" rows="3" placeholder='My book is about a ...'></textarea>
+            <p class='text-sm text-stone-700 mt-2'>
+                Please provide a brief yet comprehensive description of the book. Summarize the key
+                themes, plot, and any unique
+                elements that make the book noteworthy.
+            </p>
+        </div>
+    </div>
+
+    <div class='grid grid-cols-[auto_1fr] gap-2'>
+        <span class="material-symbols-rounded text-3xl text-blue-600 font-semibold">
+            translate
+        </span>
+        <div class='mt-1'>
+            <h2 class='text-xl font-medium mb-2'>Language</h2>
+            <span class='text-rose-600'> In progress. Will add languages later </span>
+            <p class='text-sm text-stone-700 mt-2'>
+                Select the primary language in which the book is written. Choose the language that
+                represents the main text and
+                communication within the book.
+            </p>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class='grid md:grid-cols-3 gap-10 bg-neutral-100 py-5 px-3'>
+
+    <div class='grid grid-cols-[auto_1fr] gap-2'>
+        <span class="material-symbols-rounded text-3xl text-blue-600 font-semibold">
+            wallpaper
+        </span>
+        <div class='mt-1'>
+            <h2 class='text-xl font-medium mb-2'>Cover</h2>
+            <div
+                class='cursor-pointer object-cover h-48 flex flex-col items-center justify-center rounded-md border border-slate-300 w-full bg-slate-200 hover:border-blue-300 transition duration-200'>
+                <p class='text-sm text-stone-700 text-center px-5'>
+                    Choose a high-quality image that accurately
+                    reflects the aesthetics and essence
+                    of the book.
+                </p>
+                <span class="material-symbols-rounded text-3xl text-blue-600">
+                    cloud_upload
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class='grid grid-cols-[auto_1fr] gap-2'>
+        <span class="material-symbols-rounded text-3xl text-blue-600 font-semibold">
+            category
+        </span>
+        <div class='mt-1'>
+            <h2 class='text-xl font-medium mb-2'>Categories</h2>
+            <div class='flex gap-1 md:gap-2 items-center'>
+                <select
+                    class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200'
+                    name="" id="">
+                    <option value="">Action</option>
+                    <option value="">Adventure</option>
+                    <option value="">Comedy</option>
+                    <option value="">Drama</option>
+                    <option value="">Fantasy</option>
+                    <option value="">Horror</option>
+                    <option value="">Mystery</option>
+                    <option value="">Romance</option>
+                    <option value="">Thriller</option>
+                    <option value="">Western</option>
+                </select>
+                <span
+                    class='p-2 cursor-pointer bg-stone-100 hover:bg-stone-200 transition duration-200 font-medium rounded-full w-5 h-5 flex items-center justify-center'>+</span>
+            </div>
+            <p class='text-sm text-stone-700 mt-2'>
+                Select the appropriate categories or genres that best describe the book. Choose from a
+                predefined list of categories
+                that encompass the main themes and topics of the book.
+            </p>
+        </div>
+    </div>
+
+    <div class='grid grid-cols-[auto_1fr] gap-2'>
+        <span class="material-symbols-rounded text-3xl text-blue-600 font-semibold">
+            tag
+        </span>
+        <div class='mt-1'>
+            <h2 class='text-xl font-medium mb-2'>Tags</h2>
+            <div class="flex gap-1 items-start">
+                <input id='tag'
+                    class='p-2 rounded-full border border-rose-300 bg-rose-100 w-full text-sm focus:border-blue-300 transition duration-200'
+                    value='Shffll' type="text" placeholder="Tag Name"
+                    title="We didn't find this tag, if you still want to add it, leave it and our moderator will check it after a while" />
+                <input id='tag'
+                    class='p-2 rounded-full border border-slate-300 w-full bg-slate-200 focus:border-blue-300 text-sm transition duration-200'
+                    type="text" placeholder="Tag Name" />
+                <span
+                    class='mt-2 p-2 cursor-pointer bg-stone-100 hover:bg-stone-200 transition duration-200 font-medium rounded-full w-5 h-5 flex items-center justify-center'>+</span>
+            </div>
+            <p class='text-sm text-stone-700 mt-2'>
+                Enter relevant keywords or phrases that act as tags for the book. These tags help in
+                enhancing searchability and
+                categorization.
+            </p>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class='grid md:grid-cols-3 gap-10 bg-neutral-100 rounded py-5 px-3'>
+
+    <div class='grid grid-cols-[auto_1fr] gap-2'>
+        <span class="material-symbols-rounded text-3xl text-blue-600 font-semibold">
+            attractions
+        </span>
+        <div class='mt-1'>
+            <h2 class='text-xl font-medium mb-2'>Origin or Inspiration</h2>
+            <div class='flex items-center gap-2'>
+                <input
+                    class='py-1 px-2 rounded-md border border-slate-300 appearance-none p-2 h-5 w-5 bg-slate-200 focus:border-blue-300 transition duration-200'
+                    type="radio" name="origin" id="origin" />
+                <label for="origin" class='text-center text-sm'>It's original</label>
+            </div>
+            <p class='text-sm text-stone-700 mt-2'>
+                Indicate whether the book is an original work or if it is a derivative, such as a
+                translation, adaptation, or
+                compilation of existing content.
+            </p>
+        </div>
+    </div>
+
+    <div class='grid grid-cols-[auto_1fr] gap-2'>
+        <span class="material-symbols-rounded text-3xl text-slate-400 font-semibold">
+            published_with_changes
+        </span>
+        <div class='mt-1'>
+            <h2 class='text-xl font-medium mb-2'>Progress</h2>
+            <select
+                class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200'
+                disabled name="" id="">
+                <option value="">In progress</option>
+                <option value="">Done</option>
+            </select>
+            <p class='text-sm text-stone-700 mt-2'>
+                Select the current status of the book – whether it is still in progress or if it has
+                been completed.
+            </p>
+            <p class='text-sm text-rose-600 mt-2'>
+                The field is disabled during the book creation process.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<div class='my-3 flex items-center gap-4 justify-end'>
+    <a routerLink="/" class='text-sm text-stone-800 hover:text-stone-600 transition duration-200'>Cancel</a>
+    <button
+        class='px-4 py-2 text-neutral-200 bg-blue-700 hover:bg-blue-600 transition duration-200 rounded-md font-medium flex items-center gap-1'>
+        Save & go write
+
+        <span class="material-symbols-rounded">
+            edit_square
+        </span>
+    </button>
+</div>

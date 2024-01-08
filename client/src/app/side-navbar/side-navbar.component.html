@@ -1,0 +1,7 @@
+<nav class="hidden lg:flex lg:fixed h-screen text-white">
+    <ul class="flex flex-col gap-3 lg:w-64 xl:w-72 bg-stone-900">
+        <app-menu *ngIf="!isAdmin"></app-menu>
+        <app-admin-menu *ngIf="isAdmin"></app-admin-menu>
+        <app-ads *ngIf="!isAdmin"></app-ads>
+    </ul>
+</nav>

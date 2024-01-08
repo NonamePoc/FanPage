@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Montserrat", sans-serif;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+input,
+textarea,
+select {
+  background-color: rgba(247, 245, 255, 0.589);
+}
+
+body {
+  background-color: #eee;
+}
+
+.font-open-sans > * {
+  font-family: "Open Sans", sans-serif;
+}

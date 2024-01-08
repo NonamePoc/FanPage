@@ -1,0 +1,38 @@
+<article class=' md:px-4 w-full h-[90vh] p-2 flex grow flex-col overflow-hidden'>
+    <div class='flex justify-between items-center p-2 mb-4 border-b border-stone-200'>
+        <span class="material-symbols-rounded cursor-pointer">
+            arrow_back
+        </span>
+        <div class='flex flex-col items-center'>
+            <h1 class='text-lg font-medium'>Chat name</h1>
+            <p class='text-sm text-stone-600'>2 people</p>
+        </div>
+        <span class="material-symbols-rounded cursor-pointer">
+            more_horiz
+        </span>
+    </div>
+    <div class='mb-2 flex-1 overflow-auto lg:px-40'>
+        <ul class='h-full flex flex-col items-center'>
+            <li class='px-4 py-2 bg-stone-200 self-start rounded-lg flex gap-3 items-center'>
+                <div class='h-10 w-10 bg-stone-400 rounded-full'></div>
+                <div>
+                    <h3 class='font-medium'>Usrname</h3>
+                    <div>textt</div>
+                </div>
+            </li>
+            <li class='px-4 py-2 self-end bg-slate-200 rounded-lg'>
+                <h3 class='font-medium'>Me</h3>
+                <div>gfdk!!</div>
+            </li>
+        </ul>
+    </div>
+    <div class='flex gap-4 border-t border-stone-200 p-2 lg:px-40'>
+        <input class="p-3 flex-1 bg-stone-200 rounded border-2 focus:border-blue-400 transition duration-300"
+            type="text" name='message' placeholder='Type a message here...'>
+        <button
+            class='px-6 bg-blue-600 hover:bg-blue-500 text-white rounded font-medium flex items-center transition duration-200'>Send
+            <span class="material-symbols-rounded">
+                arrow_upward_alt
+            </span></button>
+    </div>
+</article>
