@@ -30,4 +30,8 @@
     <ProjectReference Include="..\FanPage.Exception\FanPage.Exceptions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\Interfaces\IRepos\" />
+  </ItemGroup>
+
 </Project>

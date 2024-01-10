@@ -14,9 +14,13 @@ namespace FanPage.Persistence.Context
 
         public DbSet<Friendship> Friendships { get; set; }
 
+
+        public DbSet<FriendRequest> FriendRequests { get; set; }
+
         public DbSet<Sticker> Stickers { get; set; }
 
         public DbSet<Photo> Photos { get; set; }
+        public IEnumerable<object> Friendship { get; internal set; }
 
         public UserContext(DbContextOptions<UserContext> options) :
             base(options)

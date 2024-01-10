@@ -17,11 +17,15 @@ using FanPage.Infrastructure.Interfaces;
 using FanPage.Infrastructure.Interfaces.Fanfic;
 using FanPage.Infrastructure.Interfaces.User;
 using FanPage.Persistence.Context;
+using FanPage.Persistence.Repositories.Implementations.BookmarkRepos;
 using FanPage.Persistence.Repositories.Implementations.FanficRepos;
 using FanPage.Persistence.Repositories.Implementations.IdentityRepos;
+using FanPage.Persistence.Repositories.Implementations.ProfileRepos;
 using FanPage.Persistence.Repositories.Interfaces;
+using FanPage.Persistence.Repositories.Interfaces.IBookmark;
 using FanPage.Persistence.Repositories.Interfaces.IFanfic;
 using FanPage.Persistence.Repositories.Interfaces.IIdentity;
+using FanPage.Persistence.Repositories.Interfaces.IProfile;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -81,6 +85,9 @@ namespace FanPage.Api.Configure
             services.AddScoped<IFanficCommentRepository, FanficCommentPhotoRepository>();
             services.AddScoped<IUserPhotoRepository, UserPhotoRepository>();
             services.AddScoped<IChapterRepository, ChapterRepository>();
+            services.AddScoped<IFriendRepository, FriendRepository>();
+            services.AddScoped<IFollowerRepository, FollowerRepository>();
+            services.AddScoped<IBookmarkRepository, BookmarksRepository>();
             return services;
         }
 
@@ -176,6 +183,9 @@ namespace FanPage.Api.Configure
             services.AddScoped<ITag, TagService>();
             services.AddScoped<IChapter, ChapterService>();
             services.AddScoped<IReview, ReviewService>();
+            services.AddScoped<IFriend, FriendService>();
+            services.AddScoped<IFollower, FollowerService>();
+            services.AddScoped<IBookmark, BookmarkService>();
             return services;
         }
 

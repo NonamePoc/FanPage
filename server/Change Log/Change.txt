@@ -32,3 +32,8 @@
 - Add repos Tag,Category,Photo,Fanfic,Review,Chapter
 - Add method global rating fanfic( average review) 
 - Add Fanfic detail (controller management get method from fanfic )
+
+## Version 1.0.0 Teslewitch Mihailp(11.01.2024)
+-Add User Profile (friend logic and follower logic)
+-Add Bookmarks
+-Add small change in Admin menu

@@ -9,7 +9,8 @@ namespace FanPage.Infrastructure.Interfaces
         Task<bool> Ban(BanDto user);
         Task<bool> Unban(string Id);
         Task<IdentityResult> ChangeRole(ChangeRoleDto user);
-        Task<UserInfoResponseDto> GetUserInformation(string Id);
+        Task<List<UserBanInfoResponseDto>> GetUserInBan();
+        Task<List<UserInfoResponseDto>> AllUsers();
 
     }
 }

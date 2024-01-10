@@ -1,4 +1,4 @@
-﻿namespace FanPage.Api.ViewModels
+﻿namespace FanPage.Api.ViewModels.User
 {
     public class UserInfoViewModel
     {

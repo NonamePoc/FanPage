@@ -3,14 +3,15 @@ using FanPage.Api.Models.Account;
 using FanPage.Api.Models.Admin;
 using FanPage.Api.Models.Auth;
 using FanPage.Api.Models.Fanfic;
-using FanPage.Api.ViewModels;
 using FanPage.Api.ViewModels.Fanfic;
 using FanPage.Api.ViewModels.User;
 using FanPage.Application.Account;
 using FanPage.Application.Admin;
 using FanPage.Application.Auth;
 using FanPage.Application.Fanfic;
+using FanPage.Application.UserProfile;
 using FanPage.Domain.Entities.Fanfic;
+using FanPage.Domain.Entities.Identity;
 
 namespace FanPage.Api.Mapper
 {
@@ -21,6 +22,7 @@ namespace FanPage.Api.Mapper
             RegisterAuthMaps();
             AdminMaps();
             FanficAuthMaps();
+            ProfileMaps();
         }
 
         private void RegisterAuthMaps()
@@ -41,6 +43,13 @@ namespace FanPage.Api.Mapper
             CreateMap<BanModel, BanDto>();
             CreateMap<ChangeRoleModel, ChangeRoleDto>();
             CreateMap<UserInfoResponseDto, UserInfoViewModel>();
+        }
+        private void ProfileMaps()
+        {
+            CreateMap<Friendship, FriendDto>();
+            CreateMap<FriendRequest, FriendRequestDto>();
+            CreateMap<Follower, FollowerDto>();
+            CreateMap<Bookmark, BookmarkDto>();
         }
 
         private void FanficAuthMaps()

@@ -1,4 +1,5 @@
 ﻿using FanPage.Application.Admin;
+using FanPage.Domain.Entities.Identity;
 using FanPage.Exceptions;
 using FanPage.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -69,25 +70,24 @@ namespace FanPage.Infrastructure.Implementations.User
             await _userManager.RemoveFromRolesAsync(userForChangeRole, roles);
             return await _userManager.AddToRoleAsync(userForChangeRole, user.NewRole);
         }
-        public async Task<UserInfoResponseDto> GetUserInformation(string Id)
+        public async Task<List<UserBanInfoResponseDto>> GetUserInBan()
         {
-            var user = await _userManager.FindByIdAsync(Id);
-            bool ban = false;
-            var roles = await _userManager.GetRolesAsync(user);
-            string roleString = roles.FirstOrDefault();
-            if (user == null)
+            var bannedUsers = _userManager.Users
+            .Where(u => u.LockoutEnd != null && u.LockoutEnd > DateTime.Now)
+            .Select(u => new UserBanInfoResponseDto
             {
-                throw new UserNotFoundException("User not found");
-            }
-            ban = user.LockoutEnd != null ? true : false;
-            return new UserInfoResponseDto
-            {
-                IsBanned = ban,
-                BanExpirationDate = user.LockoutEnd,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                Role = roleString
-            };
+                Id = u.Id,
+                Name = u.UserName,
+                BanTime = u.LockoutEnd
+            })
+            .ToList();
+            return bannedUsers;
+        }
+        public async Task<List<UserInfoResponseDto>> AllUsers()
+        {
+            var users = _userManager.Users.ToList();
+            var userDtos = users.Select(u => new UserInfoResponseDto { Id = u.Id, Name = u.UserName }).ToList();
+            return userDtos;
         }
 
     }

@@ -3,17 +3,20 @@ using System;
 using FanPage.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace FanPage.Persistence.Migrations
+namespace FanPage.Persistence.Migrations.User
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20231219191542_RequestAndFriendship")]
+    partial class RequestAndFriendship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,12 +33,10 @@ namespace FanPage.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BookmarkId"));
 
-                    b.Property<string>("Stage")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("FanficReadingId")
+                        .HasColumnType("integer");
 
-                    b.Property<string>("TitelName")
-                        .IsRequired()
+                    b.Property<string>("Stage")
                         .HasColumnType("text");
 
                     b.Property<string>("UserId")
@@ -70,14 +71,7 @@ namespace FanPage.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FollowerId"));
 
-                    b.Property<string>("FollowerName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("UserId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserName")
                         .HasColumnType("text");
 
                     b.HasKey("FollowerId");
@@ -95,6 +89,9 @@ namespace FanPage.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FriendRequestId"));
 
+                    b.Property<string>("FriendId")
+                        .HasColumnType("text");
+
                     b.Property<string>("FriendName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -102,11 +99,18 @@ namespace FanPage.Persistence.Migrations
                     b.Property<bool>("IsApproving")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("FriendRequestId");
+
+                    b.HasIndex("FriendId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("FriendRequests");
                 });
@@ -407,6 +411,21 @@ namespace FanPage.Persistence.Migrations
                     b.HasOne("FanPage.Domain.Entities.Identity.User", "User")
                         .WithMany("Followers")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FanPage.Domain.Entities.Identity.FriendRequest", b =>
+                {
+                    b.HasOne("FanPage.Domain.Entities.Identity.User", "Friend")
+                        .WithMany()
+                        .HasForeignKey("FriendId");
+
+                    b.HasOne("FanPage.Domain.Entities.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Friend");
 
                     b.Navigation("User");
                 });

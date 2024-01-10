@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FanPage.Api.JsonResponse;
 using FanPage.Api.Models.Admin;
-using FanPage.Api.ViewModels;
+using FanPage.Api.ViewModels.User;
 using FanPage.Application.Admin;
 using FanPage.Infrastructure.Implementations;
 using FanPage.Infrastructure.Interfaces;
@@ -98,21 +98,36 @@ namespace FanPage.Api.Controllers.User
             return Ok();
         }
         /// <summary>
+        /// Info about user who get ban
+        /// </summary>
+        /// <returns>is the user in the ban(and if so, how much)</returns>
+        [HttpGet]
+        [Route("baninfo")]
+        [ProducesResponseType(typeof(JsonResponseContainer<UserInfoViewModel>), 200)]
+        [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
+        [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(Roles = "Admin, Moderator")]
+        public async Task<IActionResult> BanUserInfo()
+        {
+            var result = await _admin.GetUserInBan();
+            return Ok(result);
+        }
+        /// <summary>
         /// Info about user
         /// </summary>
-        /// <param name="id">For know to find out user information</param>
-        /// <returns>Email, Phone Number, is the user in the ban(and if so, how much)</returns>
-        [HttpPost]
+        /// <returns>all other info about user from data base</returns>
+        [HttpGet]
         [Route("info")]
         [ProducesResponseType(typeof(JsonResponseContainer<UserInfoViewModel>), 200)]
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [Authorize(Roles = "Admin, Moderator")]
-        public async Task<UserInfoResponseDto> UserInfo(string id)
+        public async Task<IActionResult> UserInfo()
         {
-            var response = _admin.GetUserInformation(id);
-            return await response;
+            var result = await _admin.AllUsers();
+            return Ok(result);
         }
     }
 }
