@@ -1,10 +1,10 @@
 <div class="py-4 px-4 md:px-8 lg:px-10 grid grid-cols-[auto_1fr_auto] lg:grid-cols-[1fr_auto] gap-2">
-    <button class="block w-full lg:hidden">
+    <button (click)='onToggleSideNavbar()' class="block w-full lg:hidden">
         <span class="material-symbols-rounded text-2xl"> menu </span>
     </button>
     <app-search></app-search>
-    <div
-        class='flex gap-2 items-center cursor-pointer font-semibold text-neutral-800 hover:text-purple-600 transition duration-300'>
+    <div appDropdown
+        class='flex gap-2 items-center cursor-pointer font-semibold text-neutral-800 hover:text-blue-900/75 transition duration-300'>
         <img class="w-8 h-8 md:w-10 md:h-10 rounded-full" src="https://picsum.photos/200" alt="User" />
         <span class="hidden font-semibold lg:block">
             JohnDoe
@@ -13,4 +13,14 @@
             keyboard_arrow_down
         </span>
     </div>
+    <ul
+        class='drop-shadow-lg px-2 py-2 opacity-0 -z-10 mt-[3.3rem] md:mt-[3rem] absolute right-2 lg:right-10 bg-stone-200 rounded transition duration-300 -translate-x-5 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:left-1/2 md:before:left-3 before:w-4 before:h-4 before:bg-stone-200 before:rounded before:rotate-45'>
+        <li (click)='onAuth()'
+            class='cursor-pointer hover:bg-stone-100 px-1 py-1 rounded flex gap-1 items-center text-sm md:text-base'>
+            <span class="material-symbols-rounded">
+                logout
+            </span> Sign Out
+        </li>
+    </ul>
+
 </div>

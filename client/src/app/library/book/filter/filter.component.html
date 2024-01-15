@@ -1,0 +1,92 @@
+<div class='flex flex-wrap gap-x-3 gap-y-1 items-center ml-2 mb-1 relative'>
+    <button (click)="onToggle()"
+        class='flex gap-2 items-center px-5 py-1 border border-neutral-400 rounded-lg text-neutral-500 font-medium bg-neutral-100 hover:bg-neutral-200 hover:text-neutral-800 transition duration-200'>
+        <span class="material-symbols-rounded hover:text-neutral-800">
+            tune
+        </span>
+        Filters
+        <span class='h-6 w-6 rounded-full bg-neutral-200 text-medium'>3</span>
+    </button>
+    <div [ngClass]="{'opacity-100 z-10': isOpen, 'opacity-0 -z-10': !isOpen}"
+        class='drop-shadow-lg px-2 py-2 top-12 absolute bg-neutral-50 rounded transition duration-300 -translate-x-0 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:left-3 before:w-4 before:h-4 before:bg-neutral-50 before:rounded before:rotate-45'>
+        <div class='grid grid-cols-[20%_1fr] p-1 gap-3'>
+            <p class='font-medium'>Status</p>
+            <div class='flex flex-wrap gap-3'>
+                <div class='flex items-center gap-1'>
+                    <input (change)="onSelectStatus('In Progress')" [checked]='filters.status == "In Progress"'
+                        class='py-1 px-2 rounded-md cursor-pointer border border-slate-300 p-2 h-5 w-5 bg-slate-200 focus:border-blue-300 transition duration-200'
+                        type="radio" name="status" id="status" />
+                    <label for="status" class='text-center whitespace-nowrap'>In
+                        Progress</label>
+                </div>
+                <div class='flex items-center gap-1'>
+                    <input (change)="onSelectStatus('Done')" [checked]='filters.status == "Done"'
+                        class='py-1 px-2 rounded-md cursor-pointer border border-slate-300 p-2 h-5 w-5 bg-slate-200 focus:border-blue-300 transition duration-200'
+                        type="radio" name="status" id="status" />
+                    <label for="status" class='text-center whitespace-nowrap'>Done</label>
+                </div>
+            </div>
+
+            <hr>
+            <hr>
+
+            <p class='font-medium'>Categories</p>
+            <div class='flex flex-wrap gap-3'>
+                <div *ngFor='let category of categories' class='flex items-center gap-2'>
+                    <input (change)="onSelectCategory(category)"
+                        [checked]='filters.categories && filters.categories.includes(category)'
+                        class='py-1 px-2 rounded-md cursor-pointer border border-slate-300 p-2 h-5 w-5 bg-slate-200 focus:border-blue-300 transition duration-200'
+                        type="checkbox" name="origin" id="origin" />
+                    <label for="origin" class='text-center whitespace-nowrap'>{{category.name}}</label>
+                </div>
+            </div>
+
+            <hr>
+            <hr>
+
+            <p class='font-medium'>Tags</p>
+            <div></div>
+
+            <hr>
+            <hr>
+
+            <p class='font-medium self-center'>Date Created</p>
+            <div class='flex flex-wrap gap-3'>
+                <div class='flex items-center gap-2'>
+                    <input onclick="this.showPicker()" onkeydown="return false"
+                        class='py-1 px-2 rounded-md cursor-pointer border border-slate-300 p-1 bg-slate-200 focus:border-blue-300 transition duration-200'
+                        type="date" placeholder="DOB (DD/MM/YYYY)" name="date" id="date" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='rounded-lg border border-neutral-400 flex items-center text-neutral-500 '>
+        <span (click)="onGridLayout()"
+            [ngClass]="{'bg-neutral-200 text-neutral-800': !bookService.isListLayout, 'hover:bg-neutral-200': bookService.isListLayout}"
+            class="material-symbols-rounded border-r border-r-neutral-400 p-1 hover:bg-neutral-200 text-neutral-800  transition duration-200 cursor-pointer">
+            apps
+        </span>
+        <span (click)='onListLayout()'
+            [ngClass]="{'bg-neutral-200 text-neutral-800': bookService.isListLayout, 'hover:bg-neutral-200': !bookService.isListLayout}"
+            class="material-symbols-rounded p-1 hover:bg-neutral-200 transition duration-200 cursor-pointer">
+            reorder
+        </span>
+    </div>
+    <div class='md:hidden basis-full h-0'></div>
+    <div *ngIf="true" class='flex items-center gap-1'>
+        <p *ngIf="filters.status" (click)='onClearStatus()'
+            class="flex items-center text-sm text-neutral-700 bg-neutral-200 rounded-xl px-2 py-1 cursor-pointer hover:bg-neutral-300 transition duration-300">
+            {{filters.status}}
+            <span class="material-symbols-rounded text-base">
+                close
+            </span>
+        </p>
+        <p *ngFor="let filterCategory of filters.categories" (click)='onClearCategory(filterCategory)'
+            class="{{filterCategory.classNames}} flex items-center text-sm text-neutral-700 rounded-xl px-2 py-1 cursor-pointer hover:bg-neutral-300 transition duration-300">
+            {{filterCategory.name}}
+            <span class="material-symbols-rounded text-base">
+                close
+            </span>
+        </p>
+    </div>
+</div>

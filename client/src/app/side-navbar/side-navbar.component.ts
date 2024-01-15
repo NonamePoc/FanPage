@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AdsComponent } from './ads/ads.component';
 import { MenuComponent } from './menu/menu.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AdminMenuComponent } from './admin-menu/admin-menu.component';
+import { SideNavbarService } from './side-navbar.service';
 
 @Component({
   selector: 'app-side-navbar',
@@ -19,6 +20,17 @@ import { AdminMenuComponent } from './admin-menu/admin-menu.component';
     AdminMenuComponent,
   ],
 })
-export class SideNavbarComponent {
+export class SideNavbarComponent implements OnInit {
+  isOpen: boolean = false;
   isAdmin: boolean = false;
+
+  constructor(private sideNavbarService: SideNavbarService) {}
+
+  ngOnInit() {
+    this.sideNavbarService.isOpen.subscribe((isOpen) => {
+      this.isOpen = isOpen;
+    });
+  }
+
+  onToggle = () => this.sideNavbarService.toggle();
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { SideNavbarService } from '../side-navbar.service';
 
 @Component({
   selector: 'app-menu',
@@ -8,4 +9,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css',
 })
-export class MenuComponent {}
+export class MenuComponent {
+  constructor(private sideNavbarService: SideNavbarService) {}
+
+  onRouterLinkClick = () => this.sideNavbarService.toggle();
+}

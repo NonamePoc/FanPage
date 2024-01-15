@@ -8,9 +8,7 @@
   text-decoration: none;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
+*:focus {
   outline: none;
 }
 
@@ -26,4 +24,35 @@ body {
 
 .font-open-sans > * {
   font-family: "Open Sans", sans-serif;
+}
+
+/* Dropdown animation */
+
+.open {
+  animation: slideInX 0.3s ease-in-out;
+  transform: translateX(0);
+  opacity: 1;
+  z-index: 1;
+}
+
+.open::before {
+  z-index: -1;
+}
+
+@keyframes slideInX {
+  from {
+    transform: translateX(-1.25rem);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutX {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(1.25rem);
+  }
 }

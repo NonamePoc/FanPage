@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BooksSwiperComponent } from './books-swiper/books-swiper.component';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',

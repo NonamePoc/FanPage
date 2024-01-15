@@ -32,12 +32,12 @@
                 </a>
             </button>
             <div>
-                <span
-                    class="bookmark material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 transition duration-300">
+                <span appDropdown
+                    class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 transition duration-300">
                     bookmark
                 </span>
                 <ul
-                    class='bookmark-menu drop-shadow-lg px-2 py-2 opacity-0 -z-1 mt-2 absolute bg-stone-200 rounded transition duration-300 -translate-x-5 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:left-3 before:w-4 before:h-4 before:bg-stone-200 before:rounded before:rotate-45'>
+                    class='drop-shadow-lg px-2 py-2 opacity-0 -z-1 mt-2 absolute bg-stone-200 rounded transition duration-300 -translate-x-5 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:left-3 before:w-4 before:h-4 before:bg-stone-200 before:rounded before:rotate-45'>
                     <li class='cursor-pointer hover:bg-stone-100 px-1 py-1 rounded flex gap-1 items-center'>
                         <span class="material-symbols-rounded">
                             schedule
@@ -55,7 +55,7 @@
                         edit
                     </span>
                 </a>
-                <span
+                <span (click)="onDelete()"
                     class="material-symbols-rounded p-2 rounded-full bg-rose-200 cursor-pointer hover:bg-rose-300 transition duration-300">
                     delete
                 </span>
@@ -117,3 +117,25 @@
     <app-reviews></app-reviews>
     <app-chapters></app-chapters>
 </article>
+
+<app-modal modalId="deleteBookModal" title='Warning'>
+    <p class='text-neutral-600 font-medium pl-5'>
+        Are you sure you want to delete this book?
+    </p>
+    <div class='grid grid-cols-2 gap-2'>
+        <button (click)="onConfirmDelete()"
+            class='flex gap-1 justify-center items-center p-2 bg-rose-500 hover:bg-rose-600 rounded text-white transition duration-300'>
+            Yes
+            <span class="material-symbols-rounded text-xl">
+                check
+            </span>
+        </button>
+        <button (click)="onCancelDelete()"
+            class='flex gap-1 justify-center items-center p-2 bg-neutral-700 hover:bg-neutral-800 rounded text-white  transition duration-300'>
+            No
+            <span class="material-symbols-rounded text-xl">
+                close
+            </span>
+        </button>
+    </div>
+</app-modal>

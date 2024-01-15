@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserMenuComponent } from './user-menu.component';
+import { TagInputComponent } from './tag-input.component';
 
-describe('UserMenuComponent', () => {
-  let component: UserMenuComponent;
-  let fixture: ComponentFixture<UserMenuComponent>;
+describe('TagInputComponent', () => {
+  let component: TagInputComponent;
+  let fixture: ComponentFixture<TagInputComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserMenuComponent]
+      imports: [TagInputComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(UserMenuComponent);
+    fixture = TestBed.createComponent(TagInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserMenuComponent } from './user-menu/user-menu.component';
+import { UserWorksComponent } from './user-works/user-works.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 
 @Component({
@@ -7,6 +7,6 @@ import { UserDetailsComponent } from './user-details/user-details.component';
   standalone: true,
   templateUrl: './user.component.html',
   styleUrl: './user.component.css',
-  imports: [UserMenuComponent, UserDetailsComponent],
+  imports: [UserWorksComponent, UserDetailsComponent],
 })
 export class UserComponent {}

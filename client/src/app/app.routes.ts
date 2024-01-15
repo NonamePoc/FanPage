@@ -23,11 +23,15 @@ export const routes: Routes = [
     component: LibraryComponent,
   },
   {
+    path: 'books/new',
+    component: EditBookComponent,
+  },
+  {
     path: 'books/:id',
     component: BookComponent,
   },
   {
-    path: 'books/:id/:action',
+    path: 'books/:id/edit',
     component: EditBookComponent,
   },
   {
@@ -35,7 +39,7 @@ export const routes: Routes = [
     component: ChapterComponent,
   },
   {
-    path: 'books/:id/chapters/:chapterId/:action',
+    path: 'books/:id/chapters/:chapterId/edit',
     component: EditChapterComponent,
   },
   {

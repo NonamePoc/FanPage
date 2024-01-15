@@ -1,0 +1,31 @@
+<div class="relative flex flex-wrap gap-1 items-start">
+
+    <!-- Error tag input
+        <input id='tag'
+        class='p-2 rounded-full border border-rose-300 bg-rose-100 w-full text-sm focus:border-blue-300 transition duration-200'
+        value='Shffll' type="text" placeholder="Tag Name"
+        title="We didn't find this tag, if you still want to add it, leave it and our moderator will check it after a while" />
+    -->
+    <div *ngFor='let selectedTag of selectedTags; index as i' class='relative'>
+        <div
+            class='relative p-2 rounded-full border border-slate-300 bg-slate-200 focus:border-blue-300 text-sm transition duration-200 flex items-center'>
+            <input class='bg-transparent' id='tag' type="text" placeholder="Tag Name" [value]='selectedTag'
+                autocomplete="off" />
+            <span *ngIf="selectedTags.length > 1" (click)="onRemoveTag(i)"
+                class='material-symbols-rounded cursor-pointer w-auto text-xl text-rose-600 hover:text-rose-400 transition duration-200 absolute right-2'>
+                close
+            </span>
+        </div>
+        <!-- show if input length > 1 and if input is focused -->
+        <!-- <ul
+            class='w-full drop-shadow-lg overflow-y-scroll max-h-52 p-1 absolute top-10 border border-slate-300 bg-slate-200 rounded transition duration-300'>
+            <li *ngFor='let tag of tags; index as i' (click)='onSelectTag(i, tag)'
+                class='cursor-pointer hover:bg-stone-100 p-1 rounded flex gap-1 items-center text-sm'>
+                {{tag}}
+            </li>
+        </ul> -->
+    </div>
+
+    <span (click)='onAddTag()'
+        class='mt-2 p-2 cursor-pointer bg-stone-100 hover:bg-stone-200 transition duration-200 font-medium rounded-full w-5 h-5 flex items-center justify-center'>+</span>
+</div>

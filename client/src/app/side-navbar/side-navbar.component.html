@@ -1,7 +1,13 @@
-<nav class="hidden lg:flex lg:fixed h-screen text-white">
-    <ul class="flex flex-col gap-3 lg:w-64 xl:w-72 bg-stone-900">
+<nav [ngClass]="{'-translate-x-72': !isOpen}"
+    class="side-navbar fixed flex z-30 lg:translate-x-0 transition duration-300">
+    <span (click)="onToggle()"
+        class="material-symbols-rounded lg:hidden absolute py-3 px-2 right-0 cursor-pointer text-neutral-200 hover:text-neutral-400 transition duration-300">
+        close
+    </span>
+    <ul class="flex flex-col gap-3 w-72 bg-stone-900 text-white">
         <app-menu *ngIf="!isAdmin"></app-menu>
         <app-admin-menu *ngIf="isAdmin"></app-admin-menu>
         <app-ads *ngIf="!isAdmin"></app-ads>
     </ul>
 </nav>
+<div *ngIf='isOpen' class='lg:hidden side-navbar fixed w-full z-20 bg-neutral-700/25'></div>

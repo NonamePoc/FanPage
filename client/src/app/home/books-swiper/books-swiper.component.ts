@@ -4,32 +4,21 @@ import {
   Component,
   HostListener,
   Inject,
+  Input,
 } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { SwiperResponsiveDirective } from './swiper-responsive.directive';
 
 @Component({
   selector: 'app-books-swiper',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, SwiperResponsiveDirective],
   templateUrl: './books-swiper.component.html',
   styleUrl: './books-swiper.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class BooksSwiperComponent {
-  slidesPerView: number = 3;
-  screenWidth!: number;
-
-  constructor(@Inject(DOCUMENT) private document: Document) {
-    this.getScreenWidth();
-  }
-
-  @HostListener('window:resize', ['$event'])
-  getScreenWidth() {
-    if (this.document.defaultView) {
-      this.screenWidth = this.document.defaultView.innerWidth;
-      this.screenWidth <= 1400
-        ? (this.slidesPerView = 1)
-        : (this.slidesPerView = 3);
-    }
-  }
+  @Input() title: string = 'Recommendations for';
+  @Input() accentText: string = 'you';
+  @Input() bookType: string = 'recommended';
 }

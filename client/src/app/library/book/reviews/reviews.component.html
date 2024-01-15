@@ -1,6 +1,8 @@
+<app-star-rating></app-star-rating>
 <section>
     <div class='flex items-end justify-center gap-1'>
-        <div class='flex items-end gap-1 hover:text-yellow-500 cursor-pointer transition duration-300'>
+        <div (click)='openModal()'
+            class='flex items-end gap-1 hover:text-yellow-500 cursor-pointer transition duration-300'>
             <p class="font-semibold text-6xl">4.4</p>
             <span class="material-symbols-rounded text-5xl">
                 star

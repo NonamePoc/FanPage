@@ -1,0 +1,23 @@
+<div class='relative'>
+    <p appDropdown
+        class='flex items-center justify-between p-2 rounded-md border border-slate-300 bg-slate-200 focus:border-blue-300 cursor-pointer transition duration-200'
+        name="" id="">
+        <span>
+            <kbd class=''>{{selectedLanguage.code}}</kbd>
+            {{selectedLanguage.name}}
+        </span>
+        <span class="material-symbols-rounded">
+            keyboard_arrow_down
+        </span>
+    </p>
+
+    <ul
+        class='w-full drop-shadow-lg overflow-y-scroll max-h-52 p-1 opacity-0 -z-10 absolute border border-slate-300 bg-slate-200 rounded transition duration-300'>
+        <li *ngFor='let lang of languages' [ngClass]="{'bg-stone-100': lang.code === selectedLanguage.code}"
+            (click)='onSelectLanguage(lang)'
+            class='cursor-pointer hover:bg-stone-100 p-1 rounded flex gap-1 items-center text-sm'>
+            <kbd class=''>{{lang.code}}</kbd>
+            {{lang.name}}
+        </li>
+    </ul>
+</div>
