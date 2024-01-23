@@ -5,6 +5,7 @@ using FanPage.Infrastructure.Interfaces.User;
 using FanPage.Persistence.Repositories.Interfaces.IProfile;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace FanPage.Infrastructure.Implementations.User
 {
@@ -59,9 +60,10 @@ namespace FanPage.Infrastructure.Implementations.User
 
             return list;
         }
-        public async Task AcceptFriend(HttpRequest request, string friendName)
+        public async Task<bool> AcceptFriend(HttpRequest request, string friendName)
         {
             await _friendRepository.AcceptFriend(request, friendName);
+            return true;
         }
     }
 }

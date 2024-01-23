@@ -7,7 +7,7 @@ namespace FanPage.Domain.Entities.Identity
         [Key] public int BookmarkId { get; set; }
         public string UserId { get; set; }
         public User User { get; set; }
-        public string TitelName { get; set; }
+        public int TitelId { get; set; }
 
         public string Stage { get; set; }
     }

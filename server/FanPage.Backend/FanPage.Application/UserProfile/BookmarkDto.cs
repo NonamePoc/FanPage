@@ -3,8 +3,8 @@
     public class BookmarkDto
     {
         public string UserId { get; set; }
-        public string TitelId { get; set; }
-        public string Stage { get; set; }
+        public int TitelId { get; set; }
+        public int BookmarkId { get; set; }
 
     }
 }

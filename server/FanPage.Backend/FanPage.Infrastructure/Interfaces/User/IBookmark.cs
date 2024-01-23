@@ -12,8 +12,8 @@ namespace FanPage.Infrastructure.Interfaces.User
     {
         Task<List<BookmarkDto>> BookmarkList(HttpRequest request);
 
-        Task<bool> Add(HttpRequest request, string titelName);
+        Task<bool> Add(HttpRequest request, int titelId);
 
-        Task<bool> Delete(HttpRequest request, string titelName);
+        Task<bool> Delete(HttpRequest request, int titelId);
     }
 }

@@ -31,37 +31,38 @@ namespace FanPage.Persistence.Repositories.Implementations.BookmarkRepos
             return _mapper.Map<List<BookmarkDto>>(marks);
         }
 
-        public async Task<bool> Add(HttpRequest request, string titelName)
+        public async Task Add(HttpRequest request, int titelId)
         {
             var userId = _jwtTokenManager.GetUserIdFromToken(request);
-            var fanficExists = await _fanficContext.Fanfic.AnyAsync(f => f.Title == titelName);
-            var bookmarkExists = await _userContext.Bookmarks.AnyAsync(marks => marks.UserId == userId && marks.TitelName == titelName);
-            return fanficExists ? !bookmarkExists && await AddNewBookmark(userId, titelName) : false;
+            var fanficExists = await _fanficContext.Fanfic.AnyAsync(f => f.FanficId == titelId);
+            var bookmarkExists = await _userContext.Bookmarks.AnyAsync(marks => marks.UserId == userId && marks.TitelId == titelId);
+
+            if (fanficExists && !bookmarkExists)
+            {
+                await AddNewBookmark(userId, titelId);
+            }
         }
 
-        private async Task<bool> AddNewBookmark(string userId, string titelName)
+        private async Task AddNewBookmark(string userId, int titelId)
         {
             var newMarks = new Bookmark
             {
                 UserId = userId,
-                TitelName = titelName,
+                TitelId = titelId,
                 Stage = "Reading"
             };
 
             _userContext.Bookmarks.Add(newMarks);
             await _userContext.SaveChangesAsync();
-
-            return true;
         }
 
-        public async Task<bool> Delete(HttpRequest request, string titelName)
+        public async Task Delete(HttpRequest request, int titelId)
         {
             var userId = _jwtTokenManager.GetUserIdFromToken(request);
             var remove = await _userContext.Bookmarks
-            .FirstOrDefaultAsync(marks => marks.UserId == userId && marks.TitelName == titelName);
+            .FirstOrDefaultAsync(marks => marks.UserId == userId && marks.TitelId == titelId);
             _userContext.Bookmarks.Remove(remove);
-            _userContext.SaveChanges();
-            return true;
+            await _userContext.SaveChangesAsync();
         }
     }
 }

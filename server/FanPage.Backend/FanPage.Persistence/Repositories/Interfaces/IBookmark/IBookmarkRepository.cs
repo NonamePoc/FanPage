@@ -7,9 +7,9 @@ namespace FanPage.Persistence.Repositories.Interfaces.IBookmark
     {
         Task<List<BookmarkDto>> BookmarkList(HttpRequest request);
 
-        Task<bool> Add(HttpRequest request, string titelName);
+        Task Add(HttpRequest request, int titelId);
 
-        Task<bool> Delete(HttpRequest request, string titelName);
+        Task Delete(HttpRequest request, int titelId);
 
     }
 }

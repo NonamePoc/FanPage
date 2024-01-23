@@ -7,7 +7,6 @@ using FanPage.Persistence.Context;
 using FanPage.Persistence.Repositories.Interfaces.IProfile;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Entity;
 
 namespace FanPage.Persistence.Repositories.Implementations.ProfileRepos
 {
@@ -25,9 +24,9 @@ namespace FanPage.Persistence.Repositories.Implementations.ProfileRepos
         public async Task<List<FriendDto>> FriendsList(HttpRequest request)
         {
             var userName = _jwtTokenManager.GetUserNameFromToken(request);
-            var friendRequests = _userContext.Friendships
+            var friendRequests = await _userContext.Friendships
                 .Where(fr => fr.UserName == userName)
-                .ToList();
+                .ToListAsync();
 
             return _mapper.Map<List<FriendDto>>(friendRequests);
         }
@@ -35,8 +34,8 @@ namespace FanPage.Persistence.Repositories.Implementations.ProfileRepos
         public async Task<FriendRequestDto> AddFriend(HttpRequest request, string friendName)
         {
             var userName = _jwtTokenManager.GetUserNameFromToken(request);
-            var existingRequest = _userContext.FriendRequests
-            .FirstOrDefault(fr => fr.UserName == userName && fr.FriendName == friendName);
+            var existingRequest = await _userContext.FriendRequests
+            .FirstOrDefaultAsync(fr => fr.UserName == userName && fr.FriendName == friendName);
 
             if (existingRequest != null) return null;
             var newFriendRequest = new FriendRequest
@@ -46,18 +45,18 @@ namespace FanPage.Persistence.Repositories.Implementations.ProfileRepos
                 IsApproving = false
             };
             _userContext.FriendRequests.Add(newFriendRequest);
-            _userContext.SaveChanges();
+            await _userContext.SaveChangesAsync();
             return _mapper.Map<FriendRequestDto>(newFriendRequest);
         }
 
         public async Task<bool> RemoveFriend(HttpRequest request, string friendName)
         {
             var userName = _jwtTokenManager.GetUserNameFromToken(request);
-            var friendShip = _userContext.Friendships
-           .FirstOrDefault(fr => fr.UserName == userName && fr.FriendName == friendName);
+            var friendShip = await _userContext.Friendships
+           .FirstOrDefaultAsync(fr => fr.UserName == userName && fr.FriendName == friendName);
 
             _userContext.Friendships.Remove(friendShip);
-            _userContext.SaveChanges();
+            await _userContext.SaveChangesAsync();
             return true;
         }
 
@@ -74,18 +73,18 @@ namespace FanPage.Persistence.Repositories.Implementations.ProfileRepos
                 FriendName = friendName
             };
             _userContext.Friendships.Add(friendship);
-            _userContext.SaveChanges();
+            await _userContext.SaveChangesAsync();
 
         }
 
         public async Task<bool> CancelSend(HttpRequest request, string friendName)
         {
             var userName = _jwtTokenManager.GetUserNameFromToken(request);
-            var friendRequest = _userContext.FriendRequests
-           .FirstOrDefault(fr => fr.UserName == userName && fr.FriendName == friendName);
+            var friendRequest = await _userContext.FriendRequests
+           .FirstOrDefaultAsync(fr => fr.UserName == userName && fr.FriendName == friendName);
 
             _userContext.FriendRequests.Remove(friendRequest);
-            _userContext.SaveChanges();
+            await _userContext.SaveChangesAsync();
             return true;
 
         }
@@ -93,9 +92,9 @@ namespace FanPage.Persistence.Repositories.Implementations.ProfileRepos
         public async Task<List<FriendRequestDto>> GetFriendRequests(HttpRequest request)
         {
             var userName = _jwtTokenManager.GetUserNameFromToken(request);
-            var friendRequests = _userContext.FriendRequests
+            var friendRequests = await _userContext.FriendRequests
                 .Where(fr => fr.UserName == userName)
-                .ToList();
+                .ToListAsync();
 
             return _mapper.Map<List<FriendRequestDto>>(friendRequests);
         }
@@ -103,9 +102,9 @@ namespace FanPage.Persistence.Repositories.Implementations.ProfileRepos
         {
             var friendName = _jwtTokenManager.GetUserNameFromToken(request);
 
-            var receivedFriendRequests = _userContext.FriendRequests
+            var receivedFriendRequests = await _userContext.FriendRequests
                 .Where(fr => fr.FriendName == friendName)
-                .ToList();
+                .ToListAsync();
 
             return _mapper.Map<List<FriendRequestDto>>(receivedFriendRequests);
         }

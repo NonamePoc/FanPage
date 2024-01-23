@@ -1,14 +1,8 @@
 ﻿using FanPage.Application.UserProfile;
-using FanPage.Common.Interfaces;
 using FanPage.Infrastructure.Interfaces.User;
-using FanPage.Persistence.Repositories.Implementations.ProfileRepos;
 using FanPage.Persistence.Repositories.Interfaces.IProfile;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace FanPage.Infrastructure.Implementations.User
 {
@@ -32,7 +26,7 @@ namespace FanPage.Infrastructure.Implementations.User
             await _repository.Subscribe(request, userName);
             return true;
 
-     
+
         }
 
         public async Task<bool> Unsubscribe(HttpRequest request, string userName)

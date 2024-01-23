@@ -36,7 +36,7 @@ namespace FanPage.Api.Controllers.User
         [Authorize(AuthenticationSchemes = "Bearer")]
         [Authorize(Roles = "Admin")]
 
-        public async Task<IActionResult> User([FromHeader] string id)
+        public async Task<IActionResult> User(string id)
         {
             await _admin.Delete(id);
             return Ok();
@@ -54,10 +54,10 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [Authorize(Roles = "Admin, Moderator")]
-        public async Task<IActionResult> Ban([FromBody] BanModel ban)
+        public async Task<IActionResult> Ban(BanModel ban)
         {
             var dto = _mapper.Map<BanDto>(ban);
-            await _admin.Ban(dto);
+            await _admin.Ban(dto, HttpContext.Request);
             return Ok();
 
         }
@@ -73,7 +73,7 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [Authorize(Roles = "Admin, Moderator")]
-        public async Task<IActionResult> Unban([FromBody] string id)
+        public async Task<IActionResult> Unban(string id)
         {
             await _admin.Unban(id);
             return Ok();
@@ -91,7 +91,7 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> ChangeRole([FromBody] ChangeRoleModel changeRole)
+        public async Task<IActionResult> ChangeRole(ChangeRoleModel changeRole)
         {
             var dto = _mapper.Map<ChangeRoleDto>(changeRole);
             await _admin.ChangeRole(dto);

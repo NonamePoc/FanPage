@@ -3,9 +3,10 @@ using FanPage.Application.UserProfile;
 using FanPage.Common.Interfaces;
 using FanPage.Domain.Entities.Identity;
 using FanPage.Persistence.Context;
+using FanPage.Persistence.Migrations.User;
 using FanPage.Persistence.Repositories.Interfaces.IProfile;
 using Microsoft.AspNetCore.Http;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace FanPage.Persistence.Repositories.Implementations.ProfileRepos
 {
@@ -24,34 +25,29 @@ namespace FanPage.Persistence.Repositories.Implementations.ProfileRepos
         public async Task<List<FollowerDto>> FollowerList(HttpRequest request)
         {
             var userName = _jwtTokenManager.GetUserNameFromToken(request);
-            var followers = _userContext.Followers
+            var followers = await _userContext.Followers
                 .Where(user => user.UserName == userName)
-                .ToList();
+                .ToListAsync();
 
             return _mapper.Map<List<FollowerDto>>(followers);
         }
 
-        public async Task<bool> Subscribe(HttpRequest request, string userName)
+        public async Task<FollowerDto> Subscribe(HttpRequest request, string userName)
         {
             var followerName = _jwtTokenManager.GetUserNameFromToken(request);
-            _userContext.Followers
-            .FirstOrDefault(sub => sub.UserName == userName && sub.FollowerName == followerName);
-            var newSub = new Follower
-            {
-                UserName = userName,
-                FollowerName = followerName
-            };
+            var newSub = await _userContext.Followers
+            .FirstOrDefaultAsync(sub => sub.UserName == userName && sub.FollowerName == followerName);
             _userContext.Followers.Add(newSub);
-            _userContext.SaveChanges();
-            return true;
+            await _userContext.SaveChangesAsync();
+            return _mapper.Map<FollowerDto>(newSub);
         }
         public async Task<bool> Unsubscribe(HttpRequest request, string userName)
         {
             var followerName = _jwtTokenManager.GetUserNameFromToken(request);
-            var unsub = _userContext.Followers
-            .FirstOrDefault(sub => sub.UserName == userName && sub.FollowerName == followerName);
+            var unsub = await _userContext.Followers
+            .FirstOrDefaultAsync(sub => sub.UserName == userName && sub.FollowerName == followerName);
             _userContext.Followers.Remove(unsub);
-            _userContext.SaveChanges();
+            await _userContext.SaveChangesAsync();
             return true;
         }
 

@@ -51,6 +51,7 @@ namespace FanPage.Api.Mapper
             CreateMap<Follower, FollowerDto>();
             CreateMap<Bookmark, BookmarkDto>();
         }
+        
 
         private void FanficAuthMaps()
         {

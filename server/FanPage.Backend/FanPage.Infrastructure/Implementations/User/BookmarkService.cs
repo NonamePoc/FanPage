@@ -3,6 +3,7 @@ using FanPage.Common.Interfaces;
 using FanPage.Infrastructure.Interfaces.User;
 using FanPage.Persistence.Repositories.Interfaces.IBookmark;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace FanPage.Infrastructure.Implementations.User
 {
@@ -15,9 +16,9 @@ namespace FanPage.Infrastructure.Implementations.User
 
         }
 
-        public async Task<bool> Add(HttpRequest request, string titelName)
+        public async Task<bool> Add(HttpRequest request, int titelId)
         {
-            await _bookmarkRepository.Add(request, titelName);
+            await _bookmarkRepository.Add(request, titelId);
             return true;
         }
 
@@ -27,9 +28,9 @@ namespace FanPage.Infrastructure.Implementations.User
             return list;
         }
 
-        public async Task<bool> Delete(HttpRequest request, string titelName)
+        public async Task<bool> Delete(HttpRequest request, int titelId)
         {
-            await _bookmarkRepository.Delete(request, titelName);
+            await _bookmarkRepository.Delete(request, titelId);
             return true;
         }
     }

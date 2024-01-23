@@ -7,6 +7,7 @@ namespace FanPage.Domain.Entities.Identity
     public class User : IdentityUser
     {
         public byte[]? UserAvatar { get; set; }
+        public string? WhoBan { get; set; }
         public int CustomizationSettingsId { get; set; }
         public CustomizationSettings CustomizationSettings { get; set; }
 
@@ -18,5 +19,6 @@ namespace FanPage.Domain.Entities.Identity
         public ICollection<Bookmark> Bookmarks { get; set; }
 
         public ICollection<Photo> Photos { get; set; }
+
     }
 }

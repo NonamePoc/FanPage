@@ -1,18 +1,22 @@
 ﻿using FanPage.Application.Admin;
-using FanPage.Domain.Entities.Identity;
+using FanPage.Common.Interfaces;
 using FanPage.Exceptions;
 using FanPage.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace FanPage.Infrastructure.Implementations.User
 {
     public class AdminService : IAdmin
     {
         private readonly UserManager<Domain.Entities.Identity.User> _userManager;
+        private readonly IJwtTokenManager _jwtTokenManager;
 
-        public AdminService(UserManager<Domain.Entities.Identity.User> userManager)
+        public AdminService(UserManager<Domain.Entities.Identity.User> userManager, IJwtTokenManager jwtTokenManager)
         {
             _userManager = userManager;
+            _jwtTokenManager = jwtTokenManager;
         }
         public async Task<bool> Delete(string Id)
         {
@@ -26,10 +30,10 @@ namespace FanPage.Infrastructure.Implementations.User
             return result.Succeeded ? true : throw new UserDeleteException("Unsucceed delete");
         }
 
-        public async Task<bool> Ban(BanDto user)
+        public async Task<bool> Ban(BanDto user, HttpRequest request)
         {
             var userToBlock = await _userManager.FindByIdAsync(user.Id);
-
+            var admin = _jwtTokenManager.GetUserNameFromToken(request);
             if (userToBlock == null)
             {
                 throw new UserNotFoundException("User not found");
@@ -37,7 +41,8 @@ namespace FanPage.Infrastructure.Implementations.User
 
             var lockoutEndDate = DateTime.UtcNow.AddDays((double)user.days);
             var result = await _userManager.SetLockoutEndDateAsync(userToBlock, lockoutEndDate);
-
+            userToBlock.WhoBan = admin;
+            await _userManager.UpdateAsync(userToBlock);
             return result.Succeeded ? true : throw new Exception("Failed to ban user.");
         }
 
@@ -72,20 +77,21 @@ namespace FanPage.Infrastructure.Implementations.User
         }
         public async Task<List<UserBanInfoResponseDto>> GetUserInBan()
         {
-            var bannedUsers = _userManager.Users
+            var bannedUsers = await _userManager.Users
             .Where(u => u.LockoutEnd != null && u.LockoutEnd > DateTime.Now)
             .Select(u => new UserBanInfoResponseDto
             {
                 Id = u.Id,
                 Name = u.UserName,
-                BanTime = u.LockoutEnd
+                BanTime = u.LockoutEnd,
+                AdminName = u.WhoBan
             })
-            .ToList();
+            .ToListAsync();
             return bannedUsers;
         }
         public async Task<List<UserInfoResponseDto>> AllUsers()
         {
-            var users = _userManager.Users.ToList();
+            var users = await _userManager.Users.ToListAsync();
             var userDtos = users.Select(u => new UserInfoResponseDto { Id = u.Id, Name = u.UserName }).ToList();
             return userDtos;
         }
