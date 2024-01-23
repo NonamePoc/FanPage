@@ -1,87 +1,29 @@
-<app-modal *ngIf='isLoginMode' modalId="authModal" title="Sign In" description="Join the community today!">
+<app-modal *ngIf='isLoginMode' modalId="authModal" title='Sign In' description='Login into account!'>
     <button type='button'
-        class='rounded-lg py-2 px-4 text-center bg-stone-100 gap-2 font-medium drop-shadow-lg pt-auto hover:bg-slate-100 transition duration-200'>
+        class='rounded-lg py-2 px-4 text-center bg-stone-100 gap-2 font-medium drop-shadow-lg pt-auto hover:bg-slate-100 transition duration-200 w-full'>
         <span class='text-xl font-bold text-neutral-500 float-left'>G</span>
         Use Google account
     </button>
 
-    <span class='text-neutral-600 text-center'>or</span>
-
-    <form>
-        <div class='grid gap-3'>
-            <div>
-                <label class='pl-1 text-sm text-stone-600 font-medium'>Username or Email</label>
-                <input
-                    class='p-2 rounded border border-neutral-300 w-full focus:bg-slate-100 focus:border-blue-300 transition duration-200'
-                    type="text" placeholder="username@mail.com" autocomplete='email' />
-            </div>
-            <div>
-                <label class='pl-1 text-sm text-stone-600 font-medium'>Password</label>
-                <input
-                    class='p-2 rounded border border-neutral-300 w-full focus:bg-slate-100 focus:border-blue-300 transition duration-200'
-                    type="password" placeholder="***********" autocomplete='current-password' />
-            </div>
-        </div>
-
-        <button type='submit'
-            class='rounded-lg mt-3 py-2 w-full px-4 text-center bg-blue-600 hover:bg-blue-700 gap-2 drop-shadow-lg font-medium text-neutral-100 transition duration-200'>
-            Sign In
-        </button>
-    </form>
-    <p (click)='onSwitchMode()' class='cursor-pointer text-sm text-center text-neutral-600'>First time?
-        <span class='font-medium text-purple-500 hover:text-purple-600 transition duration-200'>Sign
-            up
-        </span>
-    </p>
-</app-modal>
-
-<app-modal *ngIf='!isLoginMode' modalId="authModal" title='Sign Up' description='Join the community today!'>
-    <button type='button'
-        class='rounded-lg py-2 px-4 text-center bg-stone-100 gap-2 font-medium drop-shadow-lg pt-auto hover:bg-slate-100 transition duration-200'>
-        <span class='text-xl font-bold text-neutral-500 float-left'>G</span>
-        Use Google account
-    </button>
-
-    <span class='text-neutral-600 text-center'>or</span>
-
-    <form>
-        <div class='grid gap-3'>
-            <div>
-                <label class='pl-1 text-sm text-stone-600 font-medium'>Username</label>
-                <input
-                    class='p-2 rounded border border-neutral-300 w-full focus:bg-slate-100 focus:border-blue-300 transition duration-200'
-                    type="text" placeholder="username" autocomplete='username' />
-            </div>
-            <div>
-                <label class='pl-1 text-sm text-stone-600 font-medium'>Email</label>
-                <input
-                    class='p-2 rounded border border-neutral-300 w-full focus:bg-slate-100 focus:border-blue-300 transition duration-200'
-                    type="email" placeholder="username@email.com" autocomplete='email' />
-            </div>
-            <div class='grid grid-cols-2 gap-2'>
-                <div>
-                    <label class='pl-1 text-sm text-stone-600 font-medium'>Password</label>
-                    <input
-                        class='p-2 rounded border border-neutral-300 w-full focus:bg-slate-100 focus:border-blue-300 transition duration-200'
-                        type="password" placeholder="***********" autocomplete='new-password' />
-                </div>
-                <div>
-                    <label class='pl-1 text-sm text-stone-600 font-medium'>Repeat password</label>
-                    <input
-                        class='p-2 rounded border border-neutral-300 w-full focus:bg-slate-100 focus:border-blue-300 transition duration-200'
-                        type="password" placeholder="***********" autocomplete='new-password' />
-                </div>
-            </div>
-        </div>
-
-        <button type='submit'
-            class='rounded-lg mt-3 py-2 w-full px-4 text-center bg-blue-600 hover:bg-blue-700 gap-2 drop-shadow-lg font-medium text-neutral-100 transition duration-200'>
-            Sign Up
-        </button>
-    </form>
+    <p class='text-neutral-600 text-center'>or</p>
+    <app-login></app-login>
     <p (click)='onSwitchMode()' class='cursor-pointer text-sm text-center text-neutral-600'>Already have an account?
         <span class='font-medium text-purple-500 hover:text-purple-600 transition duration-200'>Sign
             in
+        </span>
+    </p>
+</app-modal>
+<app-modal *ngIf='!isLoginMode' modalId="authModal" title='Sign Up' description='Join the community today!'>
+    <button type='button'
+        class='rounded-lg py-2 px-4 text-center bg-stone-100 gap-2 font-medium drop-shadow-lg pt-auto hover:bg-slate-100 transition duration-200 w-full'>
+        <span class='text-xl font-bold text-neutral-500 float-left'>G</span>
+        Use Google account
+    </button>
+    <p class='text-neutral-600 text-center'>or</p>
+    <app-registration></app-registration>
+    <p (click)='onSwitchMode()' class='cursor-pointer text-sm text-center text-neutral-600'>Don't have an account?
+        <span class='font-medium text-purple-500 hover:text-purple-600 transition duration-200'>Sign
+            up
         </span>
     </p>
 </app-modal>

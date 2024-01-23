@@ -1,0 +1,33 @@
+<form [formGroup]="signinForm" (ngSubmit)='onSubmit()'>
+    <div class='grid gap-3'>
+        <div>
+            <label for='email' class='pl-1 text-sm text-stone-600 font-medium'>Email</label>
+            <input formControlName='email' type="text" id='email' placeholder="username@mail.com" autocomplete='email'
+                class='p-2 rounded border border-neutral-300 w-full focus:bg-slate-100 focus:border-blue-300 transition duration-200' />
+            <div [ngClass]="{'opacity-100': signinForm.get('email')?.invalid && signinForm.get('email')?.touched}"
+                class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
+                <span>Please enter valid email</span>
+            </div>
+        </div>
+        <div>
+            <label for='password' class='pl-1 text-sm text-stone-600 font-medium'>Password</label>
+            <input formControlName='password' type="password" id='password' placeholder="***********"
+                autocomplete='current-password'
+                class='p-2 rounded border border-neutral-300 w-full focus:bg-slate-100 focus:border-blue-300 transition duration-200' />
+            <div [ngClass]="{'opacity-100 z-10': signinForm.get('password')?.invalid && signinForm.get('password')?.touched}"
+                class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
+                <span *ngIf="signinForm.get('password')?.errors?.['required']">
+                    Password cannot be empty
+                </span>
+                <span *ngIf="signinForm.get('password')?.errors?.['minlength']">
+                    Password must be at least 8 characters long
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <button type='submit'
+        class='rounded-lg mt-3 py-2 w-full px-4 text-center bg-blue-600 hover:bg-blue-700 gap-2 drop-shadow-lg font-medium text-neutral-100 transition duration-200'>
+        Sign In
+    </button>
+</form>

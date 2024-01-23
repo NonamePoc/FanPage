@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CategoryService } from './category.service';
 import { CommonModule } from '@angular/common';
-import { Category } from './category';
+import { Category, SelectedCategory } from './category';
 import { DropdownDirective } from '../../../../shared/dropdown.directive';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-category-selector',
@@ -10,22 +11,59 @@ import { DropdownDirective } from '../../../../shared/dropdown.directive';
   imports: [CommonModule, DropdownDirective],
   templateUrl: './category-selector.component.html',
   styleUrl: './category-selector.component.css',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: CategorySelectorComponent,
+      multi: true,
+    },
+  ],
 })
-export class CategorySelectorComponent {
+export class CategorySelectorComponent implements ControlValueAccessor {
   categories: Category[] = this.categoryService.getCategories();
-  selectedCategories = [this.categories[0]];
+  selected: SelectedCategory[] = [];
 
   constructor(private categoryService: CategoryService) {}
 
+  writeValue(value: any) {
+    value &&
+      (this.selected = value.map((category: Category) =>
+        this.mapToCategory(category)
+      ));
+  }
+
+  registerOnChange(fn: any) {
+    this.onChanged = fn;
+  }
+
+  registerOnTouched(fn: any) {
+    this.onTouched = fn;
+  }
+
   onSelectCategory(index: number, category: Category) {
-    this.selectedCategories[index] = category;
+    this.onTouched();
+    this.selected[index] = this.mapToCategory(category);
+    this.onChanged(this.selected);
   }
 
   onAddCategory() {
-    this.selectedCategories.push(this.categories[0]);
+    this.onTouched();
+    this.selected.push(this.mapToCategory(this.categories[0]));
+    this.onChanged(this.selected);
   }
 
   onRemoveCategory(index: number) {
-    this.selectedCategories.splice(index, 1);
+    this.selected.splice(index, 1);
+    this.onChanged(this.selected);
+  }
+
+  private onChanged!: Function;
+  private onTouched!: Function;
+
+  private mapToCategory(category: Category) {
+    return {
+      id: category.id,
+      name: category.name,
+    };
   }
 }

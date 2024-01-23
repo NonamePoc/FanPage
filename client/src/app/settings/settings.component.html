@@ -1,36 +1,116 @@
 <h1 class='text-lg lg:text-2xl font-semibold md:mb-4'>Personalization</h1>
-<div class='md:flex gap-1'>
-    <div class='pl-1 my-2'>
-        <label for='username' class='text-lg font-medium mb-2'>Username</label>
-        <input id='username' name='username'
-            class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200'
-            placeholder="johndoe" />
-        <p class='text-sm text-stone-700 mt-2'>Enter a unique username that will represent you across
-            the
-            platform.</p>
-    </div>
+<form [formGroup]='personForm' (ngSubmit)='onSubmit()'>
+    <div class='md:flex gap-1'>
+        <div class='pl-1 my-2'>
+            <label for='username' class='text-lg font-medium mb-2'>Username</label>
+            <input formControlName='username' id='username' placeholder="johndoe" autocomplete='username'
+                class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200' />
+            <div [ngClass]="{'opacity-100': personForm.get('username')?.invalid && personForm.get('username')?.touched}"
+                class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
+                <span *ngIf="personForm.get('username')?.errors?.['required']">Username cannot be empty</span>
+                <span *ngIf="personForm.get('username')?.errors?.['minlength']">
+                    This username is too short
+                </span>
+                <span *ngIf="personForm.get('username')?.errors?.['maxlength']">
+                    This username is too long
+                </span>
+            </div>
+            <p class='text-sm text-stone-700 mt-2'>Enter a unique username that will represent you across
+                the
+                platform.</p>
 
-    <div class='pl-1 my-2'>
-        <label for='email' class='text-lg font-medium mb-2'>Email</label>
-        <input id='email' name='email' type='email'
-            class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200'
-            placeholder="johndoe@mail.com" />
-        <p class='text-sm text-stone-700 mt-2'>This email will be used for important communications,
-            such
-            as account recovery and notifications.</p>
-    </div>
-    <div class='pl-1 my-2'>
-        <label for='password' class='text-lg font-medium mb-2'>Password</label>
-        <div class='grid grid-cols-2 items-center gap-1'>
-            <input id='password' name='curPassword' type='password'
-                class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200'
-                placeholder="Current Password" />
-            <input id='password' name='newPassword' type='password'
-                class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200'
-                placeholder="New password" />
         </div>
-        <p class='text-sm text-stone-700 mt-2'>Strengthen your account security by creating a new
-            password.</p>
+
+        <div class='pl-1 my-2'>
+            <label for='email' class='text-lg font-medium mb-2'>Email</label>
+            <input formControlName='email' type='email' id='email' placeholder="johndoe@mail.com"
+                class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200' />
+            <div [ngClass]="{'opacity-100': personForm.get('email')?.invalid && personForm.get('email')?.touched}"
+                class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
+                <span>Please enter valid email</span>
+            </div>
+            <p class='text-sm text-stone-700 mt-2'>This email will be used for important communications,
+                such
+                as account recovery and notifications.</p>
+        </div>
+        <div class='pl-1 my-2'>
+            <label for='password' class='text-lg font-medium mb-2'>Password</label>
+            <div class='relative grid grid-cols-2 items-center gap-1'>
+                <input formControlName='password' type='password' id='password' placeholder="Current Password"
+                    autocomplete='current-password'
+                    class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200' />
+                <div [ngClass]="{'opacity-100 z-10': personForm.get('password')?.invalid && personForm.get('password')?.touched}"
+                    class="opacity-0 -bottom-5 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
+                    <span *ngIf="personForm.get('password')?.errors?.['required']">
+                        Password cannot be empty
+                    </span>
+                    <span *ngIf="personForm.get('password')?.errors?.['minlength']">
+                        Password must be at least 8 characters long
+                    </span>
+                </div>
+                <input formControlName='newPassword' type='password' placeholder="New password"
+                    autocomplete='new-password'
+                    class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200' />
+                <div [ngClass]="{'opacity-100 z-10': personForm.get('newPassword')?.invalid && personForm.get('newPassword')?.touched}"
+                    class="opacity-0 -bottom-5 right-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
+                    <span *ngIf="personForm.get('newPassword')?.errors?.['required']">
+                        New pass cannot be empty
+                    </span>
+                    <span *ngIf="personForm.get('newPassword')?.errors?.['minlength']">
+                        New pass must be at least 8 characters long
+                    </span>
+                </div>
+            </div>
+            <p class='text-sm text-stone-700 mt-2'>Strengthen your account security by creating a new
+                password.</p>
+        </div>
+    </div>
+    <div class='mt-3 flex justify-end'>
+        <button type='submit' [disabled]='pristine' [ngClass]="{'opacity-50': pristine}"
+            class='bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-200'>
+            Save Changes
+        </button>
+        <button type='reset' (click)='personForm.reset()'
+            class='bg-stone-300 hover:bg-stone-400 text-stone-700 px-4 py-2 rounded-md transition duration-200 ml-2'>
+            Reset
+        </button>
+    </div>
+</form>
+
+<hr class='my-2'>
+
+<div>
+    <h2 class='text-lg font-medium mb-2'>Theme</h2>
+    <p class='text-sm text-stone-700 mt-2 mb-3'>Choose a theme that suits your style.</p>
+    <div class='grid grid-cols-3 gap-1'>
+        <div class='rounded-md bg-slate-200 p-2 flex items-center justify-center'>
+            <div class='rounded-full h-8 w-8 bg-slate-300'></div>
+        </div>
+        <div class='rounded-md bg-slate-200 p-2 flex items-center justify-center'>
+            <div class='rounded-full h-8 w-8 bg-slate-300'></div>
+        </div>
+        <div class='rounded-md bg-slate-200 p-2 flex items-center justify-center'>
+            <div class='rounded-full h-8 w-8 bg-slate-300'></div>
+        </div>
+        <div class='rounded-md bg-slate-200 p-2 flex items-center justify-center'>
+            <div class='rounded-full h-8 w-8 bg-slate-300'></div>
+        </div>
+        <div class='rounded-md bg-slate-200 p-2 flex items-center justify-center'>
+            <div class='rounded-full h-8 w-8 bg-slate-300'></div>
+        </div>
+        <div class='rounded-md bg-slate-200 p-2 flex items-center justify-center'>
+            <div class='rounded-full h-8 w-8 bg-slate-300'></div>
+        </div>
+    </div>
+    <div class='mt-4 flex justify-end'>
+        <button type='submit' [disabled]='false' [ngClass]="{'opacity-50': false}"
+            class='bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-200'>
+            Save Changes
+        </button>
+        <button type='reset' (click)='personForm.reset()'
+            class='bg-stone-300 hover:bg-stone-400 text-stone-700 px-4 py-2 rounded-md transition duration-200 ml-2'>
+            Reset
+        </button>
     </div>
 </div>
 
@@ -57,5 +137,15 @@
     <div class='grid sm:grid-cols-[25%_1fr] px-3'>
         <img class='transform -translate-y-10 md:-translate-y-16 rounded-full h-20 w-20 md:h-32 md:w-32 object-cover mx-auto border-4 border-neutral-100 cursor-pointer'
             src="https://picsum.photos/400" alt="User">
+    </div>
+    <div class='mt-3 flex justify-end transform -translate-y-10 md:-translate-y-16'>
+        <button type='submit' [disabled]='false' [ngClass]="{'opacity-50': false}"
+            class='bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-200'>
+            Save Changes
+        </button>
+        <button type='reset' (click)='personForm.reset()'
+            class='bg-stone-300 hover:bg-stone-400 text-stone-700 px-4 py-2 rounded-md transition duration-200 ml-2'>
+            Reset
+        </button>
     </div>
 </div>
