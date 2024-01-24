@@ -32,3 +32,11 @@
 - Add repos Tag,Category,Photo,Fanfic,Review,Chapter
 - Add method global rating fanfic( average review) 
 - Add Fanfic detail (controller management get method from fanfic )
+## Version 1.0.0 Pavlo Shaban (24.01.2023)
+- Add Cors setting 
+- Add SignalR (commentHub, chatHub)
+- Add chat repository and comment repository
+- Add new database ChatFanPange 
+- Fix search fanfic 
+- Fix bugs (Fixed the issue of creating the same fanfic) 
+- The structure of the project has been updated, now the database and everything related to it is in the domain
