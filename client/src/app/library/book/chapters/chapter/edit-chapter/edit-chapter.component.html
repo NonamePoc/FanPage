@@ -1,1 +1,8 @@
-<p>edit-chapter works!</p>
+<editor #editor apiKey="{{API_KEY}}"
+    [init]="{ plugins: 'lists link image table code help wordcount', browser_spellcheck: true, height: 'calc(100vh - 130px)' }">
+</editor>
+
+<button (click)='onSubmit()'
+    class='float-end mt-2 px-4 py-2 text-neutral-200 bg-blue-700 hover:bg-blue-600 transition duration-200 rounded-md font-medium'>
+    Save and upload
+</button>

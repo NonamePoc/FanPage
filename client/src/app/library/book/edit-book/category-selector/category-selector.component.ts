@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Category, SelectedCategory } from './category';
 import { DropdownDirective } from '../../../../shared/dropdown.directive';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-category-selector',
@@ -23,7 +24,10 @@ export class CategorySelectorComponent implements ControlValueAccessor {
   categories: Category[] = this.categoryService.getCategories();
   selected: SelectedCategory[] = [];
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(
+    private categoryService: CategoryService,
+    private toastr: ToastrService
+  ) {}
 
   writeValue(value: any) {
     value &&
@@ -42,13 +46,24 @@ export class CategorySelectorComponent implements ControlValueAccessor {
 
   onSelectCategory(index: number, category: Category) {
     this.onTouched();
+    if (this.selected.find((selected) => selected.id === category.id)) {
+      this.toastr.warning('Category already added!');
+      return;
+    }
     this.selected[index] = this.mapToCategory(category);
     this.onChanged(this.selected);
   }
 
   onAddCategory() {
     this.onTouched();
-    this.selected.push(this.mapToCategory(this.categories[0]));
+    this.selected.push(
+      this.mapToCategory(
+        this.categories.find(
+          (category) =>
+            !this.selected.find((selected) => selected.id === category.id)
+        )!
+      )
+    );
     this.onChanged(this.selected);
   }
 

@@ -7,6 +7,7 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tag-input',
@@ -28,6 +29,8 @@ export class TagInputComponent implements ControlValueAccessor {
   selectedTags: string[] = [];
   filteredTags: string[] = [];
 
+  constructor(private toastr: ToastrService) {}
+
   writeValue(value: any) {
     if (value) {
       this.selectedTags = value;
@@ -45,6 +48,8 @@ export class TagInputComponent implements ControlValueAccessor {
     if (tag && !this.selectedTags.includes(tag)) {
       this.selectedTags.push(tag);
       this.updateValue();
+    } else {
+      this.toastr.warning('Tag already added!');
     }
     this.tagInputControl.reset();
   }
@@ -58,6 +63,8 @@ export class TagInputComponent implements ControlValueAccessor {
     if (!this.selectedTags.includes(tag)) {
       this.selectedTags.push(tag);
       this.updateValue();
+    } else {
+      this.toastr.warning('Tag already added!');
     }
     this.tagInputControl.reset();
     this.filterTags();

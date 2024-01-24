@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, RouterLink } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import {
   FormControl,
   FormGroup,
@@ -10,7 +10,6 @@ import {
 import { LanguageSelectorComponent } from './language-selector/language-selector.component';
 import { CategorySelectorComponent } from './category-selector/category-selector.component';
 import { TagInputComponent } from './tag-input/tag-input.component';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-edit-book',
@@ -33,7 +32,7 @@ export class EditBookComponent implements OnInit {
   preview = '';
   id!: number;
 
-  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -44,13 +43,13 @@ export class EditBookComponent implements OnInit {
     this.bookForm = new FormGroup({
       title: new FormControl(null, [
         Validators.required,
-        Validators.minLength(1),
+        Validators.minLength(2),
         Validators.maxLength(20),
       ]),
       description: new FormControl(null, [
         Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(100),
+        Validators.minLength(2),
+        Validators.maxLength(300),
       ]),
       language: new FormControl(null, [Validators.required]),
       cover: new FormControl(null),
@@ -74,6 +73,7 @@ export class EditBookComponent implements OnInit {
 
   onSubmit(): void {
     console.log(this.bookForm);
+    this.router.navigate(['books/1/chapters/1/edit']);
   }
 
   selectImage(event: any): void {

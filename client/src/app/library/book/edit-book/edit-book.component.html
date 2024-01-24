@@ -2,7 +2,7 @@
 
 <form [formGroup]="bookForm" (ngSubmit)='onSubmit()'>
     <div class='grid md:grid-cols-3 gap-10 bg-neutral-100 rounded py-5 px-4'>
-        <div class='grid grid-cols-[auto_1fr] gap-2'>
+        <div class='grid grid-cols-[auto_1fr] gap-2 relative'>
             <span class="material-symbols-rounded text-3xl text-blue-600 font-semibold">
                 title
             </span>
@@ -10,6 +10,16 @@
                 <h2 class='text-xl font-medium mb-2'>Title</h2>
                 <input formControlName='title' placeholder="My story"
                     class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200' />
+                <div [ngClass]="{'opacity-100': bookForm.get('title')?.invalid && bookForm.get('title')?.touched}"
+                    class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
+                    <span *ngIf="bookForm.get('title')?.errors?.['required']">Title cannot be empty</span>
+                    <span *ngIf="bookForm.get('title')?.errors?.['minlength']">
+                        Title must be at least 2 characters long
+                    </span>
+                    <span *ngIf="bookForm.get('title')?.errors?.['maxlength']">
+                        Title cannot be longer than 20 characters
+                    </span>
+                </div>
                 <p class='text-sm text-stone-700 mt-2'>
                     Provide the accurate and complete name of the book to
                     ensure proper identification and
@@ -22,10 +32,20 @@
             <span class="material-symbols-rounded text-3xl text-blue-600 font-semibold">
                 signature
             </span>
-            <div class='mt-1'>
+            <div class='mt-1 relative'>
                 <h2 class='text-xl font-medium mb-2'>Description</h2>
-                <textarea formControlName='description' rows="3" placeholder='My book is about a ...'
+                <textarea formControlName='description' rows="4" placeholder='My book is about a ...'
                     class='resize-none py-1 px-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200'></textarea>
+                <div [ngClass]="{'opacity-100': bookForm.get('description')?.invalid && bookForm.get('description')?.touched}"
+                    class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
+                    <span *ngIf="bookForm.get('description')?.errors?.['required']">Description cannot be empty</span>
+                    <span *ngIf="bookForm.get('description')?.errors?.['minlength']">
+                        Description must be at least 2 characters long
+                    </span>
+                    <span *ngIf="bookForm.get('description')?.errors?.['maxlength']">
+                        Description cannot be longer than 300 characters
+                    </span>
+                </div>
                 <p class='text-sm text-stone-700 mt-2'>
                     Please provide a brief yet comprehensive description of the book. Summarize the key
                     themes, plot, and any unique
