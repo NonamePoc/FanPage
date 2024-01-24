@@ -1,6 +1,6 @@
 ﻿using FanPage.Application.Auth;
 using FanPage.Common.Interfaces;
-using FanPage.Domain.Entities.Identity;
+using FanPage.Domain.User.Entities;
 using FanPage.Exceptions;
 using FanPage.Infrastructure.Interfaces.User;
 using Microsoft.AspNetCore.Http;
@@ -12,10 +12,10 @@ namespace FanPage.Infrastructure.Implementations.User
     {
         private readonly IJwtTokenManager _jwtTokenManager;
 
-        private readonly SignInManager<Domain.Entities.Identity.User> _signInManager;
+        private readonly SignInManager<Domain.User.Entities.User> _signInManager;
         private readonly IdentityUserManager _userManager;
 
-        public AuthService(IJwtTokenManager jwtTokenManager, SignInManager<Domain.Entities.Identity.User> signInManager,
+        public AuthService(IJwtTokenManager jwtTokenManager, SignInManager<Domain.User.Entities.User> signInManager,
             IdentityUserManager userManager)
         {
             _jwtTokenManager = jwtTokenManager;

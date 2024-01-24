@@ -6,7 +6,7 @@ namespace FanPage.Infrastructure.Interfaces.Fanfic;
 public interface IFanficDetail
 {
     Task<double> GetAverageRatingAsync(int fanficId);
-    Task<List<FanficDto>> SearchAsync(string searchString, HttpRequest request);
+    Task<List<FanficDto>> SearchAsync(string searchString, bool original);
 
     Task<List<FanficDto>> GetAllAsync();
 

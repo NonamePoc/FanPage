@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using FanPage.Application.Fanfic;
 using FanPage.Common.Interfaces;
+using FanPage.Domain.Fanfic.Repos.Interfaces;
 using FanPage.Exceptions;
 using FanPage.Infrastructure.Interfaces.Fanfic;
-using FanPage.Persistence.Repositories.Interfaces.IFanfic;
 using Microsoft.AspNetCore.Http;
 
 namespace FanPage.Infrastructure.Implementations.Fanfic;
@@ -12,13 +12,11 @@ public class ReviewService : IReview
 {
     private readonly IJwtTokenManager _jwtTokenManager;
     private readonly IFanficRepository _fanficRepository;
-    private readonly IMapper _mapper;
 
-    public ReviewService(IJwtTokenManager jwtTokenManager, IFanficRepository fanficRepository, IMapper mapper)
+    public ReviewService(IJwtTokenManager jwtTokenManager, IFanficRepository fanficRepository)
     {
         _jwtTokenManager = jwtTokenManager;
         _fanficRepository = fanficRepository;
-        _mapper = mapper;
     }
 
     public async Task<ReviewsDto> CreateReviewAsync(int fanficId, ReviewsDto reviewsDto, HttpRequest request)

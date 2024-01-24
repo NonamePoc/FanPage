@@ -1,10 +1,9 @@
 ﻿using FanPage.Application.Account;
 using FanPage.Common.Interfaces;
-using FanPage.Domain.Entities.Identity;
+using FanPage.Domain.User.Entities;
 using FanPage.EmailService.Interfaces;
 using FanPage.EmailService.Models;
 using FanPage.Exceptions;
-using FanPage.Infrastructure.Interfaces;
 using FanPage.Infrastructure.Interfaces.User;
 using Flurl;
 using Microsoft.AspNetCore.Http;
@@ -18,7 +17,7 @@ namespace FanPage.Infrastructure.Implementations.User
 
         private readonly IEmailService _emailService;
 
-        private readonly SignInManager<Domain.Entities.Identity.User> _signInManager;
+        private readonly SignInManager<Domain.User.Entities.User> _signInManager;
 
         private readonly IPasswordManager _passwordManager;
 
@@ -27,7 +26,7 @@ namespace FanPage.Infrastructure.Implementations.User
         private readonly CustomizationSettingsService _customizationSettingsService;
 
         public AccountServiсe(CustomizationSettingsService customizationSettingsService,
-            IPasswordManager passwordManager, SignInManager<Domain.Entities.Identity.User> signInManager, IJwtTokenManager jwtTokenManager,
+            IPasswordManager passwordManager, SignInManager<Domain.User.Entities.User> signInManager, IJwtTokenManager jwtTokenManager,
             IdentityUserManager identityUser, IEmailService emailService)
         {
             _userManager = identityUser;
@@ -190,7 +189,7 @@ namespace FanPage.Infrastructure.Implementations.User
         public async Task Registration(RegistrationDto registration)
         {
             var customizationSettingId = await _customizationSettingsService.CreateCustomizationSettings();
-            var user = new Domain.Entities.Identity.User
+            var user = new Domain.User.Entities.User
             {
                 Email = registration.Email,
                 UserName = registration.UserName,

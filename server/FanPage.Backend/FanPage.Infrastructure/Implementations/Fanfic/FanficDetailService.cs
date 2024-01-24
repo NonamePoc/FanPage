@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using FanPage.Application.Fanfic;
 using FanPage.Common.Interfaces;
+using FanPage.Domain.Fanfic.Repos.Interfaces;
 using FanPage.Infrastructure.Interfaces.Fanfic;
-using FanPage.Persistence.Repositories.Interfaces.IFanfic;
 using Microsoft.AspNetCore.Http;
 
 namespace FanPage.Infrastructure.Implementations.Fanfic;
@@ -135,9 +135,9 @@ public class FanficDetailService : IFanficDetail
         return averageRatingAsync;
     }
 
-    public async Task<List<FanficDto>> SearchAsync(string searchString, HttpRequest request)
+    public async Task<List<FanficDto>> SearchAsync(string searchString, bool original)
     {
-        var fanficList = await _fanficRepository.SearchAsync(searchString, request);
+        var fanficList = await _fanficRepository.SearchAsync(searchString, original);
         return fanficList.Select(fanfic => new FanficDto()
         {
             Id = fanfic.FanficId,

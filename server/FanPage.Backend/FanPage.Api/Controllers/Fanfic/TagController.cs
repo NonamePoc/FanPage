@@ -73,7 +73,7 @@ public class TagController : BaseController
     /// <param name="tagId"> tag fanfic id</param>
     /// <returns></returns>
     [HttpDelete]
-    [Route("delete")]
+    [Route("fanficTag")]
     [ProducesResponseType(200)]
     [ProducesResponseType(200)]
     [ProducesResponseType(401)]
@@ -83,7 +83,7 @@ public class TagController : BaseController
     [Authorize(AuthenticationSchemes = "Bearer")]
     public async Task<IActionResult> DeleteTag([FromHeader] int fanficId, [FromHeader] string tagName)
     {
-        var retrieval = await _tag.DeleteTagAsync(fanficId, tagName, HttpContext.Request);
+        var retrieval = await _tag.DeleteTagFanficAsync(fanficId, tagName, HttpContext.Request);
         var response = _mapper.Map<TagViewModel>(retrieval);
         return Ok(response);
     }
@@ -104,6 +104,18 @@ public class TagController : BaseController
         return Ok(tags);
     }
 
+    [HttpDelete]
+    [Route("delete")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
+    [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    public async Task<IActionResult> DeleteTag([FromHeader] int tagId)
+    {
+        await _tag.DeleteTagAsync(tagId, HttpContext.Request);
+        return Ok();
+    }
 
     /// <summary>
     /// Get all tag from fanfic

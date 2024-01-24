@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using FanPage.Application.Fanfic;
 using FanPage.Common.Interfaces;
+using FanPage.Domain.Fanfic.Repos.Interfaces;
 using FanPage.Exceptions;
 using FanPage.Infrastructure.Interfaces.Fanfic;
-using FanPage.Persistence.Repositories.Interfaces;
-using FanPage.Persistence.Repositories.Interfaces.IFanfic;
+using FanPage.Infrastructure.Interfaces.User;
 using Microsoft.AspNetCore.Http;
 
 namespace FanPage.Infrastructure.Implementations.Fanfic;
@@ -17,15 +17,18 @@ public class TagService : ITag
 
     private readonly IJwtTokenManager _jwtTokenManager;
 
+    private readonly IAdmin _admin;
+
     private readonly IMapper _mapper;
 
     public TagService(ITagRepository tagRepository, IFanficRepository fanficRepository,
-        IJwtTokenManager jwtTokenManager, IMapper mapper)
+        IJwtTokenManager jwtTokenManager, IMapper mapper, IAdmin admin)
     {
         _tagRepository = tagRepository;
         _fanficRepository = fanficRepository;
         _jwtTokenManager = jwtTokenManager;
         _mapper = mapper;
+        _admin = admin;
     }
 
     public async Task<TagDto> CreateTagAsync(int fanficId, TagDto tagDto, HttpRequest request)
@@ -86,7 +89,7 @@ public class TagService : ITag
     }
 
 
-    public async Task<TagDto> DeleteTagAsync(int fanficId, string tagName, HttpRequest request)
+    public async Task<TagDto> DeleteTagFanficAsync(int fanficId, string tagName, HttpRequest request)
     {
         var fanfic = await _fanficRepository.GetByIdAsync(fanficId);
         var userName = _jwtTokenManager.GetUserNameFromToken(request);
@@ -104,6 +107,23 @@ public class TagService : ITag
             TagId = tag.TagId,
             Name = tagName
         };
+    }
+
+    public async Task DeleteTagAsync(int tagId, HttpRequest request)
+    {
+        var tag = await _tagRepository.GetByIdAsync(tagId);
+        var admin = await _admin.GetAdminAsync(request);
+        if (admin.Role != "Admin")
+        {
+            throw new FanficException("Not permission to delete tag");
+        }
+
+        if (tag == null)
+        {
+            throw new FanficException("Error update");
+        }
+
+        await _tagRepository.DeleteAsync(tagId);
     }
 
     public async Task<List<TagDto>> GetAllTagFanfic(int fanficId)

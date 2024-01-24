@@ -94,6 +94,7 @@ public class FanficDetailController : BaseController
     ///  Search fanfic 
     /// </summary>
     /// <param name="searchString"> name fanfic and tag fanfic and username author </param>
+    /// <param name="originalFandom">Check whether the fanfic should be from the original author or not</param>
     /// <returns></returns>
     [HttpGet]
     [Route("search")]
@@ -101,9 +102,9 @@ public class FanficDetailController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> Search([FromHeader] string searchString)
+    public async Task<IActionResult> Search([FromQuery] string searchString, [FromQuery] bool originalFandom)
     {
-        var fanfics = await _fanficDetail.SearchAsync(searchString, HttpContext.Request);
+        var fanfics = await _fanficDetail.SearchAsync(searchString, originalFandom);
         return Ok(fanfics);
     }
 }

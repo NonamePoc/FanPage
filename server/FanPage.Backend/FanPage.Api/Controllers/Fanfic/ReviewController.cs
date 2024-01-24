@@ -81,6 +81,7 @@ public class ReviewController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteReview([FromHeader] int fanficId)
     {
         await _review.DeleteReviewAsync(fanficId, HttpContext.Request);

@@ -5,23 +5,13 @@ using FanPage.Api.Swagger;
 using FanPage.Common.Configurations;
 using FanPage.Common.Implementations;
 using FanPage.Common.Interfaces;
-using FanPage.Domain.Configurations;
-using FanPage.Domain.Entities.Identity;
-using FanPage.Domain.Enum;
 using FanPage.EmailService.Configuration;
 using FanPage.EmailService.Interfaces;
 using FanPage.Infrastructure.Implementations;
 using FanPage.Infrastructure.Implementations.Fanfic;
 using FanPage.Infrastructure.Implementations.User;
-using FanPage.Infrastructure.Interfaces;
 using FanPage.Infrastructure.Interfaces.Fanfic;
 using FanPage.Infrastructure.Interfaces.User;
-using FanPage.Persistence.Context;
-using FanPage.Persistence.Repositories.Implementations.FanficRepos;
-using FanPage.Persistence.Repositories.Implementations.IdentityRepos;
-using FanPage.Persistence.Repositories.Interfaces;
-using FanPage.Persistence.Repositories.Interfaces.IFanfic;
-using FanPage.Persistence.Repositories.Interfaces.IIdentity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +20,20 @@ using Microsoft.OpenApi.Models;
 using PasswordGenerator;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using FanPage.Domain.Chat.Context;
+using FanPage.Domain.Chat.Repos.Impl;
+using FanPage.Domain.Chat.Repos.Interface;
+using FanPage.Domain.Fanfic.Context;
+using FanPage.Domain.Fanfic.Repos.Impl;
+using FanPage.Domain.Fanfic.Repos.Interfaces;
+using FanPage.Domain.User.Context;
+using FanPage.Domain.User.Entities;
+using FanPage.Domain.User.Enum;
+using FanPage.Domain.User.Repos.Impl;
+using FanPage.Domain.User.Repos.Interfaces;
+using FanPage.Infrastructure.Configurations;
+using FanPage.Infrastructure.Implementations.Chat;
+using FanPage.Infrastructure.Interfaces.Chat;
 
 namespace FanPage.Api.Configure
 {
@@ -37,7 +41,6 @@ namespace FanPage.Api.Configure
     {
         public static IServiceCollection DataBase(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton(configuration.GetSection("DefaultUserConfiguration").Get<DefaultUserConfiguration>());
             services.AddSingleton(configuration.GetSection("DefaultUserConfiguration").Get<DefaultUserConfiguration>());
 
             services.AddDbContext<UserContext>(optionsAction =>
@@ -51,7 +54,10 @@ namespace FanPage.Api.Configure
                 .AddDefaultTokenProviders();
 
             services.AddDbContext<FanficContext>(optionsAction => optionsAction
-                .UseNpgsql(configuration.GetConnectionString("Fanfik-Connection")));
+                .UseNpgsql(configuration.GetConnectionString("Fanfic-Connection")));
+            
+            services.AddDbContext<ChatContext>(optionsAction => optionsAction
+                .UseNpgsql(configuration.GetConnectionString("Chat-Connection")));
 
             services.AddScoped<IdentityUserManager>();
 
@@ -78,9 +84,11 @@ namespace FanPage.Api.Configure
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IFanficPhotoRepository, FanficPhotoRepository>();
-            services.AddScoped<IFanficCommentRepository, FanficCommentPhotoRepository>();
+            services.AddScoped<ICommentPhotoRepository, CommentPhotoRepository>();
             services.AddScoped<IUserPhotoRepository, UserPhotoRepository>();
             services.AddScoped<IChapterRepository, ChapterRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IChatRepository, ChatRepository>();
             return services;
         }
 
@@ -136,6 +144,7 @@ namespace FanPage.Api.Configure
                             ClockSkew = TimeSpan.Zero
                         };
 
+
                         opt.Events = new JwtBearerEvents
                         {
                             OnAuthenticationFailed = context =>
@@ -176,6 +185,8 @@ namespace FanPage.Api.Configure
             services.AddScoped<ITag, TagService>();
             services.AddScoped<IChapter, ChapterService>();
             services.AddScoped<IReview, ReviewService>();
+            services.AddScoped<IComment, CommentService>();
+            services.AddScoped<IChat,ChatService>();
             return services;
         }
 

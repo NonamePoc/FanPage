@@ -3,7 +3,7 @@ using FanPage.Api.JsonResponse;
 using FanPage.Api.Models.Account;
 using FanPage.Application.Account;
 using FanPage.Application.Url;
-using FanPage.Domain.Configurations;
+using FanPage.Infrastructure.Configurations;
 using FanPage.Infrastructure.Interfaces.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

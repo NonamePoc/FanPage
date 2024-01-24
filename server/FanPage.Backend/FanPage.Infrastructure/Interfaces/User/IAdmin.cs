@@ -1,7 +1,8 @@
 ﻿using FanPage.Application.Admin;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
-namespace FanPage.Infrastructure.Interfaces
+namespace FanPage.Infrastructure.Interfaces.User
 {
     public interface IAdmin
     {
@@ -11,5 +12,12 @@ namespace FanPage.Infrastructure.Interfaces
         Task<IdentityResult> ChangeRole(ChangeRoleDto user);
         Task<UserInfoResponseDto> GetUserInformation(string Id);
 
+        Task<bool> ApproveTag(int tagId, HttpRequest request);
+
+        Task<UserInfoResponseDto> GetAdminAsync(HttpRequest request);
+
+        Task<UserInfoResponseDto> GetModeratorAsync(HttpRequest request);
+
+        Task<UserInfoResponseDto> GetUserRoleAsync(string userName);
     }
 }

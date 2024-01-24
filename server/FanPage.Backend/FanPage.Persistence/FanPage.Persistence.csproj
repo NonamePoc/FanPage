@@ -10,6 +10,7 @@
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
       <PrivateAssets>all</PrivateAssets>
@@ -28,6 +29,15 @@
     <ProjectReference Include="..\FanPage.Common\FanPage.Common.csproj" />
     <ProjectReference Include="..\FanPage.Domain\FanPage.Domain.csproj" />
     <ProjectReference Include="..\FanPage.Exception\FanPage.Exceptions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Context\" />
+    <Folder Include="Migrations\FanficMigration\" />
+    <Folder Include="Repositories\Implementations\FanficRepos\" />
+    <Folder Include="Repositories\Implementations\IdentityRepos\" />
+    <Folder Include="Repositories\Interfaces\IFanfic\" />
+    <Folder Include="Repositories\Interfaces\IIdentity\" />
   </ItemGroup>
 
 </Project>

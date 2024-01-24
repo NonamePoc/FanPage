@@ -9,8 +9,10 @@ public interface ITag
 
     Task<TagDto> SetTagAsync(int fanficId, string name, HttpRequest request);
 
-    Task<TagDto> DeleteTagAsync(int fanficId, string tagName, HttpRequest request);
+    Task DeleteTagAsync(int tagId, HttpRequest request);
 
+    Task<TagDto> DeleteTagFanficAsync(int fanficId, string tagName, HttpRequest request);
+    
     Task<List<TagDto>> GetAllTagFanfic(int fanficId);
 
     Task<List<TagDto>> GetAllTagAsync();

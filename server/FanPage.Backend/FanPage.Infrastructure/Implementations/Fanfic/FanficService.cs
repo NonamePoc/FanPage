@@ -1,11 +1,10 @@
 using AutoMapper;
 using FanPage.Application.Fanfic;
 using FanPage.Common.Interfaces;
+using FanPage.Domain.Fanfic.Repos.Interfaces;
 using FanPage.Exceptions;
 using FanPage.Infrastructure.Extensions;
 using FanPage.Infrastructure.Interfaces.Fanfic;
-using FanPage.Persistence.Repositories.Interfaces;
-using FanPage.Persistence.Repositories.Interfaces.IFanfic;
 using Microsoft.AspNetCore.Http;
 
 namespace FanPage.Infrastructure.Implementations.Fanfic
@@ -36,6 +35,13 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
             var userName = _jwtTokenManager.GetUserNameFromToken(request);
             var fanficDto = _mapper.Map<CreateDto>(createFanfic);
             fanficDto.AuthorName = userName;
+
+            var fanficAlready = await _fanficRepository.GetAllAsync();
+            if (fanficAlready.Any(f => f.Title == fanficDto.Title))
+            {
+                throw new FanficException("Fanfic already exist");
+            }
+
             var fanficResult = await _fanficRepository.CreateAsync(fanficDto);
 
             var fanficPhotoDto = new FanficPhotoDto { FanficId = fanficResult.Id, Image = createFanfic.Image };
@@ -65,7 +71,6 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
                     await _tagRepository.AddTagToFanficAsync(fanficResult.Id, tagDto.TagId);
                 }
             }
-
 
             var result = new FanficDto
             {

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using FanPage.Application.Fanfic;
 using FanPage.Common.Interfaces;
+using FanPage.Domain.Fanfic.Repos.Interfaces;
 using FanPage.Exceptions;
 using FanPage.Infrastructure.Interfaces.Fanfic;
-using FanPage.Persistence.Repositories.Interfaces.IFanfic;
 using Microsoft.AspNetCore.Http;
 
 namespace FanPage.Infrastructure.Implementations.Fanfic;

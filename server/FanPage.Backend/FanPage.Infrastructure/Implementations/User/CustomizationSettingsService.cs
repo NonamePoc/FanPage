@@ -1,5 +1,5 @@
-﻿using FanPage.Domain.Entities.Identity;
-using FanPage.Persistence.Context;
+﻿using FanPage.Domain.User.Context;
+using FanPage.Domain.User.Entities;
 
 namespace FanPage.Infrastructure.Implementations.User
 {
