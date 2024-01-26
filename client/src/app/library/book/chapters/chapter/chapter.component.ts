@@ -1,3 +1,4 @@
+import { RouterLink } from '@angular/router';
 import { Component } from '@angular/core';
 import { CommentsComponent } from './comments/comments.component';
 
@@ -6,6 +7,6 @@ import { CommentsComponent } from './comments/comments.component';
   standalone: true,
   templateUrl: './chapter.component.html',
   styleUrl: './chapter.component.css',
-  imports: [CommentsComponent],
+  imports: [RouterLink, CommentsComponent],
 })
 export class ChapterComponent {}

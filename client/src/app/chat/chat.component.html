@@ -1,9 +1,52 @@
-<h1 class='font-semibold text-lg mb-2'>Chatrooms</h1>
+<div class='flex justify-between'>
+    <h1 class='font-semibold text-lg mb-2'>Chatrooms</h1>
+    <div (click)="onCreateChat()" class='cursor-pointer flex justify-center items-center'>
+        <span class="material-symbols-rounded hover:bg-neutral-200 rounded-full p-1 transition duration-300">
+            add_circle
+        </span>
+    </div>
+</div>
 <div class="grid grid-cols-4 gap-1 mb-2">
-    <div class='h-32 bg-stone-300 rounded'></div>
-    <div class='h-32 bg-stone-300 rounded'></div>
-    <div class='h-32 bg-stone-300 rounded'></div>
-    <div class='h-32 bg-stone-300 rounded'></div>
+    <div
+        class='cursor-pointer relative h-32 bg-sky-400 hover:bg-sky-300 transition duration-300 rounded flex justify-center items-center'>
+        <div class='absolute top-0 right-0 p-2'>
+            <span
+                class="material-symbols-rounded text-neutral-700 hover:bg-neutral-200/50 rounded-full transition duration-300">
+                more_horiz
+            </span>
+        </div>
+        <h2 class='font-semibold'>Chat 1_</h2>
+    </div>
+    <div
+        class='cursor-pointer relative h-32 bg-purple-400 hover:bg-purple-300 transition duration-300 rounded flex justify-center items-center'>
+        <div class='absolute top-0 right-0 p-2'>
+            <span
+                class="material-symbols-rounded text-neutral-700 hover:bg-neutral-200/50 rounded-full transition duration-300">
+                more_horiz
+            </span>
+        </div>
+        <h2 class='font-semibold'>Chat 2_</h2>
+    </div>
+    <div
+        class='cursor-pointer relative h-32 bg-orange-400 hover:bg-orange-300 transition duration-300 rounded flex justify-center items-center'>
+        <div class='absolute top-0 right-0 p-2'>
+            <span
+                class="material-symbols-rounded text-neutral-700 hover:bg-neutral-200/50 rounded-full transition duration-300">
+                more_horiz
+            </span>
+        </div>
+        <h2 class='font-semibold'>Chat 3_</h2>
+    </div>
+    <div
+        class='cursor-pointer relative h-32 bg-rose-400 hover:bg-rose-300 transition duration-300 rounded flex justify-center items-center'>
+        <div class='absolute top-0 right-0 p-2'>
+            <span
+                class="material-symbols-rounded text-neutral-700 hover:bg-neutral-200/50 rounded-full transition duration-300">
+                more_horiz
+            </span>
+        </div>
+        <h2 class='font-semibold'>Chat 4_</h2>
+    </div>
 </div>
 <h1 class='font-semibold text-lg mb-2'>Direct messages</h1>
 <div class='grid lg:grid-cols-2 gap-2'>
@@ -22,3 +65,7 @@
         </div>
     </a>
 </div>
+
+<app-modal modalId='chatFormModal' title='Creating a Chat Room'>
+    <app-edit-chat></app-edit-chat>
+</app-modal>

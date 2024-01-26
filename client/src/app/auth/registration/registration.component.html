@@ -3,7 +3,7 @@
         <div>
             <label for='username' class='pl-1 text-sm text-stone-600 font-medium'>Username</label>
             <input formControlName='username' id='username' placeholder="username" autocomplete='username'
-                class='p-2 rounded border border-neutral-300 w-full focus:bg-slate-100 focus:border-blue-300 transition duration-200' />
+                class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 transition duration-200' />
             <div [ngClass]="{'opacity-100': signupForm.get('username')?.invalid && signupForm.get('username')?.touched}"
                 class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
                 <span *ngIf="signupForm.get('username')?.errors?.['required']">Username cannot be empty</span>
@@ -18,7 +18,7 @@
         <div>
             <label for='email' class='pl-1 text-sm text-stone-600 font-medium'>Email</label>
             <input formControlName='email' type="email" id='email' placeholder="username@email.com" autocomplete='email'
-                class='p-2 rounded border border-neutral-300 w-full focus:bg-slate-100 focus:border-blue-300 transition duration-200' />
+                class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 transition duration-200' />
             <div [ngClass]="{'opacity-100': signupForm.get('email')?.invalid && signupForm.get('email')?.touched}"
                 class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
                 <span>Please enter valid email</span>
@@ -29,13 +29,13 @@
                 <label for='password' class='pl-1 text-sm text-stone-600 font-medium'>Password</label>
                 <input formControlName='password' type="password" id='password' placeholder="***********"
                     autocomplete='new-password'
-                    class='p-2 rounded border border-neutral-300 w-full focus:bg-slate-100 focus:border-blue-300 transition duration-200' />
+                    class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 transition duration-200' />
             </div>
             <div>
                 <label for='confirmPassword' class='pl-1 text-sm text-stone-600 font-medium'>Repeat password</label>
                 <input formControlName='confirmPassword' type="password" id='confirmPassword' placeholder="***********"
                     autocomplete='new-password'
-                    class='p-2 rounded border border-neutral-300 w-full focus:bg-slate-100 focus:border-blue-300 transition duration-200' />
+                    class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 transition duration-200' />
             </div>
 
             <div [ngClass]="{'opacity-100 z-10': signupForm.get('password')?.invalid && signupForm.get('password')?.touched || signupForm.get('confirmPassword')?.invalid && signupForm.get('confirmPassword')?.touched}"

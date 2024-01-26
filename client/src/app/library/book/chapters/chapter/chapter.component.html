@@ -2,25 +2,22 @@
     <img class='object-cover rounded drop-shadow-lg mx-auto h-10 w-10' src="https://picsum.photos/1000"
         alt="Book Image">
     <div class='flex flex-col items-center'>
-        <a href='/pages/book.html'
-            class='text-lg md:text-2xl font-semibold text-neutral-800 hover:text-neutral-600'>Book
+        <a routerLink="/books/1" class='text-lg md:text-2xl font-semibold text-neutral-800 hover:text-neutral-600'>Book
             Title</a>
         <a href='#' class='text-sm text-sky-800'>AllieWoke</a>
     </div>
     <div class='flex items-center'>
-        <a href="/pages/book.html">
+        <a routerLink="/books/1">
             <span
                 class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 transition duration-300">
                 undo
             </span>
         </a>
-        <span
-            class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 transition duration-300">
-            bookmark
-        </span>
-        <span
-            class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 transition duration-300">edit_note
-        </span>
+        <a href="/books/1/chapters/1/edit">
+            <span
+                class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 transition duration-300">edit_note
+            </span>
+        </a>
     </div>
 </section>
 <hr>

@@ -5,6 +5,7 @@
 
 </div>
 <article class='grid sm:grid-cols-[25%_1fr]'>
-    <app-user-details></app-user-details>
+    <app-user-details (modalType)="showFriends($event)"></app-user-details>
     <app-user-works></app-user-works>
 </article>
+<app-friends [type]="modalType"></app-friends>

@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CategoryService } from './category.service';
 import { CommonModule } from '@angular/common';
-import { Category, SelectedCategory } from './category';
-import { DropdownDirective } from '../../../../shared/dropdown.directive';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Category, SelectedCategory } from '../../../models/category.model';
+import { DropdownDirective } from '../../../../shared/dropdown.directive';
 
 @Component({
   selector: 'app-category-selector',

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { FilterComponent } from './book/filter/filter.component';
-import { BookListComponent } from './book/book-list/book-list.component';
+import { FilterComponent } from './filter/filter.component';
+import { BookListComponent } from './book-list/book-list.component';
 
 @Component({
   selector: 'app-library',

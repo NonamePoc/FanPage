@@ -1,4 +1,5 @@
-import { Category } from './edit-book/category-selector/category';
+import { Category } from './category.model';
+import { Chapter } from './chapter.model';
 
 export interface Book {
   id?: number;
@@ -19,10 +20,4 @@ export interface BookFilter {
   status?: string;
   categories?: Category[];
   dateCreated?: string;
-}
-
-export interface Chapter {
-  id: number;
-  title: string;
-  content: string;
 }

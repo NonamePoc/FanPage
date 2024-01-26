@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener } from '@angular/core';
-import { BookService } from '../../book.service';
-import { CategoryService } from '../edit-book/category-selector/category.service';
-import { BookFilter } from '../book';
 import { FormsModule } from '@angular/forms';
-import { Category } from '../edit-book/category-selector/category';
+import { BookService } from '../book.service';
+import { Category } from '../models/category.model';
+import { CategoryService } from '../book/edit-book/category-selector/category.service';
 
 @Component({
   selector: 'app-filter',

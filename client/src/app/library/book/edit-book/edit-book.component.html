@@ -82,7 +82,7 @@
                 <h2 class='mt-1 text-xl font-medium mb-2'>Cover</h2>
                 <div
                     class='relative object-cover h-48 flex flex-col items-center justify-center rounded-md border border-slate-300 w-full bg-slate-200 hover:border-blue-300 transition duration-200'>
-                    <p class='text-sm text-stone-700 text-center px-5'>
+                    <p *ngIf="!bookForm.get('cover')?.value" class='text-sm text-stone-700 text-center px-5'>
                         Choose a high-quality image that accurately
                         reflects the aesthetics and essence
                         of the book.

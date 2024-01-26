@@ -14,14 +14,15 @@
         </a>
     </div>
     <div *ngIf="isListLayout"
-        [ngClass]='{"grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6": !isListLayout, "xl:grid-cols-3": isListLayout} '
+        [ngClass]='{"grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6": !isListLayout, "2xl:grid-cols-3": isListLayout} '
         class='grid gap-2 mt-2'>
-        <a *ngFor='let book of books' routerLink='/books/{{book.id}}' class="max-w-[30rem] cursor-pointer">
+        <a *ngFor='let book of books' routerLink='/books/{{book.id}}'
+            class="max-w-[30rem] cursor-pointer overflow-hidden">
             <div class="flex flex-cols drop-shadow-lg">
                 <img loading="eager"
                     class="object-cover h-[15rem] md:h-[20rem] w-[10rem] md:w-[15rem] rounded-l-xl cursor-pointer transition duration-300"
                     src="https://picsum.photos/1000" alt="Book" />
-                <div class="h-[15rem] md:h-[20rem] bg-neutral-100 p-3 rounded-r-xl grid grid-rows-[1fr_auto] gap-1">
+                <div class="h-[15rem] md:h-[20rem] bg-neutral-50 p-3 rounded-r-xl grid grid-rows-[1fr_auto] gap-1">
                     <div>
                         <h2 class="md:text-lg font-semibold cursor-pointer hover:underline transition duration-300">
                             {{book.title}}

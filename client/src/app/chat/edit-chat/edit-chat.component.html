@@ -1,0 +1,46 @@
+<form [formGroup]="chatForm" (ngSubmit)="onSubmit()">
+    <!-- Place it outside as custom form element -->
+    <div class='grid md:grid-cols-2 gap-2'>
+        <div
+            class='cursor-pointer grid grid-cols-[auto_1fr] gap-1 px-2 py-4 bg-slate-200 hover:bg-slate-300 rounded transition duration-300'>
+            <span class="material-symbols-rounded text-3xl">
+                public
+            </span>
+            <div>
+                <h2 class='font-semibold'>Public</h2>
+                <p class='text-sm'>Anyone can join</p>
+            </div>
+        </div>
+        <div
+            class='cursor-pointer grid grid-cols-[auto_1fr] gap-1 px-2 py-4 bg-slate-200 hover:bg-slate-300 rounded transition duration-300'>
+            <span class="material-symbols-rounded text-3xl">
+                visibility_lock
+            </span>
+            <div>
+                <h2 class='font-semibold'>Private</h2>
+                <p class='text-sm'>Only invited users can join</p>
+            </div>
+        </div>
+    </div>
+
+    <div class='mt-4'>
+        <label for='name' class='font-medium'>Name</label>
+        <input formControlName='name' id='name' placeholder="Enter a name for your chatroom"
+            class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200' />
+        <!-- <div [ngClass]="{'opacity-100': personForm.get('username')?.invalid && personForm.get('username')?.touched}"
+            class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
+            <span *ngIf="personForm.get('username')?.errors?.['required']">Username cannot be empty</span>
+            <span *ngIf="personForm.get('username')?.errors?.['minlength']">
+                This username is too short
+            </span>
+            <span *ngIf="personForm.get('username')?.errors?.['maxlength']">
+                This username is too long
+            </span>
+        </div> -->
+    </div>
+
+    <div class='mt-4'>
+        <label for='name' class='font-medium'>Select the users you want to invite to this chat</label>
+        <app-companions formControlName='users'></app-companions>
+    </div>
+</form>

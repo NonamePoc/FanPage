@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { BookListComponent } from '../../library/book/book-list/book-list.component';
-import { FilterComponent } from '../../library/book/filter/filter.component';
+import { BookListComponent } from '../../library/book-list/book-list.component';
+import { FilterComponent } from '../../library/filter/filter.component';
 
 @Component({
   selector: 'app-user-works',

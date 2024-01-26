@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { LanguageService } from './language.service';
 import { DropdownDirective } from '../../../../shared/dropdown.directive';
-import { Language } from './language';
+import { Language } from './language.model';
 
 @Component({
   selector: 'app-language-selector',

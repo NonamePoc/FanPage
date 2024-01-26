@@ -1,15 +1,19 @@
 <article class=' md:px-4 w-full h-[90vh] p-2 flex grow flex-col overflow-hidden'>
     <div class='flex justify-between items-center p-2 mb-4 border-b border-stone-200'>
-        <span class="material-symbols-rounded cursor-pointer">
-            arrow_back
-        </span>
+        <a routerLink="/chat">
+            <span class="material-symbols-rounded cursor-pointer">
+                arrow_back
+            </span>
+        </a>
         <div class='flex flex-col items-center'>
             <h1 class='text-lg font-medium'>Chat name</h1>
             <p class='text-sm text-stone-600'>2 people</p>
         </div>
+
         <span class="material-symbols-rounded cursor-pointer">
             more_horiz
         </span>
+
     </div>
     <div class='mb-2 flex-1 overflow-auto lg:px-40'>
         <ul class='h-full flex flex-col items-center'>

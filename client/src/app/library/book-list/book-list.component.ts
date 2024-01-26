@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Book } from '../book';
+import { Book } from '../models/book.model';
 import { CommonModule } from '@angular/common';
-import { BookService } from '../../book.service';
+import { BookService } from '../book.service';
 import { RouterLink } from '@angular/router';
 
 @Component({
