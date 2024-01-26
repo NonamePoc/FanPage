@@ -1,4 +1,5 @@
 ﻿using FanPage.Application.Admin;
+using FanPage.Application.Fanfic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
@@ -20,5 +21,7 @@ namespace FanPage.Infrastructure.Interfaces.User
         Task<UserInfoResponseDto> GetModeratorAsync(HttpRequest request);
 
         Task<UserInfoResponseDto> GetUserRoleAsync(string userName);
+
+        Task<List<TagDto>> GetNotApprovedTags();
     }
 }

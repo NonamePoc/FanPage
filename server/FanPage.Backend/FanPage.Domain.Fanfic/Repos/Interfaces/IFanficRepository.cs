@@ -8,16 +8,18 @@ namespace FanPage.Domain.Fanfic.Repos.Interfaces
         Task<Entities.Fanfic> GetByIdAsync(int id);
         Task<List<Entities.Fanfic>> GetByAuthorNameAsync(string id);
         Task<List<Entities.Fanfic>> GetAllAsync();
+
+
         Task<FanficDto> CreateAsync(CreateDto fanfic);
         Task UpdateAsync(UpdateDto fanfic, int fanficId);
         Task DeleteAsync(int id);
         Task<List<Entities.Fanfic>> SearchAsync(string searchString, bool originalFandom);
         Task<ReviewsDto> CreateReviewAsync(int fanficId, ReviewsDto reviewsDto);
-        
+
         Task<ReviewsDto> UpdateReviewAsync(int fanficId, ReviewsDto reviewsDto);
 
         Task DeleteReviewAsync(int fanficId, string userName);
-        
+
         Task<ReviewsDto> GetReviewByFanficIdAsync(int fanficId, string userName);
 
         Task<List<ReviewsDto>> GetAllReviewByFanficIdAsync(int fanficId);

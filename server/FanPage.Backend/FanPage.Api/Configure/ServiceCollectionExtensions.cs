@@ -12,16 +12,6 @@ using FanPage.Infrastructure.Implementations.Fanfic;
 using FanPage.Infrastructure.Implementations.User;
 using FanPage.Infrastructure.Interfaces.Fanfic;
 using FanPage.Infrastructure.Interfaces.User;
-using FanPage.Persistence.Context;
-using FanPage.Persistence.Repositories.Implementations.BookmarkRepos;
-using FanPage.Persistence.Repositories.Implementations.FanficRepos;
-using FanPage.Persistence.Repositories.Implementations.IdentityRepos;
-using FanPage.Persistence.Repositories.Implementations.ProfileRepos;
-using FanPage.Persistence.Repositories.Interfaces;
-using FanPage.Persistence.Repositories.Interfaces.IBookmark;
-using FanPage.Persistence.Repositories.Interfaces.IFanfic;
-using FanPage.Persistence.Repositories.Interfaces.IIdentity;
-using FanPage.Persistence.Repositories.Interfaces.IProfile;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -219,7 +209,6 @@ namespace FanPage.Api.Configure
             services.AddSingleton(configuration.GetSection("SmtpConfiguration").Get<SmtpConfiguration>());
             services.AddSingleton<IEmailService, FanPage.EmailService.Implementations.EmailService>();
 
-            //services.AddHostedService<SmtpConsumerRabbitHostedServices>();
             return services;
         }
 

@@ -27,7 +27,7 @@ namespace FanPage.Domain.Fanfic.Repos.Impl
 
             return reviews.Average(x => x.Rating);
         }
-
+        
         public async Task<Entities.Fanfic> GetByIdAsync(int id)
         {
             return await _fanficContext.Fanfic

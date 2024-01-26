@@ -10,7 +10,9 @@ using FanPage.Application.Account;
 using FanPage.Application.Admin;
 using FanPage.Application.Auth;
 using FanPage.Application.Fanfic;
+using FanPage.Application.UserProfile;
 using FanPage.Domain.Fanfic.Entities;
+using FanPage.Domain.User.Entities;
 
 namespace FanPage.Api.Mapper
 {

@@ -26,7 +26,8 @@ namespace FanPage.Infrastructure.Implementations.User
         private readonly CustomizationSettingsService _customizationSettingsService;
 
         public AccountServiсe(CustomizationSettingsService customizationSettingsService,
-            IPasswordManager passwordManager, SignInManager<Domain.User.Entities.User> signInManager, IJwtTokenManager jwtTokenManager,
+            IPasswordManager passwordManager, SignInManager<Domain.User.Entities.User> signInManager,
+            IJwtTokenManager jwtTokenManager,
             IdentityUserManager identityUser, IEmailService emailService)
         {
             _userManager = identityUser;
@@ -194,6 +195,7 @@ namespace FanPage.Infrastructure.Implementations.User
                 Email = registration.Email,
                 UserName = registration.UserName,
                 CustomizationSettingsId = customizationSettingId,
+                WhoBan = "None"
             };
 
             if (registration.UserName != null && await _userManager.FindByNameAsync(registration.UserName) != null)

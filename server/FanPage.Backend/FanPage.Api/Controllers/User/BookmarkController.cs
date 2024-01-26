@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using FanPage.Api.JsonResponse;
-using FanPage.Api.ViewModels.User;
-using FanPage.Application.Admin;
-using FanPage.Application.UserProfile;
-using FanPage.Domain.Entities.Identity;
+﻿using FanPage.Api.JsonResponse;
 using FanPage.Infrastructure.Interfaces.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,17 +11,16 @@ namespace FanPage.Api.Controllers.User
     {
         private const string Route = "v1/bookmark";
         private readonly IBookmark _bookmark;
-        private readonly IMapper _mapper;
-        public BookmarkController(IBookmark bookmark, IMapper mapper) 
+
+        public BookmarkController(IBookmark bookmark)
         {
             _bookmark = bookmark;
-            _mapper = mapper;
-
         }
+
         /// <summary>
         /// Add Bookmark
         /// </summary>
-        /// <param name="id">id of titel wich user want to add to list of bookmarks</param>
+        /// <param name="fanficId">id of titel wich user want to add to list of bookmarks</param>
         /// <returns>status 200</returns>
         [HttpPost]
         [Route("Add")]
@@ -34,15 +28,16 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Add(int titelId)
+        public async Task<IActionResult> Add(int fanficId)
         {
-            await _bookmark.Add(HttpContext.Request, titelId);
+            await _bookmark.Add(HttpContext.Request, fanficId);
             return Ok();
         }
+
         /// <summary>
         /// Delete Bookmark
         /// </summary>
-        /// <param name="id">id of titel wich user want to remove from list of bookmarks</param>
+        /// <param name="fanficId">id of titel wich user want to remove from list of bookmarks</param>
         /// <returns>status 200</returns>
         [HttpDelete]
         [Route("Delete")]
@@ -50,11 +45,12 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Delete(int titelId)
+        public async Task<IActionResult> Delete(int fanficId)
         {
-            await _bookmark.Delete(HttpContext.Request, titelId);
+            await _bookmark.Delete(HttpContext.Request, fanficId);
             return Ok();
         }
+
         /// <summary>
         /// Bookmarks List
         /// </summary>

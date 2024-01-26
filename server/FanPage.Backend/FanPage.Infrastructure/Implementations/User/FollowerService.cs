@@ -1,37 +1,41 @@
 ﻿using FanPage.Application.UserProfile;
+using FanPage.Common.Interfaces;
+using FanPage.Domain.User.Repos.Interfaces;
 using FanPage.Infrastructure.Interfaces.User;
-using FanPage.Persistence.Repositories.Interfaces.IProfile;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 
 namespace FanPage.Infrastructure.Implementations.User
 {
     public class FollowerService : IFollower
     {
         private readonly IFollowerRepository _repository;
+        private readonly IJwtTokenManager _jwtTokenManager;
 
-        public FollowerService(IFollowerRepository repository)
+        public FollowerService(IFollowerRepository repository, IJwtTokenManager jwtTokenManager)
         {
             _repository = repository;
+            _jwtTokenManager = jwtTokenManager;
         }
 
         public async Task<List<FollowerDto>> FollowerList(HttpRequest request)
         {
-            var list = await _repository.FollowerList(request);
+            var userName = _jwtTokenManager.GetUserNameFromToken(request);
+            var list = await _repository.FollowerList(userName);
             return list;
         }
 
-        public async Task<bool> Subscribe(HttpRequest request, string userName)
+        public async Task<bool> Subscribe(HttpRequest request, int followerUserId)
         {
-            await _repository.Subscribe(request, userName);
+            var userId = _jwtTokenManager.GetUserNameFromToken(request);
+
+            await _repository.Subscribe(followerUserId, userId);
             return true;
-
-
         }
 
-        public async Task<bool> Unsubscribe(HttpRequest request, string userName)
+        public async Task<bool> Unsubscribe(HttpRequest request, int followerUserId)
         {
-            await _repository.Unsubscribe(request, userName);
+            var userName = _jwtTokenManager.GetUserNameFromToken(request);
+            await _repository.Unsubscribe(followerUserId, userName);
             return true;
         }
     }

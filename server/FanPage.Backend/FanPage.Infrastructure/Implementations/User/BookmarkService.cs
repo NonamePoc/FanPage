@@ -1,36 +1,47 @@
 ﻿using FanPage.Application.UserProfile;
 using FanPage.Common.Interfaces;
+using FanPage.Domain.Fanfic.Repos.Interfaces;
+using FanPage.Domain.User.Repos.Interfaces;
 using FanPage.Infrastructure.Interfaces.User;
-using FanPage.Persistence.Repositories.Interfaces.IBookmark;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 
 namespace FanPage.Infrastructure.Implementations.User
 {
     public class BookmarkService : IBookmark
     {
         private readonly IBookmarkRepository _bookmarkRepository;
-        public BookmarkService(IBookmarkRepository bookmarkRepository)
+        private readonly IJwtTokenManager _jwtTokenManager;
+        private readonly IFanficRepository _fanficRepository;
+
+        public BookmarkService(IBookmarkRepository bookmarkRepository, IJwtTokenManager jwtTokenManager,
+            IFanficRepository fanficRepository)
         {
             _bookmarkRepository = bookmarkRepository;
-
+            _jwtTokenManager = jwtTokenManager;
+            _fanficRepository = fanficRepository;
         }
 
-        public async Task<bool> Add(HttpRequest request, int titelId)
+        public async Task<bool> Add(HttpRequest request, int fanficId)
         {
-            await _bookmarkRepository.Add(request, titelId);
+            var userName = _jwtTokenManager.GetUserNameFromToken(request);
+            if (userName == null) throw new Exception("User not found");
+            var fanfic = await _fanficRepository.GetByIdAsync(fanficId);
+            if (fanfic == null) throw new Exception("Fanfic not found");
+            await _bookmarkRepository.Add(userName, fanficId);
             return true;
         }
 
         public async Task<List<BookmarkDto>> BookmarkList(HttpRequest request)
         {
-            var list = await _bookmarkRepository.BookmarkList(request);
+            var userId = _jwtTokenManager.GetUserIdFromToken(request);
+            var list = await _bookmarkRepository.BookmarkList(userId);
             return list;
         }
 
-        public async Task<bool> Delete(HttpRequest request, int titelId)
+        public async Task<bool> Delete(HttpRequest request, int fanficId)
         {
-            await _bookmarkRepository.Delete(request, titelId);
+            var userId = _jwtTokenManager.GetUserIdFromToken(request);
+            await _bookmarkRepository.Delete(userId, fanficId);
             return true;
         }
     }
