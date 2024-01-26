@@ -32,6 +32,27 @@
 - Add repos Tag,Category,Photo,Fanfic,Review,Chapter
 - Add method global rating fanfic( average review) 
 - Add Fanfic detail (controller management get method from fanfic )
+
+## Version 1.0.0 Teslewitch Mihailp(11.01.2024)
+-Add User Profile:
+	-Change email and change password remove frome Account Controller to Profile Controller
+	-Add Friend list
+	-Add Request for friendship
+	-Add Cansel request for friendship
+	-Add Accept request for friendship
+	-Add List of request that user send to other users
+	-Add List of users than send request to user
+	-Add Remove friend
+	-Add Follower list
+	-Add Subcribe
+	-Add Unsubcribe
+-Add Bookmarks: 
+	-Bookmarks list
+	-Add bookmark
+	-Remove bookmark
+-Add change in Admin menu:
+	-Add info about user
+	-Add info about ban
 ## Version 1.0.0 Pavlo Shaban (24.01.2023)
 - Add Cors setting 
 - Add SignalR (commentHub, chatHub)

@@ -21,6 +21,7 @@ namespace FanPage.Api.Mapper
             RegisterAuthMaps();
             AdminMaps();
             FanficAuthMaps();
+            ProfileMaps();
         }
 
         private void RegisterAuthMaps()
@@ -42,6 +43,14 @@ namespace FanPage.Api.Mapper
             CreateMap<ChangeRoleModel, ChangeRoleDto>();
             CreateMap<UserInfoResponseDto, UserInfoViewModel>();
         }
+        private void ProfileMaps()
+        {
+            CreateMap<Friendship, FriendDto>();
+            CreateMap<FriendRequest, FriendRequestDto>();
+            CreateMap<Follower, FollowerDto>();
+            CreateMap<Bookmark, BookmarkDto>();
+        }
+        
 
         private void FanficAuthMaps()
         {

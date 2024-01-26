@@ -94,24 +94,6 @@ namespace FanPage.Api.Controllers.User
         }
 
         /// <summary>
-        ///  Change email
-        /// </summary>
-        /// <param name="content">Model change email</param>
-        /// <returns></returns>
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("changeEmail")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
-        [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-        public async Task<IActionResult> ChangeEmail([FromQuery] ChangeEmailModel content)
-        {
-            var dto = _mapper.Map<ChangeEmailDto>(content);
-            await _accountService.ChangeEmail(dto);
-            return Ok();
-        }
-
-        /// <summary>
         ///  Request restore password to email
         /// </summary>
         /// <param name="content">Model request restore password</param>
@@ -154,23 +136,6 @@ namespace FanPage.Api.Controllers.User
             return Ok();
         }
 
-        /// <summary>
-        ///  Change password
-        /// </summary>
-        /// <param name="content">Model to change password</param>
-        /// <returns></returns>
-        [HttpPut]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        [Route("changePassword")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(401)]
-        [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
-        [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-        public async Task<IActionResult> ChangePassword([FromBody] PasswordChangeModel content)
-        {
-            var dto = _mapper.Map<ChangePasswordDto>(content);
-            await _accountService.ChangePassword(dto, HttpContext.Request);
-            return Ok();
-        }
+        
     }
 }

@@ -7,10 +7,11 @@ namespace FanPage.Infrastructure.Interfaces.User
     public interface IAdmin
     {
         Task<bool> Delete(string Id);
-        Task<bool> Ban(BanDto user);
+        Task<bool> Ban(BanDto user, HttpRequest request);
         Task<bool> Unban(string Id);
         Task<IdentityResult> ChangeRole(ChangeRoleDto user);
-        Task<UserInfoResponseDto> GetUserInformation(string Id);
+        Task<List<UserBanInfoResponseDto>> GetUserInBan();
+        Task<List<UserInfoResponseDto>> AllUsers();
 
         Task<bool> ApproveTag(int tagId, HttpRequest request);
 
