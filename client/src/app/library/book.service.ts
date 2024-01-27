@@ -143,4 +143,19 @@ export class BookService {
       return true;
     });
   }
+
+  searchBooks(value: string) {
+    this.filteredBooks = this.books.filter((book) => {
+      return (
+        book.title.toLowerCase().includes(value.toLowerCase()) ||
+        book.description.toLowerCase().includes(value.toLowerCase()) ||
+        (book.imageCover &&
+          book.imageCover.toLowerCase().includes(value.toLowerCase())) ||
+        book.author.toLowerCase().includes(value.toLowerCase()) ||
+        book.language.toLowerCase().includes(value.toLowerCase()) ||
+        book.date.toLowerCase().includes(value.toLowerCase())
+      );
+    });
+    return this.filteredBooks;
+  }
 }
