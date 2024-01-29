@@ -1,4 +1,5 @@
 ﻿using FanPage.Application.Account;
+using FanPage.Application.Auth;
 using FanPage.Common.Interfaces;
 using FanPage.Domain.User.Entities;
 using FanPage.EmailService.Interfaces;
@@ -37,7 +38,7 @@ namespace FanPage.Infrastructure.Implementations.User
             _passwordManager = passwordManager;
             _customizationSettingsService = customizationSettingsService;
         }
-
+        
         public async Task ConfirmEmail(ConfirmEmailDto confirmEmail)
         {
             var user = await _userManager.FindByEmailAsync(confirmEmail.Email);
@@ -58,6 +59,28 @@ namespace FanPage.Infrastructure.Implementations.User
             }
         }
 
+        public async Task<LogInResponseDto>  GetUserInfo (string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+
+            if (user is null)
+                throw new UserNotFoundException("User not found");
+
+            var role = await _userManager.GetRolesAsync(user);
+
+            var token = await _jwtTokenManager.GenerateToken(user);
+            return new LogInResponseDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = user.UserName,
+                Token = token,
+                Role = role.FirstOrDefault(),
+                WhoBan = user.WhoBan,
+                UserAvatar = user.UserAvatar,
+            };
+        }
+        
         public async Task ChangeEmail(ChangeEmailDto changeEmail)
         {
             var user = await _userManager.FindByEmailAsync(changeEmail.Email);
@@ -239,5 +262,7 @@ namespace FanPage.Infrastructure.Implementations.User
                 await _emailService.SendAsync(email);
             }
         }
+        
+        
     }
 }

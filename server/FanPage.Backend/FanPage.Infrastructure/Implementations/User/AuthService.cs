@@ -27,6 +27,10 @@ namespace FanPage.Infrastructure.Implementations.User
         {
             var user = await _userManager.FindByEmailAsync(authDto.Email);
 
+
+            var userRole = await _userManager.GetRolesAsync(user);
+
+
             if (user is null)
                 throw new LogInException("Wrong login or password");
 
@@ -41,7 +45,11 @@ namespace FanPage.Infrastructure.Implementations.User
                 Id = user.Id,
                 Email = user.Email,
                 Name = user.UserName,
-                Token = token
+                Token = token,
+                Role = userRole.FirstOrDefault(),
+                WhoBan = user.WhoBan,
+                UserAvatar = user.UserAvatar,
+                LifeTimeToken =  DateTime.UtcNow.AddDays(7)
             };
         }
 

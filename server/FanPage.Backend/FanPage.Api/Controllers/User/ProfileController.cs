@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using FanPage.Api.JsonResponse;
 using FanPage.Api.Models.Account;
+using FanPage.Api.ViewModels.User;
 using FanPage.Application.Account;
+using FanPage.Application.Auth;
 using FanPage.Infrastructure.Interfaces.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -58,6 +60,19 @@ namespace FanPage.Api.Controllers.User
             return Ok();
         }
 
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Route("getProfile")]
+        [ProducesResponseType(typeof(JsonResponseContainer<LogInViewModel>), 200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
+        [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+        public async Task<IActionResult> GetProfile([FromHeader] string userName)
+        {
+            var retrieval = await _accountService.GetUserInfo(userName);
+            var response = _mapper.Map<LogInResponseDto>(retrieval);
+            return Ok(response);
+        }
 
     }
 }

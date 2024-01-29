@@ -1,4 +1,5 @@
 ﻿using FanPage.Application.Account;
+using FanPage.Application.Auth;
 using Microsoft.AspNetCore.Http;
 
 namespace FanPage.Infrastructure.Interfaces.User
@@ -18,5 +19,7 @@ namespace FanPage.Infrastructure.Interfaces.User
         Task RestorePassword(RestorePasswordDto restore);
 
         Task RequestToChangeEmail(RequestToChangeEmailDto changeEmail, HttpRequest request);
+
+        Task<LogInResponseDto> GetUserInfo(string userId);
     }
 }
