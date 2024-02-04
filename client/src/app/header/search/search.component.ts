@@ -14,11 +14,7 @@ export class SearchComponent {
   constructor(private bookService: BookService) {}
 
   search(value: string) {
-    if (value.length > 0) {
-      this.results = this.bookService.searchBooks(value);
-    } else {
-      this.clearResults();
-    }
+    this.results = this.bookService.searchBooks(value);
   }
 
   clearResults() {
