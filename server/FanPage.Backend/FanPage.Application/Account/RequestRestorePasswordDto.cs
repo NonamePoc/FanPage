@@ -1,11 +1,4 @@
-﻿// Ignore Spelling: Dto
-
-using FanPage.Application.Url;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FanPage.Application.Url;
 
 namespace FanPage.Application.Account
 {

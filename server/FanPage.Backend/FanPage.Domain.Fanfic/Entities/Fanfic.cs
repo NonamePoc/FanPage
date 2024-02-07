@@ -20,7 +20,7 @@ namespace FanPage.Domain.Fanfic.Entities
 
         public ICollection<Comment> Comments { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public bool OriginFandom { get; set; }
 

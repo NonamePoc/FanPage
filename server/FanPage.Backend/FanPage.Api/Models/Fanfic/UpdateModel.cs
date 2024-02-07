@@ -1,6 +1,4 @@
-﻿using FanPage.Application.Fanfic;
-
-namespace FanPage.Api.Models.Fanfic
+﻿namespace FanPage.Api.Models.Fanfic
 {
     public class UpdateModel
     {

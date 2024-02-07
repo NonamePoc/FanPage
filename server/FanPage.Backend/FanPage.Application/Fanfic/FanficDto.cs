@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FanPage.Application.Fanfic
+﻿namespace FanPage.Application.Fanfic
 {
     public class FanficDto
     {
@@ -22,9 +16,9 @@ namespace FanPage.Application.Fanfic
 
         public List<CategoryDto>? Categories { get; set; }
         public List<TagDto>? Tags { get; set; }
-        
+
         public List<ChapterDto>? Chapters { get; set; }
-        
+
         public List<ReviewsDto>? Reviews { get; set; }
     }
 }

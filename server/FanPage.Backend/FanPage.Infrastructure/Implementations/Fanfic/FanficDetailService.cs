@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using FanPage.Application.Fanfic;
-using FanPage.Common.Interfaces;
+﻿using FanPage.Application.Fanfic;
 using FanPage.Domain.Fanfic.Repos.Interfaces;
 using FanPage.Infrastructure.Interfaces.Fanfic;
 using Microsoft.AspNetCore.Http;
@@ -11,15 +9,9 @@ public class FanficDetailService : IFanficDetail
 {
     private readonly IFanficRepository _fanficRepository;
 
-    private readonly IMapper _mapper;
-
-    private readonly IJwtTokenManager _jwtTokenManager;
-
-    public FanficDetailService(IFanficRepository fanficRepository, IMapper mapper, IJwtTokenManager jwtTokenManager)
+    public FanficDetailService(IFanficRepository fanficRepository)
     {
         _fanficRepository = fanficRepository;
-        _mapper = mapper;
-        _jwtTokenManager = jwtTokenManager;
     }
 
     public async Task<List<FanficDto>> GetAllAsync(int count)

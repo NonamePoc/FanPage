@@ -1,5 +1,4 @@
-﻿
-namespace FanPage.Common.Configurations
+﻿namespace FanPage.Common.Configurations
 {
     public class JwtConfiguration
     {

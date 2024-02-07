@@ -19,7 +19,8 @@ namespace FanPage.Infrastructure.Implementations.User
             _jwtTokenManager = jwtTokenManager;
         }
 
-        public async Task<CustomUserSettingDto> ChangeBannerImage(int customizationSettingsId, byte[] bannerImage, HttpRequest request)
+        public async Task<CustomUserSettingDto> ChangeBannerImage(int customizationSettingsId, byte[] bannerImage,
+            HttpRequest request)
         {
             var customizationSettings = await _customizationSettings.GetCustomizationSettings(customizationSettingsId);
 
@@ -30,7 +31,7 @@ namespace FanPage.Infrastructure.Implementations.User
             if (userId != null) throw new Exception("User not found");
 
             await _customizationSettings.ChangeBannerImage(customizationSettingsId, bannerImage);
-            
+
             return new CustomUserSettingDto
             {
                 BannerImage = bannerImage,

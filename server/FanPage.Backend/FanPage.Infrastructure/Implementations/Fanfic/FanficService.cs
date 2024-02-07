@@ -1,4 +1,3 @@
-using AutoMapper;
 using FanPage.Application.Fanfic;
 using FanPage.Common.Interfaces;
 using FanPage.Domain.Fanfic.Repos.Interfaces;
@@ -16,15 +15,13 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
         private readonly IFanficPhotoRepository _fanficPhotoRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly ITagRepository _tagRepository;
-        private readonly IMapper _mapper;
 
-        public FanficService(IJwtTokenManager jwtTokenManager, IFanficRepository fanficRepository, IMapper mapper,
+        public FanficService(IJwtTokenManager jwtTokenManager, IFanficRepository fanficRepository,
             IFanficPhotoRepository fanficPhotoRepository, ICategoryRepository categoryRepository,
             ITagRepository tagRepository)
         {
             _jwtTokenManager = jwtTokenManager;
             _fanficRepository = fanficRepository;
-            _mapper = mapper;
             _fanficPhotoRepository = fanficPhotoRepository;
             _categoryRepository = categoryRepository;
             _tagRepository = tagRepository;
@@ -33,21 +30,18 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
         public async Task<FanficDto> CreateAsync(CreateDto createFanfic, HttpRequest request)
         {
             var userName = _jwtTokenManager.GetUserNameFromToken(request);
-            var fanficDto = _mapper.Map<CreateDto>(createFanfic);
-            fanficDto.AuthorName = userName;
+            createFanfic.AuthorName = userName;
 
             var fanficAlready = await _fanficRepository.LocalGetAllAsync();
-            if (fanficAlready.Any(f => f.Title == fanficDto.Title))
+            if (fanficAlready.Any(f => f.Title == createFanfic.Title))
             {
-                throw new FanficException("Fanfic already exist");
+                throw new FanficException("Fanfic already exists");
             }
 
-            var fanficResult = await _fanficRepository.CreateAsync(fanficDto);
+            var fanficResult = await _fanficRepository.CreateAsync(createFanfic);
 
             var fanficPhotoDto = new FanficPhotoDto { FanficId = fanficResult.Id, Image = createFanfic.Image };
-
             await _fanficPhotoRepository.CreateAsync(fanficPhotoDto);
-
 
             foreach (var categoryName in createFanfic.Categories.OrEmptyIfNull())
             {
@@ -55,7 +49,8 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
                 await _categoryRepository.AddCategoryToFanficAsync(fanficResult.Id, categoryDto.CategoryId);
             }
 
-            foreach (var tagName in createFanfic.Tags.OrEmptyIfNull().Where(tagName => !string.IsNullOrEmpty(tagName)))
+            foreach (var tagName in createFanfic.Tags.OrEmptyIfNull()
+                         .Where(tagName => !string.IsNullOrEmpty(tagName)))
             {
                 var existingTag = await _tagRepository.GetByNameAsync(tagName);
                 if (existingTag == null)
@@ -71,45 +66,33 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
                 }
             }
 
+            var categoryFanfic = await _categoryRepository.GetAllCategoryByFanficIdAsync(fanficResult.Id);
+            var tagFanfic = await _tagRepository.GetTagsByFanficIdAsync(fanficResult.Id);
+
+
             var result = new FanficDto
             {
                 Id = fanficResult.Id,
                 Title = createFanfic.Title,
-                AuthorName = fanficDto.AuthorName,
+                AuthorName = createFanfic.AuthorName,
                 Image = createFanfic.Image ?? Array.Empty<byte>(),
                 Stage = createFanfic.Stage,
                 Language = createFanfic.Language,
                 Description = createFanfic.Description,
                 OriginFandom = createFanfic.OriginFandom,
                 CreationDate = fanficResult.CreationDate,
-                Categories = fanficResult.Categories?.Select(c => new CategoryDto
+                Categories = categoryFanfic?.Select(c => new CategoryDto
                 {
                     Name = c.Name,
                     CategoryId = c.CategoryId
                 }).ToList(),
-                Tags = fanficResult.Tags?.Select(t => new TagDto
+                Tags = tagFanfic?.Select(t => new TagDto
                 {
                     Name = t.Name,
                     TagId = t.TagId,
                     IsApproved = t.IsApproved
                 }).ToList(),
-                Chapters = fanficResult.Chapters?.Select(ch => new ChapterDto
-                {
-                    FanficId = fanficResult.Id,
-                    Title = ch.Title,
-                    Content = ch.Content
-                }).ToList(),
-                Reviews = fanficResult.Reviews?.Select(r => new ReviewsDto
-                {
-                    FanficId = fanficResult.Id,
-                    ReviewId = r.ReviewId,
-                    Text = r.Text,
-                    CreationDate = r.CreationDate,
-                    UserName = r.UserName,
-                    Rating = r.Rating
-                }).Where(r => r.FanficId == fanficResult.Id).ToList()
             };
-
             return result;
         }
 

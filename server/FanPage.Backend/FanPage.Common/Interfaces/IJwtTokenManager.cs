@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace FanPage.Common.Interfaces
 {
@@ -21,9 +17,9 @@ namespace FanPage.Common.Interfaces
         string GetUserIdFromToken(HttpRequest request);
 
         string GetUserNameFromToken(HttpRequest request);
-        
+
         Task<string> GoogleLogin(string googleToken);
-        
+
         Task<string> DecodeTokenAndGetEmail(string token);
     }
 }

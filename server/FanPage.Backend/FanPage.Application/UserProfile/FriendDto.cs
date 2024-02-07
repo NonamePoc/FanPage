@@ -1,6 +1,4 @@
-﻿using FanPage.Application.Fanfic;
-
-namespace FanPage.Application.UserProfile
+﻿namespace FanPage.Application.UserProfile
 {
     public class FriendDto
     {

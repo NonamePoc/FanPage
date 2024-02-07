@@ -1,11 +1,11 @@
-﻿using FanPage.Api.Models.Fanfic;
+﻿using FanPage.Application.Fanfic;
 
 namespace FanPage.Api.ViewModels.Fanfic;
 
 public class FanficViewModel
 {
     public string? Id { get; set; }
-    
+
     public string? Title { get; set; }
 
     public string? Description { get; set; }
@@ -20,9 +20,7 @@ public class FanficViewModel
 
     public string? Language { get; set; }
 
-    public List<string> Categories { get; set; }
+    public List<CategoryDto> Categories { get; set; }
 
-    public List<string> Tags { get; set; }
-
-    public List<ChapterModel> Chapter { get; set; }
+    public List<TagDto> Tags { get; set; }
 }

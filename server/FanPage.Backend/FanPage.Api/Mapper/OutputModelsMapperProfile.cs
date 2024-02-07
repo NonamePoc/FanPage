@@ -90,6 +90,21 @@ namespace FanPage.Api.Mapper
             CreateMap<Tag, TagDto>();
             CreateMap<FanficTag, TagDto>();
 
+            CreateMap<Category, CategoryDto>();
+            CreateMap<Tag, TagDto>();
+            CreateMap<CreateModel, CreateDto>()
+                .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.Categories))
+                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Tags));
+
+
+            CreateMap<List<Tag>, List<TagDto>>()
+                .ConvertUsing(tags => tags.Select(tag => new TagDto
+                {
+                    TagId = tag.TagId,
+                    Name = tag.Name,
+                    IsApproved = tag.IsApproved
+                }).ToList());
+
             CreateMap<Reviews, ReviewsDto>()
                 .ForMember(dest => dest.FanficId, opt => opt.MapFrom(src => src.FanficId))
                 .ForMember(dest => dest.ReviewId, opt => opt.MapFrom(src => src.ReviewId))
