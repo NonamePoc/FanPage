@@ -93,6 +93,7 @@ namespace FanPage.Api.Configure
             services.AddScoped<IFriendRepository, FriendRepository>();
             services.AddScoped<IFollowerRepository, FollowerRepository>();
             services.AddScoped<IBookmarkRepository, BookmarksRepository>();
+            services.AddScoped<ICustomizationSettingsRepository, CustomizationSettingsRepository>();
             return services;
         }
 
@@ -120,6 +121,7 @@ namespace FanPage.Api.Configure
             IConfiguration configuration)
         {
             var jwtConfig = configuration.GetSection("JwtConfiguration").Get<JwtConfiguration>();
+            var googleConfig = configuration.GetSection("GoogleConfiguration").Get<GoogleConfiguration>();
 
             services.AddSingleton<IPasswordSettings>(s =>
                 new UserPasswordSettings(true, true, true, true, 16, int.MaxValue, false));
@@ -136,6 +138,11 @@ namespace FanPage.Api.Configure
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Key));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddGoogle(options =>
+                {
+                    options.ClientId = googleConfig.GoogleClientId;
+                    options.ClientSecret = googleConfig.GoogleClientSecret;
+                })
                 .AddJwtBearer(
                     opt =>
                     {
@@ -193,6 +200,7 @@ namespace FanPage.Api.Configure
             services.AddScoped<IFriend, FriendService>();
             services.AddScoped<IFollower, FollowerService>();
             services.AddScoped<IBookmark, BookmarkService>();
+            services.AddScoped<ICustomizationSettings, CustomizationSettingsService>();
             return services;
         }
 

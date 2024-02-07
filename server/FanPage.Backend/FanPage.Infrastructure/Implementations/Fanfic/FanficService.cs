@@ -36,7 +36,7 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
             var fanficDto = _mapper.Map<CreateDto>(createFanfic);
             fanficDto.AuthorName = userName;
 
-            var fanficAlready = await _fanficRepository.GetAllAsync();
+            var fanficAlready = await _fanficRepository.LocalGetAllAsync();
             if (fanficAlready.Any(f => f.Title == fanficDto.Title))
             {
                 throw new FanficException("Fanfic already exist");
@@ -45,10 +45,9 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
             var fanficResult = await _fanficRepository.CreateAsync(fanficDto);
 
             var fanficPhotoDto = new FanficPhotoDto { FanficId = fanficResult.Id, Image = createFanfic.Image };
-            if (fanficPhotoDto.Image != null)
-            {
-                await _fanficPhotoRepository.CreateAsync(fanficPhotoDto);
-            }
+
+            await _fanficPhotoRepository.CreateAsync(fanficPhotoDto);
+
 
             foreach (var categoryName in createFanfic.Categories.OrEmptyIfNull())
             {
@@ -77,18 +76,38 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
                 Id = fanficResult.Id,
                 Title = createFanfic.Title,
                 AuthorName = fanficDto.AuthorName,
-                Image = createFanfic.Image,
+                Image = createFanfic.Image ?? Array.Empty<byte>(),
                 Stage = createFanfic.Stage,
                 Language = createFanfic.Language,
                 Description = createFanfic.Description,
                 OriginFandom = createFanfic.OriginFandom,
                 CreationDate = fanficResult.CreationDate,
-                Categories = createFanfic.Categories
-                    ?.Select(categoryName => new FanficCategoryDto { CategoryName = categoryName })
-                    .Select(s => s.CategoryName)
-                    .ToList(),
-                Tags = createFanfic.Tags?.Select(tagName => new FanficTagDto { TagName = tagName })
-                    .Select(s => s.TagName).ToList(),
+                Categories = fanficResult.Categories?.Select(c => new CategoryDto
+                {
+                    Name = c.Name,
+                    CategoryId = c.CategoryId
+                }).ToList(),
+                Tags = fanficResult.Tags?.Select(t => new TagDto
+                {
+                    Name = t.Name,
+                    TagId = t.TagId,
+                    IsApproved = t.IsApproved
+                }).ToList(),
+                Chapters = fanficResult.Chapters?.Select(ch => new ChapterDto
+                {
+                    FanficId = fanficResult.Id,
+                    Title = ch.Title,
+                    Content = ch.Content
+                }).ToList(),
+                Reviews = fanficResult.Reviews?.Select(r => new ReviewsDto
+                {
+                    FanficId = fanficResult.Id,
+                    ReviewId = r.ReviewId,
+                    Text = r.Text,
+                    CreationDate = r.CreationDate,
+                    UserName = r.UserName,
+                    Rating = r.Rating
+                }).Where(r => r.FanficId == fanficResult.Id).ToList()
             };
 
             return result;
@@ -132,32 +151,41 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
 
             return new FanficDto()
             {
-                Id = fanficId,
-                AuthorName = userName,
+                Id = fanfic.Id,
+                AuthorName = fanfic.AuthorName,
                 Title = fanfic.Title,
                 Description = fanfic.Description,
                 OriginFandom = fanfic.OriginFandom,
                 Stage = fanfic.Stage,
                 Language = fanfic.Language,
                 CreationDate = fanfic.CreationDate,
-                Image = resultPhoto.Image,
-                Categories = fanfic.FanficCategories.Select(s => s.Category.Name).ToList(),
-                Tags = fanfic.FanficTags.Select(s => s.Tag.Name).ToList(),
-                Chapters = fanfic.Chapters.Select(s => new ChapterDto()
+                Image = fanfic.Image,
+                Categories = fanfic.Categories?.Select(c => new CategoryDto
                 {
-                    FanficId = fanficId,
-                    Title = s.Title,
-                    Content = s.Content,
+                    Name = c.Name,
+                    CategoryId = c.CategoryId
                 }).ToList(),
-                Reviews = fanfic.Reviews.Select(s => new ReviewsDto()
+                Tags = fanfic.Tags?.Select(t => new TagDto
                 {
-                    FanficId = fanfic.FanficId,
-                    ReviewId = s.ReviewId,
-                    Text = s.Text,
-                    CreationDate = s.CreationDate,
-                    UserName = s.UserName,
-                    Rating = s.Rating,
-                }).Where(w => w.FanficId == fanfic.FanficId).ToList()
+                    Name = t.Name,
+                    TagId = t.TagId,
+                    IsApproved = t.IsApproved
+                }).ToList(),
+                Chapters = fanfic.Chapters?.Select(ch => new ChapterDto
+                {
+                    FanficId = fanfic.Id,
+                    Title = ch.Title,
+                    Content = ch.Content
+                }).ToList(),
+                Reviews = fanfic.Reviews?.Select(r => new ReviewsDto
+                {
+                    FanficId = fanfic.Id,
+                    ReviewId = r.ReviewId,
+                    Text = r.Text,
+                    CreationDate = r.CreationDate,
+                    UserName = r.UserName,
+                    Rating = r.Rating
+                }).Where(r => r.FanficId == fanfic.Id).ToList()
             };
         }
 

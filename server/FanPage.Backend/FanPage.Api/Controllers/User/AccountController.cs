@@ -48,6 +48,18 @@ namespace FanPage.Api.Controllers.User
             return Ok();
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("google-registration")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
+        [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+        public async Task<IActionResult> GoogleRegistration(string googleToken)
+        {
+            await _accountService.GoogleRegistration(googleToken);
+            return Ok();
+        }
+
         /// <summary>
         ///  Confirm email register
         /// </summary>
@@ -135,7 +147,5 @@ namespace FanPage.Api.Controllers.User
             await _accountService.RestorePassword(dto);
             return Ok();
         }
-
-        
     }
 }

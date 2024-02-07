@@ -85,6 +85,19 @@ public class ChatRepository : IChatRepository
         return _mapper.Map<ChatDto>(chatEntity);
     }
 
+    public async Task<List<Entities.Chat>> SearchChatAsync(string search)
+    {
+        var searchWorld = search.Split(' ');
+
+        var query = _context.Chats.AsQueryable();
+
+        query = searchWorld.Aggregate(query, (current, word) => current.Where(w => w.Name.Contains(word)));
+
+        var chat = await query.ToListAsync();
+
+        return chat;
+    }
+
     public async Task<ChatDto> UpdateAsync(ChatDto chat)
     {
         var chatEntity = _mapper.Map<Entities.Chat>(chat);

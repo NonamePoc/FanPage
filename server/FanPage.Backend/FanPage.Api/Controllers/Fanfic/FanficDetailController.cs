@@ -23,6 +23,40 @@ public class FanficDetailController : BaseController
     }
 
     /// <summary>
+    ///  Get last creation date fanfics
+    /// </summary>
+    /// <param name="count">fanfic list count</param>
+    /// <returns>list object fanfic</returns>
+    [HttpGet]
+    [Route("lastCreationDateFanfics")]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
+    [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+    public async Task<IActionResult> GetLastCreationDateFanfics([FromHeader] int count)
+    {
+        var fanfic = await _fanficDetail.GetLastCreationDateFanficsAsync(count, HttpContext.Request);
+        return Ok(fanfic);
+    }
+    
+    
+    /// <summary>
+    ///  Get top rating fanfics
+    /// </summary>
+    /// <param name="count">fanfic list count</param>
+    /// <returns>list object fanfic</returns>
+    [HttpGet]
+    [Route("topRatingFanfics")]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
+    [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+    public async Task<IActionResult> GetTopRatingFanfics([FromHeader] int count)
+    {
+        var fanfic = await _fanficDetail.GetTopRatingFanficsAsync(count, HttpContext.Request);
+        return Ok(fanfic);
+    }
+    
+    
+    /// <summary>
     /// rating fanfic
     /// </summary>
     /// <param name="fanficId"></param>
@@ -32,7 +66,6 @@ public class FanficDetailController : BaseController
     [ProducesResponseType(401)]
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-    [Authorize(AuthenticationSchemes = "Bearer")]
     public async Task<IActionResult> GetAverageRating([FromHeader] int fanficId)
     {
         var rating = await _fanficDetail.GetAverageRatingAsync(fanficId);
@@ -48,10 +81,9 @@ public class FanficDetailController : BaseController
     [ProducesResponseType(401)]
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-    [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(int offset)
     {
-        var fanfic = await _fanficDetail.GetAllAsync();
+        var fanfic = await _fanficDetail.GetAllAsync(offset);
         return Ok(fanfic);
     }
 
@@ -83,9 +115,9 @@ public class FanficDetailController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> GetByAuthorId([FromHeader] string authorName)
+    public async Task<IActionResult> GetByAuthorName([FromHeader] string authorName,int offset)
     {
-        var fanfic = await _fanficDetail.GetByAuthorNameAsync(authorName);
+        var fanfic = await _fanficDetail.GetByAuthorNameAsync(authorName,offset);
         return Ok(fanfic);
     }
 
@@ -101,7 +133,6 @@ public class FanficDetailController : BaseController
     [ProducesResponseType(401)]
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-    [Authorize(AuthenticationSchemes = "Bearer")]
     public async Task<IActionResult> Search([FromQuery] string searchString, [FromQuery] bool originalFandom)
     {
         var fanfics = await _fanficDetail.SearchAsync(searchString, originalFandom);

@@ -13,6 +13,8 @@ public interface IChatRepository
     Task CreateMessageAsync(int chatId, MessageDto message);
 
     Task<ChatDto> CreateAsync(ChatDto chat);
+    
+    Task<List<Entities.Chat>> SearchChatAsync(string search);
 
     Task<ChatDto> UpdateAsync(ChatDto chat);
 

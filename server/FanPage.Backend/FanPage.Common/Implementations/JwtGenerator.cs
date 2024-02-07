@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using FanPage.Domain.User.Entities;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 
 
@@ -94,6 +95,24 @@ namespace FanPage.Common.Implementations
 
             var newToken = _tokenHandler.CreateToken(tokenDescriptor);
             return _tokenHandler.WriteToken(newToken);
+        }
+
+        public async Task<string> CreateTokenFromGoogle(string googleToken)
+        {
+            var payload = await GoogleJsonWebSignature.ValidateAsync(googleToken);
+            var email = payload.Email;
+            var userId = payload.Subject;
+            var userName = payload.Name;
+
+            var user = new User
+            {
+                Email = email,
+                UserName = userName,
+                Id = userId
+            };
+
+
+            return await CreateToken(user);
         }
     }
 }

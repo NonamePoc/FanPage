@@ -10,7 +10,7 @@ public class FanficViewModel
 
     public string? Description { get; set; }
 
-    public byte[] Image { get; set; }
+    public byte[]? Image { get; set; }
 
     public string? AuthorName { get; set; }
 

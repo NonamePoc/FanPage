@@ -59,7 +59,7 @@ public class TagController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> SetTag([FromHeader] int fanficId, [FromHeader] string nameTag)
+    public async Task<IActionResult> SetTag([FromHeader] int fanficId, [FromHeader] string? nameTag)
     {
         var retrieval = await _tag.SetTagAsync(fanficId, nameTag, HttpContext.Request);
         var response = _mapper.Map<TagViewModel>(retrieval);
@@ -81,7 +81,7 @@ public class TagController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> DeleteTag([FromHeader] int fanficId, [FromHeader] string tagName)
+    public async Task<IActionResult> DeleteTag([FromHeader] int fanficId, [FromHeader] string? tagName)
     {
         var retrieval = await _tag.DeleteTagFanficAsync(fanficId, tagName, HttpContext.Request);
         var response = _mapper.Map<TagViewModel>(retrieval);

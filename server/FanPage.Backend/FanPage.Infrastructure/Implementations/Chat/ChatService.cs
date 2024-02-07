@@ -212,4 +212,9 @@ public class ChatService : IChat
 
         await _chatRepository.DeclineUserToChatAsync(chatId, userId);
     }
+
+    public Task<ChatDto> SearchChatAsync(string search, HttpRequest request)
+    {
+        throw new NotImplementedException();
+    }
 }

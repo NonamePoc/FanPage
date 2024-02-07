@@ -56,7 +56,7 @@ public class TagService : ITag
         };
     }
 
-    public async Task<TagDto> SetTagAsync(int fanficId, string name, HttpRequest request)
+    public async Task<TagDto> SetTagAsync(int fanficId, string? name, HttpRequest request)
     {
         var fanfic = await _fanficRepository.GetByIdAsync(fanficId);
         var userName = _jwtTokenManager.GetUserNameFromToken(request);
@@ -89,7 +89,7 @@ public class TagService : ITag
     }
 
 
-    public async Task<TagDto> DeleteTagFanficAsync(int fanficId, string tagName, HttpRequest request)
+    public async Task<TagDto> DeleteTagFanficAsync(int fanficId, string? tagName, HttpRequest request)
     {
         var fanfic = await _fanficRepository.GetByIdAsync(fanficId);
         var userName = _jwtTokenManager.GetUserNameFromToken(request);

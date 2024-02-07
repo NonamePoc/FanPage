@@ -21,5 +21,9 @@ namespace FanPage.Common.Interfaces
         string GetUserIdFromToken(HttpRequest request);
 
         string GetUserNameFromToken(HttpRequest request);
+        
+        Task<string> GoogleLogin(string googleToken);
+        
+        Task<string> DecodeTokenAndGetEmail(string token);
     }
 }

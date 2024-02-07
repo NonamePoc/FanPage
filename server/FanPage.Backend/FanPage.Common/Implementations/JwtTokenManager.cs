@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 
 namespace FanPage.Common.Implementations
@@ -58,6 +59,19 @@ namespace FanPage.Common.Implementations
 
             var jwtToken = _tokenHandler.ReadJwtToken(token);
             var claim = jwtToken.Claims.SingleOrDefault(w => w.Type == JwtRegisteredClaimNames.Name);
+
+            return claim?.Value;
+        }
+
+        public async Task<string> GoogleLogin(string googleToken)
+        {
+            return await _jwtGenerator.CreateTokenFromGoogle(googleToken);
+        }
+
+        public async Task<string> DecodeTokenAndGetEmail(string token)
+        {
+            var jwtToken = _tokenHandler.ReadJwtToken(token);
+            var claim = jwtToken.Claims.SingleOrDefault(w => w.Type == JwtRegisteredClaimNames.Email);
 
             return claim?.Value;
         }

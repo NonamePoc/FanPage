@@ -3,7 +3,6 @@ using FanPage.Api.JsonResponse;
 using FanPage.Api.Models.Auth;
 using FanPage.Api.ViewModels.User;
 using FanPage.Application.Auth;
-using FanPage.Infrastructure.Interfaces;
 using FanPage.Infrastructure.Interfaces.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +22,22 @@ namespace FanPage.Api.Controllers.User
         {
             _mapper = mapper;
             _authService = authService;
+        }
+
+        /// <summary>
+        ///  Replace google token to jwt token
+        /// </summary>
+        /// <param name="googleToken"> googleToken</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("google-login")]
+        [ProducesResponseType(typeof(JsonResponseContainer<LogInViewModel>), 200)]
+        [ProducesResponseType(typeof(JsonResponseContainer), 400)]
+        [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+        public async Task<IActionResult> GoogleLogin(string googleToken)
+        {
+            var response = await _authService.GoogleLogin(googleToken);
+            return Ok(response);
         }
 
         /// <summary>

@@ -38,13 +38,14 @@ namespace FanPage.Api.Mapper
             CreateMap<RequestToRestorePassModel, RequestRestorePasswordDto>();
             CreateMap<PasswordChangeModel, ChangePasswordDto>();
         }
+
         private void AdminMaps()
         {
-
             CreateMap<BanModel, BanDto>();
             CreateMap<ChangeRoleModel, ChangeRoleDto>();
             CreateMap<UserInfoResponseDto, UserInfoViewModel>();
         }
+
         private void ProfileMaps()
         {
             CreateMap<Friendship, FriendDto>();
@@ -52,7 +53,7 @@ namespace FanPage.Api.Mapper
             CreateMap<Follower, FollowerDto>();
             CreateMap<Bookmark, BookmarkDto>();
         }
-        
+
 
         private void FanficAuthMaps()
         {
@@ -89,13 +90,22 @@ namespace FanPage.Api.Mapper
             CreateMap<Tag, TagDto>();
             CreateMap<FanficTag, TagDto>();
 
+            CreateMap<Reviews, ReviewsDto>()
+                .ForMember(dest => dest.FanficId, opt => opt.MapFrom(src => src.FanficId))
+                .ForMember(dest => dest.ReviewId, opt => opt.MapFrom(src => src.ReviewId))
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text))
+                .ForMember(dest => dest.CreationDate, opt => opt.MapFrom(src => src.CreationDate))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
+                .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating));
 
             CreateMap<FanficCategory, FanficCategoryDto>()
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId))
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
-            CreateMap<FanficTag, FanficTagDto>()
+            CreateMap<FanficTag, TagDto>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Tag.Name))
                 .ForMember(dest => dest.TagId, opt => opt.MapFrom(src => src.TagId))
-                .ForMember(dest => dest.TagName, opt => opt.MapFrom(src => src.Tag.Name));
+                .ForMember(dest => dest.IsApproved, opt => opt.MapFrom(src => src.Tag.IsApproved));
+
             CreateMap<Chapter, ChapterDto>()
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content));
@@ -110,13 +120,13 @@ namespace FanPage.Api.Mapper
             CreateMap<Fanfic, FanficDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.FanficId))
                 .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.AuthorName))
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.OriginFandom, opt => opt.MapFrom(src => src.OriginFandom))
                 .ForMember(dest => dest.CreationDate, opt => opt.MapFrom(src => src.CreationDate))
                 .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.FanficCategories))
                 .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.FanficTags))
                 .ForMember(dest => dest.Chapters, opt => opt.MapFrom(src => src.Chapters));
-
         }
     }
 }

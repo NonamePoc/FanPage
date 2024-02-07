@@ -5,15 +5,20 @@ namespace FanPage.Domain.Fanfic.Repos.Interfaces
 {
     public interface IFanficRepository
     {
-        Task<Entities.Fanfic> GetByIdAsync(int id);
-        Task<List<Entities.Fanfic>> GetByAuthorNameAsync(string id);
-        Task<List<Entities.Fanfic>> GetAllAsync();
+        Task<FanficDto> GetByIdAsync(int id);
+        Task<List<FanficDto>> GetByAuthorNameAsync(string name, int count);
+        Task<List<FanficDto>> GetAllAsync(int count);
 
+        Task<List<FanficDto>> LocalGetAllAsync();
+
+        Task<List<FanficDto>> GetLastCreationDateFanficsAsync(int count);
+
+        Task<List<FanficDto>> GetTopRatingFanficsAsync(int count);
 
         Task<FanficDto> CreateAsync(CreateDto fanfic);
         Task UpdateAsync(UpdateDto fanfic, int fanficId);
         Task DeleteAsync(int id);
-        Task<List<Entities.Fanfic>> SearchAsync(string searchString, bool originalFandom);
+        Task<List<FanficDto>> SearchAsync(string searchString, bool originalFandom);
         Task<ReviewsDto> CreateReviewAsync(int fanficId, ReviewsDto reviewsDto);
 
         Task<ReviewsDto> UpdateReviewAsync(int fanficId, ReviewsDto reviewsDto);

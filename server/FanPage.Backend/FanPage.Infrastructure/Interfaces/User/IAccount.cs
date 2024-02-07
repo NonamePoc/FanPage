@@ -21,5 +21,7 @@ namespace FanPage.Infrastructure.Interfaces.User
         Task RequestToChangeEmail(RequestToChangeEmailDto changeEmail, HttpRequest request);
 
         Task<LogInResponseDto> GetUserInfo(string userId);
+
+        Task GoogleRegistration(string googleToken);
     }
 }

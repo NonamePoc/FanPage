@@ -1,4 +1,5 @@
 ﻿using FanPage.Application.Auth;
+using FanPage.Application.GoogleAuth;
 using Microsoft.AspNetCore.Http;
 
 namespace FanPage.Infrastructure.Interfaces.User
@@ -10,5 +11,7 @@ namespace FanPage.Infrastructure.Interfaces.User
         Task LogOut(HttpRequest request);
 
         Task<RefreshTokenDto> RefreshToken(HttpRequest request);
+
+        Task<GoogleResponseDto> GoogleLogin(string googleToken);
     }
 }

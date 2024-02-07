@@ -2,6 +2,7 @@
 using FanPage.Application.Auth;
 using FanPage.Common.Interfaces;
 using FanPage.Domain.User.Entities;
+using FanPage.Domain.User.Repos.Interfaces;
 using FanPage.EmailService.Interfaces;
 using FanPage.EmailService.Models;
 using FanPage.Exceptions;
@@ -24,9 +25,9 @@ namespace FanPage.Infrastructure.Implementations.User
 
         private readonly IJwtTokenManager _jwtTokenManager;
 
-        private readonly CustomizationSettingsService _customizationSettingsService;
+        private readonly ICustomizationSettingsRepository _customizationSettings;
 
-        public AccountServiсe(CustomizationSettingsService customizationSettingsService,
+        public AccountServiсe( ICustomizationSettingsRepository customizationSettings,
             IPasswordManager passwordManager, SignInManager<Domain.User.Entities.User> signInManager,
             IJwtTokenManager jwtTokenManager,
             IdentityUserManager identityUser, IEmailService emailService)
@@ -36,9 +37,9 @@ namespace FanPage.Infrastructure.Implementations.User
             _jwtTokenManager = jwtTokenManager;
             _signInManager = signInManager;
             _passwordManager = passwordManager;
-            _customizationSettingsService = customizationSettingsService;
+            _customizationSettings = customizationSettings;
         }
-        
+
         public async Task ConfirmEmail(ConfirmEmailDto confirmEmail)
         {
             var user = await _userManager.FindByEmailAsync(confirmEmail.Email);
@@ -59,7 +60,7 @@ namespace FanPage.Infrastructure.Implementations.User
             }
         }
 
-        public async Task<LogInResponseDto>  GetUserInfo (string userName)
+        public async Task<LogInResponseDto> GetUserInfo(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
 
@@ -80,7 +81,7 @@ namespace FanPage.Infrastructure.Implementations.User
                 UserAvatar = user.UserAvatar,
             };
         }
-        
+
         public async Task ChangeEmail(ChangeEmailDto changeEmail)
         {
             var user = await _userManager.FindByEmailAsync(changeEmail.Email);
@@ -212,7 +213,7 @@ namespace FanPage.Infrastructure.Implementations.User
 
         public async Task Registration(RegistrationDto registration)
         {
-            var customizationSettingId = await _customizationSettingsService.CreateCustomizationSettings();
+            var customizationSettingId = await _customizationSettings.CreateCustomizationSettings();
             var user = new Domain.User.Entities.User
             {
                 Email = registration.Email,
@@ -262,7 +263,39 @@ namespace FanPage.Infrastructure.Implementations.User
                 await _emailService.SendAsync(email);
             }
         }
-        
-        
+
+        public async Task GoogleRegistration(string googleToken)
+        {
+            var token = await _jwtTokenManager.GoogleLogin(googleToken);
+            var email = await _jwtTokenManager.DecodeTokenAndGetEmail(token);
+
+            var existingUser = await _userManager.FindByEmailAsync(email);
+            if (existingUser != null)
+            {
+                throw new UserCreateException("User with this email already exists");
+            }
+
+            var user = new Domain.User.Entities.User
+            {
+                Email = email,
+                UserName = email,
+                CustomizationSettingsId = await _customizationSettings.CreateCustomizationSettings(),
+                WhoBan = "None"
+            };
+
+            var createResult = await _userManager.CreateAsync(user);
+            if (!createResult.Succeeded)
+            {
+                throw new AggregateException(createResult.Errors.Select(s =>
+                    new UserCreateException(s.Description)));
+            }
+
+            var roleResult = await _userManager.AddToRoleAsync(user, "User");
+            if (!roleResult.Succeeded)
+            {
+                throw new AggregateException(
+                    roleResult.Errors.Select(s => new UserCreateException(s.Description)));
+            }
+        }
     }
 }

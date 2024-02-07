@@ -61,3 +61,9 @@
 - Fix search fanfic 
 - Fix bugs (Fixed the issue of creating the same fanfic) 
 - The structure of the project has been updated, now the database and everything related to it is in the domain
+## Version 1.0.0 Pavlo Shaban (07.02.2023)
+- Add google auth/register
+- Fix bug (Now, before checking whether an entity exists, it will be processed in the dto )
+- Add banner and fix custom service
+
+

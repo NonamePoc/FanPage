@@ -1,4 +1,5 @@
 ﻿using FanPage.Application.Auth;
+using FanPage.Application.GoogleAuth;
 using FanPage.Common.Interfaces;
 using FanPage.Domain.User.Entities;
 using FanPage.Exceptions;
@@ -49,7 +50,7 @@ namespace FanPage.Infrastructure.Implementations.User
                 Role = userRole.FirstOrDefault(),
                 WhoBan = user.WhoBan,
                 UserAvatar = user.UserAvatar,
-                LifeTimeToken =  DateTime.UtcNow.AddDays(7)
+                LifeTimeToken = DateTime.UtcNow.AddDays(7)
             };
         }
 
@@ -88,6 +89,28 @@ namespace FanPage.Infrastructure.Implementations.User
             return new RefreshTokenDto
             {
                 Token = newToken
+            };
+        }
+
+        public async Task<GoogleResponseDto> GoogleLogin(string googleToken)
+        {
+            var token = await _jwtTokenManager.GoogleLogin(googleToken);
+            var emailFromToken = await _jwtTokenManager.DecodeTokenAndGetEmail(token);
+
+            var user = await _userManager.FindByEmailAsync(emailFromToken);
+
+            var userRole = await _userManager.GetRolesAsync(user);
+
+            return new GoogleResponseDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = user.UserName,
+                Token = token,
+                Role = userRole.FirstOrDefault(),
+                WhoBan = user.WhoBan,
+                UserAvatar = user.UserAvatar,
+                LifeTimeToken = DateTime.UtcNow.AddDays(7)
             };
         }
     }

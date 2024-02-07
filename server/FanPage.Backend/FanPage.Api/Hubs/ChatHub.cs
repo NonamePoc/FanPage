@@ -86,39 +86,46 @@ public class ChatHub : Hub
         await _chat.DeleteAsync(id, type, request);
         await Clients.All.SendAsync("DeleteChat", id);
     }
-    
+
     public async Task InviteUserToChat(int chatId, string userId, string userName)
     {
         var request = Context.GetHttpContext().Request;
         await _chat.InviteUserToChatAsync(chatId, userId, userName, request);
         await Clients.All.SendAsync("InviteUserToChat", chatId, userId, userName);
     }
-    
+
     public async Task AcceptUserToChat(int chatId, string userId)
     {
         var request = Context.GetHttpContext().Request;
         await _chat.AcceptUserToChatAsync(chatId, userId, request);
         await Clients.All.SendAsync("AcceptUserToChat", chatId, userId);
     }
-    
+
     public async Task DeclineUserToChat(int chatId, string userId)
     {
         var request = Context.GetHttpContext().Request;
         await _chat.DeclineUserToChatAsync(chatId, userId, request);
         await Clients.All.SendAsync("DeclineUserToChat", chatId, userId);
     }
-    
+
     public async Task GetUserChatRequest(string userId)
     {
         var request = Context.GetHttpContext().Request;
         var result = await _chat.GetChatRequestAsync(userId, request);
         await Clients.All.SendAsync("GetUserChatRequest", result);
     }
-    
+
     public async Task RemoveUserFromChat(int chatId, string userId, string type)
     {
         var request = Context.GetHttpContext().Request;
         await _chat.RemoveUserFromChatAsync(chatId, userId, type, request);
         await Clients.All.SendAsync("RemoveUserFromChat", chatId, userId);
+    }
+
+    public async Task SearchChat(string search)
+    {
+        var request = Context.GetHttpContext().Request;
+        var result = await _chat.SearchChatAsync(search, request);
+        await Clients.All.SendAsync("SearchChat", result);
     }
 }

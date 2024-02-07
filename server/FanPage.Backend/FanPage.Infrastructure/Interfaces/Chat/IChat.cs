@@ -26,4 +26,6 @@ public interface IChat
     Task AcceptUserToChatAsync(int chatId, string userId, HttpRequest request);
 
     Task DeclineUserToChatAsync(int chatId, string userId, HttpRequest request);
+
+    Task<ChatDto> SearchChatAsync(string search,HttpRequest request);
 }

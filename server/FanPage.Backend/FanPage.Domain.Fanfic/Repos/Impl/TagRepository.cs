@@ -19,7 +19,7 @@ public class TagRepository : RepositoryBase<Tag>, ITagRepository
         _mapper = mapper;
     }
 
-    public async Task<Tag> GetByNameAsync(string name)
+    public async Task<Tag> GetByNameAsync(string? name)
     {
         return await _context.Tags.Where(x => x.Name == name).FirstOrDefaultAsync();
     }
@@ -65,7 +65,7 @@ public class TagRepository : RepositoryBase<Tag>, ITagRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteTagFromFanficAsync(int fanficId, string tagName)
+    public async Task DeleteTagFromFanficAsync(int fanficId, string? tagName)
     {
         var fanficTag =
             await _context.FanficTags.FirstOrDefaultAsync(x => x.FanficId == fanficId && x.Tag.Name == tagName);
