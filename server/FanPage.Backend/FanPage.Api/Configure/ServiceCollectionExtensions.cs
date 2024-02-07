@@ -56,7 +56,7 @@ namespace FanPage.Api.Configure
 
             services.AddDbContext<FanficContext>(optionsAction => optionsAction
                 .UseNpgsql(configuration.GetConnectionString("Fanfic-Connection")));
-            
+
             services.AddDbContext<ChatContext>(optionsAction => optionsAction
                 .UseNpgsql(configuration.GetConnectionString("Chat-Connection")));
 
@@ -196,7 +196,7 @@ namespace FanPage.Api.Configure
             services.AddScoped<IChapter, ChapterService>();
             services.AddScoped<IReview, ReviewService>();
             services.AddScoped<IComment, CommentService>();
-            services.AddScoped<IChat,ChatService>();
+            services.AddScoped<IChat, ChatService>();
             services.AddScoped<IFriend, FriendService>();
             services.AddScoped<IFollower, FollowerService>();
             services.AddScoped<IBookmark, BookmarkService>();
