@@ -12,11 +12,11 @@ namespace FanPage.Infrastructure.Implementations.User;
 
 public class AdminService : IAdmin
 {
-    private readonly UserManager<Domain.User.Entities.User> _userManager;
+    private readonly UserManager<Domain.Account.Entities.User> _userManager;
     private readonly IJwtTokenManager _jwtTokenManager;
     private readonly ITagRepository _tagRepository;
 
-    public AdminService(UserManager<Domain.User.Entities.User> userManager, IJwtTokenManager jwtTokenManager,
+    public AdminService(UserManager<Domain.Account.Entities.User> userManager, IJwtTokenManager jwtTokenManager,
         ITagRepository tagRepository)
     {
         _userManager = userManager;

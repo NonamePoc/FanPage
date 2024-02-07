@@ -25,7 +25,7 @@
     <ProjectReference Include="..\FanPage.Common\FanPage.Common.csproj" />
     <ProjectReference Include="..\FanPage.Domain.Chat\FanPage.Domain.Chat.csproj" />
     <ProjectReference Include="..\FanPage.Domain.Fanfic\FanPage.Domain.Fanfic.csproj" />
-    <ProjectReference Include="..\FanPage.Domain.User\FanPage.Domain.User.csproj" />
+    <ProjectReference Include="..\FanPage.Domain.Account\FanPage.Domain.Account.csproj" />
     <ProjectReference Include="..\FanPage.EmailService\FanPage.EmailService.csproj" />
     <ProjectReference Include="..\FanPage.Exception\FanPage.Exceptions.csproj" />
   </ItemGroup>

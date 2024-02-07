@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using FanPage.Domain.User.Entities;
+using FanPage.Domain.Account.Entities;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 

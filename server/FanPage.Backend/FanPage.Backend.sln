@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanPage.EmailService", "Fan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanPage.Domain.Chat", "FanPage.Domain.Chat\FanPage.Domain.Chat.csproj", "{0B943F2D-A5FF-49A3-875D-16A2E8BB7CA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanPage.Domain.User", "FanPage.Domain.User\FanPage.Domain.User.csproj", "{8BD8359A-361D-4C51-B1D7-2FAB30DC5E11}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanPage.Domain.Account", "FanPage.Domain.Account\FanPage.Domain.Account.csproj", "{8BD8359A-361D-4C51-B1D7-2FAB30DC5E11}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanPage.Domain.Fanfic", "FanPage.Domain.Fanfic\FanPage.Domain.Fanfic.csproj", "{682337EA-9F58-4226-A487-59AFF3C50DB6}"
 EndProject

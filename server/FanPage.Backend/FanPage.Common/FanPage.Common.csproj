@@ -38,7 +38,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FanPage.Domain.User\FanPage.Domain.User.csproj" />
+    <ProjectReference Include="..\FanPage.Domain.Account\FanPage.Domain.Account.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>

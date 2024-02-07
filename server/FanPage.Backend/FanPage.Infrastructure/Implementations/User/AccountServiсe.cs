@@ -1,8 +1,8 @@
 ﻿using FanPage.Application.Account;
 using FanPage.Application.Auth;
 using FanPage.Common.Interfaces;
-using FanPage.Domain.User.Entities;
-using FanPage.Domain.User.Repos.Interfaces;
+using FanPage.Domain.Account.Entities;
+using FanPage.Domain.Account.Repos.Interfaces;
 using FanPage.EmailService.Interfaces;
 using FanPage.EmailService.Models;
 using FanPage.Exceptions;
@@ -19,7 +19,7 @@ namespace FanPage.Infrastructure.Implementations.User
 
         private readonly IEmailService _emailService;
 
-        private readonly SignInManager<Domain.User.Entities.User> _signInManager;
+        private readonly SignInManager<Domain.Account.Entities.User> _signInManager;
 
         private readonly IPasswordManager _passwordManager;
 
@@ -28,7 +28,7 @@ namespace FanPage.Infrastructure.Implementations.User
         private readonly ICustomizationSettingsRepository _customizationSettings;
 
         public AccountServiсe( ICustomizationSettingsRepository customizationSettings,
-            IPasswordManager passwordManager, SignInManager<Domain.User.Entities.User> signInManager,
+            IPasswordManager passwordManager, SignInManager<Domain.Account.Entities.User> signInManager,
             IJwtTokenManager jwtTokenManager,
             IdentityUserManager identityUser, IEmailService emailService)
         {
@@ -214,7 +214,7 @@ namespace FanPage.Infrastructure.Implementations.User
         public async Task Registration(RegistrationDto registration)
         {
             var customizationSettingId = await _customizationSettings.CreateCustomizationSettings();
-            var user = new Domain.User.Entities.User
+            var user = new Domain.Account.Entities.User
             {
                 Email = registration.Email,
                 UserName = registration.UserName,
@@ -275,7 +275,7 @@ namespace FanPage.Infrastructure.Implementations.User
                 throw new UserCreateException("User with this email already exists");
             }
 
-            var user = new Domain.User.Entities.User
+            var user = new Domain.Account.Entities.User
             {
                 Email = email,
                 UserName = email,

@@ -1,6 +1,6 @@
 ﻿using FanPage.Application.UserProfile;
 using FanPage.Common.Interfaces;
-using FanPage.Domain.User.Repos.Interfaces;
+using FanPage.Domain.Account.Repos.Interfaces;
 using FanPage.Infrastructure.Interfaces.User;
 using Microsoft.AspNetCore.Http;
 

@@ -3,7 +3,6 @@ using FanPage.Api.Models.Account;
 using FanPage.Api.Models.Admin;
 using FanPage.Api.Models.Auth;
 using FanPage.Api.Models.Fanfic;
-using FanPage.Api.ViewModels;
 using FanPage.Api.ViewModels.Fanfic;
 using FanPage.Api.ViewModels.User;
 using FanPage.Application.Account;
@@ -11,8 +10,8 @@ using FanPage.Application.Admin;
 using FanPage.Application.Auth;
 using FanPage.Application.Fanfic;
 using FanPage.Application.UserProfile;
+using FanPage.Domain.Account.Entities;
 using FanPage.Domain.Fanfic.Entities;
-using FanPage.Domain.User.Entities;
 
 namespace FanPage.Api.Mapper
 {
