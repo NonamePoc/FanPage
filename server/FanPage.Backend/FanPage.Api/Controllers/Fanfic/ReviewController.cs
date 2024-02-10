@@ -37,7 +37,7 @@ public class ReviewController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> CreateReview([FromHeader] int fanficId, [FromBody] ReviewModel reviewModel)
+    public async Task<IActionResult> CreateReview([FromQuery] int fanficId, [FromBody] ReviewModel reviewModel)
     {
         var reviewDto = _mapper.Map<ReviewsDto>(reviewModel);
         var retrieval = await _review.CreateReviewAsync(fanficId, reviewDto, HttpContext.Request);
@@ -60,7 +60,7 @@ public class ReviewController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> UpdateReview([FromHeader] int fanficId, [FromBody] ReviewModel reviewModel)
+    public async Task<IActionResult> UpdateReview([FromQuery] int fanficId, [FromBody] ReviewModel reviewModel)
     {
         var reviewDto = _mapper.Map<ReviewsDto>(reviewModel);
         var retrieval = await _review.UpdateReviewAsync(fanficId, reviewDto, HttpContext.Request);
@@ -82,7 +82,7 @@ public class ReviewController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> DeleteReview([FromHeader] int fanficId)
+    public async Task<IActionResult> DeleteReview([FromQuery] int fanficId)
     {
         await _review.DeleteReviewAsync(fanficId, HttpContext.Request);
         return Ok();
@@ -120,7 +120,7 @@ public class ReviewController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> GetAllReviewByUserName([FromHeader] string userName)
+    public async Task<IActionResult> GetAllReviewByUserName([FromQuery] string userName)
     {
         var retrieval = await _review.GetAllReviewByUserNameAsync(userName);
         var response = _mapper.Map<List<ReviewViewModel>>(retrieval);
@@ -139,7 +139,7 @@ public class ReviewController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> GetAllReviewByFanficId([FromHeader] int fanficId)
+    public async Task<IActionResult> GetAllReviewByFanficId([FromQuery] int fanficId)
     {
         var retrieval = await _review.GetAllReviewByFanficIdAsync(fanficId);
         var response = _mapper.Map<List<ReviewViewModel>>(retrieval);

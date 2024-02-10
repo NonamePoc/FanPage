@@ -44,7 +44,7 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Subscribe(int followerId)
+        public async Task<IActionResult> Subscribe([FromQuery]int followerId)
         {
             await _follower.Subscribe(HttpContext.Request, followerId);
             return Ok();
@@ -61,7 +61,7 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Unsubscribe(int followerId)
+        public async Task<IActionResult> Unsubscribe([FromQuery]int followerId)
         {
             await _follower.Unsubscribe(HttpContext.Request, followerId);
             return Ok();

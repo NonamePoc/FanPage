@@ -61,7 +61,7 @@ namespace FanPage.Api.Controllers.Fanfic
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Update([FromBody] UpdateModel updateFanfic, [FromHeader] int id)
+        public async Task<IActionResult> Update([FromBody] UpdateModel updateFanfic, [FromQuery] int id)
         {
             var dto = _mapper.Map<UpdateDto>(updateFanfic);
             var retrieval = await _fanfic.UpdateAsync(id, dto, HttpContext.Request);
@@ -82,7 +82,7 @@ namespace FanPage.Api.Controllers.Fanfic
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Delete([FromHeader] int id)
+        public async Task<IActionResult> Delete([FromQuery] int id)
         {
             await _fanfic.DeleteAsync(id, HttpContext.Request);
             return Ok();

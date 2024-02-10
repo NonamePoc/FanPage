@@ -38,10 +38,17 @@ namespace FanPage.Domain.Fanfic.Repos.Impl
 
         public async Task AddCategoryToFanficAsync(int fanficId, int categoryId)
         {
-            var fanficCategory = new FanficCategory { FanficId = fanficId, CategoryId = categoryId };
-            await _context.FanficCategories.AddAsync(fanficCategory);
-            await _context.SaveChangesAsync();
+            var existingEntry = await _context.FanficCategories
+                                            .FirstOrDefaultAsync(x => x.FanficId == fanficId && x.CategoryId == categoryId);
+
+            if (existingEntry == null)
+            {
+                var fanficCategory = new FanficCategory { FanficId = fanficId, CategoryId = categoryId };
+                await _context.FanficCategories.AddAsync(fanficCategory);
+                await _context.SaveChangesAsync();
+            }
         }
+
 
         public async Task DeleteCategoryFromFanficAsync(int fanficId, int categoryId)
         {

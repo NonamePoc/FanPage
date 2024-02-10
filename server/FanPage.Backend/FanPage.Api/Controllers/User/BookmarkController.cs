@@ -28,7 +28,7 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Add(int fanficId)
+        public async Task<IActionResult> Add([FromQuery]int fanficId)
         {
             await _bookmark.Add(HttpContext.Request, fanficId);
             return Ok();
@@ -45,7 +45,7 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Delete(int fanficId)
+        public async Task<IActionResult> Delete([FromQuery]int fanficId)
         {
             await _bookmark.Delete(HttpContext.Request, fanficId);
             return Ok();

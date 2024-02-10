@@ -59,7 +59,7 @@ public class ChapterController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> UpdateChapter([FromBody] ChapterModel chapterModel, [FromHeader] int chapterId)
+    public async Task<IActionResult> UpdateChapter([FromBody] ChapterModel chapterModel, [FromQuery] int chapterId)
     {
         var chapterDto = _mapper.Map<ChapterDto>(chapterModel);
         var retrieval = await _chapter.UpdateChapterAsync(chapterId, chapterDto, HttpContext.Request);
@@ -81,7 +81,7 @@ public class ChapterController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> DeleteChapter([FromHeader] int id)
+    public async Task<IActionResult> DeleteChapter([FromQuery] int id)
     {
         await _chapter.DeleteChapterAsync(id, HttpContext.Request);
         return Ok();
@@ -112,7 +112,7 @@ public class ChapterController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer<ChapterViewModel>), 200)]
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-    public async Task<IActionResult> GetChapterById([FromHeader] int id)
+    public async Task<IActionResult> GetChapterById([FromQuery] int id)
     {
         var retrieval = await _chapter.GetByIdAsync(id);
         var response = _mapper.Map<ChapterViewModel>(retrieval);
@@ -131,7 +131,7 @@ public class ChapterController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer<ChapterViewModel>), 200)]
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-    public async Task<IActionResult> GetChapterByFanficId([FromHeader] int fanficId)
+    public async Task<IActionResult> GetChapterByFanficId([FromQuery] int fanficId)
     {
         var retrieval = await _chapter.GetAllChaptersByFanficIdAsync(fanficId);
         var response = _mapper.Map<List<ChapterViewModel>>(retrieval);

@@ -116,26 +116,6 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
 
         _mapper.Map(update, fanfic);
         fanfic!.CreationDate = DateTimeOffset.UtcNow;
-
-        if (fanfic.Photos != null)
-        {
-            _fanficContext.FanficPhotos.RemoveRange(fanfic.Photos);
-            await _fanficContext.SaveChangesAsync();
-        }
-
-        if (fanfic.Photos == null)
-        {
-            fanfic.Photos = new List<FanficPhoto>();
-        }
-
-        if (update.Photo != null)
-        {
-            foreach (var photo in update.Photo)
-            {
-                fanfic.Photos.Add(new FanficPhoto { FanficId = fanficId, Image = photo.Image });
-            }
-        }
-
         await _fanficContext.SaveChangesAsync();
     }
 
@@ -295,24 +275,24 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
             Language = fanficEntity.Language,
             CreationDate = fanficEntity.CreationDate,
             Image = fanficEntity.Photos.FirstOrDefault()?.Image,
-            Categories = fanficEntity.FanficCategories.Select(fc => new CategoryDto
+            Categories = fanficEntity.FanficCategories?.Select(fc => new CategoryDto
             {
                 Name = fc.Category.Name,
                 CategoryId = fc.Category.CategoryId
             }).ToList(),
-            Tags = fanficEntity.FanficTags.Select(ft => new TagDto
+            Tags = fanficEntity.FanficTags?.Select(ft => new TagDto
             {
                 Name = ft.Tag.Name,
                 TagId = ft.Tag.TagId,
                 IsApproved = ft.Tag.IsApproved
             }).ToList(),
-            Chapters = fanficEntity.Chapters.Select(chapter => new ChapterDto
+            Chapters = fanficEntity.Chapters?.Select(chapter => new ChapterDto
             {
                 FanficId = fanficEntity.FanficId,
                 Title = chapter.Title,
                 Content = chapter.Content
             }).ToList(),
-            Reviews = fanficEntity.Reviews.Select(review => new ReviewsDto
+            Reviews = fanficEntity.Reviews?.Select(review => new ReviewsDto
             {
                 FanficId = fanficEntity.FanficId,
                 ReviewId = review.ReviewId,

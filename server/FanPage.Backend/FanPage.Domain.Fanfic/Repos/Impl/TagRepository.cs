@@ -60,10 +60,17 @@ public class TagRepository : RepositoryBase<Tag>, ITagRepository
 
     public async Task AddTagToFanficAsync(int fanficId, int tagId)
     {
-        var fanficTag = new FanficTag { FanficId = fanficId, TagId = tagId };
-        await _context.FanficTags.AddAsync(fanficTag);
-        await _context.SaveChangesAsync();
+        var existingEntry = await _context.FanficTags
+                                        .FirstOrDefaultAsync(x => x.FanficId == fanficId && x.TagId == tagId);
+
+        if (existingEntry == null)
+        {
+            var fanficTag = new FanficTag { FanficId = fanficId, TagId = tagId };
+            await _context.FanficTags.AddAsync(fanficTag);
+            await _context.SaveChangesAsync();
+        }
     }
+
 
     public async Task DeleteTagFromFanficAsync(int fanficId, string? tagName)
     {

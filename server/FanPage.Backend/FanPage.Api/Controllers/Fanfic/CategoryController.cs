@@ -35,7 +35,7 @@ public class CategoryController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> UpdateCategory([FromHeader] int fanficId, [FromHeader] string categoryName)
+    public async Task<IActionResult> UpdateCategory([FromQuery] int fanficId, [FromQuery] string categoryName)
     {
         var retrieval = await _category.SetCategoryAsync(fanficId, categoryName, HttpContext.Request);
         var response = _mapper.Map<CategoryViewModel>(retrieval);
@@ -57,7 +57,7 @@ public class CategoryController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> DeleteCategory([FromHeader] int fanficId, [FromHeader] int categoryId)
+    public async Task<IActionResult> DeleteCategory([FromQuery] int fanficId, [FromQuery] int categoryId)
     {
         await _category.DeleteCategoryAsync(fanficId, categoryId, HttpContext.Request);
         return Ok();
@@ -74,7 +74,7 @@ public class CategoryController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> GetAllCategoryFanfic([FromHeader] int fanficId)
+    public async Task<IActionResult> GetAllCategoryFanfic([FromQuery] int fanficId)
     {
         var tags = await _category.GetAllCategoryFanfic(fanficId);
         return Ok(tags);

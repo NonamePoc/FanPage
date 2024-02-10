@@ -101,34 +101,80 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
         {
             var fanfic = await _fanficRepository.GetByIdAsync(fanficId);
             var userName = _jwtTokenManager.GetUserNameFromToken(request);
-
-            var resultPhoto = await _fanficPhotoRepository.GetByIdAsync(fanficId);
-
+            var fanficListCategories = await _categoryRepository.GetAllCategoryByFanficIdAsync(fanficId);
+            var fanficListTags = await _tagRepository.GetTagsByFanficIdAsync(fanficId);
             if (fanfic.AuthorName != userName && fanfic == null)
             {
                 throw new FanficException("Error update");
             }
 
-            fanfic.Description = updateFanfic.Description ?? fanfic.Description;
+            fanfic.Description = !string.IsNullOrWhiteSpace(updateFanfic.Description)
+                ? updateFanfic.Description
+                : fanfic.Description;
             fanfic.OriginFandom = updateFanfic.OriginFandom ?? fanfic.OriginFandom;
-            fanfic.Stage = updateFanfic.Stage ?? fanfic.Stage;
-            fanfic.Title = updateFanfic.Title ?? fanfic.Title;
-            resultPhoto.Image = updateFanfic.Photo.Select(s => s.Image).FirstOrDefault() ?? resultPhoto.Image;
+            fanfic.Stage = !string.IsNullOrWhiteSpace(updateFanfic.Stage) ? updateFanfic.Stage : fanfic.Stage;
+            fanfic.Title = !string.IsNullOrWhiteSpace(updateFanfic.Title) ? updateFanfic.Title : fanfic.Title;
+            fanfic.Language = !string.IsNullOrWhiteSpace(updateFanfic.Language)
+                ? updateFanfic.Language
+                : fanfic.Language;
+
+            if (updateFanfic.Image != null && updateFanfic.Image.Length != 0)
+            {
+                var fanficPhotoDto = new FanficPhotoDto { FanficId = fanficId, Image = updateFanfic.Image };
+                fanfic.Image = fanficPhotoDto.Image;
+                await _fanficPhotoRepository.UpdateAsync(fanficPhotoDto);
+            }
+
+
+            if (updateFanfic.Categories.Count != 0)
+            {
+                foreach (var category in fanficListCategories.Where(category =>
+                             !updateFanfic.Categories.Any(categoryName => categoryName == category.Name)))
+                {
+                    await _categoryRepository.DeleteCategoryFromFanficAsync(fanficId, category.CategoryId);
+                }
+
+                foreach (var category in updateFanfic.Categories)
+                {
+                    var categoryDto = await _categoryRepository.GetByNameAsync(category);
+
+                    if (fanficListCategories.All(c => c.Name != category))
+                    {
+                        await _categoryRepository.AddCategoryToFanficAsync(fanficId, categoryDto.CategoryId);
+                    }
+                }
+            }
+
+
+            if (updateFanfic.Tags.Count != 0)
+            {
+                foreach (var tag in fanficListTags.Where(tag =>
+                             !updateFanfic.Tags.Contains(tag.Name!)))
+                {
+                    await _tagRepository.DeleteTagFromFanficAsync(fanficId, tag.Name);
+                }
+
+                foreach (var tag in updateFanfic.Tags)
+                {
+                    var tagDto = await _tagRepository.GetByNameAsync(tag);
+                    if (fanficListTags.All(t => t.Name != tag))
+                    {
+                        await _tagRepository.AddTagToFanficAsync(fanficId, tagDto.TagId);
+                    }
+                }
+            }
 
             var result = new UpdateDto()
             {
+                Title = fanfic.Title,
+                Image = fanfic.Image,
                 Description = fanfic.Description,
                 OriginFandom = fanfic.OriginFandom,
                 Stage = fanfic.Stage,
-                Photo = new List<FanficPhotoDto>()
-                {
-                    new()
-                    {
-                        Image = resultPhoto.Image
-                    }
-                }
+                Language = fanfic.Language,
+                Categories = fanficListCategories?.Select(c => c.Name).ToList()!,
+                Tags = fanficListTags?.Select(t => t.Name).ToList()!
             };
-
 
             await _fanficRepository.UpdateAsync(result, fanficId);
 
@@ -171,6 +217,7 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
                 }).Where(r => r.FanficId == fanfic.Id).ToList()
             };
         }
+
 
         public async Task DeleteAsync(int id, HttpRequest request)
         {

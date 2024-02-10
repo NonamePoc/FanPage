@@ -17,6 +17,7 @@ namespace FanPage.Api.Controllers.User
         {
             _friend = friend;
         }
+
         /// <summary>
         ///  Friend List
         /// </summary>
@@ -27,12 +28,12 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-       
-        public async Task<IActionResult>List()
+        public async Task<IActionResult> List()
         {
             var list = await _friend.FriendsList(HttpContext.Request);
             return Ok(list);
         }
+
         /// <summary>
         ///  Add Friend
         /// </summary>
@@ -44,12 +45,12 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-
-        public async Task<IActionResult> FriendAdd(string friendName)
+        public async Task<IActionResult> FriendAdd([FromQuery] string friendName)
         {
             await _friend.AddFriend(HttpContext.Request, friendName);
             return Ok();
         }
+
         /// <summary>
         ///  List of send №1
         /// </summary>
@@ -65,6 +66,7 @@ namespace FanPage.Api.Controllers.User
             var list = await _friend.GetFriendRequests(HttpContext.Request);
             return Ok(list);
         }
+
         /// <summary>
         ///  Cansel Send
         /// </summary>
@@ -75,12 +77,13 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-        [Authorize(AuthenticationSchemes = "Bearer")]  
-        public async Task<IActionResult> Cancel(string friendName)
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Cancel([FromQuery] string friendName)
         {
             _friend.CancelSend(HttpContext.Request, friendName);
             return Ok();
         }
+
         /// <summary>
         ///  List of send №2
         /// </summary>
@@ -96,6 +99,7 @@ namespace FanPage.Api.Controllers.User
             var list = await _friend.GetUserRequests(HttpContext.Request);
             return Ok(list);
         }
+
         /// <summary>
         ///  Accept of request
         /// </summary>
@@ -107,11 +111,12 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Accept(string friendName)
+        public async Task<IActionResult> Accept([FromQuery] string friendName)
         {
             await _friend.AcceptFriend(HttpContext.Request, friendName);
             return Ok();
         }
+
         /// <summary>
         ///  Remove friend
         /// </summary>
@@ -123,7 +128,7 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Remove(string friendName)
+        public async Task<IActionResult> Remove([FromQuery]string friendName)
         {
             await _friend.RemoveFriend(HttpContext.Request, friendName);
             return Ok();

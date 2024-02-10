@@ -34,7 +34,7 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(typeof(JsonResponseContainer<LogInViewModel>), 200)]
         [ProducesResponseType(typeof(JsonResponseContainer), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-        public async Task<IActionResult> GoogleLogin(string googleToken)
+        public async Task<IActionResult> GoogleLogin([FromQuery]string googleToken)
         {
             var response = await _authService.GoogleLogin(googleToken);
             return Ok(response);

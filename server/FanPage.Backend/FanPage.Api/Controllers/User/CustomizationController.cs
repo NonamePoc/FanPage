@@ -36,7 +36,7 @@ public class CustomizationController : ControllerBase
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> ChangeBannerImage(int customizationSettingsId, byte[] bannerImage)
+    public async Task<IActionResult> ChangeBannerImage([FromQuery]int customizationSettingsId, [FromQuery]byte[] bannerImage)
     {
         var retrieval =
             await _customization.ChangeBannerImage(customizationSettingsId, bannerImage, HttpContext.Request);
@@ -55,7 +55,7 @@ public class CustomizationController : ControllerBase
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> GetCustomizationSettings(int customizationSettingsId)
+    public async Task<IActionResult> GetCustomizationSettings([FromQuery]int customizationSettingsId)
     {
         var retrieval = await _customization.GetCustomizationSettings(customizationSettingsId, HttpContext.Request);
         var response = _mapper.Map<CustomUserSettingViewModel>(retrieval);
