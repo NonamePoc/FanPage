@@ -1,0 +1,16 @@
+ô
+çC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\obj\Debug\net7.0\FanPage.Domain.Chat.AssemblyInfo.csutf-8§
+òC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\obj\Debug\net7.0\.NETCoreApp,Version=v7.0.AssemblyAttributes.csutf-8õ
+èC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\obj\Debug\net7.0\FanPage.Domain.Chat.GlobalUsings.g.csutf-8Ñ
+{C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Repos\Interface\IChatRepository.csutf-8~
+uC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Repos\Impl\ChatRepository.csutf-8ä
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Migrations\ChatContextModelSnapshot.csutf-8ç
+ÅC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Migrations\20240123193421_v2.Designer.csutf-8ç
+ÅC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Migrations\20240119184112_v1.Designer.csutf-8Å
+xC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Migrations\20240123193421_v2.csutf-8Å
+xC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Migrations\20240119184112_v1.csutf-8u
+lC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Entities\Message.csutf-8u
+lC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Entities\IEntity.csutf-8v
+mC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Entities\ChatUser.csutf-8r
+iC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Entities\Chat.csutf-8x
+oC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Context\ChatContext.csutf-8

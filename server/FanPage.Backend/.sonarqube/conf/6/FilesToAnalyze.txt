@@ -1,0 +1,11 @@
+﻿C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Common\Configurations\GoogleConfiguration.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Common\Configurations\JwtConfiguration.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Common\Configurations\LoggingConfiguration.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Common\Implementations\JwtGenerator.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Common\Implementations\JwtTokenManager.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Common\Implementations\PasswordManager.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Common\Implementations\UserPasswordSettings.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Common\Interfaces\IJwtGenerator.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Common\Interfaces\IJwtTokenManager.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Common\Interfaces\IPasswordManager.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Common\Models\PasswordValidateResponse.cs

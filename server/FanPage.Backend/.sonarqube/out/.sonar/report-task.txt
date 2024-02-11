@@ -1,0 +1,6 @@
+projectKey=FanPage
+serverUrl=http://localhost:9000
+serverVersion=10.4.0.87286
+dashboardUrl=http://localhost:9000/dashboard?id=FanPage
+ceTaskId=9a4af3b1-40c4-4f1b-bcc8-0c57d1e2df49
+ceTaskUrl=http://localhost:9000/api/ce/task?id=9a4af3b1-40c4-4f1b-bcc8-0c57d1e2df49

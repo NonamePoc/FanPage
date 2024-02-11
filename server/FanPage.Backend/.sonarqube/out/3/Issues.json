@@ -1,0 +1,2171 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-1.0.0",
+  "version": "1.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "Microsoft (R) Visual C# Compiler",
+        "version": "4.8.0.0",
+        "fileVersion": "4.8.0-3.23524.11 (f43cd10b)",
+        "semanticVersion": "4.8.0",
+        "language": "uk-UA"
+      },
+      "results": [
+        {
+          "ruleId": "CS0108",
+          "level": "warning",
+          "message": "'CategoryRepository._context' hides inherited member 'RepositoryBase<Category>._context'. Use the new keyword if hiding was intended.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/CategoryRepository.cs",
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 40,
+                  "endLine": 12,
+                  "endColumn": 48
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 2
+          }
+        },
+        {
+          "ruleId": "CS0108",
+          "level": "warning",
+          "message": "'ChapterRepository._context' hides inherited member 'RepositoryBase<Chapter>._context'. Use the new keyword if hiding was intended.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/ChapterRepository.cs",
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 36,
+                  "endLine": 12,
+                  "endColumn": 44
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 2
+          }
+        },
+        {
+          "ruleId": "CS0108",
+          "level": "warning",
+          "message": "'CommentPhotoRepository._context' hides inherited member 'RepositoryBase<CommentPhoto>._context'. Use the new keyword if hiding was intended.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/CommentPhotoPhotoRepository.cs",
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 40,
+                  "endLine": 11,
+                  "endColumn": 48
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 2
+          }
+        },
+        {
+          "ruleId": "CS0108",
+          "level": "warning",
+          "message": "'FanficPhotoRepository._context' hides inherited member 'RepositoryBase<FanficPhoto>._context'. Use the new keyword if hiding was intended.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/FanficPhotoRepository.cs",
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 40,
+                  "endLine": 12,
+                  "endColumn": 48
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 2
+          }
+        },
+        {
+          "ruleId": "CS0108",
+          "level": "warning",
+          "message": "'TagRepository._context' hides inherited member 'RepositoryBase<Tag>._context'. Use the new keyword if hiding was intended.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/TagRepository.cs",
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 36,
+                  "endLine": 12,
+                  "endColumn": 44
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 2
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Fanfic' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 16,
+                  "endLine": 8,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 39,
+                  "endLine": 12,
+                  "endColumn": 45
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Categories' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 16,
+                  "endLine": 8,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 14,
+                  "startColumn": 32,
+                  "endLine": 14,
+                  "endColumn": 42
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Tags' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 16,
+                  "endLine": 8,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 16,
+                  "startColumn": 27,
+                  "endLine": 16,
+                  "endColumn": 31
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'FanficTags' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 16,
+                  "endLine": 8,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 18,
+                  "startColumn": 33,
+                  "endLine": 18,
+                  "endColumn": 43
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Chapters' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 16,
+                  "endLine": 8,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 20,
+                  "startColumn": 31,
+                  "endLine": 20,
+                  "endColumn": 39
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'FanficCategories' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 16,
+                  "endLine": 8,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 22,
+                  "startColumn": 38,
+                  "endLine": 22,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Photos' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 16,
+                  "endLine": 8,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 24,
+                  "startColumn": 29,
+                  "endLine": 24,
+                  "endColumn": 35
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Comments' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 16,
+                  "endLine": 8,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 26,
+                  "startColumn": 31,
+                  "endLine": 26,
+                  "endColumn": 39
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'FanficPhotos' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 16,
+                  "endLine": 8,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 28,
+                  "startColumn": 35,
+                  "endLine": 28,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Reviews' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 16,
+                  "endLine": 8,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 30,
+                  "startColumn": 31,
+                  "endLine": 30,
+                  "endColumn": 38
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'CommentPhotos' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "suppressionStates": [
+            "suppressedInSource"
+          ],
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 16,
+                  "endLine": 8,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Context/FanficContext.cs",
+                "region": {
+                  "startLine": 31,
+                  "startColumn": 36,
+                  "endLine": 31,
+                  "endColumn": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'FanficTags' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Tag.cs",
+                "region": {
+                  "startLine": 10,
+                  "startColumn": 39,
+                  "endLine": 10,
+                  "endColumn": 49
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Tag.cs",
+                "region": {
+                  "startLine": 10,
+                  "startColumn": 39,
+                  "endLine": 10,
+                  "endColumn": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'UserName' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Reviews.cs",
+                "region": {
+                  "startLine": 9,
+                  "startColumn": 19,
+                  "endLine": 9,
+                  "endColumn": 27
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Reviews.cs",
+                "region": {
+                  "startLine": 9,
+                  "startColumn": 19,
+                  "endLine": 9,
+                  "endColumn": 27
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Text' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Reviews.cs",
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 19,
+                  "endLine": 11,
+                  "endColumn": 23
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Reviews.cs",
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 19,
+                  "endLine": 11,
+                  "endColumn": 23
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Fanfic' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Reviews.cs",
+                "region": {
+                  "startLine": 19,
+                  "startColumn": 19,
+                  "endLine": 19,
+                  "endColumn": 25
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Reviews.cs",
+                "region": {
+                  "startLine": 19,
+                  "startColumn": 19,
+                  "endLine": 19,
+                  "endColumn": 25
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Image' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Photo.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 23,
+                  "endLine": 8,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Photo.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 23,
+                  "endLine": 8,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Fanfic' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Photo.cs",
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 48,
+                  "endLine": 11,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Photo.cs",
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 48,
+                  "endLine": 11,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Fanfic' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/FanficTag.cs",
+                "region": {
+                  "startLine": 10,
+                  "startColumn": 48,
+                  "endLine": 10,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/FanficTag.cs",
+                "region": {
+                  "startLine": 10,
+                  "startColumn": 48,
+                  "endLine": 10,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Tag' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/FanficTag.cs",
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 42,
+                  "endLine": 13,
+                  "endColumn": 45
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/FanficTag.cs",
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 42,
+                  "endLine": 13,
+                  "endColumn": 45
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Fanfic' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/FanficPhoto.cs",
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 48,
+                  "endLine": 11,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/FanficPhoto.cs",
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 48,
+                  "endLine": 11,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8603",
+          "level": "warning",
+          "message": "Possible null reference return.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/TagRepository.cs",
+                "region": {
+                  "startLine": 24,
+                  "startColumn": 16,
+                  "endLine": 24,
+                  "endColumn": 84
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Fanfic' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/FanficCategory.cs",
+                "region": {
+                  "startLine": 10,
+                  "startColumn": 48,
+                  "endLine": 10,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/FanficCategory.cs",
+                "region": {
+                  "startLine": 10,
+                  "startColumn": 48,
+                  "endLine": 10,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Category' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/FanficCategory.cs",
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 52,
+                  "endLine": 13,
+                  "endColumn": 60
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/FanficCategory.cs",
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 52,
+                  "endLine": 13,
+                  "endColumn": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Chapters' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 9,
+                  "startColumn": 37,
+                  "endLine": 9,
+                  "endColumn": 45
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 9,
+                  "startColumn": 37,
+                  "endLine": 9,
+                  "endColumn": 45
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Title' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 23,
+                  "endLine": 11,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 23,
+                  "endLine": 11,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'AuthorName' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 23,
+                  "endLine": 12,
+                  "endColumn": 33
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 23,
+                  "endLine": 12,
+                  "endColumn": 33
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Language' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 14,
+                  "startColumn": 23,
+                  "endLine": 14,
+                  "endColumn": 31
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 14,
+                  "startColumn": 23,
+                  "endLine": 14,
+                  "endColumn": 31
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Stage' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 16,
+                  "startColumn": 23,
+                  "endLine": 16,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 16,
+                  "startColumn": 23,
+                  "endLine": 16,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'FanficCategories' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 44,
+                  "endLine": 17,
+                  "endColumn": 60
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 44,
+                  "endLine": 17,
+                  "endColumn": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'FanficTags' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 19,
+                  "startColumn": 39,
+                  "endLine": 19,
+                  "endColumn": 49
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 19,
+                  "startColumn": 39,
+                  "endLine": 19,
+                  "endColumn": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Comments' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 21,
+                  "startColumn": 37,
+                  "endLine": 21,
+                  "endColumn": 45
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 21,
+                  "startColumn": 37,
+                  "endLine": 21,
+                  "endColumn": 45
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Photos' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 29,
+                  "startColumn": 41,
+                  "endLine": 29,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 29,
+                  "startColumn": 41,
+                  "endLine": 29,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Reviews' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 31,
+                  "startColumn": 37,
+                  "endLine": 31,
+                  "endColumn": 44
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Fanfic.cs",
+                "region": {
+                  "startLine": 31,
+                  "startColumn": 37,
+                  "endLine": 31,
+                  "endColumn": 44
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Image' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/CommentPhoto.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 23,
+                  "endLine": 8,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/CommentPhoto.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 23,
+                  "endLine": 8,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Comment' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/CommentPhoto.cs",
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 50,
+                  "endLine": 11,
+                  "endColumn": 57
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/CommentPhoto.cs",
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 50,
+                  "endLine": 11,
+                  "endColumn": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Content' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Comment.cs",
+                "region": {
+                  "startLine": 10,
+                  "startColumn": 23,
+                  "endLine": 10,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Comment.cs",
+                "region": {
+                  "startLine": 10,
+                  "startColumn": 23,
+                  "endLine": 10,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'AuthorName' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Comment.cs",
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 23,
+                  "endLine": 12,
+                  "endColumn": 33
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Comment.cs",
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 23,
+                  "endLine": 12,
+                  "endColumn": 33
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Fanfic' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Comment.cs",
+                "region": {
+                  "startLine": 18,
+                  "startColumn": 48,
+                  "endLine": 18,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Comment.cs",
+                "region": {
+                  "startLine": 18,
+                  "startColumn": 48,
+                  "endLine": 18,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'CommentPhoto' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Comment.cs",
+                "region": {
+                  "startLine": 20,
+                  "startColumn": 42,
+                  "endLine": 20,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Comment.cs",
+                "region": {
+                  "startLine": 20,
+                  "startColumn": 42,
+                  "endLine": 20,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Title' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Chapter.cs",
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 23,
+                  "endLine": 7,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Chapter.cs",
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 23,
+                  "endLine": 7,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Content' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Chapter.cs",
+                "region": {
+                  "startLine": 9,
+                  "startColumn": 23,
+                  "endLine": 9,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Chapter.cs",
+                "region": {
+                  "startLine": 9,
+                  "startColumn": 23,
+                  "endLine": 9,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Fanfic' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Chapter.cs",
+                "region": {
+                  "startLine": 15,
+                  "startColumn": 23,
+                  "endLine": 15,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Chapter.cs",
+                "region": {
+                  "startLine": 15,
+                  "startColumn": 23,
+                  "endLine": 15,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'FanficCategories' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Category.cs",
+                "region": {
+                  "startLine": 9,
+                  "startColumn": 44,
+                  "endLine": 9,
+                  "endColumn": 60
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Entities/Category.cs",
+                "region": {
+                  "startLine": 9,
+                  "startColumn": 44,
+                  "endLine": 9,
+                  "endColumn": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8604",
+          "level": "warning",
+          "message": "Possible null reference argument for parameter 'entity' in 'EntityEntry<Tag> DbSet<Tag>.Remove(Tag entity)'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/TagRepository.cs",
+                "region": {
+                  "startLine": 57,
+                  "startColumn": 30,
+                  "endLine": 57,
+                  "endColumn": 33
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8604",
+          "level": "warning",
+          "message": "Possible null reference argument for parameter 'entity' in 'EntityEntry<CommentPhoto> DbSet<CommentPhoto>.Remove(CommentPhoto entity)'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/CommentPhotoPhotoRepository.cs",
+                "region": {
+                  "startLine": 30,
+                  "startColumn": 43,
+                  "endLine": 30,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8604",
+          "level": "warning",
+          "message": "Possible null reference argument for parameter 'entity' in 'EntityEntry<Chapter> DbSet<Chapter>.Remove(Chapter entity)'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/ChapterRepository.cs",
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 34,
+                  "endLine": 34,
+                  "endColumn": 41
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8604",
+          "level": "warning",
+          "message": "Possible null reference argument for parameter 'entity' in 'EntityEntry<FanficTag> DbSet<FanficTag>.Remove(FanficTag entity)'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/TagRepository.cs",
+                "region": {
+                  "startLine": 72,
+                  "startColumn": 36,
+                  "endLine": 72,
+                  "endColumn": 45
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8602",
+          "level": "warning",
+          "message": "Dereference of a possibly null reference.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/TagRepository.cs",
+                "region": {
+                  "startLine": 79,
+                  "startColumn": 9,
+                  "endLine": 79,
+                  "endColumn": 12
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8603",
+          "level": "warning",
+          "message": "Possible null reference return.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/RepositoryBase.cs",
+                "region": {
+                  "startLine": 22,
+                  "startColumn": 20,
+                  "endLine": 22,
+                  "endColumn": 46
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8604",
+          "level": "warning",
+          "message": "Possible null reference argument for parameter 'entity' in 'EntityEntry<FanficPhoto> DbSet<FanficPhoto>.Remove(FanficPhoto entity)'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/FanficPhotoRepository.cs",
+                "region": {
+                  "startLine": 31,
+                  "startColumn": 42,
+                  "endLine": 31,
+                  "endColumn": 53
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8604",
+          "level": "warning",
+          "message": "Possible null reference argument for parameter 'entity' in 'EntityEntry<FanficCategory> DbSet<FanficCategory>.Remove(FanficCategory entity)'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/CategoryRepository.cs",
+                "region": {
+                  "startLine": 50,
+                  "startColumn": 46,
+                  "endLine": 50,
+                  "endColumn": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8601",
+          "level": "warning",
+          "message": "Possible null reference assignment.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/FanficPhotoRepository.cs",
+                "region": {
+                  "startLine": 47,
+                  "startColumn": 25,
+                  "endLine": 47,
+                  "endColumn": 32
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8604",
+          "level": "warning",
+          "message": "Possible null reference argument for parameter 'entity' in 'EntityEntry<Fanfic> DbSet<Fanfic>.Remove(Fanfic entity)'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/FanficRepository.cs",
+                "region": {
+                  "startLine": 146,
+                  "startColumn": 38,
+                  "endLine": 146,
+                  "endColumn": 44
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1998",
+          "level": "warning",
+          "message": "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/FanficRepository.cs",
+                "region": {
+                  "startLine": 150,
+                  "startColumn": 40,
+                  "endLine": 150,
+                  "endColumn": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8604",
+          "level": "warning",
+          "message": "Possible null reference argument for parameter 'entity' in 'EntityEntry<Reviews> DbSet<Reviews>.Remove(Reviews entity)'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/FanficRepository.cs",
+                "region": {
+                  "startLine": 215,
+                  "startColumn": 39,
+                  "endLine": 215,
+                  "endColumn": 45
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1186",
+          "level": "warning",
+          "message": "Add a nested comment explaining why this method is empty, throw a 'NotSupportedException' or complete the implementation.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Migrations/20231130163001_v3.cs",
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 33,
+                  "endLine": 17,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S112",
+          "level": "warning",
+          "message": "'System.Exception' should not be thrown by user code.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/CommentRepository.cs",
+                "region": {
+                  "startLine": 45,
+                  "startColumn": 20,
+                  "endLine": 45,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1125",
+          "level": "warning",
+          "message": "Remove the unnecessary Boolean literal(s).",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/TagRepository.cs",
+                "region": {
+                  "startLine": 98,
+                  "startColumn": 64,
+                  "endLine": 98,
+                  "endColumn": 72
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S112",
+          "level": "warning",
+          "message": "'System.Exception' should not be thrown by user code.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/CommentRepository.cs",
+                "region": {
+                  "startLine": 64,
+                  "startColumn": 42,
+                  "endLine": 64,
+                  "endColumn": 83
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S927",
+          "level": "warning",
+          "message": "Rename parameter 'fanficDto' to 'fanfic' to match the interface declaration.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/FanficRepository.cs",
+                "region": {
+                  "startLine": 91,
+                  "startColumn": 56,
+                  "endLine": 91,
+                  "endColumn": 65
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1125",
+          "level": "warning",
+          "message": "Remove the unnecessary Boolean literal(s).",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/FanficRepository.cs",
+                "region": {
+                  "startLine": 183,
+                  "startColumn": 53,
+                  "endLine": 183,
+                  "endColumn": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S927",
+          "level": "warning",
+          "message": "Rename parameter 'update' to 'fanfic' to match the interface declaration.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/pavlo/source/repos/NonamePoc/FanPage/server/FanPage.Backend/FanPage.Domain.Fanfic/Repos/Impl/FanficRepository.cs",
+                "region": {
+                  "startLine": 112,
+                  "startColumn": 45,
+                  "endLine": 112,
+                  "endColumn": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        }
+      ],
+      "rules": {
+        "CS0108": {
+          "id": "CS0108",
+          "shortDescription": "Member hides inherited member; missing new keyword",
+          "fullDescription": "A variable was declared with the same name as a variable in a base type. However, the new keyword was not used. This warning informs you that you should use new; the variable is declared as if new had been used in the declaration.",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS0108)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "CS1998": {
+          "id": "CS1998",
+          "shortDescription": "Async method lacks 'await' operators and will run synchronously",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS1998)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "CS8601": {
+          "id": "CS8601",
+          "shortDescription": "Possible null reference assignment.",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8601)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "CS8602": {
+          "id": "CS8602",
+          "shortDescription": "Dereference of a possibly null reference.",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8602)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "CS8603": {
+          "id": "CS8603",
+          "shortDescription": "Possible null reference return.",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8603)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "CS8604": {
+          "id": "CS8604",
+          "shortDescription": "Possible null reference argument.",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8604)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "CS8618": {
+          "id": "CS8618",
+          "shortDescription": "Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8618)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "S112": {
+          "id": "S112",
+          "shortDescription": "General or reserved exceptions should never be thrown",
+          "fullDescription": "This rule raises an issue when a general or reserved exception is thrown.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-112",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S1125": {
+          "id": "S1125",
+          "shortDescription": "Boolean literals should not be redundant",
+          "fullDescription": "A boolean literal can be represented in two different ways: true or false. They can be combined with logical operators (!, &&, ||, ==, !=) to produce logical expressions that represent truth values. However, comparing a boolean literal to a variable or expression that evaluates to a boolean value is unnecessary and can make the code harder to read and understand. The more complex a boolean expression is, the harder it will be for developers to understand its meaning and expected behavior, and it will favour the introduction of new bugs.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-1125",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "TestSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S1186": {
+          "id": "S1186",
+          "shortDescription": "Methods should not be empty",
+          "fullDescription": "An empty method is generally considered bad practice and can lead to confusion, readability, and maintenance issues. Empty methods bring no functionality and are misleading to others as they might think the method implementation fulfills a specific and identified requirement.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-1186",
+          "properties": {
+            "category": "Critical Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "TestSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S927": {
+          "id": "S927",
+          "shortDescription": "Parameter names should match base declaration and other partial definitions",
+          "fullDescription": "Parameters are part of the method signature and its identity.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-927",
+          "properties": {
+            "category": "Critical Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "TestSourceScope",
+              "SonarWay"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

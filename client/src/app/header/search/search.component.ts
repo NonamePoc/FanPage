@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { BookService } from '../../library/book.service';
+import { Book } from '../../library/models/book.model';
 
 @Component({
   selector: 'app-search',
@@ -10,14 +11,18 @@ import { BookService } from '../../library/book.service';
   styleUrl: './search.component.css',
 })
 export class SearchComponent {
-  results: any[] = [];
+  filteredBooks: Book[] = [];
   constructor(private bookService: BookService) {}
 
   search(value: string) {
-    this.results = this.bookService.searchBooks(value);
+    if (value.length != 0) {
+      this.filteredBooks = this.bookService.searchBooks(value);
+    } else {
+      this.clearResults();
+    }
   }
 
   clearResults() {
-    this.results = [];
+    this.filteredBooks = [];
   }
 }

@@ -1,0 +1,4 @@
+﻿C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.EmailService\Configuration\SmtpConfiguration.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.EmailService\Implementations\EmailService.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.EmailService\Interfaces\IEmailService.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.EmailService\Models\EmailRequest.cs

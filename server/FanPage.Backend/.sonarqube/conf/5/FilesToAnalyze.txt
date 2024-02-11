@@ -1,0 +1,12 @@
+﻿C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Context\ChatContext.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Entities\Chat.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Entities\ChatUser.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Entities\IEntity.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Entities\Message.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Migrations\20240119184112_v1.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Migrations\20240119184112_v1.Designer.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Migrations\20240123193421_v2.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Migrations\20240123193421_v2.Designer.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Migrations\ChatContextModelSnapshot.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Repos\Impl\ChatRepository.cs
+C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Domain.Chat\Repos\Interface\IChatRepository.cs

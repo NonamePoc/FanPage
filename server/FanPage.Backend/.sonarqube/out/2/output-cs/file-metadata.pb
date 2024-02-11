@@ -1,0 +1,15 @@
+–
+ŠC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Exception\obj\Debug\net7.0\FanPage.Exceptions.AssemblyInfo.csutf-8¢
+–C:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Exception\obj\Debug\net7.0\.NETCoreApp,Version=v7.0.AssemblyAttributes.csutf-8˜
+ŒC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Exception\obj\Debug\net7.0\FanPage.Exceptions.GlobalUsings.g.csutf-8x
+oC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Exception\UserNotFoundException.csutf-8v
+mC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Exception\UserDeleteException.csutf-8v
+mC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Exception\UserCreateException.csutf-8|
+sC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Exception\UserAlreadyExistException.csutf-8y
+pC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Exception\ResetPasswordException.csutf-8q
+hC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Exception\LogInException.csutf-8{
+rC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Exception\InvalidPasswordException.csutf-8r
+iC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Exception\FanficException.csutf-8v
+mC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Exception\ClientExceptionBase.csutf-8p
+gC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Exception\ChatException.csutf-8z
+qC:\Users\pavlo\source\repos\NonamePoc\FanPage\server\FanPage.Backend\FanPage.Exception\ChangePasswordException.csutf-8

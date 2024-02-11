@@ -170,6 +170,56 @@ export class BookService {
         },
       ],
     },
+    // new book
+    {
+      id: 3,
+      title: 'The Great Gatsby',
+      description:
+        'The Great Gatsby is a novel by F. Scott Fitzgerald that was first published in 1925.',
+      imageCover:
+        'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1490528560l/4671.jpg',
+      status: 'In Progress',
+      rating: 4.9,
+      author: 'F. Scott Fitzgerald',
+      language: 'English',
+      date: '1925',
+      categories: [
+        {
+          id: 1,
+          name: 'Romance',
+          description:
+            '&ensp;Indulge in tales of love, passion, and connection as characters navigate the intricate dance of emotions, weaving enchanting narratives that celebrate the enduring power of the heart.',
+          icon: 'favorite',
+          classNames: 'bg-rose-200 hover:bg-rose-300',
+        },
+        {
+          id: 8,
+          name: 'Suspense and Thrillers',
+          description:
+            '&ensp;Dive into gripping narratives where tension tightens, and heart-pounding twists keep you on the edge, unraveling mysteries and testing characters in a relentless pursuit of the unknown.',
+          icon: 'directions_run',
+          classNames: 'bg-red-200 hover:bg-red-300',
+        },
+      ],
+      tags: ['Fiction', 'Classic', 'Romance'],
+      chapters: [
+        {
+          id: 1,
+          title: 'Chapter 1',
+          content: 'Introduction',
+        },
+        {
+          id: 2,
+          title: 'Chapter 2',
+          content: 'The Valley of Ashes',
+        },
+        {
+          id: 3,
+          title: 'Chapter 3',
+          content: 'The Great Gatsby',
+        },
+      ],
+    },
   ];
   filters: BookFilter = {};
   filteredBooks: Book[] = [...this.books];
