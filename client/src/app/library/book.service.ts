@@ -1,135 +1,167 @@
 import { Injectable } from '@angular/core';
 import { Book, BookFilter } from './models/book.model';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment.development';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookService {
   isListLayout: boolean = false;
-  books: Book[] = [
-    {
-      id: 1,
-      title: 'The Lord of the Rings',
-      description:
-        'The Lord of the Rings is an epic high-fantasy novel written by English author and scholar J. R. R. Tolkien.',
-      imageCover:
-        'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1298411339l/33.jpg',
-      status: 'In Progress',
-      rating: 4.5,
-      author: 'J.R.R. Tolkien',
-      language: 'English',
-      date: '1954',
-      categories: [
-        {
-          id: 1,
-          name: 'Romance',
-          description:
-            '&ensp;Indulge in tales of love, passion, and connection as characters navigate the intricate dance of emotions, weaving enchanting narratives that celebrate the enduring power of the heart.',
-          icon: 'favorite',
-          classNames: 'bg-rose-200 hover:bg-rose-300',
-        },
-        {
-          id: 2,
-          name: 'Fantasy',
-          description:
-            '&ensp;Immerse yourself in realms of magic, mythical creatures, and epic adventures where imagination knows no bounds.',
-          icon: 'partly_cloudy_night',
-          classNames: 'bg-purple-200 hover:bg-purple-300',
-        },
-        {
-          id: 3,
-          name: 'Action & Adventure',
-          description:
-            '&ensp;Brace for adrenaline-pumping narratives where courage meets chaos, and protagonists navigate perilous challenges in pursuit of excitement and triumph.',
-          icon: 'sailing',
-          classNames: 'bg-orange-200 hover:bg-orange-300',
-        },
-      ],
-      tags: ['Fiction', 'Adventure', 'Fantasy'],
-      chapters: [
-        {
-          id: 1,
-          title: 'Chapter 1',
-          content: 'The Fellowship of the Ring',
-        },
-        {
-          id: 2,
-          title: 'Chapter 2',
-          content: 'The Two Towers',
-        },
-        {
-          id: 3,
-          title: 'Chapter 3',
-          content: 'The Return of the King',
-        },
-      ],
-    },
-    {
-      id: 2,
-      title: 'To Kill a Mockingbird',
-      description:
-        'To Kill a Mockingbird is a novel by Harper Lee published in 1960. It was immediately successful, winning the Pulitzer Prize.',
-      imageCover:
-        'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1553383690l/2657.jpg',
-      status: 'Done',
-      rating: 4.8,
-      author: 'Harper Lee',
-      language: 'English',
-      date: '1960',
-      categories: [
-        {
-          id: 2,
-          name: 'Fantasy',
-          description:
-            '&ensp;Immerse yourself in realms of magic, mythical creatures, and epic adventures where imagination knows no bounds.',
-          icon: 'partly_cloudy_night',
-          classNames: 'bg-purple-200 hover:bg-purple-300',
-        },
-        {
-          id: 8,
-          name: 'Suspense and Thrillers',
-          description:
-            '&ensp;Dive into gripping narratives where tension tightens, and heart-pounding twists keep you on the edge, unraveling mysteries and testing characters in a relentless pursuit of the unknown.',
-          icon: 'directions_run',
-          classNames: 'bg-red-200 hover:bg-red-300',
-        },
-      ],
-      tags: ['Classic', 'Fiction', 'Social Issues'],
-      chapters: [
-        {
-          id: 1,
-          title: 'Chapter 1',
-          content: 'Introduction',
-        },
-        {
-          id: 2,
-          title: 'Chapter 2',
-          content: 'Growing Up in Maycomb',
-        },
-        {
-          id: 3,
-          title: 'Chapter 3',
-          content: 'The Trial',
-        },
-      ],
-    },
-  ];
+  books: Book[] = [];
   filters: BookFilter = {};
   filteredBooks: Book[] = [...this.books];
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
+
+  setBooks(books: any) {
+    this.books = books;
+  }
+
+  addBook(data: any): Observable<any> {
+    return this.http
+      .post(environment.apiUrl + '/v1/fanfic/create', {
+        title: data.title,
+        description: data.description,
+        language: data.language,
+        image: data.cover,
+        categories: data.categories,
+        tags: data.tags,
+        originFandom: data.origin,
+        stage: data.stage,
+      })
+      .pipe(
+        tap((response: any) => {
+          this.books.push(response.book);
+        })
+      );
+  }
+
+  updateBook(data: any, id: number): Observable<any> {
+    return this.http
+      .put(environment.apiUrl + '/v1/fanfic/update?id=' + id, {
+        title: data.title,
+        description: data.description,
+        image: data.cover,
+        categories: data.categories,
+        tags: data.tags,
+        originFandom: data.origin,
+        stage: data.stage,
+        language: data.language,
+      })
+      .pipe(
+        tap((response: any) => {
+          const index = this.books.findIndex((book) => book.id === id);
+          if (index !== -1) {
+            this.books[index] = response.book;
+          }
+        })
+      );
+  }
+
+  deleteBook(id: number): Observable<any> {
+    return this.http
+      .delete(environment.apiUrl + '/v1/fanfic/delete?id=' + id)
+      .pipe(
+        tap(() => {
+          const index = this.books.findIndex((book) => book.id === id);
+          if (index !== -1) {
+            this.books.splice(index, 1);
+          }
+        })
+      );
+  }
+
+  getBook(id: number): Observable<any> {
+    return this.http
+      .get(environment.apiUrl + '/v1/detail/getById?id=' + id)
+      .pipe(
+        catchError((error) => {
+          console.error(error);
+          return of(error);
+        })
+      );
+  }
+
+  getBooksByUser(username: string): Observable<any> {
+    return this.http.get(
+      environment.apiUrl +
+        '/v1/detail/byAuthorName?authorName=' +
+        username +
+        '&offset=500'
+    );
+  }
+
+  getBookmarks(): Observable<any> {
+    return this.http.get(environment.apiUrl + '/v1/bookmark/List');
+  }
+
+  getPopularBooks(): Observable<any> {
+    return this.http.get(
+      environment.apiUrl + '/v1/detail/topRatingFanfics?count=9'
+    );
+  }
+
+  getLatestBooks(): Observable<any> {
+    return this.http.get(
+      environment.apiUrl + '/v1/detail/lastCreationDateFanfics?count=9'
+    );
+  }
+
+  // Ratings and reviews
+
+  getBookRating(id: number): Observable<any> {
+    return this.http.get(
+      environment.apiUrl + '/v1/detail/ratingFanfic?id=' + id
+    );
+  }
+
+  getBookReviews(id: number): Observable<any> {
+    return this.http.get(
+      environment.apiUrl + '/v1/review/allFanficReview?fanficId=' + id
+    );
+  }
+
+  addRating(id: number, rating: number, text: string): Observable<any> {
+    return this.http.post(
+      environment.apiUrl + '/v1/review/create?fanficId=' + id,
+      {
+        rating: rating,
+        text: text,
+      }
+    );
+  }
+
+  updateRating(id: number, rating: number, text: string): Observable<any> {
+    return this.http.put(
+      environment.apiUrl + '/v1/review/update?fanficId=' + id,
+      {
+        rating: rating,
+        text: text,
+      }
+    );
+  }
+
+  deleteRating(id: number): Observable<any> {
+    return this.http.delete(
+      environment.apiUrl + '/v1/review/delete?fanficId=' + id
+    );
+  }
 
   applyFilter() {
-    this.filteredBooks = this.books.filter((book) => {
+    console.log('Applying filter');
+    /* this.filteredBooks = this.books.filter((book) => {
       if (this.filters.status && book.status !== this.filters.status) {
         return false;
       }
 
       if (this.filters.categories && this.filters.categories.length > 0) {
-        const bookCategories = book.categories.map((category) => category.id);
+        const bookCategories = book.categories?.map((category) => category.id);
         if (
           !this.filters.categories.every((category) =>
-            bookCategories.includes(category.id)
+            bookCategories?.includes(category.id)
           )
         ) {
           return false;
@@ -141,6 +173,6 @@ export class BookService {
       }
 
       return true;
-    });
+    }); */
   }
 }

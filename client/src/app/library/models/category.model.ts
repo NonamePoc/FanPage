@@ -5,8 +5,3 @@ export interface Category {
   icon: string;
   classNames?: string;
 }
-
-export type SelectedCategory = Omit<
-  Category,
-  'description' | 'icon' | 'classNames'
->;

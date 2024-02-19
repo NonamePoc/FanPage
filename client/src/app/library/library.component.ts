@@ -16,11 +16,9 @@ export class LibraryComponent {
 
   onReadingMode() {
     this.isReadingMode = true;
-    console.log('onReadingMode()', this.isReadingMode);
   }
 
   onWritingMode() {
     this.isReadingMode = false;
-    console.log('onWritingMode', this.isReadingMode);
   }
 }

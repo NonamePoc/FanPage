@@ -9,6 +9,8 @@ import {
 import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { ToastrService } from 'ngx-toastr';
 import { ModalService } from '../../../../shared/modal/modal.service';
+import { BookService } from '../../../book.service';
+import { ReviewsComponent } from '../reviews.component';
 
 @Component({
   selector: 'app-star-rating',
@@ -18,27 +20,34 @@ import { ModalService } from '../../../../shared/modal/modal.service';
   imports: [CommonModule, ReactiveFormsModule, ModalComponent],
 })
 export class StarRatingComponent implements OnInit {
-  @Input() rating: number = 1;
-  @Output() ratingChange: EventEmitter<number> = new EventEmitter<number>();
+  @Input() bookId!: number;
 
+  editMode: boolean = false;
   reviewForm!: FormGroup;
 
   constructor(
     private toastr: ToastrService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private bookService: BookService,
+    private reviewsComp: ReviewsComponent
   ) {}
 
   ngOnInit(): void {
     this.reviewForm = new FormGroup({
-      rating: new FormControl(this.rating, [Validators.required]),
+      rating: new FormControl(1, [Validators.required]),
       text: new FormControl(null, [Validators.maxLength(500)]),
+    });
+
+    this.reviewsComp.review.subscribe((review) => {
+      if (review) {
+        this.editMode = true;
+        this.reviewForm.patchValue(review);
+      }
     });
   }
 
   setRating(value: number): void {
-    this.rating = value;
     this.reviewForm.controls['rating'].setValue(value);
-    this.ratingChange.emit(value);
   }
 
   onSubmit(): void {
@@ -46,9 +55,38 @@ export class StarRatingComponent implements OnInit {
       this.toastr.error('Max 500 chars for review text');
       return;
     }
-    console.log(this.reviewForm);
-    this.toastr.success('Review submitted');
+    this.editMode
+      ? this.bookService
+          .updateRating(
+            this.bookId,
+            this.reviewForm.controls['rating'].value,
+            this.reviewForm.controls['text'].value
+          )
+          .subscribe(() => {
+            this.resetForm('Review updated');
+            this.reviewsComp.setReview(null);
+          })
+      : this.bookService
+          .addRating(
+            this.bookId,
+            this.reviewForm.controls['rating'].value,
+            this.reviewForm.controls['text'].value
+          )
+          .subscribe(() => {
+            this.resetForm('Review added');
+          });
+  }
+
+  deleteReview(): void {
+    this.bookService.deleteRating(this.bookId).subscribe(() => {
+      this.resetForm('Review deleted');
+      this.reviewsComp.setReview(null);
+    });
+  }
+
+  private resetForm(message: string): void {
+    this.toastr.success(message);
     this.modalService.closeModal('reviewModal');
-    /*     this.reviewForm.reset(); */
+    this.reviewForm.reset();
   }
 }

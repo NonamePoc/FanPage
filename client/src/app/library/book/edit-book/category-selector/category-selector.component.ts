@@ -3,7 +3,7 @@ import { CategoryService } from './category.service';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Category, SelectedCategory } from '../../../models/category.model';
+import { Category } from '../../../models/category.model';
 import { DropdownDirective } from '../../../../shared/dropdown.directive';
 
 @Component({
@@ -22,7 +22,7 @@ import { DropdownDirective } from '../../../../shared/dropdown.directive';
 })
 export class CategorySelectorComponent implements ControlValueAccessor {
   categories: Category[] = this.categoryService.getCategories();
-  selected: SelectedCategory[] = [];
+  selected: string[] = [];
 
   constructor(
     private categoryService: CategoryService,
@@ -30,10 +30,7 @@ export class CategorySelectorComponent implements ControlValueAccessor {
   ) {}
 
   writeValue(value: any) {
-    value &&
-      (this.selected = value.map((category: Category) =>
-        this.mapToCategory(category)
-      ));
+    this.selected = value;
   }
 
   registerOnChange(fn: any) {
@@ -46,39 +43,33 @@ export class CategorySelectorComponent implements ControlValueAccessor {
 
   onSelectCategory(index: number, category: Category) {
     this.onTouched();
-    if (this.selected.find((selected) => selected.id === category.id)) {
-      this.toastr.warning('Category already added!');
+    if (this.selected.includes(category.name)) {
+      this.toastr.error('Category already selected');
       return;
     }
-    this.selected[index] = this.mapToCategory(category);
+    this.selected[index] = category.name;
     this.onChanged(this.selected);
   }
 
   onAddCategory() {
     this.onTouched();
-    this.selected.push(
-      this.mapToCategory(
-        this.categories.find(
-          (category) =>
-            !this.selected.find((selected) => selected.id === category.id)
-        )!
-      )
+    const category = this.categories.find(
+      (category) => !this.selected.includes(category.name)
     );
+    if (!category) {
+      this.toastr.error('All categories are selected');
+      return;
+    }
+    this.selected.push(category.name);
     this.onChanged(this.selected);
   }
 
   onRemoveCategory(index: number) {
+    this.onTouched();
     this.selected.splice(index, 1);
     this.onChanged(this.selected);
   }
 
   private onChanged!: Function;
   private onTouched!: Function;
-
-  private mapToCategory(category: Category) {
-    return {
-      id: category.id,
-      name: category.name,
-    };
-  }
 }

@@ -22,11 +22,13 @@ import { Language } from './language.model';
 export class LanguageSelectorComponent implements ControlValueAccessor {
   languages: Language[] = this.languageService.getLanguages();
   selected = this.languages[0];
+  selectedCode = this.selected.code;
 
   constructor(private languageService: LanguageService) {}
 
   writeValue(value: any) {
-    value && (this.selected = value);
+    this.selectedCode = value;
+    this.selected = this.languages.find((l) => l.code === value)!;
   }
 
   registerOnChange(fn: any) {
@@ -40,7 +42,8 @@ export class LanguageSelectorComponent implements ControlValueAccessor {
   onSelectLanguage(language: Language) {
     this.onTouched();
     this.selected = language;
-    this.onChanged(this.selected.code);
+    this.selectedCode = this.selected.code;
+    this.onChanged(this.selectedCode);
   }
 
   private onChanged!: Function;

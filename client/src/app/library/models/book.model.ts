@@ -5,14 +5,15 @@ export interface Book {
   id?: number;
   title: string;
   description: string;
+  image?: string;
   author: string;
-  imageCover?: string;
+  origin: boolean;
   status: string;
-  rating: number;
+  rating?: number;
   language: string;
-  date: string;
-  categories: Category[];
-  tags: string[];
+  date?: string;
+  categories?: Category[];
+  tags?: string[];
   chapters?: Chapter[];
 }
 

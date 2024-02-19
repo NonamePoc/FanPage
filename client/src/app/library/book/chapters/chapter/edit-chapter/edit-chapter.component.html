@@ -1,8 +1,18 @@
-<editor #editor apiKey="{{API_KEY}}"
-    [init]="{ plugins: 'lists link image table code help wordcount', browser_spellcheck: true, height: 'calc(100vh - 130px)' }">
-</editor>
+<form [formGroup]="chapterForm" (ngSubmit)='onSubmit()'>
 
-<button (click)='onSubmit()'
-    class='float-end mt-2 px-4 py-2 text-neutral-200 bg-blue-700 hover:bg-blue-600 transition duration-200 rounded-md font-medium'>
-    Save and upload
-</button>
+    <input formControlName='title' placeholder="Title"
+        class='p-2 rounded-lg border bg-white w-full transition duration-200 text-center' />
+
+    <editor #editor apiKey="{{API_KEY}}" formControlName="content"
+        [init]="{ plugins: 'lists link image table code help wordcount', browser_spellcheck: true, height: 'calc(100vh - 170px)' }">
+    </editor>
+
+    <div [ngClass]="{'flex items-center justify-end gap-2': editMode}">
+        <button (click)="onDelete()" type='button'
+            class='mt-2 px-4 py-2 text-neutral-200 bg-rose-700 hover:bg-rose-600 transition duration-200 rounded-md font-medium'>Delete</button>
+        <button
+            class='mt-2 px-4 py-2 text-neutral-200 bg-blue-700 hover:bg-blue-600 transition duration-200 rounded-md font-medium'>
+            Save and upload
+        </button>
+    </div>
+</form>

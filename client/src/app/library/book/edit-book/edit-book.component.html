@@ -90,7 +90,7 @@
                     <span class="material-symbols-rounded text-3xl text-blue-600">
                         cloud_upload
                     </span>
-                    <input formControlName='cover' (change)='selectImage($event)' type="file" accept='image/*'
+                    <input (change)='selectImage($event)' type="file" accept='image/*'
                         class='cursor-pointer opacity-0 absolute h-full w-full z-20' />
                     <img *ngIf="bookForm.get('cover')?.value" [src]="preview" alt="Cover Preview"
                         class='absolute h-full w-full object-contain opacity-100 hover:opacity-100 transition duration-200 cursor-pointer -z-index-20'>
