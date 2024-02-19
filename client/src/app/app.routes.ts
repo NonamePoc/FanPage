@@ -11,6 +11,7 @@ import { LibraryComponent } from './library/library.component';
 import { EditBookComponent } from './library/book/edit-book/edit-book.component';
 import { ChapterComponent } from './library/book/chapters/chapter/chapter.component';
 import { EditChapterComponent } from './library/book/chapters/chapter/edit-chapter/edit-chapter.component';
+import { AuthGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -21,42 +22,50 @@ export const routes: Routes = [
   {
     path: 'books',
     component: LibraryComponent,
+    canActivate: [AuthGuard],
   },
   {
-    path: 'books/new',
-    component: EditBookComponent,
+    path: 'books',
+    children: [
+      {
+        path: ':id',
+        component: BookComponent,
+      },
+      {
+        path: ':id/chapters/new',
+        component: EditChapterComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: ':id/chapters/:chapterId',
+        component: ChapterComponent,
+      },
+      {
+        path: ':id/chapters/:chapterId/edit',
+        component: EditChapterComponent,
+        canActivate: [AuthGuard],
+      },
+    ],
   },
   {
-    path: 'books/:id',
-    component: BookComponent,
-  },
-  {
-    path: 'books/:id/edit',
-    component: EditBookComponent,
-  },
-  {
-    path: 'books/:id/chapters/:chapterId',
-    component: ChapterComponent,
-  },
-  {
-    path: 'books/:id/chapters/:chapterId/edit',
-    component: EditChapterComponent,
-  },
-  {
-    path: 'user/:id',
+    path: 'user/:username',
     component: UserComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'chat',
     component: ChatComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'chat/:id',
     component: ChatRoomComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'settings',
     component: SettingsComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'auth',
@@ -65,5 +74,6 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
+    canActivate: [AuthGuard],
   },
 ];

@@ -9,6 +9,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { ModalComponent } from '../../shared/modal/modal.component';
+import { AuthService } from '../auth.service';
+import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registration',
@@ -19,6 +22,11 @@ import { ModalComponent } from '../../shared/modal/modal.component';
 })
 export class RegistrationComponent implements OnInit {
   signupForm!: FormGroup;
+
+  constructor(
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.signupForm = new FormGroup(
@@ -43,7 +51,34 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.signupForm);
+    if (this.signupForm.invalid) {
+      return;
+    }
+    const { username, email, password, confirmPassword } =
+      this.signupForm.value;
+
+    let authObs: Observable<any> = this.authService.signup(
+      email,
+      username,
+      password,
+      confirmPassword
+    );
+
+    authObs.subscribe({
+      next: () => {
+        this.toastr.success('Please check you mail', 'Email sent', {
+          timeOut: 3000,
+          positionClass: 'toast-center-center',
+        });
+      },
+      error: (errorMessage) => {
+        this.toastr.error(errorMessage, 'Error', {
+          timeOut: 3000,
+        });
+      },
+    });
+
+    this.signupForm.reset();
   }
 
   passwordMatchValidator: ValidatorFn = (

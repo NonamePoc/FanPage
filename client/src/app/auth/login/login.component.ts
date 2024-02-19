@@ -6,7 +6,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { ModalComponent } from '../../shared/modal/modal.component';
+import { AuthService } from '../auth.service';
+import { Observable } from 'rxjs';
+import { ModalService } from '../../shared/modal/modal.service';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +21,12 @@ import { ModalComponent } from '../../shared/modal/modal.component';
 })
 export class LoginComponent implements OnInit {
   signinForm!: FormGroup;
+
+  constructor(
+    private authService: AuthService,
+    private modalService: ModalService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.signinForm = new FormGroup({
@@ -29,6 +39,25 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.signinForm);
+    if (this.signinForm.invalid) {
+      return;
+    }
+    const { email, password } = this.signinForm.value;
+
+    let authObs: Observable<any> = this.authService.login(email, password);
+
+    authObs.subscribe({
+      next: () => {},
+      error: (errorMessage) => {
+        console.log(errorMessage);
+        this.toastr.error(errorMessage, 'Error', {
+          timeOut: 3000,
+        });
+      },
+    });
+
+    this.toastr.success('You have been logged in', 'Welcome');
+    this.signinForm.reset();
+    this.modalService.closeModal('authModal');
   }
 }
