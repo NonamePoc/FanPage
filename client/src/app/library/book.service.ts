@@ -3,7 +3,7 @@ import { Book, BookFilter } from './models/book.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +11,7 @@ import { catchError, tap } from 'rxjs/operators';
 export class BookService {
   isListLayout: boolean = false;
   books: Book[] = [];
+  bookmarks: any[] = [];
   filters: BookFilter = {};
   filteredBooks: Book[] = [...this.books];
 
@@ -94,10 +95,6 @@ export class BookService {
     );
   }
 
-  getBookmarks(): Observable<any> {
-    return this.http.get(environment.apiUrl + '/v1/bookmark/List');
-  }
-
   getPopularBooks(): Observable<any> {
     return this.http.get(
       environment.apiUrl + '/v1/detail/topRatingFanfics?count=9'
@@ -108,6 +105,45 @@ export class BookService {
     return this.http.get(
       environment.apiUrl + '/v1/detail/lastCreationDateFanfics?count=9'
     );
+  }
+
+  // Bookmarks
+
+  checkBookmark(id: number): boolean {
+    return this.bookmarks.some((bookmark) => bookmark.id === id);
+  }
+
+  getBookmarks(): Observable<any> {
+    return this.http.get(environment.apiUrl + '/v1/bookmark/List').pipe(
+      map((data: any) => {
+        this.bookmarks = data;
+      })
+    );
+  }
+
+  addBookmark(book: any): Observable<any> {
+    return this.http
+      .post(environment.apiUrl + '/v1/bookmark/Add?fanficId=' + book.id, {})
+      .pipe(
+        tap(() => {
+          this.bookmarks.push(book);
+        })
+      );
+  }
+
+  removeBookmark(book: any): Observable<any> {
+    return this.http
+      .delete(environment.apiUrl + '/v1/bookmark/Delete?fanficId=' + book.id)
+      .pipe(
+        tap(() => {
+          const index = this.bookmarks.findIndex(
+            (bookmark) => bookmark.id === book.id
+          );
+          if (index !== -1) {
+            this.bookmarks.splice(index, 1);
+          }
+        })
+      );
   }
 
   // Ratings and reviews

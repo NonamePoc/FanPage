@@ -15,6 +15,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class ReviewsComponent implements OnInit {
   bookId!: number;
+  rating!: number;
   reviews: any[] = [];
 
   private currentReviewSubject = new BehaviorSubject<any>(null);
@@ -29,9 +30,9 @@ export class ReviewsComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.bookId = +params['id'];
-      this.bookService.getBookRating(this.bookId).subscribe((data) => {
-        console.log(data);
-      });
+      this.bookService
+        .getBookRating(this.bookId)
+        .subscribe((data) => (this.rating = data));
       this.bookService.getBookReviews(this.bookId).subscribe((data) => {
         this.reviews = data;
       });

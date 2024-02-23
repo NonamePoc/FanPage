@@ -17,7 +17,7 @@
                 class='rounded-lg mt-2 py-3 w-full px-4 text-center bg-blue-600 hover:bg-blue-700 gap-2 drop-shadow-lg font-medium text-neutral-100 transition duration-200'>
                 Submit
             </button>
-            <button (click)='deleteReview()' type='button'
+            <button *ngIf='editMode' (click)='deleteReview()' type='button'
                 class='rounded-lg mt-2 py-3 w-full px-4 text-center gap-2 drop-shadow-lg font-medium transition duration-200 text-neutral-700 hover:text-rose-600'>
                 Delete
             </button>

@@ -1,40 +1,52 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ModalService } from '../../shared/modal/modal.service';
+import { ImageNormalizePipe } from '../../shared/image-normalize.pipe';
+import { AuthService } from '../../auth/auth.service';
+import { User } from '../../auth/user.model';
+import { UserService } from '../../shared/user.service';
+import { FriendsService } from '../friends/friends.service';
 
 @Component({
   selector: 'app-user-details',
   standalone: true,
-  imports: [],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.css',
+  imports: [CommonModule, ImageNormalizePipe],
 })
-export class UserDetailsComponent {
+export class UserDetailsComponent implements OnInit {
   @Output() modalType = new EventEmitter<string>();
-  isFollowing = false;
+
+  user: User | null = null;
+  isLoading: boolean = true;
+  isCurrentUser: boolean = false;
+  friendType!: string;
 
   constructor(
     private modalService: ModalService,
-    private toastr: ToastrService
+    private authService: AuthService,
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private friendService: FriendsService
   ) {}
 
+  ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => {
+      const username = params['username'];
+      this.userService.getUser(username).subscribe((data) => {
+        this.user = data;
+        this.isCurrentUser =
+          this.user?.username === this.authService.user?.getValue()?.username;
+      });
+      this.friendType = this.friendService.checkFriendTies(username);
+      this.isLoading = false;
+    });
+  }
+
   onFollow() {
-    this.isFollowing
-      ? this.toastr.info('You are following `user` now!', 'Followed', {
-          progressBar: true,
-          progressAnimation: 'decreasing',
-          positionClass: 'toast-bottom-right',
-        })
-      : this.toastr.warning(
-          'You are no longer following `user`.',
-          'Unfollowed',
-          {
-            progressBar: true,
-            progressAnimation: 'decreasing',
-            positionClass: 'toast-bottom-right',
-          }
-        );
-    this.isFollowing = !this.isFollowing;
+    this.friendType = this.friendService.changeFriendTies(this.user?.username!);
   }
 
   showFriendsModal(type: string) {

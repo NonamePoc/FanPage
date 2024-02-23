@@ -1,58 +1,25 @@
+import { ModalService } from './../shared/modal/modal.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+
+import { EmailChangeModalComponent } from './email-change-modal/email-change-modal.component';
+import { PasswordChangeModalComponent } from './password-change-modal/password-change-modal.component';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css',
+  imports: [
+    CommonModule,
+    EmailChangeModalComponent,
+    PasswordChangeModalComponent,
+  ],
 })
-export class SettingsComponent implements OnInit {
-  personForm!: FormGroup;
-  pristine = true;
+export class SettingsComponent {
+  constructor(private modalService: ModalService) {}
 
-  ngOnInit(): void {
-    this.personForm = new FormGroup({
-      username: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(12),
-      ]),
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(8),
-      ]),
-      newPassword: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(8),
-      ]),
-    });
-
-    this.personForm.valueChanges.subscribe(() => {
-      this.pristine = false;
-    });
-
-    this.personForm.setValue({
-      username: 'John Doe',
-      email: 'johndoe@mail.com',
-      password: '',
-      newPassword: '',
-    });
-  }
-
-  onSubmit(): void {
-    console.log(this.personForm);
-  }
-
-  onReset(): void {
-    this.personForm.reset();
+  openModal(modalId: string) {
+    this.modalService.openModal(modalId);
   }
 }

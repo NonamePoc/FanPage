@@ -1,23 +1,43 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { DropdownDirective } from '../../shared/dropdown.directive';
+import { FriendsService } from './friends.service';
+import { ImageNormalizePipe } from '../../shared/image-normalize.pipe';
 
 @Component({
   selector: 'app-friends',
   standalone: true,
   templateUrl: './friends.component.html',
   styleUrl: './friends.component.css',
-  imports: [CommonModule, DropdownDirective, ModalComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    DropdownDirective,
+    ModalComponent,
+    ImageNormalizePipe,
+  ],
 })
-export class FriendsComponent {
-  @Input() type!: string;
+export class FriendsComponent implements OnInit {
+  type!: string;
+  people: any[] = [];
 
-  constructor(private router: Router, private toastr: ToastrService) {}
+  constructor(
+    private toastr: ToastrService,
+    private friendService: FriendsService
+  ) {}
 
-  onRemove() {
+  ngOnInit(): void {
+    this.friendService.currentType.subscribe((type) => {
+      this.type = type;
+      this.loadFriendsByType(type);
+    });
+  }
+
+  onRemove(username: string) {
+    this.friendService.changeFriendTies(username);
     this.toastr.info('Friend removed', 'Success', {
       progressBar: true,
       progressAnimation: 'decreasing',
@@ -25,7 +45,20 @@ export class FriendsComponent {
     });
   }
 
-  onToProfile() {
-    this.router.navigate(['/user/1']);
+  private loadFriendsByType(type: string) {
+    switch (type) {
+      case 'mutuals':
+        this.people = this.friendService.mutuals;
+        break;
+      case 'followers':
+        this.people = this.friendService.followers;
+        break;
+      case 'following':
+        this.people = this.friendService.following;
+        break;
+      default:
+        console.error('Invalid type');
+        break;
+    }
   }
 }

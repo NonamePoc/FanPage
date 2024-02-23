@@ -58,7 +58,7 @@ export class EditChapterComponent implements OnInit {
             this.router.navigate(['../../'], { relativeTo: this.route });
           })
       : this.chapterService
-          .addChapter(this.id, this.chapterForm.value)
+          .addChapter(this.bookId, this.chapterForm.value)
           .subscribe((response: any) => {
             this.toastr.success('Chapter saved');
             this.router.navigate(['../', response.chapterId], {

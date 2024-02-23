@@ -29,23 +29,11 @@
                 </a>
             </button>
             <div>
-                <span appDropdown
-                    class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 transition duration-300">
+                <span (click)='onBookmark()'
+                    [ngClass]="{'bg-rose-200 hover:bg-rose-300': isBookmarked, 'bg-neutral-100 hover:bg-neutral-200': !isBookmarked}"
+                    class="material-symbols-rounded p-2 rounded-full  cursor-pointer  transition duration-300">
                     bookmark
                 </span>
-                <ul
-                    class='drop-shadow-lg px-2 py-2 opacity-0 -z-1 mt-2 absolute bg-stone-200 rounded transition duration-300 -translate-x-5 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:left-3 before:w-4 before:h-4 before:bg-stone-200 before:rounded before:rotate-45'>
-                    <li class='cursor-pointer hover:bg-stone-100 px-1 py-1 rounded flex gap-1 items-center'>
-                        <span class="material-symbols-rounded">
-                            schedule
-                        </span> Reading
-                    </li>
-                    <li class='cursor-pointer hover:bg-stone-100 px-1 py-1 rounded flex gap-1 items-center'>
-                        <span class="material-symbols-rounded">
-                            done
-                        </span>Done
-                    </li>
-                </ul>
                 <span appDropdown
                     class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 transition duration-300">
                     edit

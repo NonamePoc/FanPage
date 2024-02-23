@@ -7,7 +7,7 @@
         class='flex gap-2 items-center cursor-pointer font-semibold text-neutral-800 hover:text-blue-900/75 transition duration-300'>
 
         <ng-container *ngIf='isAuthenticated'>
-            <img class="w-8 h-8 md:w-10 md:h-10 rounded-full" [src]="user?.avatar" alt="User" />
+            <img class="w-8 h-8 md:w-10 md:h-10 rounded-full" [src]="user?.avatar | imageNormalize" alt="User" />
             <span class="hidden font-semibold lg:block">
                 {{user?.username}}
             </span>

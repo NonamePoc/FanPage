@@ -1,16 +1,21 @@
-<section class='transform -translate-y-10 md:-translate-y-16 px-3'>
+<section *ngIf="!isLoading" class='transform -translate-y-10 md:-translate-y-16 px-3'>
     <img class='rounded-full h-20 w-20 md:h-32 md:w-32 object-cover mx-auto border-4 border-neutral-100'
-        src="https://picsum.photos/400" alt="User">
-    <button (click)="onFollow()"
-        class='mx-auto my-4 w-[90%] py-2 md:px-4 bg-slate-500 hover:bg-slate-600 rounded text-white text-sm md:text-base font-medium tranistion duration-300 flex gap-1 items-center justify-center'>
+        [src]="user?.avatar| imageNormalize" alt="User">
+    <button *ngIf='!isCurrentUser' (click)="onFollow()"
+        class='mx-auto mt-4 w-[90%] py-2 md:px-4 bg-slate-500 hover:bg-slate-600 rounded text-white text-sm md:text-base font-medium tranistion duration-300 flex gap-1 items-center justify-center'>
         <span class="material-symbols-rounded">
-            {{isFollowing ? 'person_cancel' : 'person_add'}}
+            {{ friendType === 'following' || friendType === 'mutual' ? 'person_cancel' : 'person_add' }}
         </span>
-        {{isFollowing ? 'Unfollow' : 'Follow'}}
+        {{ friendType === 'following' || friendType === 'mutual' ? 'Unfollow' : 'Follow' }}
     </button>
-
-    <div class='ml-5'>
-        <div class='flex flex-wrap justify-around gap-1'>
+    <p *ngIf="friendType === 'follower'" class='mt-2 text-green-500 px-auto text-sm font-medium flex justify-center'>
+        Following you
+    </p>
+    <p *ngIf="friendType === 'mutual'" class='mt-2 text-blue-500 px-auto text-sm font-medium flex justify-center'>
+        Mutuals
+    </p>
+    <div class='ml-5 mt-4'>
+        <div *ngIf='isCurrentUser' class='flex flex-wrap justify-around gap-1'>
             <div (click)="showFriendsModal('followers')"
                 class="grid justify-center items-center cursor-pointer hover:bg-neutral-50 p-1 transition duration-300 rounded-md">
                 <p class='uppercase text-sm hidden sm:block xl:hidden'>flwrs</p>

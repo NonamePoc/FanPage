@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BookListComponent } from '../../library/book-list/book-list.component';
 import { FilterComponent } from '../../library/filter/filter.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user-works',
@@ -9,4 +10,14 @@ import { FilterComponent } from '../../library/filter/filter.component';
   styleUrl: './user-works.component.css',
   imports: [BookListComponent, FilterComponent],
 })
-export class UserWorksComponent {}
+export class UserWorksComponent implements OnInit {
+  username: string = '';
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.username = params['username'];
+    });
+  }
+}

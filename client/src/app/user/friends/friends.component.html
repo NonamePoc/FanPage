@@ -1,16 +1,14 @@
 <app-modal modalId="friendsModal" title='{{ type | uppercase }}'>
 
     <div class='grid md:grid-cols-2 gap-2'>
-        <div class='grid grid-cols-[auto_1fr_auto] items-center gap-3 p-2 rounded-lg bg-neutral-50'>
-            <img src="https://picsum.photos/100" alt="User Friend"
+        <div *ngFor='let person of people'
+            class='grid grid-cols-[auto_1fr_auto] items-center gap-3 p-2 rounded-lg bg-neutral-50'>
+            <img [src]="person.avatar | imageNormalize" alt="User Friend"
                 class="rounded-full h-10 w-10 md:h-12 md:w-12 object-cover">
             <div>
                 <h3 class='font-medium'>
-                    Friend's username
+                    {{ person.userName }}
                 </h3>
-                <p class='text-sm text-neutral-600'>
-                    23 followers
-                </p>
             </div>
             <div>
                 <span appDropdown
@@ -19,12 +17,12 @@
                 </span>
                 <ul
                     class='absolute drop-shadow-lg p-1 opacity-0 -z-10 bg-stone-200 rounded transition duration-300 -translate-x-5 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:left-1/2 md:before:left-3 before:w-4 before:h-4 before:bg-stone-200 before:rounded before:rotate-45'>
-                    <li (click)="onToProfile()"
+                    <li routerLink="/user/{{ person.userName }}"
                         class='cursor-pointer hover:bg-stone-100 px-1 py-1 rounded flex gap-1 items-center text-sm'>
                         <span class="material-symbols-rounded text-xl">face</span>
                         Go to profile
                     </li>
-                    <li (click)="onRemove()"
+                    <li (click)="onRemove(person.userName)"
                         class='cursor-pointer hover:bg-stone-100 px-1 py-1 rounded flex gap-1 items-center text-sm'>
                         <span class="material-symbols-rounded text-xl">close</span>
                         Remove

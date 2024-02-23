@@ -6,6 +6,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { LoginComponent } from './login/login.component';
 import { Subscription } from 'rxjs';
 import { GoogleComponent } from './google/google.component';
+import { RestorePasswordModalComponent } from './restore-password-modal/restore-password-modal.component';
 
 @Component({
   selector: 'app-auth',
@@ -18,6 +19,7 @@ import { GoogleComponent } from './google/google.component';
     RegistrationComponent,
     LoginComponent,
     GoogleComponent,
+    RestorePasswordModalComponent,
   ],
 })
 export class AuthComponent implements OnDestroy {

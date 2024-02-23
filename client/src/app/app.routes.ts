@@ -28,8 +28,18 @@ export const routes: Routes = [
     path: 'books',
     children: [
       {
+        path: 'new',
+        component: EditBookComponent,
+        canActivate: [AuthGuard],
+      },
+      {
         path: ':id',
         component: BookComponent,
+      },
+      {
+        path: ':id/edit',
+        component: EditBookComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: ':id/chapters/new',

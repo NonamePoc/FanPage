@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ModalService } from '../../../../shared/modal/modal.service';
 import { BookService } from '../../../book.service';
 import { ReviewsComponent } from '../reviews.component';
+import { Observable, catchError } from 'rxjs';
 
 @Component({
   selector: 'app-star-rating',
@@ -71,6 +72,15 @@ export class StarRatingComponent implements OnInit {
             this.bookId,
             this.reviewForm.controls['rating'].value,
             this.reviewForm.controls['text'].value
+          )
+          .pipe(
+            catchError((err) => {
+              this.toastr.error(
+                'Error adding review',
+                'Maybe you already added a review?'
+              );
+              return err;
+            })
           )
           .subscribe(() => {
             this.resetForm('Review added');

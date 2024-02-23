@@ -7,6 +7,7 @@ import { HeaderComponent } from './header/header.component';
 // import function to register Swiper custom elements
 import { register } from 'swiper/element/bundle';
 import { AuthService } from './auth/auth.service';
+import { FriendsService } from './user/friends/friends.service';
 // register Swiper custom elements
 register();
 
@@ -26,9 +27,16 @@ register();
 export class AppComponent implements OnInit {
   title = 'client';
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private friendService: FriendsService
+  ) {}
 
   ngOnInit(): void {
     this.authService.autoLogin();
+    // timeout
+    setTimeout(() => {
+      this.friendService.fetchUserTies();
+    }, 1000);
   }
 }

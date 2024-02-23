@@ -60,4 +60,8 @@ export class LoginComponent implements OnInit {
     this.signinForm.reset();
     this.modalService.closeModal('authModal');
   }
+
+  openRestorePassModal(): void {
+    this.modalService.openModal('restorePasswordModal');
+  }
 }

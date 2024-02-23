@@ -29,6 +29,7 @@ export class BookComponent implements OnInit {
   book: any;
   id!: number;
   isLoading = true;
+  isBookmarked = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,9 +43,20 @@ export class BookComponent implements OnInit {
       this.id = +params['id'];
       this.bookService.getBook(this.id).subscribe((book) => {
         this.book = book;
+        this.isBookmarked = this.bookService.checkBookmark(this.id);
         this.isLoading = false;
       });
     });
+  }
+
+  onBookmark() {
+    this.isBookmarked
+      ? this.bookService
+          .removeBookmark(this.id)
+          .subscribe(() => (this.isBookmarked = !this.isBookmarked))
+      : this.bookService
+          .addBookmark(this.id)
+          .subscribe(() => (this.isBookmarked = !this.isBookmarked));
   }
 
   onOpenDeleteModal() {

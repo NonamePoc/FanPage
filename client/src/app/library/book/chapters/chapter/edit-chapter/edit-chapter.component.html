@@ -8,7 +8,7 @@
     </editor>
 
     <div [ngClass]="{'flex items-center justify-end gap-2': editMode}">
-        <button (click)="onDelete()" type='button'
+        <button *ngIf='editMode' (click)="onDelete()" type='button'
             class='mt-2 px-4 py-2 text-neutral-200 bg-rose-700 hover:bg-rose-600 transition duration-200 rounded-md font-medium'>Delete</button>
         <button
             class='mt-2 px-4 py-2 text-neutral-200 bg-blue-700 hover:bg-blue-600 transition duration-200 rounded-md font-medium'>

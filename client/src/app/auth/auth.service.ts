@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 import { User } from './user.model';
 import { environment } from '../../environments/environment.development';
@@ -143,6 +143,12 @@ export class AuthService {
           );
         })
       );
+  }
+
+  restorePassword(email: string): Observable<any> {
+    return this.http.put(environment.apiUrl + '/v1/account/restorePassword', {
+      email: email,
+    });
   }
 
   private handleAuthentication(

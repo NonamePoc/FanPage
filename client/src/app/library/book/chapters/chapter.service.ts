@@ -25,7 +25,7 @@ export class ChapterService {
     return this.http.post(environment.apiUrl + '/v1/chapter/create', {
       title: data.title,
       content: data.content,
-      fanficId: id,
+      bookId: id,
     });
   }
 
