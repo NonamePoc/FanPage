@@ -48,8 +48,23 @@ namespace FanPage.Api.Mapper
         private void ProfileMaps()
         {
             CreateMap<Friendship, FriendDto>();
+            CreateMap<List<Friendship>, List<FriendDto>>()
+                .ConvertUsing(f => f.Select(f => new FriendDto
+                {
+                    FriendName = f.FriendName,
+                    UserName = f.UserName
+                }).ToList());
             CreateMap<FriendRequest, FriendRequestDto>();
+            CreateMap<List<FriendRequest>, List<FriendRequestDto>>()
+                .ConvertUsing(f => f.Select(f => new FriendRequestDto
+                {
+                    FriendName = f.FriendName,
+                    UserName = f.UserName,
+                    IsApproving = f.IsApproving
+                }).ToList());
+
             CreateMap<Follower, FollowerDto>();
+
             CreateMap<Bookmark, BookmarkDto>();
         }
 

@@ -52,7 +52,7 @@ namespace FanPage.Api.Controllers.User
         }
 
         /// <summary>
-        ///  List of send №1
+        ///  List of request that has been sended by user
         /// </summary>
         /// <returns>list of the people who get request for friendship from user</returns>
         [HttpGet]
@@ -70,7 +70,7 @@ namespace FanPage.Api.Controllers.User
         /// <summary>
         ///  Cansel Send
         /// </summary>
-        /// <param name="friendName">name of user 1 who get friend request from user 2(person who use method)</param>
+        /// <param name="friendName=">Id of user 1 who get friend request from user 2(person who use method)</param>
         /// <returns>status 200</returns>
         [HttpDelete]
         [Route("Cancel")]
@@ -85,7 +85,7 @@ namespace FanPage.Api.Controllers.User
         }
 
         /// <summary>
-        ///  List of send №2
+        ///  List of request that have been sended to user
         /// </summary>
         /// <returns>list of people who want send request of friendship to user</returns>
         [HttpGet]

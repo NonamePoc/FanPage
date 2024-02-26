@@ -23,11 +23,11 @@ namespace FanPage.Infrastructure.Implementations.User
 
         public async Task<bool> Add(HttpRequest request, int fanficId)
         {
-            var userName = _jwtTokenManager.GetUserNameFromToken(request);
-            if (userName == null) throw new Exception("User not found");
+            var userId = _jwtTokenManager.GetUserIdFromToken(request);
+            if (userId == null) throw new Exception("User not found");
             var fanfic = await _fanficRepository.GetByIdAsync(fanficId);
             if (fanfic == null) throw new Exception("Fanfic not found");
-            await _bookmarkRepository.Add(userName, fanficId);
+            await _bookmarkRepository.Add(userId, fanficId);
             return true;
         }
 

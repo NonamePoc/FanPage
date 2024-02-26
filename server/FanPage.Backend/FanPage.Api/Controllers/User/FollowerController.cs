@@ -36,7 +36,7 @@ namespace FanPage.Api.Controllers.User
         /// <summary>
         ///  Subcribe
         /// </summary>
-        /// <param name="followerId">id of user who get subcriber</param>
+        /// <param name="userName">name of user who get subcriber</param>
         /// <returns> status 200</returns>
         [HttpPut]
         [Route("Subscribe")]
@@ -44,16 +44,16 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Subscribe([FromQuery]int followerId)
+        public async Task<IActionResult> Subscribe([FromQuery]string userName)
         {
-            await _follower.Subscribe(HttpContext.Request, followerId);
+            await _follower.Subscribe(HttpContext.Request, userName);
             return Ok();
         }
 
         /// <summary>
         /// Unsubcribe
         /// </summary>
-        /// <param name="followerId">id of user1 from who user2 want to unsubscribe </param>
+        /// <param name="userName">name of user from who you want unsubcribe</param>
         /// <returns> status 200</returns>
         [HttpDelete]
         [Route("Unsubcribe")]
@@ -61,9 +61,9 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Unsubscribe([FromQuery]int followerId)
+        public async Task<IActionResult> Unsubscribe([FromQuery]string userName)
         {
-            await _follower.Unsubscribe(HttpContext.Request, followerId);
+            await _follower.Unsubscribe(HttpContext.Request, userName);
             return Ok();
         }
     }
