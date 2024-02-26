@@ -19,7 +19,11 @@ public class ReviewService : IReview
         _fanficRepository = fanficRepository;
     }
 
-    public async Task<ReviewsDto> CreateReviewAsync(int fanficId, ReviewsDto reviewsDto, HttpRequest request)
+    public async Task<ReviewsDto> CreateReviewAsync(
+        int fanficId,
+        ReviewsDto reviewsDto,
+        HttpRequest request
+    )
     {
         var fanfic = await _fanficRepository.GetByIdAsync(fanficId);
         var userName = _jwtTokenManager.GetUserNameFromToken(request);
@@ -50,7 +54,11 @@ public class ReviewService : IReview
         };
     }
 
-    public async Task<ReviewsDto> UpdateReviewAsync(int fanficId, ReviewsDto reviewsDto, HttpRequest request)
+    public async Task<ReviewsDto> UpdateReviewAsync(
+        int fanficId,
+        ReviewsDto reviewsDto,
+        HttpRequest request
+    )
     {
         var fanfic = await _fanficRepository.GetByIdAsync(fanficId);
         var userName = _jwtTokenManager.GetUserNameFromToken(request);
@@ -67,7 +75,7 @@ public class ReviewService : IReview
             throw new FanficException($"You can't update this review");
         }
 
-        review.Text = reviewsDto.Text ?? review.Text;
+        review.Text = !string.IsNullOrWhiteSpace(reviewsDto.Text) ? reviewsDto.Text : review.Text;
         review.Rating = (reviewsDto.Rating != 0) ? reviewsDto.Rating : review.Rating;
 
         var result = await _fanficRepository.UpdateReviewAsync(fanficId, review);
@@ -120,15 +128,17 @@ public class ReviewService : IReview
     public async Task<List<ReviewsDto>> GetAllReviewByFanficIdAsync(int fanficId)
     {
         var reviews = await _fanficRepository.GetAllReviewByFanficIdAsync(fanficId);
-        var result = reviews.Select(s => new ReviewsDto()
-        {
-            FanficId = fanficId,
-            ReviewId = s.ReviewId,
-            Text = s.Text,
-            CreationDate = s.CreationDate,
-            UserName = s.UserName,
-            Rating = s.Rating,
-        }).ToList();
+        var result = reviews
+            .Select(s => new ReviewsDto()
+            {
+                FanficId = fanficId,
+                ReviewId = s.ReviewId,
+                Text = s.Text,
+                CreationDate = s.CreationDate,
+                UserName = s.UserName,
+                Rating = s.Rating,
+            })
+            .ToList();
 
         return result;
     }
@@ -136,15 +146,17 @@ public class ReviewService : IReview
     public async Task<List<ReviewsDto>> GetAllReviewByUserNameAsync(string userName)
     {
         var reviews = await _fanficRepository.GetAllReviewByUserNameAsync(userName);
-        var result = reviews.Select(s => new ReviewsDto()
-        {
-            FanficId = s.FanficId,
-            ReviewId = s.ReviewId,
-            Text = s.Text,
-            CreationDate = s.CreationDate,
-            UserName = userName,
-            Rating = s.Rating,
-        }).ToList();
+        var result = reviews
+            .Select(s => new ReviewsDto()
+            {
+                FanficId = s.FanficId,
+                ReviewId = s.ReviewId,
+                Text = s.Text,
+                CreationDate = s.CreationDate,
+                UserName = userName,
+                Rating = s.Rating,
+            })
+            .ToList();
 
         return result;
     }
@@ -152,15 +164,17 @@ public class ReviewService : IReview
     public async Task<List<ReviewsDto>> GetAllReview()
     {
         var reviews = await _fanficRepository.GetAllReview();
-        var result = reviews.Select(s => new ReviewsDto()
-        {
-            FanficId = s.FanficId,
-            ReviewId = s.ReviewId,
-            Text = s.Text,
-            CreationDate = s.CreationDate,
-            UserName = s.UserName,
-            Rating = s.Rating,
-        }).ToList();
+        var result = reviews
+            .Select(s => new ReviewsDto()
+            {
+                FanficId = s.FanficId,
+                ReviewId = s.ReviewId,
+                Text = s.Text,
+                CreationDate = s.CreationDate,
+                UserName = s.UserName,
+                Rating = s.Rating,
+            })
+            .ToList();
 
         return result;
     }

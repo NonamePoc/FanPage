@@ -59,19 +59,27 @@ public class ChapterController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> UpdateChapter([FromBody] ChapterModel chapterModel, [FromQuery] int chapterId)
+    public async Task<IActionResult> UpdateChapter(
+        [FromBody] ChapterModel chapterModel,
+        [FromQuery] int chapterId
+    )
     {
         var chapterDto = _mapper.Map<ChapterDto>(chapterModel);
-        var retrieval = await _chapter.UpdateChapterAsync(chapterId, chapterDto, HttpContext.Request);
+        var retrieval = await _chapter.UpdateChapterAsync(
+            chapterId,
+            chapterDto,
+            HttpContext.Request
+        );
         var response = _mapper.Map<ChapterViewModel>(retrieval);
 
         return Ok(response);
     }
 
     /// <summary>
-    ///  Delete chapter by id
+    ///  delete chapter
     /// </summary>
-    /// <param name="id">fanfic id </param>
+    /// <param name="id"> chapter id </param>
+    /// <param name="fanficId"></param>
     /// <returns></returns>
     [HttpDelete]
     [Route("delete")]
@@ -81,30 +89,18 @@ public class ChapterController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> DeleteChapter([FromQuery] int id)
+    public async Task<IActionResult> DeleteChapter([FromQuery] int id, [FromQuery] int fanficId)
     {
-        await _chapter.DeleteChapterAsync(id, HttpContext.Request);
+        await _chapter.DeleteChapterAsync(id, fanficId, HttpContext.Request);
         return Ok();
     }
 
     /// <summary>
-    /// get all chapter
+    ///  Get chapter by id
     /// </summary>
-    /// <returns></returns>
-    [HttpGet]
-    [Route("all")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(401)]
-    [ProducesResponseType(typeof(JsonResponseContainer<ChapterViewModel>), 200)]
-    [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
-    [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-    public async Task<IActionResult> GetChapter()
-    {
-        var retrieval = await _chapter.GetAllChaptersAsync();
-        var response = _mapper.Map<List<ChapterViewModel>>(retrieval);
-        return Ok(response);
-    }
-
+    /// <param name="id">chapter id  </param>
+    /// <param name="fanficId"> fanfic id</param>
+    /// <returns>object chapter </returns>
     [HttpGet]
     [Route("chapterById")]
     [ProducesResponseType(200)]
@@ -112,9 +108,9 @@ public class ChapterController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer<ChapterViewModel>), 200)]
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-    public async Task<IActionResult> GetChapterById([FromQuery] int id)
+    public async Task<IActionResult> GetChapterById([FromQuery] int id, [FromQuery] int fanficId)
     {
-        var retrieval = await _chapter.GetByIdAsync(id);
+        var retrieval = await _chapter.GetByIdAsync(id, fanficId);
         var response = _mapper.Map<ChapterViewModel>(retrieval);
         return Ok(response);
     }
@@ -133,7 +129,7 @@ public class ChapterController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     public async Task<IActionResult> GetChapterByFanficId([FromQuery] int fanficId)
     {
-        var retrieval = await _chapter.GetAllChaptersByFanficIdAsync(fanficId);
+        var retrieval = await _chapter.GetAllFanficChapter(fanficId);
         var response = _mapper.Map<List<ChapterViewModel>>(retrieval);
         return Ok(response);
     }

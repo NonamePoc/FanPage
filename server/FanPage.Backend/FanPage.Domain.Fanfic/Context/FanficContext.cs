@@ -5,9 +5,8 @@ namespace FanPage.Domain.Fanfic.Context
 {
     public class FanficContext : DbContext
     {
-        public FanficContext(DbContextOptions<FanficContext> options) : base(options)
-        {
-        }
+        public FanficContext(DbContextOptions<FanficContext> options)
+            : base(options) { }
 
         public DbSet<Entities.Fanfic> Fanfic { get; set; }
 
@@ -32,11 +31,9 @@ namespace FanPage.Domain.Fanfic.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<FanficTag>()
-                .HasKey(ft => new { ft.FanficId, ft.TagId });
+            modelBuilder.Entity<FanficTag>().HasKey(ft => new { ft.FanficId, ft.TagId });
 
-            modelBuilder.Entity<FanficCategory>()
-                .HasKey(fc => new { fc.FanficId, fc.CategoryId });
+            modelBuilder.Entity<FanficCategory>().HasKey(fc => new { fc.FanficId, fc.CategoryId });
         }
     }
 }

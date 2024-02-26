@@ -17,7 +17,8 @@ public class FanficDetailService : IFanficDetail
     public async Task<List<FanficDto>> GetAllAsync(int count)
     {
         var allFanfic = await _fanficRepository.GetAllAsync(count);
-        return allFanfic.Select(fanfic => new FanficDto
+        return allFanfic
+            .Select(fanfic => new FanficDto
             {
                 Id = fanfic.Id,
                 AuthorName = fanfic.AuthorName,
@@ -28,13 +29,31 @@ public class FanficDetailService : IFanficDetail
                 Language = fanfic.Language,
                 CreationDate = fanfic.CreationDate,
                 Image = fanfic.Image,
-                Categories = fanfic.Categories
-                    ?.Select(c => new CategoryDto { Name = c.Name, CategoryId = c.CategoryId }).ToList(),
-                Tags = fanfic.Tags
-                    ?.Select(t => new TagDto { Name = t.Name, TagId = t.TagId, IsApproved = t.IsApproved }).ToList(),
-                Chapters = fanfic.Chapters?.Select(ch => new ChapterDto
-                    { FanficId = fanfic.Id, Title = ch.Title, Content = ch.Content }).ToList(),
-                Reviews = fanfic.Reviews?.Select(r => new ReviewsDto
+                Categories = fanfic
+                    .Categories?.Select(c => new CategoryDto
+                    {
+                        Name = c.Name,
+                        CategoryId = c.CategoryId
+                    })
+                    .ToList(),
+                Tags = fanfic
+                    .Tags?.Select(t => new TagDto
+                    {
+                        Name = t.Name,
+                        TagId = t.TagId,
+                        IsApproved = t.IsApproved
+                    })
+                    .ToList(),
+                Chapters = fanfic
+                    .Chapters?.Select(ch => new ChapterDto
+                    {
+                        FanficId = fanfic.Id,
+                        Title = ch.Title,
+                        Content = ch.Content
+                    })
+                    .ToList(),
+                Reviews = fanfic
+                    .Reviews?.Select(r => new ReviewsDto
                     {
                         FanficId = fanfic.Id,
                         ReviewId = r.ReviewId,
@@ -48,12 +67,12 @@ public class FanficDetailService : IFanficDetail
             })
             .ToList();
     }
-
 
     public async Task<List<FanficDto>> GetByAuthorNameAsync(string name, int count)
     {
         var byAuthorNameAsync = await _fanficRepository.GetByAuthorNameAsync(name, count);
-        return byAuthorNameAsync.Select(fanfic => new FanficDto
+        return byAuthorNameAsync
+            .Select(fanfic => new FanficDto
             {
                 Id = fanfic.Id,
                 AuthorName = fanfic.AuthorName,
@@ -64,13 +83,31 @@ public class FanficDetailService : IFanficDetail
                 Language = fanfic.Language,
                 CreationDate = fanfic.CreationDate,
                 Image = fanfic.Image,
-                Categories = fanfic.Categories
-                    ?.Select(c => new CategoryDto { Name = c.Name, CategoryId = c.CategoryId }).ToList(),
-                Tags = fanfic.Tags
-                    ?.Select(t => new TagDto { Name = t.Name, TagId = t.TagId, IsApproved = t.IsApproved }).ToList(),
-                Chapters = fanfic.Chapters?.Select(ch => new ChapterDto
-                    { FanficId = fanfic.Id, Title = ch.Title, Content = ch.Content }).ToList(),
-                Reviews = fanfic.Reviews?.Select(r => new ReviewsDto
+                Categories = fanfic
+                    .Categories?.Select(c => new CategoryDto
+                    {
+                        Name = c.Name,
+                        CategoryId = c.CategoryId
+                    })
+                    .ToList(),
+                Tags = fanfic
+                    .Tags?.Select(t => new TagDto
+                    {
+                        Name = t.Name,
+                        TagId = t.TagId,
+                        IsApproved = t.IsApproved
+                    })
+                    .ToList(),
+                Chapters = fanfic
+                    .Chapters?.Select(ch => new ChapterDto
+                    {
+                        FanficId = fanfic.Id,
+                        Title = ch.Title,
+                        Content = ch.Content
+                    })
+                    .ToList(),
+                Reviews = fanfic
+                    .Reviews?.Select(r => new ReviewsDto
                     {
                         FanficId = fanfic.Id,
                         ReviewId = r.ReviewId,
@@ -85,11 +122,17 @@ public class FanficDetailService : IFanficDetail
             .ToList();
     }
 
-    public async Task<List<FanficDto>> GetLastCreationDateFanficsAsync(int count, HttpRequest request)
+    public async Task<List<FanficDto>> GetLastCreationDateFanficsAsync(
+        int count,
+        HttpRequest request
+    )
     {
-        var lastCreationDateFanficsAsync = await _fanficRepository.GetLastCreationDateFanficsAsync(count);
+        var lastCreationDateFanficsAsync = await _fanficRepository.GetLastCreationDateFanficsAsync(
+            count
+        );
 
-        return lastCreationDateFanficsAsync.Select(fanfic => new FanficDto
+        return lastCreationDateFanficsAsync
+            .Select(fanfic => new FanficDto
             {
                 Id = fanfic.Id,
                 AuthorName = fanfic.AuthorName,
@@ -100,13 +143,31 @@ public class FanficDetailService : IFanficDetail
                 Language = fanfic.Language,
                 CreationDate = fanfic.CreationDate,
                 Image = fanfic.Image,
-                Categories = fanfic.Categories
-                    ?.Select(c => new CategoryDto { Name = c.Name, CategoryId = c.CategoryId }).ToList(),
-                Tags = fanfic.Tags
-                    ?.Select(t => new TagDto { Name = t.Name, TagId = t.TagId, IsApproved = t.IsApproved }).ToList(),
-                Chapters = fanfic.Chapters?.Select(ch => new ChapterDto
-                    { FanficId = fanfic.Id, Title = ch.Title, Content = ch.Content }).ToList(),
-                Reviews = fanfic.Reviews?.Select(r => new ReviewsDto
+                Categories = fanfic
+                    .Categories?.Select(c => new CategoryDto
+                    {
+                        Name = c.Name,
+                        CategoryId = c.CategoryId
+                    })
+                    .ToList(),
+                Tags = fanfic
+                    .Tags?.Select(t => new TagDto
+                    {
+                        Name = t.Name,
+                        TagId = t.TagId,
+                        IsApproved = t.IsApproved
+                    })
+                    .ToList(),
+                Chapters = fanfic
+                    .Chapters?.Select(ch => new ChapterDto
+                    {
+                        FanficId = fanfic.Id,
+                        Title = ch.Title,
+                        Content = ch.Content
+                    })
+                    .ToList(),
+                Reviews = fanfic
+                    .Reviews?.Select(r => new ReviewsDto
                     {
                         FanficId = fanfic.Id,
                         ReviewId = r.ReviewId,
@@ -120,13 +181,13 @@ public class FanficDetailService : IFanficDetail
             })
             .ToList();
     }
-
 
     public async Task<List<FanficDto>> GetTopRatingFanficsAsync(int count, HttpRequest request)
     {
         var fanfic = await _fanficRepository.GetTopRatingFanficsAsync(count);
 
-        return fanfic.Select(dto => new FanficDto
+        return fanfic
+            .Select(dto => new FanficDto
             {
                 Id = dto.Id,
                 AuthorName = dto.AuthorName,
@@ -137,13 +198,31 @@ public class FanficDetailService : IFanficDetail
                 Language = dto.Language,
                 CreationDate = dto.CreationDate,
                 Image = dto.Image,
-                Categories = dto.Categories
-                    ?.Select(c => new CategoryDto { Name = c.Name, CategoryId = c.CategoryId }).ToList(),
-                Tags = dto.Tags
-                    ?.Select(t => new TagDto { Name = t.Name, TagId = t.TagId, IsApproved = t.IsApproved }).ToList(),
-                Chapters = dto.Chapters?.Select(ch => new ChapterDto
-                    { FanficId = dto.Id, Title = ch.Title, Content = ch.Content }).ToList(),
-                Reviews = dto.Reviews?.Select(r => new ReviewsDto
+                Categories = dto
+                    .Categories?.Select(c => new CategoryDto
+                    {
+                        Name = c.Name,
+                        CategoryId = c.CategoryId
+                    })
+                    .ToList(),
+                Tags = dto
+                    .Tags?.Select(t => new TagDto
+                    {
+                        Name = t.Name,
+                        TagId = t.TagId,
+                        IsApproved = t.IsApproved
+                    })
+                    .ToList(),
+                Chapters = dto
+                    .Chapters?.Select(ch => new ChapterDto
+                    {
+                        FanficId = dto.Id,
+                        Title = ch.Title,
+                        Content = ch.Content
+                    })
+                    .ToList(),
+                Reviews = dto
+                    .Reviews?.Select(r => new ReviewsDto
                     {
                         FanficId = dto.Id,
                         ReviewId = r.ReviewId,
@@ -157,7 +236,6 @@ public class FanficDetailService : IFanficDetail
             })
             .ToList();
     }
-
 
     public async Task<FanficDto> GetByIdAsync(int id)
     {
@@ -174,82 +252,102 @@ public class FanficDetailService : IFanficDetail
             Language = fanfic.Language,
             CreationDate = fanfic.CreationDate,
             Image = fanfic.Image,
-            Categories = fanfic.Categories?.Select(c => new CategoryDto
-            {
-                Name = c.Name,
-                CategoryId = c.CategoryId
-            }).ToList(),
-            Tags = fanfic.Tags?.Select(t => new TagDto
-            {
-                Name = t.Name,
-                TagId = t.TagId,
-                IsApproved = t.IsApproved
-            }).ToList(),
-            Chapters = fanfic.Chapters?.Select(ch => new ChapterDto
-            {
-                FanficId = fanfic.Id,
-                Title = ch.Title,
-                Content = ch.Content
-            }).ToList(),
-            Reviews = fanfic.Reviews?.Select(r => new ReviewsDto
-            {
-                FanficId = fanfic.Id,
-                ReviewId = r.ReviewId,
-                Text = r.Text,
-                CreationDate = r.CreationDate,
-                UserName = r.UserName,
-                Rating = r.Rating
-            }).Where(r => r.FanficId == fanfic.Id).ToList()
+            Categories = fanfic
+                .Categories?.Select(c => new CategoryDto
+                {
+                    Name = c.Name,
+                    CategoryId = c.CategoryId
+                })
+                .ToList(),
+            Tags = fanfic
+                .Tags?.Select(t => new TagDto
+                {
+                    Name = t.Name,
+                    TagId = t.TagId,
+                    IsApproved = t.IsApproved
+                })
+                .ToList(),
+            Chapters = fanfic
+                .Chapters?.Select(ch => new ChapterDto
+                {
+                    FanficId = fanfic.Id,
+                    Title = ch.Title,
+                    Content = ch.Content
+                })
+                .ToList(),
+            Reviews = fanfic
+                .Reviews?.Select(r => new ReviewsDto
+                {
+                    FanficId = fanfic.Id,
+                    ReviewId = r.ReviewId,
+                    Text = r.Text,
+                    CreationDate = r.CreationDate,
+                    UserName = r.UserName,
+                    Rating = r.Rating
+                })
+                .Where(r => r.FanficId == fanfic.Id)
+                .ToList()
         };
     }
 
-
-    public Task<double> GetAverageRatingAsync(int fanficId)
+    public async Task<double> GetAverageRatingAsync(int fanficId)
     {
-        var averageRatingAsync = _fanficRepository.GetAverageRatingAsync(fanficId);
+        var averageRatingAsync = await _fanficRepository.GetAverageRatingAsync(fanficId);
+
         return averageRatingAsync;
     }
 
     public async Task<List<FanficDto>> SearchAsync(string searchString, bool original)
     {
         var fanficList = await _fanficRepository.SearchAsync(searchString, original);
-        return fanficList.Select(fanfic => new FanficDto()
-        {
-            Id = fanfic.Id,
-            AuthorName = fanfic.AuthorName,
-            Title = fanfic.Title,
-            Description = fanfic.Description,
-            OriginFandom = fanfic.OriginFandom,
-            Stage = fanfic.Stage,
-            Language = fanfic.Language,
-            CreationDate = fanfic.CreationDate,
-            Image = fanfic.Image,
-            Categories = fanfic.Categories?.Select(s => new CategoryDto()
+        return fanficList
+            .Select(fanfic => new FanficDto()
             {
-                Name = s.Name,
-                CategoryId = s.CategoryId
-            }).ToList(),
-            Tags = fanfic.Tags?.Select(s => new TagDto()
-            {
-                Name = s.Name,
-                TagId = s.TagId,
-                IsApproved = s.IsApproved
-            }).ToList(),
-            Chapters = fanfic.Chapters?.Select(s => new ChapterDto()
-            {
-                FanficId = fanfic.Id,
-                Title = s.Title,
-                Content = s.Content,
-            }).ToList(),
-            Reviews = fanfic.Reviews?.Select(s => new ReviewsDto()
-            {
-                FanficId = fanfic.Id,
-                ReviewId = s.ReviewId,
-                Text = s.Text,
-                CreationDate = s.CreationDate,
-                UserName = s.UserName,
-                Rating = s.Rating,
-            }).Where(w => w.FanficId == fanfic.Id).ToList()
-        }).ToList();
+                Id = fanfic.Id,
+                AuthorName = fanfic.AuthorName,
+                Title = fanfic.Title,
+                Description = fanfic.Description,
+                OriginFandom = fanfic.OriginFandom,
+                Stage = fanfic.Stage,
+                Language = fanfic.Language,
+                CreationDate = fanfic.CreationDate,
+                Image = fanfic.Image,
+                Categories = fanfic
+                    .Categories?.Select(s => new CategoryDto()
+                    {
+                        Name = s.Name,
+                        CategoryId = s.CategoryId
+                    })
+                    .ToList(),
+                Tags = fanfic
+                    .Tags?.Select(s => new TagDto()
+                    {
+                        Name = s.Name,
+                        TagId = s.TagId,
+                        IsApproved = s.IsApproved
+                    })
+                    .ToList(),
+                Chapters = fanfic
+                    .Chapters?.Select(s => new ChapterDto()
+                    {
+                        FanficId = fanfic.Id,
+                        Title = s.Title,
+                        Content = s.Content,
+                    })
+                    .ToList(),
+                Reviews = fanfic
+                    .Reviews?.Select(s => new ReviewsDto()
+                    {
+                        FanficId = fanfic.Id,
+                        ReviewId = s.ReviewId,
+                        Text = s.Text,
+                        CreationDate = s.CreationDate,
+                        UserName = s.UserName,
+                        Rating = s.Rating,
+                    })
+                    .Where(w => w.FanficId == fanfic.Id)
+                    .ToList()
+            })
+            .ToList();
     }
 }

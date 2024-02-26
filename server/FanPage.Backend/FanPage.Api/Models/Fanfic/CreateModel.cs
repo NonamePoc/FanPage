@@ -2,7 +2,6 @@
 {
     public class CreateModel
     {
-        public byte[]? Image { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
         public bool? OriginFandom { get; set; }
@@ -11,5 +10,7 @@
 
         public List<string> Categories { get; set; }
         public List<string> Tags { get; set; }
+
+        public List<FanficPhotoModel> ImageFanfic { get; set; }
     }
 }

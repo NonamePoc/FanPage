@@ -14,6 +14,7 @@
         public bool? OriginFandom { get; set; }
         public DateTimeOffset CreationDate { get; set; }
 
+
         public List<CategoryDto>? Categories { get; set; }
         public List<TagDto>? Tags { get; set; }
 

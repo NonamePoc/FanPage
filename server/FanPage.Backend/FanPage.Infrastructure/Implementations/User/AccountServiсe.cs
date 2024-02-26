@@ -27,10 +27,14 @@ namespace FanPage.Infrastructure.Implementations.User
 
         private readonly ICustomizationSettingsRepository _customizationSettings;
 
-        public AccountServiсe( ICustomizationSettingsRepository customizationSettings,
-            IPasswordManager passwordManager, SignInManager<Domain.Account.Entities.User> signInManager,
+        public AccountServiсe(
+            ICustomizationSettingsRepository customizationSettings,
+            IPasswordManager passwordManager,
+            SignInManager<Domain.Account.Entities.User> signInManager,
             IJwtTokenManager jwtTokenManager,
-            IdentityUserManager identityUser, IEmailService emailService)
+            IdentityUserManager identityUser,
+            IEmailService emailService
+        )
         {
             _userManager = identityUser;
             _emailService = emailService;
@@ -56,7 +60,8 @@ namespace FanPage.Infrastructure.Implementations.User
             if (!confirmResult.Succeeded)
             {
                 throw new AggregateException(
-                    confirmResult.Errors.Select(s => new ResetPasswordException(s.Description)));
+                    confirmResult.Errors.Select(s => new ResetPasswordException(s.Description))
+                );
             }
         }
 
@@ -82,6 +87,20 @@ namespace FanPage.Infrastructure.Implementations.User
             };
         }
 
+        public async Task ChangeUserName(string changeUserName, HttpRequest request)
+        {
+            var username = _jwtTokenManager.GetUserNameFromToken(request);
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (await _userManager.FindByNameAsync(changeUserName) != null)
+                throw new UserCreateException("User with this username already exists");
+
+            if (user is null)
+                throw new UserNotFoundException("User not found");
+
+            await _userManager.SetUserNameAsync(user, changeUserName);
+        }
+
         public async Task ChangeEmail(ChangeEmailDto changeEmail)
         {
             var user = await _userManager.FindByEmailAsync(changeEmail.Email);
@@ -94,10 +113,14 @@ namespace FanPage.Infrastructure.Implementations.User
 
             if (!email.Succeeded)
                 throw new AggregateException(
-                    email.Errors.Select(s => new ResetPasswordException(s.Description)));
+                    email.Errors.Select(s => new ResetPasswordException(s.Description))
+                );
         }
 
-        public async Task RequestToChangeEmail(RequestToChangeEmailDto changeEmail, HttpRequest request)
+        public async Task RequestToChangeEmail(
+            RequestToChangeEmailDto changeEmail,
+            HttpRequest request
+        )
         {
             var idFromToken = _jwtTokenManager.GetUserIdFromToken(request);
             var user = await _userManager.FindByIdAsync(idFromToken);
@@ -108,7 +131,10 @@ namespace FanPage.Infrastructure.Implementations.User
             if (user.Email == changeEmail.NewEmail)
                 throw new Exception("The new email address must be different from the old one");
 
-            var changeEmailToken = await _userManager.GenerateChangeEmailTokenAsync(user, changeEmail.NewEmail);
+            var changeEmailToken = await _userManager.GenerateChangeEmailTokenAsync(
+                user,
+                changeEmail.NewEmail
+            );
 
             var changeEmailUrl = Url.Combine(
                 changeEmail.ChangeEmailUrl.BaseAddress,
@@ -129,24 +155,32 @@ namespace FanPage.Infrastructure.Implementations.User
 
         public async Task ChangePassword(ChangePasswordDto changePassword, HttpRequest request)
         {
-            var idFromToken = _jwtTokenManager.GetUserIdFromToken(request);
-            var user = await _userManager.FindByIdAsync(idFromToken);
+            var userName = _jwtTokenManager.GetUserNameFromToken(request);
+            var user = await _userManager.FindByNameAsync(userName);
 
             if (user is null)
                 throw new UserNotFoundException("User not found");
 
-            var checkPasswordResult =
-                await _signInManager.CheckPasswordSignInAsync(user, changePassword.Password, false);
+            var checkPasswordResult = await _signInManager.CheckPasswordSignInAsync(
+                user,
+                changePassword.Password,
+                false
+            );
 
             if (!checkPasswordResult.Succeeded)
                 throw new InvalidPasswordException("Invalid Password");
 
-            var changePasswordResult =
-                await _userManager.ChangePasswordAsync(user, changePassword.Password, changePassword.NewPassword);
+            var changePasswordResult = await _userManager.ChangePasswordAsync(
+                user,
+                changePassword.Password,
+                changePassword.NewPassword
+            );
 
             if (!changePasswordResult.Succeeded)
                 throw new AggregateException(
-                    changePasswordResult.Errors.Select(s => new ChangePasswordException(s.Description))
+                    changePasswordResult.Errors.Select(s => new ChangePasswordException(
+                        s.Description
+                    ))
                 );
 
             var email = new EmailRequest
@@ -192,14 +226,18 @@ namespace FanPage.Infrastructure.Implementations.User
             if (user is null)
                 throw new UserNotFoundException("User not found");
 
-
             var newPassword = _passwordManager.GetNewPassword();
             var validToken = restore.Token.Replace(" ", "+");
-            var resetPassword = await _userManager.ResetPasswordAsync(user, validToken, newPassword);
+            var resetPassword = await _userManager.ResetPasswordAsync(
+                user,
+                validToken,
+                newPassword
+            );
 
             if (!resetPassword.Succeeded)
                 throw new AggregateException(
-                    resetPassword.Errors.Select(s => new ResetPasswordException(s.Description)));
+                    resetPassword.Errors.Select(s => new ResetPasswordException(s.Description))
+                );
 
             var email = new EmailRequest
             {
@@ -222,29 +260,38 @@ namespace FanPage.Infrastructure.Implementations.User
                 WhoBan = "None"
             };
 
-            if (registration.UserName != null && await _userManager.FindByNameAsync(registration.UserName) != null)
+            if (
+                registration.UserName != null
+                && await _userManager.FindByNameAsync(registration.UserName) != null
+            )
             {
                 throw new UserCreateException("User with this username already exists");
             }
 
-            if (registration.Email != null && await _userManager.FindByEmailAsync(registration.Email) == null)
+            if (
+                registration.Email != null
+                && await _userManager.FindByEmailAsync(registration.Email) == null
+            )
             {
                 var createResult = await _userManager.CreateAsync(user, registration.Password);
 
                 if (!createResult.Succeeded)
                 {
-                    throw new AggregateException(createResult.Errors.Select(s =>
-                        new UserCreateException(s.Description)));
+                    throw new AggregateException(
+                        createResult.Errors.Select(s => new UserCreateException(s.Description))
+                    );
                 }
-
 
                 var roleResult = await _userManager.AddToRoleAsync(user, "User");
 
                 if (!createResult.Succeeded)
                     throw new AggregateException(
-                        roleResult.Errors.Select(s => new UserCreateException(s.Description)));
+                        roleResult.Errors.Select(s => new UserCreateException(s.Description))
+                    );
 
-                var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(
+                    user
+                );
 
                 var emailConfirmationUrl = Url.Combine(
                     registration.ConfirmEmailUrl.BaseAddress,
@@ -278,24 +325,51 @@ namespace FanPage.Infrastructure.Implementations.User
             var user = new Domain.Account.Entities.User
             {
                 Email = email,
-                UserName = email,
-                CustomizationSettingsId = await _customizationSettings.CreateCustomizationSettings(),
+                UserName = GenerateUniqueUsername(),
+                CustomizationSettingsId =
+                    await _customizationSettings.CreateCustomizationSettings(),
                 WhoBan = "None"
             };
+
+            // провірка на унікальність імені користувача
+            if (await _userManager.FindByNameAsync(user.UserName) != null)
+            {
+                user.UserName = GenerateUniqueUsername();
+            }
 
             var createResult = await _userManager.CreateAsync(user);
             if (!createResult.Succeeded)
             {
-                throw new AggregateException(createResult.Errors.Select(s =>
-                    new UserCreateException(s.Description)));
+                throw new AggregateException(
+                    createResult.Errors.Select(s => new UserCreateException(s.Description))
+                );
             }
 
             var roleResult = await _userManager.AddToRoleAsync(user, "User");
             if (!roleResult.Succeeded)
             {
                 throw new AggregateException(
-                    roleResult.Errors.Select(s => new UserCreateException(s.Description)));
+                    roleResult.Errors.Select(s => new UserCreateException(s.Description))
+                );
             }
+        }
+
+        private static string GenerateUniqueUsername()
+        {
+            const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+            const int usernameLength = 8;
+
+            var random = new Random();
+
+            var username = new string(
+                Enumerable
+                    .Repeat(chars, usernameLength)
+                    .Select(s => s[random.Next(s.Length)])
+                    .ToArray()
+            );
+
+            return username;
         }
     }
 }

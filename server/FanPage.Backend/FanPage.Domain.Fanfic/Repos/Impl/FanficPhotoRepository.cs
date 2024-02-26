@@ -12,17 +12,18 @@ namespace FanPage.Domain.Fanfic.Repos.Impl
         private readonly FanficContext _context;
         private readonly IMapper _mapper;
 
-        public FanficPhotoRepository(IMapper mapper, FanficContext context) : base(context)
+        public FanficPhotoRepository(IMapper mapper, FanficContext context)
+            : base(context)
         {
             _context = context;
             _mapper = mapper;
         }
 
-        public Task CreateAsync(FanficPhotoDto fanficPhoto)
+        public async Task CreateAsync(FanficPhotoDto fanficPhoto)
         {
             var fanficPhotoEntity = _mapper.Map<FanficPhoto>(fanficPhoto);
-            _context.FanficPhotos.Add(fanficPhotoEntity);
-            return _context.SaveChangesAsync();
+            await _context.FanficPhotos.AddAsync(fanficPhotoEntity);
+            await _context.SaveChangesAsync();
         }
 
         public Task DeleteAsync(int id)
@@ -32,20 +33,25 @@ namespace FanPage.Domain.Fanfic.Repos.Impl
             return _context.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(FanficPhotoDto fanficPhoto)
+        public async Task UpdateAsync(FanficPhotoDto fanficPhoto)
         {
-            var fanficPhotoEntity = _mapper.Map<FanficPhoto>(fanficPhoto);
-            _context.FanficPhotos.Update(fanficPhotoEntity);
-            return _context.SaveChangesAsync();
+            var existingFanficPhotoEntity = await _context.FanficPhotos.FirstOrDefaultAsync(fp =>
+                fp.FanficId == fanficPhoto.FanficId
+            );
+
+            if (existingFanficPhotoEntity != null)
+            {
+                existingFanficPhotoEntity.Image = fanficPhoto.Image;
+                await _context.SaveChangesAsync();
+            }
         }
-        
+
         public Task<FanficPhotoDto?> GetByIdAsync(int id)
         {
-            return _context.FanficPhotos.Where(w => w.FanficId == id).Select(s => new FanficPhotoDto
-            {
-                FanficId = s.FanficId,
-                Image = s.Image
-            }).FirstOrDefaultAsync();
+            return _context
+                .FanficPhotos.Where(w => w.FanficId == id)
+                .Select(s => new FanficPhotoDto { FanficId = s.FanficId, Image = s.Image })
+                .FirstOrDefaultAsync();
         }
     }
 }

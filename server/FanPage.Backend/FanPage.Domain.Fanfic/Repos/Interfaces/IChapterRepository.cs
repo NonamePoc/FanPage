@@ -9,10 +9,8 @@ public interface IChapterRepository
     Task DeleteAsync(int id);
     Task<ChapterDto> UpdateAsync(ChapterDto chapter);
 
-    Task<Chapter?> GetByIdAsync(int id);
-    Task<List<Chapter>> GetAllAsync();
-    Task<List<Chapter>> GetAllByFanficIdAsync(int fanficId);
+    Task<ChapterDto> GetByIdAsync(int id);
+    Task<List<ChapterDto>> GetAllFanficChapter(int fanficId);
 
-    
     Task SaveChangesAsync();
 }

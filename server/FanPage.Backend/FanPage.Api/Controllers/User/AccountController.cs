@@ -20,13 +20,16 @@ namespace FanPage.Api.Controllers.User
         private readonly IMapper _mapper;
         private readonly ApplicationConfiguration _appConfiguration;
 
-        public AccountController(IAccount accountService, IMapper mapper, ApplicationConfiguration configuration)
+        public AccountController(
+            IAccount accountService,
+            IMapper mapper,
+            ApplicationConfiguration configuration
+        )
         {
             _accountService = accountService;
             _mapper = mapper;
             _appConfiguration = configuration;
         }
-
 
         /// <summary>
         ///  Register new account
@@ -42,8 +45,11 @@ namespace FanPage.Api.Controllers.User
         public async Task<IActionResult> Registration([FromQuery] RegistrationModel content)
         {
             var dto = _mapper.Map<RegistrationDto>(content);
-            dto.ConfirmEmailUrl =
-                new UrlInformationDto(_appConfiguration.BaseApplicationAddress, Route, "confirmEmail");
+            dto.ConfirmEmailUrl = new UrlInformationDto(
+                _appConfiguration.BaseApplicationAddress,
+                Route,
+                "confirmEmail"
+            );
             await _accountService.Registration(dto);
             return Ok();
         }
@@ -92,7 +98,9 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(401)]
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-        public async Task<IActionResult> RequestToChangeEmail([FromBody] RequestToChangeEmailModel content)
+        public async Task<IActionResult> RequestToChangeEmail(
+            [FromBody] RequestToChangeEmailModel content
+        )
         {
             var dto = _mapper.Map<RequestToChangeEmailDto>(content);
             dto.ChangeEmailUrl = new UrlInformationDto(
@@ -116,7 +124,9 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-        public async Task<IActionResult> RequestToRestorePassword([FromBody] RequestToRestorePassModel content)
+        public async Task<IActionResult> RequestToRestorePassword(
+            [FromBody] RequestToRestorePassModel content
+        )
         {
             var dto = _mapper.Map<RequestRestorePasswordDto>(content);
             dto.RestorePasswordUrl = new UrlInformationDto(
@@ -128,7 +138,6 @@ namespace FanPage.Api.Controllers.User
             await _accountService.RequestRestorePassword(dto);
             return Redirect("https://google.com");
         }
-
 
         /// <summary>
         ///  Restore password
@@ -145,6 +154,24 @@ namespace FanPage.Api.Controllers.User
         {
             var dto = _mapper.Map<RestorePasswordDto>(content);
             await _accountService.RestorePassword(dto);
+            return Ok();
+        }
+
+        /// <summary>
+        /// Change user name
+        /// </summary>
+        /// <param name="content">model change</param>
+        /// <returns>status code 200</returns>
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Route("changeUserName")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
+        [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+        public async Task<IActionResult> ChangeUserName([FromQuery] string userName)
+        {
+            await _accountService.ChangeUserName(userName, HttpContext.Request);
             return Ok();
         }
     }

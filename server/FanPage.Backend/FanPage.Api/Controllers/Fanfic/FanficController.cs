@@ -25,7 +25,6 @@ namespace FanPage.Api.Controllers.Fanfic
             _mapper = mapper;
         }
 
-
         /// <summary>
         ///  Create new fanfic
         /// </summary>
@@ -61,7 +60,10 @@ namespace FanPage.Api.Controllers.Fanfic
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Update([FromBody] UpdateModel updateFanfic, [FromQuery] int id)
+        public async Task<IActionResult> Update(
+            [FromBody] UpdateModel updateFanfic,
+            [FromQuery] int id
+        )
         {
             var dto = _mapper.Map<UpdateDto>(updateFanfic);
             var retrieval = await _fanfic.UpdateAsync(id, dto, HttpContext.Request);
@@ -69,9 +71,8 @@ namespace FanPage.Api.Controllers.Fanfic
             return Ok(response);
         }
 
-
         /// <summary>
-        /// Delete fanfic from id 
+        /// Delete fanfic from id
         /// </summary>
         /// <param name="id"> id fanfic </param>
         /// <returns></returns>

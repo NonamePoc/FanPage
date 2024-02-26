@@ -13,38 +13,60 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
     private readonly FanficContext _fanficContext;
     private readonly IMapper _mapper;
 
-    public FanficRepository(FanficContext fanficContext, IMapper mapper) : base(
-        fanficContext)
+    public FanficRepository(FanficContext fanficContext, IMapper mapper)
+        : base(fanficContext)
     {
         _fanficContext = fanficContext;
         _mapper = mapper;
     }
 
+    public async Task BeginTransactionAsync()
+    {
+        await _fanficContext.Database.BeginTransactionAsync();
+    }
+
+    public async Task CommitTransactionAsync()
+    {
+        await _fanficContext.Database.CommitTransactionAsync();
+    }
+
+    public async Task RollBackAsync()
+    {
+        await _fanficContext.Database.RollbackTransactionAsync();
+    }
+
     public async Task<double> GetAverageRatingAsync(int fanficId)
     {
         var reviews = await _fanficContext.Reviews.Where(x => x.FanficId == fanficId).ToListAsync();
+        if (reviews.Count == 0)
+        {
+            return 0;
+        }
 
         return reviews.Average(x => x.Rating);
     }
 
     public async Task<FanficDto> GetByIdAsync(int id)
     {
-        var fanfic = await _fanficContext.Fanfic
-            .Include(f => f.FanficCategories)
-            .ThenInclude(fc => fc.Category)
-            .Include(f => f.FanficTags)
-            .ThenInclude(ft => ft.Tag)
-            .Include(f => f.Chapters)
-            .Include(ft => ft.Reviews).Include(fanfic => fanfic.Photos)
-            .FirstOrDefaultAsync(f => f.FanficId == id) ?? throw new FanficException("Fanfic not found");
+        var fanfic =
+            await _fanficContext
+                .Fanfic.Include(f => f.FanficCategories)
+                .ThenInclude(fc => fc.Category)
+                .Include(f => f.FanficTags)
+                .ThenInclude(ft => ft.Tag)
+                .Include(f => f.Chapters)
+                .Include(ft => ft.Reviews)
+                .Include(fanfic => fanfic.Photos)
+                .FirstOrDefaultAsync(f => f.FanficId == id)
+            ?? throw new FanficException("Fanfic not found");
 
         return MapFanficEntityToDto(fanfic);
     }
 
     public async Task<List<FanficDto>> GetByAuthorNameAsync(string name, int count)
     {
-        var fanficEntities = await _fanficContext.Fanfic
-            .Include(f => f.FanficCategories)
+        var fanficEntities = await _fanficContext
+            .Fanfic.Include(f => f.FanficCategories)
             .ThenInclude(fc => fc.Category)
             .Include(f => f.FanficTags)
             .ThenInclude(ft => ft.Tag)
@@ -52,15 +74,16 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
             .Include(f => f.Reviews)
             .Include(f => f.Photos)
             .Take(count)
-            .Where(w => w.AuthorName == name).ToListAsync();
+            .Where(w => w.AuthorName == name)
+            .ToListAsync();
 
         return fanficEntities.Select(MapFanficEntityToDto).ToList();
     }
 
     public async Task<List<FanficDto>> GetAllAsync(int count)
     {
-        var fanficEntities = await _fanficContext.Fanfic
-            .Include(f => f.FanficCategories)
+        var fanficEntities = await _fanficContext
+            .Fanfic.Include(f => f.FanficCategories)
             .ThenInclude(fc => fc.Category)
             .Include(f => f.FanficTags)
             .ThenInclude(ft => ft.Tag)
@@ -75,8 +98,8 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
 
     public async Task<List<FanficDto>> LocalGetAllAsync()
     {
-        var fanficEntities = await _fanficContext.Fanfic
-            .Include(f => f.FanficCategories)
+        var fanficEntities = await _fanficContext
+            .Fanfic.Include(f => f.FanficCategories)
             .ThenInclude(fc => fc.Category)
             .Include(f => f.FanficTags)
             .ThenInclude(ft => ft.Tag)
@@ -99,7 +122,9 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
             Stage = fanficDto.Stage!,
             Language = fanficDto.Language!,
             CreationDate = DateTimeOffset.UtcNow,
-            Photos = new List<FanficPhoto>(),
+            Photos = fanficDto
+                .ImageFanfic.Select(p => new FanficPhoto { Image = p.Image })
+                .ToList(),
         };
 
         var createdFanfic = await _fanficContext.Fanfic.AddAsync(fanficEntity);
@@ -108,17 +133,22 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
         return MapFanficEntityToDto(createdFanfic.Entity);
     }
 
-
     public async Task UpdateAsync(UpdateDto update, int fanficId)
     {
-        var fanfic = await _fanficContext.Fanfic.Include(f => f.Photos)
+        var fanfic = await _fanficContext
+            .Fanfic.Include(f => f.Photos)
             .FirstOrDefaultAsync(f => f.FanficId == fanficId);
 
-        _mapper.Map(update, fanfic);
+        fanfic.Title = update.Title;
+        fanfic.Description = update.Description;
+        fanfic.OriginFandom = (bool)update.OriginFandom;
+        fanfic.Stage = update.Stage!;
+        fanfic.Language = update.Language!;
         fanfic!.CreationDate = DateTimeOffset.UtcNow;
+
+        _fanficContext.Fanfic.Update(fanfic);
         await _fanficContext.SaveChangesAsync();
     }
-
 
     public async Task DeleteAsync(int id)
     {
@@ -131,8 +161,8 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
     {
         var searchWords = searchString.Split(' ');
 
-        var query = _fanficContext.Fanfic
-            .Include(f => f.FanficCategories)
+        var query = _fanficContext
+            .Fanfic.Include(f => f.FanficCategories)
             .ThenInclude(fc => fc.Category)
             .Include(f => f.FanficTags)
             .ThenInclude(ft => ft.Tag)
@@ -141,22 +171,31 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
             .Include(f => f.Reviews)
             .AsQueryable();
 
-        query = searchWords.Aggregate(query,
-            (current, searchWord) => current.Where(w =>
-                w.Description != null && (w.Title.Contains(searchWord) ||
-                                          w.FanficTags.Any(a =>
-                                              a.Tag.Name != null && a.Tag.Name.Contains(searchWord)) ||
-                                          w.FanficCategories.Any(a =>
-                                              a.Category.Name != null && a.Category.Name.Contains(searchWord)) ||
-                                          w.Description.Contains(searchWord) ||
-                                          w.AuthorName.Contains(searchWord) ||
-                                          w.Language.Contains(searchWord) ||
-                                          w.Chapters.Any(a =>
-                                              a.Title.Contains(searchWord) ||
-                                              a.Content.Contains(searchWord)) ||
-                                          w.Reviews.Any(a =>
-                                              a.Text.Contains(searchWord) ||
-                                              a.UserName.Contains(searchWord)))));
+        query = searchWords.Aggregate(
+            query,
+            (current, searchWord) =>
+                current.Where(w =>
+                    w.Description != null
+                    && (
+                        w.Title.Contains(searchWord)
+                        || w.FanficTags.Any(a =>
+                            a.Tag.Name != null && a.Tag.Name.Contains(searchWord)
+                        )
+                        || w.FanficCategories.Any(a =>
+                            a.Category.Name != null && a.Category.Name.Contains(searchWord)
+                        )
+                        || w.Description.Contains(searchWord)
+                        || w.AuthorName.Contains(searchWord)
+                        || w.Language.Contains(searchWord)
+                        || w.Chapters.Any(a =>
+                            a.Title.Contains(searchWord) || a.Content.Contains(searchWord)
+                        )
+                        || w.Reviews.Any(a =>
+                            a.Text.Contains(searchWord) || a.UserName.Contains(searchWord)
+                        )
+                    )
+                )
+        );
 
         if (originalFandom)
         {
@@ -165,7 +204,6 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
 
         return query.AsEnumerable().Select(MapFanficEntityToDto).ToList();
     }
-
 
     public async Task<ReviewsDto> CreateReviewAsync(int fanficId, ReviewsDto reviewsDto)
     {
@@ -179,9 +217,14 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
 
     public async Task<ReviewsDto> UpdateReviewAsync(int fanficId, ReviewsDto reviewsDto)
     {
-        var reviewEntity = _mapper.Map<Reviews>(reviewsDto);
+        var reviewEntity = _context.Reviews.FirstOrDefault(x =>
+            x.FanficId == fanficId && x.UserName == reviewsDto.UserName
+        );
+
         reviewEntity.CreationDate = DateTimeOffset.UtcNow;
         reviewEntity.FanficId = fanficId;
+        reviewEntity.Text = reviewsDto.Text;
+        reviewEntity.Rating = reviewsDto.Rating;
 
         _fanficContext.Reviews.Update(reviewEntity);
         await _fanficContext.SaveChangesAsync();
@@ -191,19 +234,19 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
     public async Task DeleteReviewAsync(int fanficId, string userName)
     {
         var review = await _fanficContext.Reviews.FirstOrDefaultAsync(x =>
-            x.FanficId == fanficId && x.UserName == userName);
+            x.FanficId == fanficId && x.UserName == userName
+        );
         _fanficContext.Reviews.Remove(review);
         await _fanficContext.SaveChangesAsync();
     }
 
     public async Task<ReviewsDto> GetReviewByFanficIdAsync(int fanficId, string userName)
     {
-        var review =
-            await _fanficContext.Reviews.AsNoTracking()
-                .FirstOrDefaultAsync(x => x.FanficId == fanficId && x.UserName == userName);
+        var review = await _fanficContext
+            .Reviews.AsNoTracking()
+            .FirstOrDefaultAsync(x => x.FanficId == fanficId && x.UserName == userName);
         return _mapper.Map<ReviewsDto>(review);
     }
-
 
     public async Task<List<ReviewsDto>> GetAllReviewByFanficIdAsync(int fanficId)
     {
@@ -225,8 +268,8 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
 
     public async Task<List<FanficDto>> GetTopRatingFanficsAsync(int count)
     {
-        var fanfics = await _fanficContext.Fanfic
-            .Include(f => f.FanficCategories)
+        var fanfics = await _fanficContext
+            .Fanfic.Include(f => f.FanficCategories)
             .ThenInclude(fc => fc.Category)
             .Include(f => f.FanficTags)
             .ThenInclude(ft => ft.Tag)
@@ -242,8 +285,8 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
 
     public async Task<List<FanficDto>> GetLastCreationDateFanficsAsync(int count)
     {
-        var fanfics = await _fanficContext.Fanfic
-            .Include(f => f.FanficCategories)
+        var fanfics = await _fanficContext
+            .Fanfic.Include(f => f.FanficCategories)
             .ThenInclude(fc => fc.Category)
             .Include(f => f.FanficTags)
             .ThenInclude(ft => ft.Tag)
@@ -275,32 +318,41 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
             Language = fanficEntity.Language,
             CreationDate = fanficEntity.CreationDate,
             Image = fanficEntity.Photos.FirstOrDefault()?.Image,
-            Categories = fanficEntity.FanficCategories?.Select(fc => new CategoryDto
-            {
-                Name = fc.Category.Name,
-                CategoryId = fc.Category.CategoryId
-            }).ToList(),
-            Tags = fanficEntity.FanficTags?.Select(ft => new TagDto
-            {
-                Name = ft.Tag.Name,
-                TagId = ft.Tag.TagId,
-                IsApproved = ft.Tag.IsApproved
-            }).ToList(),
-            Chapters = fanficEntity.Chapters?.Select(chapter => new ChapterDto
-            {
-                FanficId = fanficEntity.FanficId,
-                Title = chapter.Title,
-                Content = chapter.Content
-            }).ToList(),
-            Reviews = fanficEntity.Reviews?.Select(review => new ReviewsDto
-            {
-                FanficId = fanficEntity.FanficId,
-                ReviewId = review.ReviewId,
-                Text = review.Text,
-                CreationDate = review.CreationDate,
-                UserName = review.UserName,
-                Rating = review.Rating
-            }).Where(review => review.FanficId == fanficEntity.FanficId).ToList()
+            Categories = fanficEntity
+                .FanficCategories?.Select(fc => new CategoryDto
+                {
+                    Name = fc.Category.Name,
+                    CategoryId = fc.Category.CategoryId
+                })
+                .ToList(),
+            Tags = fanficEntity
+                .FanficTags?.Select(ft => new TagDto
+                {
+                    Name = ft.Tag.Name,
+                    TagId = ft.Tag.TagId,
+                    IsApproved = ft.Tag.IsApproved
+                })
+                .ToList(),
+            Chapters = fanficEntity
+                .Chapters?.Select(chapter => new ChapterDto
+                {
+                    FanficId = fanficEntity.FanficId,
+                    Title = chapter.Title,
+                    Content = chapter.Content
+                })
+                .ToList(),
+            Reviews = fanficEntity
+                .Reviews?.Select(review => new ReviewsDto
+                {
+                    FanficId = fanficEntity.FanficId,
+                    ReviewId = review.ReviewId,
+                    Text = review.Text,
+                    CreationDate = review.CreationDate,
+                    UserName = review.UserName,
+                    Rating = review.Rating
+                })
+                .Where(review => review.FanficId == fanficEntity.FanficId)
+                .ToList()
         };
     }
 }

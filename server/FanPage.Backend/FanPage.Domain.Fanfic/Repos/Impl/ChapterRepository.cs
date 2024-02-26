@@ -3,6 +3,7 @@ using FanPage.Application.Fanfic;
 using FanPage.Domain.Fanfic.Context;
 using FanPage.Domain.Fanfic.Entities;
 using FanPage.Domain.Fanfic.Repos.Interfaces;
+using FanPage.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace FanPage.Domain.Fanfic.Repos.Impl;
@@ -13,7 +14,8 @@ public class ChapterRepository : RepositoryBase<Chapter>, IChapterRepository
 
     private readonly IMapper _mapper;
 
-    public ChapterRepository(FanficContext context, IMapper mapper) : base(context)
+    public ChapterRepository(FanficContext context, IMapper mapper)
+        : base(context)
     {
         _context = context;
         _mapper = mapper;
@@ -44,22 +46,37 @@ public class ChapterRepository : RepositoryBase<Chapter>, IChapterRepository
         return _mapper.Map<ChapterDto>(chapterEntity);
     }
 
-    public async Task<Chapter?> GetByIdAsync(int id)
+    public async Task<ChapterDto> GetByIdAsync(int id)
     {
-        var chapter =  await _context.Chapters.FirstOrDefaultAsync(x => x.ChapterId == id);
-        return _mapper.Map<Chapter>(chapter);
+        var chapter = await _context.Chapters.FirstOrDefaultAsync(x => x.ChapterId == id);
+        if (chapter == null)
+        {
+            throw new FanficException("Chapter not found");
+        }
+        return new ChapterDto
+        {
+            ChapterId = chapter.ChapterId,
+            Title = chapter.Title,
+            Content = chapter.Content,
+            FanficId = chapter.FanficId,
+        };
     }
 
-    public async Task<List<Chapter>> GetAllAsync()
+    public async Task<List<ChapterDto>> GetAllFanficChapter(int fanficId)
     {
-        var chapters = await _context.Chapters.ToListAsync();
-        return  _mapper.Map<List<Chapter>>(chapters);
-    }
-
-    public async Task<List<Chapter>> GetAllByFanficIdAsync(int fanficId)
-    {
-        var chapters = await _context.Chapters.Where(x => x.FanficId == fanficId).ToListAsync();
-        return _mapper.Map<List<Chapter>>(chapters);
+        var chapters = await _context
+            .Chapters.Where(x => x.FanficId == fanficId)
+            .OrderBy(o => o.CreateDate)
+            .ToListAsync();
+        return chapters
+            .Select(x => new ChapterDto
+            {
+                ChapterId = x.ChapterId,
+                Title = x.Title,
+                Content = x.Content,
+                FanficId = x.FanficId,
+            })
+            .ToList();
     }
 
     public async Task SaveChangesAsync()

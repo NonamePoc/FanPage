@@ -36,6 +36,7 @@ namespace FanPage.Api.Mapper
             CreateMap<RestorePasswordModel, RestorePasswordDto>();
             CreateMap<RequestToRestorePassModel, RequestRestorePasswordDto>();
             CreateMap<PasswordChangeModel, ChangePasswordDto>();
+            CreateMap<RequestToChangeEmailModel, RequestToChangeEmailDto>();
         }
 
         private void AdminMaps()
@@ -52,7 +53,6 @@ namespace FanPage.Api.Mapper
             CreateMap<Follower, FollowerDto>();
             CreateMap<Bookmark, BookmarkDto>();
         }
-
 
         private void FanficAuthMaps()
         {
@@ -95,14 +95,16 @@ namespace FanPage.Api.Mapper
                 .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.Categories))
                 .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Tags));
 
-
             CreateMap<List<Tag>, List<TagDto>>()
-                .ConvertUsing(tags => tags.Select(tag => new TagDto
-                {
-                    TagId = tag.TagId,
-                    Name = tag.Name,
-                    IsApproved = tag.IsApproved
-                }).ToList());
+                .ConvertUsing(tags =>
+                    tags.Select(tag => new TagDto
+                        {
+                            TagId = tag.TagId,
+                            Name = tag.Name,
+                            IsApproved = tag.IsApproved
+                        })
+                        .ToList()
+                );
 
             CreateMap<Reviews, ReviewsDto>()
                 .ForMember(dest => dest.FanficId, opt => opt.MapFrom(src => src.FanficId))
@@ -123,7 +125,6 @@ namespace FanPage.Api.Mapper
             CreateMap<Chapter, ChapterDto>()
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content));
-
 
             CreateMap<CreateDto, Fanfic>()
                 .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.AuthorName))

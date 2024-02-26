@@ -13,7 +13,8 @@ public class TagRepository : RepositoryBase<Tag>, ITagRepository
 
     private readonly IMapper _mapper;
 
-    public TagRepository(FanficContext context, IMapper mapper) : base(context)
+    public TagRepository(FanficContext context, IMapper mapper)
+        : base(context)
     {
         _context = context;
         _mapper = mapper;
@@ -39,8 +40,8 @@ public class TagRepository : RepositoryBase<Tag>, ITagRepository
     {
         var tagEntity = _mapper.Map<Tag>(tag);
         await _context.Tags.AddAsync(tagEntity);
-        await _context.SaveChangesAsync();
 
+        await _context.SaveChangesAsync();
         return _mapper.Map<TagDto>(tagEntity);
     }
 
@@ -60,8 +61,9 @@ public class TagRepository : RepositoryBase<Tag>, ITagRepository
 
     public async Task AddTagToFanficAsync(int fanficId, int tagId)
     {
-        var existingEntry = await _context.FanficTags
-                                        .FirstOrDefaultAsync(x => x.FanficId == fanficId && x.TagId == tagId);
+        var existingEntry = await _context.FanficTags.FirstOrDefaultAsync(x =>
+            x.FanficId == fanficId && x.TagId == tagId
+        );
 
         if (existingEntry == null)
         {
@@ -71,11 +73,11 @@ public class TagRepository : RepositoryBase<Tag>, ITagRepository
         }
     }
 
-
     public async Task DeleteTagFromFanficAsync(int fanficId, string? tagName)
     {
-        var fanficTag =
-            await _context.FanficTags.FirstOrDefaultAsync(x => x.FanficId == fanficId && x.Tag.Name == tagName);
+        var fanficTag = await _context.FanficTags.FirstOrDefaultAsync(x =>
+            x.FanficId == fanficId && x.Tag.Name == tagName
+        );
         _context.FanficTags.Remove(fanficTag);
         await _context.SaveChangesAsync();
     }
@@ -90,13 +92,18 @@ public class TagRepository : RepositoryBase<Tag>, ITagRepository
 
     public async Task<TagDto> GetTagByFanficIdAsync(int fanficId, int tagId)
     {
-        var tag = await _context.FanficTags.FirstOrDefaultAsync(x => x.FanficId == fanficId && x.TagId == tagId);
+        var tag = await _context.FanficTags.FirstOrDefaultAsync(x =>
+            x.FanficId == fanficId && x.TagId == tagId
+        );
         return _mapper.Map<TagDto>(tag);
     }
 
     public async Task<List<TagDto>> GetTagsByFanficIdAsync(int fanficId)
     {
-        var tags = await _context.FanficTags.Where(x => x.FanficId == fanficId).Select(x => x.Tag).ToListAsync();
+        var tags = await _context
+            .FanficTags.Where(x => x.FanficId == fanficId)
+            .Select(x => x.Tag)
+            .ToListAsync();
         return _mapper.Map<List<TagDto>>(tags);
     }
 

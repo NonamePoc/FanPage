@@ -37,14 +37,16 @@ public class ReviewController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> CreateReview([FromQuery] int fanficId, [FromBody] ReviewModel reviewModel)
+    public async Task<IActionResult> CreateReview(
+        [FromQuery] int fanficId,
+        [FromBody] ReviewModel reviewModel
+    )
     {
         var reviewDto = _mapper.Map<ReviewsDto>(reviewModel);
         var retrieval = await _review.CreateReviewAsync(fanficId, reviewDto, HttpContext.Request);
         var response = _mapper.Map<ReviewViewModel>(retrieval);
         return Ok(response);
     }
-
 
     /// <summary>
     ///  Update review
@@ -60,7 +62,10 @@ public class ReviewController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> UpdateReview([FromQuery] int fanficId, [FromBody] ReviewModel reviewModel)
+    public async Task<IActionResult> UpdateReview(
+        [FromQuery] int fanficId,
+        [FromBody] ReviewModel reviewModel
+    )
     {
         var reviewDto = _mapper.Map<ReviewsDto>(reviewModel);
         var retrieval = await _review.UpdateReviewAsync(fanficId, reviewDto, HttpContext.Request);
@@ -77,11 +82,9 @@ public class ReviewController : BaseController
     [Route("delete")]
     [ProducesResponseType(200)]
     [ProducesResponseType(401)]
-    [ProducesResponseType(typeof(JsonResponseContainer<ReviewViewModel>), 200)]
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteReview([FromQuery] int fanficId)
     {
         await _review.DeleteReviewAsync(fanficId, HttpContext.Request);
@@ -106,7 +109,6 @@ public class ReviewController : BaseController
         var response = _mapper.Map<List<ReviewViewModel>>(retrieval);
         return Ok(response);
     }
-
 
     /// <summary>
     ///  Get review by user

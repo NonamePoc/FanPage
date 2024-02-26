@@ -5,6 +5,10 @@ namespace FanPage.Domain.Fanfic.Repos.Interfaces
 {
     public interface IFanficRepository
     {
+        Task BeginTransactionAsync();
+        Task CommitTransactionAsync();
+
+        Task RollBackAsync();
         Task<FanficDto> GetByIdAsync(int id);
         Task<List<FanficDto>> GetByAuthorNameAsync(string name, int count);
         Task<List<FanficDto>> GetAllAsync(int count);
