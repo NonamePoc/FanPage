@@ -34,6 +34,7 @@ using FanPage.Domain.Fanfic.Repos.Interfaces;
 using FanPage.Infrastructure.Configurations;
 using FanPage.Infrastructure.Implementations.Chat;
 using FanPage.Infrastructure.Interfaces.Chat;
+using System.Reflection;
 
 namespace FanPage.Api.Configure
 {
@@ -238,7 +239,9 @@ namespace FanPage.Api.Configure
                     In = ParameterLocation.Header,
                     Description = "JWT Authorization header using the Bearer scheme. Set `Bearer ` before ur `Token`",
                 });
-
+                var filename = Assembly.GetExecutingAssembly().GetName().Name + ".xml";
+                var filepath = Path.Combine(AppContext.BaseDirectory, filename);
+                c.IncludeXmlComments(filepath);
                 c.OperationFilter<AuthOperationFilter>();
             });
 

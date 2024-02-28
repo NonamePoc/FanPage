@@ -3,6 +3,7 @@ using System;
 using FanPage.Domain.Account.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FanPage.Domain.Account.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20240226012749_FolloweAndFriendV2.1")]
+    partial class FolloweAndFriendV21
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,15 +74,7 @@ namespace FanPage.Domain.Account.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FollowerId"));
 
-                    b.Property<string>("SubId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("SubName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -89,9 +84,9 @@ namespace FanPage.Domain.Account.Migrations
 
                     b.HasKey("FollowerId");
 
-                    b.HasIndex("SubId");
+                    b.HasIndex("SubName");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserName");
 
                     b.ToTable("Followers");
                 });
@@ -104,10 +99,6 @@ namespace FanPage.Domain.Account.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FriendRequestId"));
 
-                    b.Property<string>("FriendId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("FriendName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -115,19 +106,15 @@ namespace FanPage.Domain.Account.Migrations
                     b.Property<bool>("IsApproving")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("FriendRequestId");
 
-                    b.HasIndex("FriendId");
+                    b.HasIndex("FriendName");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserName");
 
                     b.ToTable("FriendRequests");
                 });
@@ -140,15 +127,7 @@ namespace FanPage.Domain.Account.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FriendshipId"));
 
-                    b.Property<string>("FriendId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("FriendName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -158,9 +137,9 @@ namespace FanPage.Domain.Account.Migrations
 
                     b.HasKey("FriendshipId");
 
-                    b.HasIndex("FriendId");
+                    b.HasIndex("FriendName");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserName");
 
                     b.ToTable("Friendships");
                 });
@@ -433,13 +412,13 @@ namespace FanPage.Domain.Account.Migrations
                 {
                     b.HasOne("FanPage.Domain.Account.Entities.User", "Sub")
                         .WithMany("Subcriber")
-                        .HasForeignKey("SubId")
+                        .HasForeignKey("SubName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FanPage.Domain.Account.Entities.User", "User")
                         .WithMany("UserForSubscribe")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -452,13 +431,13 @@ namespace FanPage.Domain.Account.Migrations
                 {
                     b.HasOne("FanPage.Domain.Account.Entities.User", "Friend")
                         .WithMany("ReceivedFriendRequests")
-                        .HasForeignKey("FriendId")
+                        .HasForeignKey("FriendName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FanPage.Domain.Account.Entities.User", "User")
                         .WithMany("SentFriendRequests")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -471,13 +450,13 @@ namespace FanPage.Domain.Account.Migrations
                 {
                     b.HasOne("FanPage.Domain.Account.Entities.User", "Friend")
                         .WithMany("FriendsOfMine")
-                        .HasForeignKey("FriendId")
+                        .HasForeignKey("FriendName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FanPage.Domain.Account.Entities.User", "User")
                         .WithMany("MyFriends")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

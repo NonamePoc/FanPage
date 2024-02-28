@@ -4,11 +4,11 @@ namespace FanPage.Domain.Account.Repos.Interfaces;
 
 public interface IFriendRepository
 {
-    Task<FriendRequestDto> AddFriend(string userId, string friendId);
-    Task<bool> RemoveFriend(string userId, string friendId);
-    Task AcceptFriend(string userId, string friendId);
+    Task<bool> AddFriend(string userName, string friendName, string userId, string friendId);
+    Task<bool> RemoveFriend(string userName, string friendName);
+    Task AcceptFriend(string userName, string friendName, string userId, string friendId);
     Task<List<FriendDto>> FriendsList(string userName);
-    Task<bool> CancelSend(string userId, string friendId);
-    Task<List<FriendRequestDto>> GetFriendRequests(string userId);
-    Task<List<FriendRequestDto>> GetUserRequests(string friendId);
+    Task<bool> CancelSend(string userName, string friendName);
+    Task<List<FriendRequestDto>> GetFriendRequests(string userName);
+    Task<List<FriendRequestDto>> GetUserRequests(string friendName);
 }
