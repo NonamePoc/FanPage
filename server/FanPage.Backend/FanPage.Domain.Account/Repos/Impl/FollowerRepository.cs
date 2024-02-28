@@ -25,13 +25,13 @@ public class FollowerRepository : IFollowerRepository
             .Where(f => f.SubName == userName)
             .Select(f => f.UserName)
             .ToListAsync();
-        var userAva = await _userManager.FindByNameAsync(userName);
+        var userAvatar = await _userManager.FindByNameAsync(userName);
         var userFo = await _userManager.Users
             .Where(u => friendIds.Contains(u.UserName))
             .Select(u => new FollowerDto
             {
                 UserName = userName,
-                Avatar = userAva.UserAvatar,
+                Avatar = userAvatar.UserAvatar,
                 SubName = u.UserName
             })
             .ToListAsync();
@@ -41,21 +41,26 @@ public class FollowerRepository : IFollowerRepository
 
     public async Task<bool> Subscribe(string subName, string userName, string userId, string subId)
     {
-        await _userContext.Followers
+        var existingSub = await _userContext.Followers
             .FirstOrDefaultAsync(sub => sub.UserName == userName && sub.SubName == subName);
+
+        if (existingSub != null)
+        {
+            return false;
+        }
+
         var newSub = new Follower
         {
             UserName = userName,
             SubName = subName,
             UserId = userId,
             SubId = subId
-
         };
+
         _userContext.Followers.Add(newSub);
         await _userContext.SaveChangesAsync();
         return true;
     }
-
     public async Task<bool> Unsubscribe(string subName, string userName)
     {
         var unsub = await _userContext.Followers

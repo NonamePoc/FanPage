@@ -29,28 +29,28 @@ namespace FanPage.Domain.Account.Repos.Impl
                 .Where(f => f.UserName == userName)
                 .Select(f => f.FriendName)
                 .ToListAsync();    
-            var userAva = await _userManager.FindByNameAsync(userName);
-            var userFr = await _userManager.Users
+            var userAvatar = await _userManager.FindByNameAsync(userName);
+            var userFriend = await _userManager.Users
                 .Where(u => friendIds.Contains(u.Id))
                 .Select(u => new FriendDto
                 {
                     UserName = userName,
-                    userAvatar = userAva.UserAvatar,
+                    userAvatar = userAvatar.UserAvatar,
                     friendAvatar = u.UserAvatar,
                     FriendName = u.Id
                 })
                 .ToListAsync();
 
-            return userFr;
+            return userFriend;
         }
 
 
-        public async Task<FriendRequestDto> AddFriend(string userName, string friendName, string userId, string friendId)
+        public async Task<bool> AddFriend(string userName, string friendName, string userId, string friendId)
         {
             var existingRequest = await _userContext.FriendRequests
                 .FirstOrDefaultAsync(fr => fr.UserName == userName && fr.FriendName == friendName);
 
-            if (existingRequest != null) return null;
+            if (existingRequest != null) return false;
             var newFriendRequest = new FriendRequest
             {
                 UserName = userName,
@@ -71,7 +71,7 @@ namespace FanPage.Domain.Account.Repos.Impl
             };
             _userContext.Followers.Add(newSub);
             await _userContext.SaveChangesAsync();
-            return _mapper.Map<FriendRequestDto>(newFriendRequest);
+            return true;
         }
 
         public async Task<bool> RemoveFriend(string userName, string friendName)
@@ -112,23 +112,23 @@ namespace FanPage.Domain.Account.Repos.Impl
 
         public async Task<List<FriendRequestDto>> GetFriendRequests(string userName)
         {
-            var friendIds = await _userContext.FriendRequests
+            var friend = await _userContext.FriendRequests
                 .Where(f => f.UserName == userName)
                 .Select(f => f.FriendName)
                 .ToListAsync();
-            var userAva = await _userManager.FindByNameAsync(userName);
-            var userFr = await _userManager.Users
-                .Where(u => friendIds.Contains(u.UserName))
+            var userAvatar = await _userManager.FindByNameAsync(userName);
+            var friendRequestUser = await _userManager.Users
+                .Where(u => friend.Contains(u.UserName))
                 .Select(u => new FriendRequestDto
                 {
                     UserName = userName,
-                    userAvatar = userAva.UserAvatar,
+                    userAvatar = userAvatar.UserAvatar,
                     friendAvatar = u.UserAvatar,
                     FriendName = u.UserName
                 })
                 .ToListAsync();
 
-            return userFr;
+            return friendRequestUser;
         }
         public async Task<List<FriendRequestDto>> GetUserRequests(string userName)
         {
@@ -136,19 +136,19 @@ namespace FanPage.Domain.Account.Repos.Impl
                .Where(f => f.FriendName == userName)
                .Select(f => f.FriendName)
                .ToListAsync();
-            var userAva = await _userManager.FindByNameAsync(userName);
-            var userFr = await _userManager.Users
+            var userAvatar = await _userManager.FindByNameAsync(userName);
+            var userFriendReques = await _userManager.Users
                 .Where(u => friendIds.Contains(u.UserName))
                 .Select(u => new FriendRequestDto
                 {
                     UserName = u.UserName,
-                    userAvatar = userAva.UserAvatar,
+                    userAvatar = userAvatar.UserAvatar,
                     friendAvatar = u.UserAvatar,
                     FriendName = userName       
                 })
                 .ToListAsync();
 
-            return userFr;
+            return userFriendReques;
         }
     }
 }

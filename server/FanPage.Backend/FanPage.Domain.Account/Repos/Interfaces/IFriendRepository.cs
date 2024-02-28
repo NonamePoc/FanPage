@@ -4,7 +4,7 @@ namespace FanPage.Domain.Account.Repos.Interfaces;
 
 public interface IFriendRepository
 {
-    Task<FriendRequestDto> AddFriend(string userName, string friendName, string userId, string friendId);
+    Task<bool> AddFriend(string userName, string friendName, string userId, string friendId);
     Task<bool> RemoveFriend(string userName, string friendName);
     Task AcceptFriend(string userName, string friendName, string userId, string friendId);
     Task<List<FriendDto>> FriendsList(string userName);
