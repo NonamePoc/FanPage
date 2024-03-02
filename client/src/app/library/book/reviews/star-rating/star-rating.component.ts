@@ -9,9 +9,9 @@ import {
 import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { ToastrService } from 'ngx-toastr';
 import { ModalService } from '../../../../shared/modal/modal.service';
-import { BookService } from '../../../book.service';
 import { ReviewsComponent } from '../reviews.component';
-import { Observable, catchError } from 'rxjs';
+import { catchError } from 'rxjs';
+import { RatingService } from '../rating.service';
 
 @Component({
   selector: 'app-star-rating',
@@ -29,7 +29,7 @@ export class StarRatingComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private modalService: ModalService,
-    private bookService: BookService,
+    private ratingService: RatingService,
     private reviewsComp: ReviewsComponent
   ) {}
 
@@ -57,7 +57,7 @@ export class StarRatingComponent implements OnInit {
       return;
     }
     this.editMode
-      ? this.bookService
+      ? this.ratingService
           .updateRating(
             this.bookId,
             this.reviewForm.controls['rating'].value,
@@ -67,7 +67,7 @@ export class StarRatingComponent implements OnInit {
             this.resetForm('Review updated');
             this.reviewsComp.setReview(null);
           })
-      : this.bookService
+      : this.ratingService
           .addRating(
             this.bookId,
             this.reviewForm.controls['rating'].value,
@@ -88,7 +88,7 @@ export class StarRatingComponent implements OnInit {
   }
 
   deleteReview(): void {
-    this.bookService.deleteRating(this.bookId).subscribe(() => {
+    this.ratingService.deleteRating(this.bookId).subscribe(() => {
       this.resetForm('Review deleted');
       this.reviewsComp.setReview(null);
     });

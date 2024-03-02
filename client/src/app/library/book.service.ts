@@ -27,7 +27,7 @@ export class BookService {
         title: data.title,
         description: data.description,
         language: data.language,
-        image: data.cover,
+        imageFanfic: [{ image: data.cover }],
         categories: data.categories,
         tags: data.tags,
         originFandom: data.origin,
@@ -144,46 +144,6 @@ export class BookService {
           }
         })
       );
-  }
-
-  // Ratings and reviews
-
-  getBookRating(id: number): Observable<any> {
-    return this.http.get(
-      environment.apiUrl + '/v1/detail/ratingFanfic?id=' + id
-    );
-  }
-
-  getBookReviews(id: number): Observable<any> {
-    return this.http.get(
-      environment.apiUrl + '/v1/review/allFanficReview?fanficId=' + id
-    );
-  }
-
-  addRating(id: number, rating: number, text: string): Observable<any> {
-    return this.http.post(
-      environment.apiUrl + '/v1/review/create?fanficId=' + id,
-      {
-        rating: rating,
-        text: text,
-      }
-    );
-  }
-
-  updateRating(id: number, rating: number, text: string): Observable<any> {
-    return this.http.put(
-      environment.apiUrl + '/v1/review/update?fanficId=' + id,
-      {
-        rating: rating,
-        text: text,
-      }
-    );
-  }
-
-  deleteRating(id: number): Observable<any> {
-    return this.http.delete(
-      environment.apiUrl + '/v1/review/delete?fanficId=' + id
-    );
   }
 
   applyFilter() {

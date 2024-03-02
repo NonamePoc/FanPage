@@ -1,0 +1,39 @@
+<section class='my-4 px-4 md:px-8 lg:px-10'>
+    <h1 class='text-lg md:text-2xl font-medium'>Tags Management</h1>
+    <p class='flex text-slate-400 my-6'>
+        <span class="material-symbols-rounded">
+            shield_person
+        </span>
+        <span class="material-symbols-rounded">
+            keyboard_arrow_right
+        </span>
+        <span class='text-base'>Tags Management</span>
+    </p>
+    <table class="mt-2 w-full text-sm text-left rtl:text-right text-zinc-500 dark:text-zinc-400">
+        <thead class="text-xs uppercase dark:bg-zinc-600/50 dark:text-zinc-300">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Tag name waiting for approval
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let tag of tags" class="bg-white border-b dark:bg-zinc-800 dark:border-zinc-700">
+                <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white">
+                    {{ tag.name }}
+                </th>
+                <td (click)='onApprove(tag)'
+                    class="px-6 py-4 text-green-500 hover:text-green-600 transition duration-200">
+                    <span class="material-symbols-rounded  cursor-pointer">
+                        done
+                    </span>
+                </td>
+                <td (click)='onReject(tag)' class="px-6 py-4 text-rose-500 hover:text-rose-600 transition duration-200">
+                    <span class="material-symbols-rounded cursor-pointer">
+                        close
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>

@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { AdsComponent } from './ads/ads.component';
 import { MenuComponent } from './menu/menu.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { AdminMenuComponent } from './admin-menu/admin-menu.component';
 import { SideNavbarService } from './side-navbar.service';
 
 @Component({
@@ -17,12 +16,10 @@ import { SideNavbarService } from './side-navbar.service';
     RouterLinkActive,
     AdsComponent,
     MenuComponent,
-    AdminMenuComponent,
   ],
 })
 export class SideNavbarComponent implements OnInit {
   isOpen: boolean = false;
-  isAdmin: boolean = false;
 
   constructor(private sideNavbarService: SideNavbarService) {}
 

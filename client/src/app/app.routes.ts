@@ -12,6 +12,9 @@ import { EditBookComponent } from './library/book/edit-book/edit-book.component'
 import { ChapterComponent } from './library/book/chapters/chapter/chapter.component';
 import { EditChapterComponent } from './library/book/chapters/chapter/edit-chapter/edit-chapter.component';
 import { AuthGuard } from './auth/auth.guard';
+import { AdminGuard } from './admin/admin.guard';
+import { UserControlComponent } from './admin/user-control/user-control.component';
+import { TagsManageComponent } from './admin/tags-manage/tags-manage.component';
 
 export const routes: Routes = [
   {
@@ -84,6 +87,21 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AdminGuard],
+  },
+  {
+    path: 'admin',
+    children: [
+      {
+        path: 'users',
+        component: UserControlComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'tags',
+        component: TagsManageComponent,
+        canActivate: [AdminGuard],
+      },
+    ],
   },
 ];

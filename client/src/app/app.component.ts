@@ -8,6 +8,9 @@ import { HeaderComponent } from './header/header.component';
 import { register } from 'swiper/element/bundle';
 import { AuthService } from './auth/auth.service';
 import { FriendsService } from './user/friends/friends.service';
+import { ThemeService } from './shared/theme.service';
+import { Subscription } from 'rxjs';
+import { ChatService } from './chat/chat.service';
 // register Swiper custom elements
 register();
 
@@ -25,18 +28,24 @@ register();
   ],
 })
 export class AppComponent implements OnInit {
-  title = 'client';
+  isDarkMode: boolean = false;
+  private themeSubscription!: Subscription;
 
   constructor(
     private authService: AuthService,
-    private friendService: FriendsService
+    private themeService: ThemeService,
+    private friendService: FriendsService,
+    private chatService: ChatService
   ) {}
 
   ngOnInit(): void {
     this.authService.autoLogin();
-    // timeout
+    this.themeSubscription = this.themeService.isDarkMode.subscribe((value) => {
+      this.isDarkMode = value;
+    });
     setTimeout(() => {
       this.friendService.fetchUserTies();
+      this.chatService.connect();
     }, 1000);
   }
 }
