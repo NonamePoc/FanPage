@@ -36,8 +36,8 @@ export class FriendsComponent implements OnInit {
     });
   }
 
-  onRemove(username: string) {
-    this.friendService.changeFriendTies(username);
+  onRemove(person: any) {
+    this.friendService.changeFriendTies(person.friendName);
     this.toastr.info('Friend removed', 'Success', {
       progressBar: true,
       progressAnimation: 'decreasing',

@@ -31,6 +31,8 @@ export class BooksSwiperComponent implements OnInit {
   @Input() bookType: string = 'popular';
   @Input() books: any[] = [];
 
+  isLoading: boolean = true;
+
   constructor(private bookService: BookService) {}
 
   ngOnInit(): void {
@@ -38,9 +40,11 @@ export class BooksSwiperComponent implements OnInit {
       this.bookType === 'popular'
         ? this.bookService.getPopularBooks().subscribe((books: any) => {
             this.books = books;
+            this.isLoading = false;
           })
         : this.bookService.getLatestBooks().subscribe((books: any) => {
             this.books = books;
+            this.isLoading = false;
           });
     }
   }

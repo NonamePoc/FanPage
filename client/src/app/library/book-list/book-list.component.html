@@ -1,64 +1,75 @@
 <section class='mb-4 ml-2'>
-    <h1 class="text-lg md:text-xl font-semibold ml-2">
-        {{title}}
-    </h1>
-    <div *ngIf='books.length < 1' class='h-[15rem] md:h-[20rem]'>
-        <h2 class='text-center align-middle w-full font-medium leading-[15rem] md:leading-[20rem]'>No books found!</h2>
+    <app-filter [books]='books' [isListLayout]="isListLayout" [filterOptions]="filters" (filteredBooks)="filterBooks()"
+        (layoutChange)='changeLayout($event)'></app-filter>
+    <div *ngIf='isLoading'>
+        <p>Loading...</p>
     </div>
-    <div *ngIf="!isListLayout"
-        [ngClass]='{"grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6": !isListLayout, "xl:grid-cols-3": isListLayout} '
-        class='grid gap-2 mt-2'>
-        <a *ngFor='let book of books' routerLink='/books/{{book.id}}' class="cursor-pointer drop-shadow-lg">
-            <img class="object-cover h-[15rem] md:h-[20rem] w-[10rem] md:w-[15rem] rounded-xl cursor-pointer transition duration-300"
-                [src]='book.image | imageNormalize' alt="Book" />
-        </a>
-    </div>
-    <div *ngIf="isListLayout"
-        [ngClass]='{"grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6": !isListLayout, "2xl:grid-cols-3": isListLayout} '
-        class='grid gap-2 mt-2'>
-        <a *ngFor='let book of books' routerLink='books/{{book.id}}'
-            class="max-w-[30rem] cursor-pointer overflow-hidden">
-            <div class="flex flex-cols drop-shadow-lg">
-                <img loading="eager"
-                    class="object-cover h-[15rem] md:h-[20rem] w-[10rem] md:w-[15rem] rounded-l-xl cursor-pointer transition duration-300"
-                    [src]='book.image | imageNormalize' alt="Book" />
-                <div class="h-[15rem] md:h-[20rem] bg-neutral-50 p-3 rounded-r-xl grid grid-rows-[1fr_auto] gap-1">
-                    <div>
-                        <h2 class="md:text-lg font-semibold cursor-pointer hover:underline transition duration-300">
-                            {{book.title}}
-                        </h2>
-                        <h3
-                            class="text-sm md:text-base text-sky-800 font-semibold cursor-pointer hover:text-sky-900 transition duration-300">
-                            by {{book.authorName}}
-                        </h3>
-                        <p class="text-sm text-neutral-500 line-clamp-3 md:line-clamp-5">
-                            {{book.description}}
-                        </p>
-                    </div>
-                    <div>
-                        <div class="flex flex-wrap gap-1 text-sm">
-                            <p *ngFor="let category of book.categories" class="{{category.classNames}} rounded-xl px-2 py-1 cursor-pointer transition
-                                              duration-300">
-                                {{category.name}}
-                            </p>
-                            <p *ngFor="let tag of book.tags"
-                                class="text-sm text-neutral-600 bg-neutral-200 rounded-xl px-2 py-1 cursor-pointer hover:bg-neutral-300 transition duration-300">
-                                {{tag.name}}
-                            </p>
-                        </div>
-                        <div class="text-sm text-neutral-500 flex items-center justify-end gap-[2px]">
-                            <span class="text-xl material-symbols-rounded">
-                                star
-                            </span>
-                            <p class="font-semibold">{{book.rating}}</p>
-                            <span class="text-xl material-symbols-rounded pl-[4px]">
-                                visibility
-                            </span>
-                            <p class="font-semibold">100</p>
-                        </div>
-                    </div>
-                </div>
+    <div *ngIf='!isLoading'>
+        <div *ngIf='!filteredBooks' class='h-[15rem] md:h-[20rem]'>
+            <h2 class='text-center align-middle w-full font-medium leading-[15rem] md:leading-[20rem]'>No books found!
+            </h2>
+        </div>
+        <div *ngIf="filteredBooks">
+            <div *ngIf="!isListLayout"
+                [ngClass]='{"grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6": !isListLayout, "xl:grid-cols-3": isListLayout} '
+                class='grid gap-2 mt-2'>
+                <a *ngFor='let book of filteredBooks' routerLink='/books/{{book.id}}'
+                    class="cursor-pointer drop-shadow-lg">
+                    <img class="object-cover h-[15rem] md:h-[20rem] w-[10rem] md:w-[15rem] rounded-xl cursor-pointer transition duration-300"
+                        [src]='book.image | imageNormalize' alt="Book" />
+                </a>
             </div>
-        </a>
+            <div *ngIf="isListLayout"
+                [ngClass]='{"grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6": !isListLayout, "2xl:grid-cols-3": isListLayout} '
+                class='grid gap-2 mt-2'>
+                <a *ngFor='let book of filteredBooks' routerLink='books/{{book.id}}'
+                    class="max-w-[30rem] cursor-pointer overflow-hidden">
+                    <div class="flex flex-cols drop-shadow-lg">
+                        <img loading="eager"
+                            class="object-cover h-[15rem] md:h-[20rem] w-[10rem] md:w-[15rem] rounded-l-xl cursor-pointer transition duration-300"
+                            [src]='book.image | imageNormalize' alt="Book" />
+                        <div
+                            class="h-[15rem] md:h-[20rem] bg-neutral-50 p-3 rounded-r-xl grid grid-rows-[1fr_auto] gap-1">
+                            <div>
+                                <h2
+                                    class="md:text-lg font-semibold cursor-pointer hover:underline transition duration-300">
+                                    {{book.title}}
+                                </h2>
+                                <h3
+                                    class="text-sm md:text-base text-sky-800 font-semibold cursor-pointer hover:text-sky-900 transition duration-300">
+                                    by {{book.authorName}}
+                                </h3>
+                                <p class="text-sm text-neutral-500 line-clamp-3 md:line-clamp-5">
+                                    {{book.description}}
+                                </p>
+                            </div>
+                            <div>
+                                <div class="flex flex-wrap gap-1 text-sm">
+                                    <p *ngFor="let category of book.categories" class="{{category.classNames}} rounded-xl px-2 py-1 cursor-pointer transition
+                                              duration-300">
+                                        {{category.name}}
+                                    </p>
+                                    <p *ngFor="let tag of book.tags"
+                                        class="text-sm text-neutral-600 bg-neutral-200 rounded-xl px-2 py-1 cursor-pointer hover:bg-neutral-300 transition duration-300">
+                                        {{tag.name}}
+                                    </p>
+                                </div>
+                                <div class="text-sm text-neutral-500 flex items-center justify-end gap-[2px]">
+                                    <span class="text-xl material-symbols-rounded">
+                                        star
+                                    </span>
+                                    <p class="font-semibold">{{book.rating}}</p>
+                                    <span class="text-xl material-symbols-rounded pl-[4px]">
+                                        visibility
+                                    </span>
+                                    <p class="font-semibold">100</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
     </div>
 </section>

@@ -27,10 +27,12 @@ export class ChapterComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.bookId = +params['id'];
       this.chapterId = +params['chapterId'];
-      this.chapterService.getChapter(this.chapterId).subscribe((data: any) => {
-        this.chapter = data;
-        this.isLoading = false;
-      });
+      this.chapterService
+        .getChapter(this.chapterId, this.bookId)
+        .subscribe((data: any) => {
+          this.chapter = data;
+          this.isLoading = false;
+        });
     });
   }
 }

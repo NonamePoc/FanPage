@@ -81,12 +81,14 @@ export class EditChapterComponent implements OnInit {
     });
 
     if (this.editMode) {
-      this.chapterService.getChapter(this.id).subscribe((chapter: any) => {
-        this.chapterForm.setValue({
-          title: chapter.title,
-          content: chapter.content,
+      this.chapterService
+        .getChapter(this.id, this.bookId)
+        .subscribe((chapter: any) => {
+          this.chapterForm.setValue({
+            title: chapter.title,
+            content: chapter.content,
+          });
         });
-      });
     }
   }
 }

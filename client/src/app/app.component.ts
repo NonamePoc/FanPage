@@ -43,9 +43,9 @@ export class AppComponent implements OnInit {
     this.themeSubscription = this.themeService.isDarkMode.subscribe((value) => {
       this.isDarkMode = value;
     });
-    setTimeout(() => {
+    if (this.authService.user.value) {
       this.friendService.fetchUserTies();
       this.chatService.connect();
-    }, 1000);
+    }
   }
 }

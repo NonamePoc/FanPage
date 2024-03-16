@@ -45,6 +45,12 @@ export class UserDetailsComponent implements OnInit {
     });
   }
 
+  getButtonText() {
+    return this.friendType === 'following' || this.friendType === 'mutual'
+      ? 'Unfollow'
+      : 'Follow';
+  }
+
   onFollow() {
     this.friendType = this.friendService.changeFriendTies(this.user?.username!);
   }

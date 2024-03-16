@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { EmailChangeModalComponent } from './email-change-modal/email-change-modal.component';
 import { PasswordChangeModalComponent } from './password-change-modal/password-change-modal.component';
+import { UsernameChangeModalComponent } from './username-change-modal/username-change-modal.component';
 
 @Component({
   selector: 'app-settings',
@@ -14,6 +15,7 @@ import { PasswordChangeModalComponent } from './password-change-modal/password-c
     CommonModule,
     EmailChangeModalComponent,
     PasswordChangeModalComponent,
+    UsernameChangeModalComponent,
   ],
 })
 export class SettingsComponent {

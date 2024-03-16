@@ -1,8 +1,7 @@
 <div class='flex flex-wrap gap-1 md:gap-2 items-center'>
     <div *ngFor="let select of selected; index as i" class='relative'>
         <p appDropdown
-            class='flex items-center justify-between p-2 rounded-md border border-slate-300 bg-slate-200 focus:border-blue-300 cursor-pointer transition duration-200'
-            name="" id="">
+            class='flex items-center justify-between p-2 rounded-md border border-slate-300 bg-slate-200 focus:border-blue-300 cursor-pointer transition duration-200'>
             {{select}}
             <span *ngIf="selected.length > 1" (click)='onRemoveCategory(i)'
                 class="pl-4 material-symbols-rounded text-xl text-rose-600 hover:text-rose-400 transition duration-200">

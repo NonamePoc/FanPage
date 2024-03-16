@@ -35,6 +35,21 @@ export class UserService {
         );
   }
 
+  changeUsername(username: string): Observable<any> {
+    return this.http
+      .put<any>(
+        environment.apiUrl + '/v1/account/changeUserName?userName=' + username,
+        {}
+      )
+      .pipe(
+        tap((user: any) => {
+          const currentUser = this.authService.user.getValue();
+          currentUser!.username = user.username;
+          this.authService.user.next(currentUser);
+        })
+      );
+  }
+
   changeEmail(email: string): Observable<any> {
     return this.http
       .put<any>(environment.apiUrl + '/v1/account/changeEmail', {

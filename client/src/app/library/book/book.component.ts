@@ -55,7 +55,7 @@ export class BookComponent implements OnInit {
           .removeBookmark(this.id)
           .subscribe(() => (this.isBookmarked = !this.isBookmarked))
       : this.bookService
-          .addBookmark(this.id)
+          .addBookmark(this.book)
           .subscribe(() => (this.isBookmarked = !this.isBookmarked));
   }
 

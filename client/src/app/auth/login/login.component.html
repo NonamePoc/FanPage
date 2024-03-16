@@ -1,8 +1,9 @@
 <form [formGroup]="signinForm" (ngSubmit)='onSubmit()'>
     <div class='grid gap-3'>
         <div>
-            <label for='email' class='pl-1 text-sm text-stone-600 font-medium'>Email</label>
-            <input formControlName='email' type="email" id='email' placeholder="username@mail.com" autocomplete='email'
+            <label for='loginEmail' class='pl-1 text-sm text-stone-600 font-medium'>Email</label>
+            <input formControlName='email' type="email" id='loginEmail' placeholder="username@mail.com"
+                autocomplete='email'
                 class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 transition duration-200' />
             <div [ngClass]="{'opacity-100': signinForm.get('email')?.invalid && signinForm.get('email')?.touched}"
                 class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">

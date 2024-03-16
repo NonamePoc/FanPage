@@ -63,7 +63,7 @@ export class RegistrationComponent implements OnInit {
       password,
       confirmPassword
     );
-
+    console.log(authObs);
     authObs.subscribe({
       next: () => {
         this.toastr.success('Please check you mail', 'Email sent', {

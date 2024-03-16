@@ -1,0 +1,23 @@
+<app-modal modalId="changeUsernameModal" title="Changing username..."
+    description="Please enter the username you want to go with">
+    <form [formGroup]="usernameForm" (ngSubmit)="onSubmit()">
+        <input formControlName='username' type='username' id='username' placeholder="Username" autocomplete='username'
+            class='mt-5 p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200' />
+        <div [ngClass]="{'opacity-100': usernameForm.get('email')?.invalid && usernameForm.get('email')?.touched}"
+            class="opacity-0 cursor-default transition duration-300 text-sm text-red-500 rounded px-2">
+            <span>
+                Please enter a valid username.
+            </span>
+        </div>
+        <p class='text-sm text-stone-700'>
+            Enter a unique username that will represent you across the platform.
+        </p>
+
+        <div class='mt-4 flex justify-end'>
+            <button type='submit' [disabled]='usernameForm.invalid' [ngClass]="{'opacity-50': usernameForm.invalid}"
+                class='bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-200'>
+                Save Changes
+            </button>
+        </div>
+    </form>
+</app-modal>

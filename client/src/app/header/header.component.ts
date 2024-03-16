@@ -8,6 +8,7 @@ import { SideNavbarService } from '../side-navbar/side-navbar.service';
 import { AuthService } from '../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { ImageNormalizePipe } from '../shared/image-normalize.pipe';
+import { ChatService } from '../chat/chat.service';
 
 @Component({
   selector: 'app-header',
@@ -29,6 +30,7 @@ export class HeaderComponent implements OnInit {
     public authService: AuthService,
     private sideNavbarService: SideNavbarService,
     private modalService: ModalService,
+    private chatService: ChatService,
     private toastr: ToastrService
   ) {}
 
@@ -42,6 +44,7 @@ export class HeaderComponent implements OnInit {
   onAuth(): void {
     this.isAuthenticated
       ? (this.authService.logout(),
+        this.chatService.disconnect(),
         this.toastr.info('You have been logged out', 'Logout'))
       : this.modalService.openModal('authModal');
   }

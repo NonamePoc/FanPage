@@ -26,14 +26,14 @@ export class TagsManageComponent {
   }
 
   onApprove(tag: any) {
-    this.adminService.approveTag(tag.id).subscribe((res) => {
-      console.log('Approved', res);
+    this.adminService.approveTag(tag.tagId).subscribe(() => {
+      this.tags = this.tags.filter((t) => t.tagId !== tag.tagId);
     });
   }
 
   onReject(tag: any) {
-    this.adminService.rejectTag(tag.id).subscribe(() => {
-      this.tags = this.tags.filter((t) => t.id !== tag.id);
+    this.adminService.rejectTag(tag.tagId).subscribe(() => {
+      this.tags = this.tags.filter((t) => t.tagId !== tag.tagId);
     });
   }
 }

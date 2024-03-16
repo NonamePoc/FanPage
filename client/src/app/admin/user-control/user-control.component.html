@@ -26,8 +26,8 @@
                         <input (input)='onSearch($event)' type="text"
                             class="w-full p-2 text-sm font-semibold text-zinc-400 bg-transparent"
                             placeholder="Enter username" required />
-                        <svg class="w-4 h-4 text-zinc-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="none" viewBox="0 0 20 20">
+                        <svg class="cursor-pointer hover:text-zinc-200 w-4 h-4 text-zinc-500" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                         </svg>
@@ -36,12 +36,12 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor='let user of users' class="bg-white border-b dark:bg-zinc-800 dark:border-zinc-700">
+            <tr *ngIf='user' class="bg-white border-b dark:bg-zinc-800 dark:border-zinc-700">
                 <th scope="row" class="px-6 py-4 font-medium text-zinc-800 whitespace-nowrap dark:text-white">
-                    {{user.username}}
+                    {{user.name}}
                 </th>
-                <td [ngClass]="{'text-rose-500': user.bannedBy !== 'None'}" class="px-6 py-4">
-                    {{user.bannedBy === 'None' ? 'Not banned' : 'Banned by ' + user.bannedBy}}
+                <td [ngClass]="{'text-rose-500': user.whoBan !== 'None'}" class="px-6 py-4">
+                    {{user.whoBan === 'None' ? 'Not banned' : 'Banned by ' + user.whoBan}}
                 </td>
                 <td class="px-6 py-4 text-white hover:text-slate-200">
                     <select (change)='onSelectRole($event, user)' name="role" id="role"
@@ -51,12 +51,12 @@
                     </select>
                 </td>
                 <td class='pt-3 flex items-center justify-center gap-2'>
-                    <div (click)="onBan(user, user.bannedBy === 'None' ? false : true)"
+                    <div (click)="onBan(user, user.whoBan === 'None' ? false : true)"
                         class=" text-slate-400 flex gap-1 items-center justify-center font-medium cursor-pointer hover:text-slate-500 transition duration-200">
                         <span class="material-symbols-rounded">
                             lock_reset
                         </span>
-                        {{user.bannedBy === 'None' ? 'Ban' : 'Unban'}}
+                        {{user.whoBan === 'None' ? 'Ban' : 'Unban'}}
                     </div>
                     <div (click)="onDelete(user.id)"
                         class="text-rose-500 flex gap-1 items-center justify-center font-medium cursor-pointer hover:text-rose-600 transition duration-200">

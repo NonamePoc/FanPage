@@ -1,7 +1,7 @@
 <app-modal modalId="changeEmailModal" title="Changing email..."
     description="Please enter the email you want to go with">
     <form [formGroup]="emailForm" (ngSubmit)="onSubmit()">
-        <input formControlName='email' type='email' id='email' placeholder="Email" autocomplete='email'
+        <input formControlName='email' type='email' placeholder="Email" autocomplete='email'
             class='mt-5 p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200' />
         <div [ngClass]="{'opacity-100': emailForm.get('email')?.invalid && emailForm.get('email')?.touched}"
             class="opacity-0 cursor-default transition duration-300 text-sm text-red-500 rounded px-2">

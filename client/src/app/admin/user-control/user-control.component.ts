@@ -14,7 +14,7 @@ import { BanModalComponent } from './ban-modal/ban-modal.component';
   imports: [CommonModule, BanModalComponent],
 })
 export class UserControlComponent {
-  users: any[] = [{ username: 'Apple', bannedBy: 'None', role: 'User' }];
+  user: any;
   selectedUser: any;
   selectedUserChanged = new EventEmitter<any>();
 
@@ -30,7 +30,9 @@ export class UserControlComponent {
 
   onSearch(event: any) {
     const search = event.target.value;
-    console.log('Search', search);
+    this.adminService.getUser(search).subscribe((res) => {
+      this.user = res;
+    });
   }
 
   onSelectRole(event: any, user: any) {
@@ -44,7 +46,7 @@ export class UserControlComponent {
   onBan(user: any, isBanned: boolean) {
     if (isBanned) {
       this.adminService.unbanUser(user.id).subscribe((res) => {
-        user.bannedBy = 'None';
+        user.whoBan = 'None';
       });
       return;
     }
@@ -54,8 +56,8 @@ export class UserControlComponent {
   }
 
   onDelete(userId: string) {
-    this.adminService.deleteUser(userId).subscribe((res) => {
-      this.users = this.users.filter((u) => u.id !== userId);
+    this.adminService.deleteUser(userId).subscribe(() => {
+      this.user = null;
     });
   }
 }

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { ModalService } from '../shared/modal/modal.service';
-import { ModalComponent } from '../shared/modal/modal.component';
 import { EditChatComponent } from './edit-chat/edit-chat.component';
 
 @Component({
@@ -9,7 +8,7 @@ import { EditChatComponent } from './edit-chat/edit-chat.component';
   standalone: true,
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
-  imports: [RouterOutlet, RouterLink, ModalComponent, EditChatComponent],
+  imports: [RouterOutlet, RouterLink, EditChatComponent],
 })
 export class ChatComponent {
   constructor(private modalService: ModalService) {}

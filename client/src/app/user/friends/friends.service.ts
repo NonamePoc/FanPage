@@ -32,39 +32,41 @@ export class FriendsService {
 
   changeFriendTies(username: string): string {
     let result = 'ERROR: something went wrong with the friend ties change!';
-    switch (true) {
-      case this.isFollowing(username):
+    const currentTies = this.checkFriendTies(username);
+    console.log('currentTies: ', currentTies);
+    switch (currentTies) {
+      case 'following':
         this.stopFollowing(username).subscribe(() => {
-          this.following = this.following.filter(
-            (user) => user.username !== username
-          );
           result = 'none';
-        });
-        return result;
-      case this.isMutual(username):
-        this.removeFriend(username).subscribe(() => {
-          this.mutuals = this.mutuals.filter(
-            (user) => user.username !== username
+          this.following = this.following.filter(
+            (user) => user.friendName !== username
           );
-          result = 'follower';
         });
-        return result;
-      case this.isFollower(username):
-        this.acceptFollower(username).subscribe((data) => {
-          this.followers = this.followers.filter(
-            (user) => user.username !== username
-          );
-          this.mutuals.push({ data });
+        break;
+      case 'follower':
+        this.acceptFollower(username).subscribe(() => {
           result = 'mutual';
+          this.followers = this.followers.filter(
+            (user) => user.friendName !== username
+          );
         });
-        return result;
-      default:
-        this.startFollowing(username).subscribe((data) => {
-          this.following.push({ data });
+        break;
+      case 'mutual':
+        this.removeFriend(username).subscribe(() => {
+          result = 'none';
+          this.mutuals = this.mutuals.filter(
+            (user) => user.friendName !== username
+          );
+        });
+        break;
+      case 'none':
+        this.startFollowing(username).subscribe(() => {
           result = 'following';
+          this.following.push({ friendName: username });
         });
-        return result;
+        break;
     }
+    return result;
   }
 
   fetchUserTies() {
@@ -74,15 +76,15 @@ export class FriendsService {
   }
 
   private isFollowing(username: string): boolean {
-    return this.following.some((user) => user.username === username);
+    return this.following.some((user) => user.friendName === username);
   }
 
   private isFollower(username: string): boolean {
-    return this.followers.some((user) => user.username === username);
+    return this.followers.some((user) => user.friendName === username);
   }
 
   private isMutual(username: string): boolean {
-    return this.mutuals.some((user) => user.username === username);
+    return this.mutuals.some((user) => user.friendName === username);
   }
 
   private getMutuals(): Observable<any> {

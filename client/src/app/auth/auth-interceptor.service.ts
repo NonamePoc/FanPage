@@ -17,7 +17,7 @@ export const authInterceptor: HttpInterceptorFn = (
       const modifiedReq = req.clone({
         headers: req.headers
           .append('Authorization', 'Bearer ' + token)
-          .append('ngrok-skip-browser-warning', 'true'),
+          .append('Content-Type', 'application/json'),
       });
       return next(modifiedReq);
     }

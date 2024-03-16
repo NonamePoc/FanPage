@@ -9,16 +9,13 @@ import { catchError, map, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class BookService {
-  isListLayout: boolean = false;
-  books: Book[] = [];
+  writtenBooks: Book[] = [];
   bookmarks: any[] = [];
-  filters: BookFilter = {};
-  filteredBooks: Book[] = [...this.books];
 
   constructor(private http: HttpClient) {}
 
   setBooks(books: any) {
-    this.books = books;
+    this.writtenBooks = books;
   }
 
   addBook(data: any): Observable<any> {
@@ -35,7 +32,7 @@ export class BookService {
       })
       .pipe(
         tap((response: any) => {
-          this.books.push(response.book);
+          this.writtenBooks.push(response.book);
         })
       );
   }
@@ -54,9 +51,9 @@ export class BookService {
       })
       .pipe(
         tap((response: any) => {
-          const index = this.books.findIndex((book) => book.id === id);
+          const index = this.writtenBooks.findIndex((book) => book.id === id);
           if (index !== -1) {
-            this.books[index] = response.book;
+            this.writtenBooks[index] = response.book;
           }
         })
       );
@@ -67,9 +64,9 @@ export class BookService {
       .delete(environment.apiUrl + '/v1/fanfic/delete?id=' + id)
       .pipe(
         tap(() => {
-          const index = this.books.findIndex((book) => book.id === id);
+          const index = this.writtenBooks.findIndex((book) => book.id === id);
           if (index !== -1) {
-            this.books.splice(index, 1);
+            this.writtenBooks.splice(index, 1);
           }
         })
       );
@@ -144,31 +141,5 @@ export class BookService {
           }
         })
       );
-  }
-
-  applyFilter() {
-    console.log('Applying filter');
-    /* this.filteredBooks = this.books.filter((book) => {
-      if (this.filters.status && book.status !== this.filters.status) {
-        return false;
-      }
-
-      if (this.filters.categories && this.filters.categories.length > 0) {
-        const bookCategories = book.categories?.map((category) => category.id);
-        if (
-          !this.filters.categories.every((category) =>
-            bookCategories?.includes(category.id)
-          )
-        ) {
-          return false;
-        }
-      }
-
-      if (this.filters.dateCreated && book.date !== this.filters.dateCreated) {
-        return false;
-      }
-
-      return true;
-    }); */
   }
 }

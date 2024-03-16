@@ -12,13 +12,10 @@
 </div>
 
 <div class='bg-neutral-100 pt-2 border-l border-r border-b border-neutral-300'>
-    <app-filter></app-filter>
     <ng-container *ngIf='isReadingMode'>
         <app-book-list></app-book-list>
-        <app-book-list title="Done"></app-book-list>
     </ng-container>
     <ng-container *ngIf='!isReadingMode'>
         <app-book-list [isReading]='false'></app-book-list>
-        <app-book-list [isReading]='false' title="Done"></app-book-list>
     </ng-container>
 </div>

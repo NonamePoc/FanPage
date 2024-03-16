@@ -1,23 +1,45 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { BookListComponent } from '../../library/book-list/book-list.component';
-import { FilterComponent } from '../../library/filter/filter.component';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from './../../auth/auth.service';
+import { UserService } from '../../shared/user.service';
+import { BookListComponent } from '../../library/book-list/book-list.component';
+import { FilterComponent } from '../../library/book-list/filter/filter.component';
+import { ChatService } from '../../chat/chat.service';
 
 @Component({
   selector: 'app-user-works',
   standalone: true,
   templateUrl: './user-works.component.html',
   styleUrl: './user-works.component.css',
-  imports: [BookListComponent, FilterComponent],
+  imports: [CommonModule, BookListComponent, FilterComponent],
 })
 export class UserWorksComponent implements OnInit {
   username: string = '';
+  isCurrentUser: boolean = false;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private authService: AuthService,
+    private chatService: ChatService
+  ) {}
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
       this.username = params['username'];
+      this.userService.getUser(this.username).subscribe((data) => {
+        this.isCurrentUser =
+          data?.username === this.authService.user?.getValue()?.username;
+      });
+    });
+  }
+
+  onChat() {
+    this.chatService.createChat({
+      name: 'newChat',
+      description: 'nu tipaa',
+      type: 'private',
     });
   }
 }

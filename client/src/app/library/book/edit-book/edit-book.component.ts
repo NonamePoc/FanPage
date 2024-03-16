@@ -117,7 +117,7 @@ export class EditBookComponent implements OnInit {
     if (this.bookForm.valid) {
       this.bookService.addBook(this.bookForm.getRawValue()).subscribe({
         next: (response: any) => {
-          this.router.navigate(['/books/', response.id, 'chapters', 1, 'edit']);
+          this.router.navigate(['/books/', response.id, 'chapters', 'new']);
           this.bookService.getBooksByUser(
             JSON.parse(localStorage.getItem('userData')!)?.username
           );

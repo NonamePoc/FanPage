@@ -15,9 +15,13 @@ export class ChapterService {
     );
   }
 
-  getChapter(id: number): Observable<any> {
+  getChapter(id: number, bookId: number): Observable<any> {
     return this.http.get(
-      environment.apiUrl + '/v1/chapter/chapterById?id=' + id
+      environment.apiUrl +
+        '/v1/chapter/chapterById?id=' +
+        id +
+        '&fanficId=' +
+        bookId
     );
   }
 
@@ -25,7 +29,7 @@ export class ChapterService {
     return this.http.post(environment.apiUrl + '/v1/chapter/create', {
       title: data.title,
       content: data.content,
-      bookId: id,
+      fanficId: id,
     });
   }
 

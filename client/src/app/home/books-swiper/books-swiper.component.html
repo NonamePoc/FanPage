@@ -4,7 +4,17 @@
     </h1>
     <div class='w-full'>
         <swiper-container appSwiperResponsive space-between='10' autoplay='true'>
-            <swiper-slide lazy="true" *ngFor='let book of books'>
+            <swiper-slide *ngIf='isLoading'>
+                <div class='h-[15rem] md:h-[20rem] max-w-[30rem] drop-shadow-lg bg-neutral-200 p-2 rounded-l-xl'></div>
+            </swiper-slide>
+            <swiper-slide *ngIf='isLoading'>
+                <div class='h-[15rem] md:h-[20rem] max-w-[30rem] drop-shadow-lg bg-neutral-200 p-2 rounded-l-xl'></div>
+            </swiper-slide>
+            <swiper-slide *ngIf='isLoading'>
+                <div class='h-[15rem] md:h-[20rem] max-w-[30rem] drop-shadow-lg bg-neutral-200 p-2 rounded-l-xl'></div>
+            </swiper-slide>
+
+            <swiper-slide *ngFor='let book of books'>
                 <a routerLink='/books/{{book.id}}' class="max-w-[30rem] cursor-pointer">
                     <div class="flex flex-cols drop-shadow-lg p-2">
                         <img loading="eager"
@@ -35,9 +45,9 @@
                                         class="text-sm text-neutral-600 bg-neutral-200 rounded-xl px-2 py-1 cursor-pointer hover:bg-neutral-300 transition duration-300">
                                         {{tag.name}}
                                     </p>
-                                    <p class="text-sm text-neutral-700 pl-1 pt-1">
+                                    <!-- <p class="text-sm text-neutral-700 pl-1 pt-1">
                                         +2 more
-                                    </p>
+                                    </p> -->
                                 </div>
                                 <div class="text-sm text-neutral-500 flex items-center justify-end gap-[2px]">
                                     <span class="text-xl material-symbols-rounded">

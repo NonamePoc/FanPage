@@ -6,7 +6,7 @@
         <span class="material-symbols-rounded">
             {{ friendType === 'following' || friendType === 'mutual' ? 'person_cancel' : 'person_add' }}
         </span>
-        {{ friendType === 'following' || friendType === 'mutual' ? 'Unfollow' : 'Follow' }}
+        {{ getButtonText() }}
     </button>
     <p *ngIf="friendType === 'follower'" class='mt-2 text-green-500 px-auto text-sm font-medium flex justify-center'>
         Following you

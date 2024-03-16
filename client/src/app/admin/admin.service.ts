@@ -15,15 +15,20 @@ export class AdminService {
     return this.http.get<any>(environment.apiUrl + '/v1/admin/notapproved');
   }
 
-  approveTag(tagId: string): Observable<any> {
-    return this.http.put<any>(environment.apiUrl + '/v1/admin/approve', {
-      tagId,
-    });
+  approveTag(tagId: number): Observable<any> {
+    return this.http.put<any>(environment.apiUrl + '/v1/admin/approve', tagId);
   }
 
-  rejectTag(tagId: string): Observable<any> {
+  rejectTag(tagId: number): Observable<any> {
     return this.http.delete<any>(
       environment.apiUrl + '/v1/tag/delete?tagId=' + tagId
+    );
+  }
+
+  getUser(username: string): Observable<any> {
+    return this.http.post<any>(
+      environment.apiUrl + '/v1/admin/info?name=' + username,
+      {}
     );
   }
 
@@ -35,9 +40,10 @@ export class AdminService {
   }
 
   unbanUser(userId: string): Observable<any> {
-    return this.http.put<any>(environment.apiUrl + '/v1/admin/unban', {
-      userId,
-    });
+    return this.http.put<any>(
+      environment.apiUrl + '/v1/admin/unban?id=' + userId,
+      {}
+    );
   }
 
   changeRole(userId: string, role: string): Observable<any> {
