@@ -1,7 +1,6 @@
 <div class='relative'>
-    <p appDropdown
-        class='flex items-center justify-between p-2 rounded-md border border-slate-300 bg-slate-200 focus:border-blue-300 cursor-pointer transition duration-200'
-        name="" id="">
+    <p appDropdown class='flex items-center justify-between p-2 rounded-md border border-slate-300 bg-slate-200 focus:border-blue-300 dark:bg-neutral-900 dark:border-neutral-700 
+ cursor-pointer transition duration-200' name="" id="">
         <span>
             <kbd class=''>{{selected.code}}</kbd>
             {{selected.name}}
@@ -11,11 +10,11 @@
         </span>
     </p>
 
-    <ul
-        class='w-full drop-shadow-lg overflow-y-scroll max-h-52 p-1 opacity-0 -z-10 absolute border border-slate-300 bg-slate-200 rounded transition duration-300'>
-        <li *ngFor='let lang of languages' [ngClass]="{'bg-stone-100': lang.code === selected.code}"
+    <ul class='w-full drop-shadow-lg overflow-y-scroll max-h-52 p-1 opacity-0 -z-10 absolute border border-slate-300 bg-slate-200 dark:bg-neutral-900 dark:border-neutral-700 
+ rounded transition duration-300'>
+        <li *ngFor='let lang of languages' [ngClass]="{'bg-stone-100 dark:bg-neutral-700': lang.code === selected.code}"
             (click)='onSelectLanguage(lang)'
-            class='cursor-pointer hover:bg-stone-100 p-1 rounded flex gap-1 items-center text-sm'>
+            class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-800 p-1 rounded flex gap-1 items-center text-sm'>
             <kbd class=''>{{lang.code}}</kbd>
             {{lang.name}}
         </li>

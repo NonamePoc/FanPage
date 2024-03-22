@@ -1,14 +1,15 @@
-import { User } from './../auth/user.model';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+
 import { SearchComponent } from './search/search.component';
 import { ModalService } from '../shared/modal/modal.service';
 import { DropdownDirective } from '../shared/dropdown.directive';
 import { SideNavbarService } from '../side-navbar/side-navbar.service';
 import { AuthService } from '../auth/auth.service';
-import { ToastrService } from 'ngx-toastr';
 import { ImageNormalizePipe } from '../shared/image-normalize.pipe';
 import { ChatService } from '../chat/chat.service';
+import { User } from './../auth/user.model';
 
 @Component({
   selector: 'app-header',

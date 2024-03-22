@@ -3,13 +3,13 @@
     <div class='pl-1 my-2'>
         <label for='username' class='text-lg font-medium mb-2'>Username</label>
         <button (click)="openModal('changeUsernameModal')"
-            class='flex items-center justify-center gap-1 font-medium p-2 rounded-md border border-blue-200 hover:bg-blue-200 w-full bg-blue-100 transition duration-300'>
+            class='flex items-center justify-center gap-1 font-medium p-2 rounded-md border border-blue-200 hover:bg-blue-200 w-full bg-blue-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:border-none transition duration-300'>
             Change Username
             <span class="material-symbols-rounded">
                 login
             </span>
         </button>
-        <p class='text-sm text-stone-700 mt-2'>
+        <p class='text-sm text-stone-700 dark:text-stone-300 mt-2'>
             Enter a unique username that will represent you across the platform.
         </p>
     </div>
@@ -17,73 +17,44 @@
     <div class='pl-1 my-2'>
         <label for='email' class='text-lg font-medium mb-2'>Email</label>
         <button (click)="openModal('changeEmailModal')"
-            class='flex items-center justify-center gap-1 font-medium p-2 rounded-md border border-blue-200 hover:bg-blue-200 w-full bg-blue-100 transition duration-300'>
+            class='flex items-center justify-center gap-1 font-medium p-2 rounded-md border border-blue-200 hover:bg-blue-200 w-full bg-blue-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:border-none transition duration-300'>
             Change Email
             <span class="material-symbols-rounded">
                 login
             </span>
         </button>
-        <p class='text-sm text-stone-700 mt-2'>
+        <p class='text-sm text-stone-700 dark:text-stone-300 mt-2'>
             Your email is used for login and notifications. Make sure it's up to date.
         </p>
     </div>
     <div class='pl-1 my-2'>
         <label for='password' class='text-lg font-medium mb-2'>Password</label>
         <button (click)="openModal('changePasswordModal')"
-            class='flex items-center justify-center gap-1 font-medium p-2 rounded-md border border-blue-200 hover:bg-blue-200 w-full bg-blue-100 transition duration-300'>
+            class='flex items-center justify-center gap-1 font-medium p-2 rounded-md border border-blue-200 hover:bg-blue-200 w-full bg-blue-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:border-none transition duration-300'>
             Change Password
             <span class="material-symbols-rounded">
                 login
             </span>
         </button>
-        <p class='text-sm text-stone-700 mt-2'>
+        <p class='text-sm text-stone-700 dark:text-stone-300 mt-2'>
             Keep your account secure by changing your password regularly.
         </p>
     </div>
 </div>
 
-<hr class='my-2'>
+<hr class='my-2 dark:border-zinc-800'>
 
 <div>
     <h2 class='text-lg font-medium mb-2'>Theme</h2>
-    <p class='text-sm text-stone-700 mt-2 mb-3'>Choose a theme that suits your style.</p>
-    <div class='grid grid-cols-3 gap-1'>
-        <div class='rounded-md bg-slate-200 p-2 flex items-center justify-center'>
-            <div class='rounded-full h-8 w-8 bg-slate-300'></div>
-        </div>
-        <div class='rounded-md bg-slate-200 p-2 flex items-center justify-center'>
-            <div class='rounded-full h-8 w-8 bg-slate-300'></div>
-        </div>
-        <div class='rounded-md bg-slate-200 p-2 flex items-center justify-center'>
-            <div class='rounded-full h-8 w-8 bg-slate-300'></div>
-        </div>
-        <div class='rounded-md bg-slate-200 p-2 flex items-center justify-center'>
-            <div class='rounded-full h-8 w-8 bg-slate-300'></div>
-        </div>
-        <div class='rounded-md bg-slate-200 p-2 flex items-center justify-center'>
-            <div class='rounded-full h-8 w-8 bg-slate-300'></div>
-        </div>
-        <div class='rounded-md bg-slate-200 p-2 flex items-center justify-center'>
-            <div class='rounded-full h-8 w-8 bg-slate-300'></div>
-        </div>
-    </div>
-    <div class='mt-4 flex justify-end'>
-        <button type='submit' [disabled]='false' [ngClass]="{'opacity-50': false}"
-            class='bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-200'>
-            Save Changes
-        </button>
-        <button type='reset'
-            class='bg-stone-300 hover:bg-stone-400 text-stone-700 px-4 py-2 rounded-md transition duration-200 ml-2'>
-            Reset
-        </button>
-    </div>
+    <p class='text-sm text-stone-700 dark:text-stone-300 mt-2 mb-3'>Choose a theme that suits your style.</p>
+    <app-theme-change></app-theme-change>
 </div>
 
-<hr class='my-2'>
+<hr class='my-2 dark:border-zinc-800'>
 
 <div class='pl-1'>
     <h2 class='text-lg font-medium mb-2'>Avatar & Profile Cover Images</h2>
-    <p class='text-sm text-stone-700 mt-2 mb-3'>Personalize your profile with an avatar and a
+    <p class='text-sm text-stone-700 dark:text-stone-300 mt-2 mb-3'>Personalize your profile with an avatar and a
         cover
         image.
         Your avatar is a small image that represents you across the
@@ -100,18 +71,8 @@
         </div>
     </div>
     <div class='grid sm:grid-cols-[25%_1fr] px-3'>
-        <img class='transform -translate-y-10 md:-translate-y-16 rounded-full h-20 w-20 md:h-32 md:w-32 object-cover mx-auto border-4 border-neutral-100 cursor-pointer'
+        <img class='transform -translate-y-10 md:-translate-y-16 rounded-full h-20 w-20 md:h-32 md:w-32 object-cover mx-auto border-4 border-neutral-100 dark:border-neutral-800 cursor-pointer'
             src="https://picsum.photos/400" alt="User">
-    </div>
-    <div class='mt-3 flex justify-end transform -translate-y-10 md:-translate-y-16'>
-        <button type='submit' [disabled]='false' [ngClass]="{'opacity-50': false}"
-            class='bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-200'>
-            Save Changes
-        </button>
-        <button type='reset'
-            class='bg-stone-300 hover:bg-stone-400 text-stone-700 px-4 py-2 rounded-md transition duration-200 ml-2'>
-            Reset
-        </button>
     </div>
 </div>
 

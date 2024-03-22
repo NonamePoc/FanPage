@@ -23,7 +23,7 @@
                 </th>
                 <th scope="col" class="px-6 py-2">
                     <div class="flex items-center gap-1 border border-zinc-600 rounded-full px-5">
-                        <input (input)='onSearch($event)' type="text"
+                        <input (input)='onSearch()' [(ngModel)]="searchInput" type="text"
                             class="w-full p-2 text-sm font-semibold text-zinc-400 bg-transparent"
                             placeholder="Enter username" required />
                         <svg class="cursor-pointer hover:text-zinc-200 w-4 h-4 text-zinc-500" aria-hidden="true"

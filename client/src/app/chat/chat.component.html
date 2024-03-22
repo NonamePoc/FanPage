@@ -1,47 +1,48 @@
 <div class='flex justify-between'>
     <h1 class='font-semibold text-lg mb-2'>Chatrooms</h1>
     <div (click)="onCreateChat()" class='cursor-pointer flex justify-center items-center'>
-        <span class="material-symbols-rounded hover:bg-neutral-200 rounded-full p-1 transition duration-300">
+        <span
+            class="material-symbols-rounded hover:bg-neutral-200 dark:hover:bg-neutral-800 rounded-full p-1 transition duration-300">
             add_circle
         </span>
     </div>
 </div>
 <div class="grid grid-cols-4 gap-1 mb-2">
     <div
-        class='cursor-pointer relative h-32 bg-sky-400 hover:bg-sky-300 transition duration-300 rounded flex justify-center items-center'>
+        class='cursor-pointer relative h-32 bg-sky-400 hover:bg-sky-300 dark:bg-sky-800 dark:hover:bg-sky-900 transition duration-300 rounded flex justify-center items-center'>
         <div class='absolute top-0 right-0 p-2'>
             <span
-                class="material-symbols-rounded text-neutral-700 hover:bg-neutral-200/50 rounded-full transition duration-300">
+                class="material-symbols-rounded text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-700/50 rounded-full transition duration-300">
                 more_horiz
             </span>
         </div>
         <h2 class='font-semibold'>Chat 1_</h2>
     </div>
     <div
-        class='cursor-pointer relative h-32 bg-purple-400 hover:bg-purple-300 transition duration-300 rounded flex justify-center items-center'>
+        class='cursor-pointer relative h-32 bg-purple-400 hover:bg-purple-300 dark:bg-purple-800 dark:hover:bg-purple-900 transition duration-300 rounded flex justify-center items-center'>
         <div class='absolute top-0 right-0 p-2'>
             <span
-                class="material-symbols-rounded text-neutral-700 hover:bg-neutral-200/50 rounded-full transition duration-300">
+                class="material-symbols-rounded text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-700/50 rounded-full transition duration-300">
                 more_horiz
             </span>
         </div>
         <h2 class='font-semibold'>Chat 2_</h2>
     </div>
     <div
-        class='cursor-pointer relative h-32 bg-orange-400 hover:bg-orange-300 transition duration-300 rounded flex justify-center items-center'>
+        class='cursor-pointer relative h-32 bg-orange-400 hover:bg-orange-300 dark:bg-orange-800 dark:hover:bg-orange-900 transition duration-300 rounded flex justify-center items-center'>
         <div class='absolute top-0 right-0 p-2'>
             <span
-                class="material-symbols-rounded text-neutral-700 hover:bg-neutral-200/50 rounded-full transition duration-300">
+                class="material-symbols-rounded text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-700/50 rounded-full transition duration-300">
                 more_horiz
             </span>
         </div>
         <h2 class='font-semibold'>Chat 3_</h2>
     </div>
     <div
-        class='cursor-pointer relative h-32 bg-rose-400 hover:bg-rose-300 transition duration-300 rounded flex justify-center items-center'>
+        class='cursor-pointer relative h-32 bg-rose-400 hover:bg-rose-300 dark:bg-rose-800 dark:hover:bg-rose-900 transition duration-300 rounded flex justify-center items-center'>
         <div class='absolute top-0 right-0 p-2'>
             <span
-                class="material-symbols-rounded text-neutral-700 hover:bg-neutral-200/50 rounded-full transition duration-300">
+                class="material-symbols-rounded text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-700/50 rounded-full transition duration-300">
                 more_horiz
             </span>
         </div>
@@ -51,14 +52,15 @@
 <h1 class='font-semibold text-lg mb-2'>Direct messages</h1>
 <div class='grid lg:grid-cols-2 gap-2'>
     <a routerLink="/chat/1">
-        <div class='cursor-pointer grid grid-cols-[auto_1fr_auto] gap-4 bg-stone-200 px-2 py-4 rounded'>
+        <div
+            class='cursor-pointer grid grid-cols-[auto_1fr_auto] gap-4 bg-stone-200 dark:bg-zinc-800/45 px-2 py-4 rounded'>
             <div class='h-12 w-12 bg-stone-400 rounded-full'></div>
             <div>
                 <h2 class='font-semibold'>Alice</h2>
-                <p class='text-sm text-neutral-700'>Last message</p>
+                <p class='text-sm text-neutral-700 dark:text-neutral-400'>Last message</p>
             </div>
             <div class='p-2 cursor-pointer'>
-                <span class="material-symbols-rounded text-neutral-700">
+                <span class="material-symbols-rounded text-neutral-700 dark:text-neutral-400">
                     more_horiz
                 </span>
             </div>

@@ -1,9 +1,12 @@
 import { Component, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+
 import { ThemeService } from '../../shared/theme.service';
 import { AdminService } from '../admin.service';
-import { CommonModule } from '@angular/common';
 import { ModalService } from '../../shared/modal/modal.service';
-import { ModalComponent } from '../../shared/modal/modal.component';
 import { BanModalComponent } from './ban-modal/ban-modal.component';
 
 @Component({
@@ -11,11 +14,12 @@ import { BanModalComponent } from './ban-modal/ban-modal.component';
   standalone: true,
   templateUrl: './user-control.component.html',
   styleUrl: './user-control.component.css',
-  imports: [CommonModule, BanModalComponent],
+  imports: [CommonModule, FormsModule, BanModalComponent],
 })
 export class UserControlComponent {
   user: any;
   selectedUser: any;
+  searchInput: string = '';
   selectedUserChanged = new EventEmitter<any>();
 
   constructor(
@@ -26,13 +30,14 @@ export class UserControlComponent {
 
   ngOnInit(): void {
     this.themeService.setTheme(true);
+
+    this.searchSubject.pipe(debounceTime(500)).subscribe((value) => {
+      this.performSearch(value);
+    });
   }
 
-  onSearch(event: any) {
-    const search = event.target.value;
-    this.adminService.getUser(search).subscribe((res) => {
-      this.user = res;
-    });
+  onSearch() {
+    this.searchSubject.next(this.searchInput);
   }
 
   onSelectRole(event: any, user: any) {
@@ -60,4 +65,14 @@ export class UserControlComponent {
       this.user = null;
     });
   }
+
+  private performSearch(searchValue: string) {
+    !searchValue
+      ? (this.user = [])
+      : this.adminService.getUser(searchValue).subscribe((user) => {
+          this.user = user;
+        });
+  }
+
+  private searchSubject = new Subject<string>();
 }

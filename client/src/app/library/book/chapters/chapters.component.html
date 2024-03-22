@@ -5,7 +5,7 @@
         class='pl-1 grid grid-cols-[auto_1fr] items-center gap-4'>
         <h3 class='md:text-lg font-semibold'>{{chapter.title}}</h3>
         <div
-            class="flex items-center justify-between gap-1 md:text-[1rem] rounded-lg m-1 p-1 cursor-pointer transition duration-300 bg-neutral-100 hover:bg-neutral-200 ">
+            class="flex items-center justify-between gap-1 md:text-[1rem] rounded-lg m-1 p-1 cursor-pointer transition duration-300 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700">
             <div [innerHTML]="chapter.content | slice:0:100">
             </div>
             <span class="material-symbols-rounded">
@@ -13,5 +13,6 @@
             </span>
         </div>
     </a>
-    <hr class='mt-2'>
+    <hr class='mt-2 dark:border-zinc-800'>
+
 </section>

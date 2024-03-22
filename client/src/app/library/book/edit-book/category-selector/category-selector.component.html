@@ -1,7 +1,7 @@
 <div class='flex flex-wrap gap-1 md:gap-2 items-center'>
     <div *ngFor="let select of selected; index as i" class='relative'>
         <p appDropdown
-            class='flex items-center justify-between p-2 rounded-md border border-slate-300 bg-slate-200 focus:border-blue-300 cursor-pointer transition duration-200'>
+            class='flex items-center justify-between p-2 rounded-md border border-slate-300 bg-slate-200 dark:bg-neutral-900 dark:border-neutral-700 cursor-pointer transition duration-200'>
             {{select}}
             <span *ngIf="selected.length > 1" (click)='onRemoveCategory(i)'
                 class="pl-4 material-symbols-rounded text-xl text-rose-600 hover:text-rose-400 transition duration-200">
@@ -12,10 +12,10 @@
             </span>
         </p>
         <ul
-            class='w-full drop-shadow-lg overflow-y-scroll max-h-52 p-1 opacity-0 -z-10 absolute border border-slate-300 bg-slate-200 rounded transition duration-300'>
-            <li [ngClass]="{'bg-stone-100': category.name === select}" *ngFor='let category of categories'
-                (click)='onSelectCategory(i, category)'
-                class='cursor-pointer hover:bg-stone-100 p-1 rounded flex gap-1 items-center text-sm'>
+            class='w-full drop-shadow-lg overflow-y-scroll max-h-52 p-1 opacity-0 -z-10 absolute border border-slate-300 bg-slate-200 dark:bg-neutral-900 dark:border-neutral-700  rounded transition duration-300'>
+            <li [ngClass]="{'bg-stone-100 dark:bg-neutral-700': category.name === select}"
+                *ngFor='let category of categories' (click)='onSelectCategory(i, category)'
+                class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-800 p-1 rounded flex gap-1 items-center text-sm'>
                 <span class="material-symbols-rounded text-lg">
                     {{category.icon}}
                 </span>
@@ -24,5 +24,5 @@
         </ul>
     </div>
     <span (click)='onAddCategory()'
-        class='p-2 cursor-pointer bg-stone-100 hover:bg-stone-200 transition duration-200 font-medium rounded-full w-5 h-5 flex items-center justify-center'>+</span>
+        class='p-2 cursor-pointer bg-stone-100 hover:bg-stone-200 dark:bg-neutral-900 dark:border-neutral-700  transition duration-200 font-medium rounded-full w-5 h-5 flex items-center justify-center'>+</span>
 </div>

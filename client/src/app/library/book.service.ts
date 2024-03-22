@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Book, BookFilter } from './models/book.model';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment.development';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+
+import { Book } from './models/book.model';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -101,6 +102,15 @@ export class BookService {
   getLatestBooks(): Observable<any> {
     return this.http.get(
       environment.apiUrl + '/v1/detail/lastCreationDateFanfics?count=9'
+    );
+  }
+
+  search(value: string): Observable<any> {
+    return this.http.get(
+      environment.apiUrl +
+        '/v1/detail/search?searchString=' +
+        value +
+        '&originalFandom=true'
     );
   }
 

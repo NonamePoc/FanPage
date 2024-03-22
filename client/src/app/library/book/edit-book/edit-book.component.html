@@ -1,7 +1,7 @@
 <h1 class='text-lg lg:text-2xl font-semibold md:mb-4'>Tell us more about your story</h1>
 
 <form [formGroup]="bookForm" (ngSubmit)='onSubmit()'>
-    <div class='grid md:grid-cols-3 gap-10 bg-neutral-100 rounded py-5 px-4'>
+    <div class='grid md:grid-cols-3 gap-10 bg-neutral-100 dark:bg-transparent rounded py-5 px-4'>
         <div class='grid grid-cols-[auto_1fr] gap-2 relative'>
             <span class="material-symbols-rounded text-3xl text-blue-600 font-semibold">
                 title
@@ -9,9 +9,9 @@
             <div class='mt-1'>
                 <h2 class='text-xl font-medium mb-2'>Title</h2>
                 <input formControlName='title' placeholder="My story"
-                    class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200' />
+                    class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 dark:bg-neutral-900 dark:border-neutral-700 focus:border-blue-300 dark:focus:border-blue-700 transition duration-200' />
                 <div [ngClass]="{'opacity-100': bookForm.get('title')?.invalid && bookForm.get('title')?.touched}"
-                    class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
+                    class="opacity-0 cursor-default transition duration-300 text-sm text-red-500 rounded px-2">
                     <span *ngIf="bookForm.get('title')?.errors?.['required']">Title cannot be empty</span>
                     <span *ngIf="bookForm.get('title')?.errors?.['minlength']">
                         Title must be at least 2 characters long
@@ -20,7 +20,7 @@
                         Title cannot be longer than 20 characters
                     </span>
                 </div>
-                <p class='text-sm text-stone-700 mt-2'>
+                <p class='text-sm text-stone-700 dark:text-stone-400 mt-2'>
                     Provide the accurate and complete name of the book to
                     ensure proper identification and
                     cataloging.
@@ -35,9 +35,9 @@
             <div class='mt-1 relative'>
                 <h2 class='text-xl font-medium mb-2'>Description</h2>
                 <textarea formControlName='description' rows="4" placeholder='My book is about a ...'
-                    class='resize-none py-1 px-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200'></textarea>
+                    class='resize-none py-1 px-2 rounded-md border border-slate-300 w-full bg-slate-200  dark:focus:border-blue-700 dark:bg-neutral-900 dark:border-neutral-700 focus:border-blue-300 transition duration-200'></textarea>
                 <div [ngClass]="{'opacity-100': bookForm.get('description')?.invalid && bookForm.get('description')?.touched}"
-                    class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
+                    class="opacity-0 cursor-default transition duration-300 text-sm text-red-500 rounded px-2">
                     <span *ngIf="bookForm.get('description')?.errors?.['required']">Description cannot be empty</span>
                     <span *ngIf="bookForm.get('description')?.errors?.['minlength']">
                         Description must be at least 2 characters long
@@ -46,7 +46,7 @@
                         Description cannot be longer than 300 characters
                     </span>
                 </div>
-                <p class='text-sm text-stone-700 mt-2'>
+                <p class='text-sm text-stone-700 dark:text-stone-400 mt-2'>
                     Please provide a brief yet comprehensive description of the book. Summarize the key
                     themes, plot, and any unique
                     elements that make the book noteworthy.
@@ -61,7 +61,7 @@
             <div class='mt-1'>
                 <h2 class='text-xl font-medium mb-2'>Language</h2>
                 <app-language-selector formControlName='language'></app-language-selector>
-                <p class='text-sm text-stone-700 mt-2'>
+                <p class='text-sm text-stone-700 dark:text-stone-400 mt-2'>
                     Select the primary language in which the book is written. Choose the language that
                     represents the main text and
                     communication within the book.
@@ -70,9 +70,9 @@
         </div>
     </div>
 
-    <hr>
+    <hr class='dark:border-zinc-800'>
 
-    <div class='grid md:grid-cols-3 gap-10 bg-neutral-100 py-5 px-3'>
+    <div class='grid md:grid-cols-3 gap-10 bg-neutral-100 dark:bg-transparent py-5 px-3'>
 
         <div class='grid grid-cols-[auto_1fr] gap-2'>
             <span class="material-symbols-rounded text-3xl text-blue-600 font-semibold">
@@ -81,8 +81,9 @@
             <div class='mt-1'>
                 <h2 class='mt-1 text-xl font-medium mb-2'>Cover</h2>
                 <div
-                    class='relative object-cover h-48 flex flex-col items-center justify-center rounded-md border border-slate-300 w-full bg-slate-200 hover:border-blue-300 transition duration-200'>
-                    <p *ngIf="!bookForm.get('cover')?.value" class='text-sm text-stone-700 text-center px-5'>
+                    class='relative object-cover h-48 flex flex-col items-center justify-center rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 dark:focus:border-blue-700 dark:bg-neutral-900 dark:border-neutral-700 hover:border-blue-300 transition duration-200'>
+                    <p *ngIf="!bookForm.get('cover')?.value"
+                        class='text-sm text-stone-700 dark:text-stone-400 text-center px-5'>
                         Choose a high-quality image that accurately
                         reflects the aesthetics and essence
                         of the book.
@@ -105,7 +106,7 @@
             <div class='mt-1'>
                 <h2 class='text-xl font-medium mb-2'>Categories</h2>
                 <app-category-selector formControlName="categories"></app-category-selector>
-                <p class='text-sm text-stone-700 mt-2'>
+                <p class='text-sm text-stone-700 dark:text-stone-400 mt-2'>
                     Select the appropriate categories or genres that best describe the book. Choose from a
                     predefined list of categories
                     that encompass the main themes and topics of the book.
@@ -120,7 +121,7 @@
             <div class='mt-1'>
                 <h2 class='text-xl font-medium mb-2'>Tags</h2>
                 <app-tag-input formControlName='tags'></app-tag-input>
-                <p class='text-sm text-stone-700 mt-2'>
+                <p class='text-sm text-stone-700 dark:text-stone-400 mt-2'>
                     Enter relevant keywords or phrases that act as tags for the book. These tags help in
                     enhancing searchability and
                     categorization.
@@ -129,9 +130,9 @@
         </div>
     </div>
 
-    <hr>
+    <hr class='dark:border-zinc-800'>
 
-    <div class='grid md:grid-cols-3 gap-10 bg-neutral-100 rounded py-5 px-3'>
+    <div class='grid md:grid-cols-3 gap-10 bg-neutral-100 dark:bg-transparent rounded py-5 px-3'>
 
         <div class='grid grid-cols-[auto_1fr] gap-2'>
             <span class="material-symbols-rounded text-3xl text-blue-600 font-semibold">
@@ -143,7 +144,7 @@
                     <input formControlName='origin' type="checkbox" id="origin" class='rounded-md h-4 w-4 p-2' />
                     <label for="origin" class='text-center text-sm'>It's original</label>
                 </div>
-                <p class='text-sm text-stone-700 mt-2'>
+                <p class='text-sm text-stone-700 dark:text-stone-400 mt-2'>
                     Indicate whether the book is an original work or if it is a derivative, such as a
                     translation, adaptation, or
                     compilation of existing content.
@@ -159,10 +160,11 @@
             <div class='mt-1'>
                 <h2 class='text-xl font-medium mb-2'>Progress</h2>
                 <select formControlName='stage'
-                    class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200'>
-                    <option *ngFor='let stage of stages' [value]="stage"> {{stage}} </option>
+                    class='p-2 rounded-md border border-slate-300 w-full bg-slate-200  dark:bg-neutral-900 dark:border-neutral-700 focus:border-blue-300 dark:focus:border-blue-700 transition duration-200'>
+                    <option *ngFor='let stage of stages' [value]="stage" class='dark:bg-neutral-900'> {{stage}}
+                    </option>
                 </select>
-                <p class='text-sm text-stone-700 mt-2'>
+                <p class='text-sm text-stone-700 dark:text-stone-400 mt-2'>
                     Select the current status of the book – whether it is still in progress or if it has
                     been completed.
                 </p>
@@ -173,7 +175,8 @@
         </div>
     </div>
     <div class='my-3 flex items-center gap-4 justify-end'>
-        <a routerLink="/" class='text-sm text-stone-800 hover:text-stone-600 transition duration-200'>Cancel</a>
+        <a routerLink="/"
+            class='text-sm text-stone-800 hover:text-stone-600 dark:text-stone-400 dark:hover:text-stone-300 transition duration-200'>Cancel</a>
         <button type='submit'
             class='px-4 py-2 text-neutral-200 bg-blue-700 hover:bg-blue-600 transition duration-200 rounded-md font-medium flex items-center gap-1'>
             Save & go write

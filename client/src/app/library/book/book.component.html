@@ -14,13 +14,14 @@
                 </h3>
             </div>
         </div>
-        <hr />
-        <p class="text-sm lg:text-base text-neutral-800">
+        <hr class='dark:border-zinc-800'>
+        <p class="text-sm lg:text-base text-neutral-800 dark:text-neutral-300">
             {{book.description}}
         </p>
         <div class='grid items-end grid-cols-[1fr_auto] gap-3 py-2'>
-            <button class='p-2 bg-neutral-700 hover:bg-neutral-800 rounded text-white  transition duration-300'>
-                <a class='flex gap-1 justify-center items-center' routerLink="/books/1/chapters/1">
+            <button *ngIf='book.chapters.length !== 0'
+                class='p-2 bg-neutral-700 hover:bg-neutral-800 rounded text-white  transition duration-300'>
+                <a class='flex gap-1 justify-center items-center' [routerLink]="'/books/'+ id +'/chapters/1'">
                     Start
                     reading
                     <span class="material-symbols-rounded text-xl">
@@ -28,19 +29,24 @@
                     </span>
                 </a>
             </button>
+            <div *ngIf='book.chapters.length === 0'
+                class='p-2 bg-neutral-700 rounded text-white  transition duration-300 text-center'>
+                No chapters yet
+            </div>
             <div>
                 <span (click)='onBookmark()'
-                    [ngClass]="{'bg-rose-200 hover:bg-rose-300': isBookmarked, 'bg-neutral-100 hover:bg-neutral-200': !isBookmarked}"
+                    [ngClass]="{'bg-rose-200 hover:bg-rose-300 dark:bg-rose-800 dark:hover:bg-rose-700': isBookmarked, 'bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700': !isBookmarked}"
                     class="material-symbols-rounded p-2 rounded-full  cursor-pointer  transition duration-300">
                     bookmark
                 </span>
                 <span appDropdown
-                    class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 transition duration-300">
+                    class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition duration-300">
                     edit
                 </span>
                 <ul
-                    class='drop-shadow-lg px-2 py-2 opacity-0 -z-1 mt-2 absolute bg-stone-200 rounded transition duration-300 -translate-x-5 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:left-3 before:w-4 before:h-4 before:bg-stone-200 before:rounded before:rotate-45'>
-                    <li class='cursor-pointer hover:bg-stone-100 px-1 py-1 rounded flex gap-1 items-center'>
+                    class='drop-shadow-lg px-2 py-2 opacity-0 -z-1 mt-2 absolute bg-stone-200 dark:bg-neutral-800 rounded transition duration-300 -translate-x-5 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:left-3 before:w-4 before:h-4 before:bg-stone-200 dark:before:bg-neutral-800 before:rounded before:rotate-45'>
+                    <li
+                        class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-700 px-1 py-1 rounded flex gap-1 items-center'>
                         <a routerLink="/books/{{book.id}}/edit">
                             <span class="material-symbols-rounded">
                                 edit
@@ -48,7 +54,8 @@
                             Edit Book
                         </a>
                     </li>
-                    <li class='cursor-pointer hover:bg-stone-100 px-1 py-1 rounded flex gap-1 items-center'>
+                    <li
+                        class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-700 px-1 py-1 rounded flex gap-1 items-center'>
                         <a routerLink="/books/{{book.id}}/chapters/new">
                             <span class="material-symbols-rounded">
                                 add
@@ -58,17 +65,17 @@
                     </li>
                 </ul>
                 <span (click)="onOpenDeleteModal()"
-                    class="material-symbols-rounded p-2 rounded-full bg-rose-200 cursor-pointer hover:bg-rose-300 transition duration-300">
+                    class="material-symbols-rounded p-2 rounded-full bg-rose-200 cursor-pointer hover:bg-rose-300 dark:bg-rose-800 dark:hover:bg-rose-700 transition duration-300">
                     delete
                 </span>
             </div>
         </div>
-        <hr />
+        <hr class='dark:border-zinc-800'>
         <div class='grid grid-cols-[auto_1fr] gap-y-3 gap-x-6 py-3'>
             <h3 class='font-semibold'>Categories</h3>
             <div class="flex flex-wrap gap-1 text-sm">
-                <p *ngFor='let category of book.categories' class=" bg-rose-200 rounded-xl px-2 py-1 hover:bg-rose-300 cursor-pointer transition
-                                                                                      duration-300">
+                <p *ngFor='let category of book.categories'
+                    class="rounded-xl px-2 py-1 cursor-pointer transition duration-300 bg-neutral-400 dark:bg-neutral-800">
                     {{category.name}}
                 </p>
 
@@ -76,18 +83,18 @@
             <h3 class='font-semibold'>Tags</h3>
             <div class="flex flex-wrap gap-1 text-sm">
                 <p *ngFor='let tag of book.tags'
-                    class="text-sm text-neutral-600 bg-neutral-200 rounded-xl px-2 py-1 cursor-pointer hover:bg-neutral-300 transition duration-300">
+                    class="text-sm text-neutral-600 bg-neutral-400 dark:text-neutral-400 dark:bg-neutral-800 rounded-xl px-2 py-1 cursor-pointer transition duration-300">
                     {{tag.name}}
                 </p>
             </div>
-            <hr />
-            <hr />
+            <hr class='dark:border-zinc-800'>
+            <hr class='dark:border-zinc-800'>
             <h3 class='font-semibold'>Language</h3>
             <span>{{book.language}}</span>
             <h3 class='font-semibold'>Date Updated</h3>
             <span>17th May 2023</span>
         </div>
-        <hr />
+        <hr class='dark:border-zinc-800'>
     </div>
 </section>
 
@@ -101,7 +108,7 @@
 </article>
 
 <app-modal modalId="deleteBookModal" title='Warning'>
-    <p class='text-neutral-600 font-medium pl-5'>
+    <p class='text-neutral-600 dark:text-neutral-300 font-medium pl-5'>
         Are you sure you want to delete this book?
     </p>
     <div class='grid grid-cols-2 gap-2'>

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormControl,
@@ -8,9 +9,9 @@ import {
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EditorComponent, EditorModule } from '@tinymce/tinymce-angular';
 import { ToastrService } from 'ngx-toastr';
+
 import { environment } from '../../../../../../environments/environment.development';
 import { ChapterService } from '../../chapter.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-edit-chapter',
@@ -25,7 +26,6 @@ export class EditChapterComponent implements OnInit {
   editMode = false;
   id!: number;
   bookId!: number;
-
   API_KEY = environment.editorApiKey;
 
   constructor(

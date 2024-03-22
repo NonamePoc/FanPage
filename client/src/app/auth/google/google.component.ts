@@ -4,7 +4,6 @@ import {
   Inject,
   Input,
   OnDestroy,
-  OnInit,
   PLATFORM_ID,
 } from '@angular/core';
 import { environment } from '../../../environments/environment.development';

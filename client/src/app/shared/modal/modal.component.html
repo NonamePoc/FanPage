@@ -1,7 +1,7 @@
 <div [ngClass]="{'delay-300 opacity-0 -z-40': !(isVisible | async), 'opacity-1 z-40 transition duration-300': (isVisible | async)}"
     class="opacity-0 fixed inset-0 w-full h-full overflow-auto bg-neutral-600/50">
     <div [ngClass]="{'opacity-0 translate-y-0': !(isVisible | async), 'opacity-1 translate-y-[10rem]': (isVisible | async)}"
-        class="transform max-w-[40rem] rounded bg-neutral-100 dark:bg-neutral-800 mx-auto p-5 border border-neutral-300 dark:border-neutral-700 w-4/5 transition duration-300">
+        class="transform max-w-[40rem] rounded bg-neutral-100 dark:bg-neutral-800 mx-auto p-5 border border-neutral-300 dark:border-neutral-900 w-4/5 transition duration-300">
 
         <span (click)="close()"
             class="float-right text-2xl font-semibold cursor-pointer hover:text-neutral-600 transition duration-200">&times;
@@ -10,7 +10,7 @@
         <div class='flex justify-center'>
             <div class='text-center'>
                 <h1 class='font-semibold text-xl'>{{title}}</h1>
-                <p class='text-sm text-stone-700'>{{description}}</p>
+                <p class='text-sm text-stone-700 dark:text-stone-300'>{{description}}</p>
             </div>
         </div>
 

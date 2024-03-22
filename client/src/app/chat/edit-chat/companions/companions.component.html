@@ -1,6 +1,6 @@
 <div *ngFor="let person of selected; index as i" class="flex items-center gap-1 mb-2">
     <div
-        class="relative p-2 rounded-full border border-slate-300 bg-slate-200 focus:border-blue-300 text-sm transition duration-200 flex items-center">
+        class="relative p-2 rounded-full border dark:bg-neutral-900 dark:border-neutral-700 border-slate-300 bg-slate-200 focus:border-blue-300 text-sm transition duration-200 flex items-center">
         <span class='pr-5'>{{ person }}</span>
         <span (click)='onRemoveCompanion(i)'
             class="material-symbols-rounded cursor-pointer text-xl text-rose-600 hover:text-rose-400 transition duration-200 absolute right-2">
@@ -11,17 +11,17 @@
 
 <div class='flex items-center gap-2'>
     <input (input)='onInput($event)' placeholder="Search by username"
-        class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200' />
+        class='p-2 rounded-md border dark:bg-neutral-900 dark:border-neutral-700 border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200' />
     <span (click)='onAddCompanion()'
-        class="material-symbols-rounded font-semibold p-1 text-green-800 cursor-pointer rounded-full bg-slate-200 hover:bg-slate-300 transition duration-300">
+        class="material-symbols-rounded font-semibold p-1 text-green-800 cursor-pointer rounded-full bg-slate-200  hover:bg-slate-300 dark:bg-neutral-900 dark:hover:bg-neutral-700 transition duration-300">
         check
     </span>
 </div>
 
 <ul *ngIf='showCompanions'
-    class='absolute w-11/12 drop-shadow-lg overflow-y-scroll max-h-52 p-1 border border-slate-300 bg-slate-200 rounded transition duration-300'>
+    class='absolute w-11/12 drop-shadow-lg overflow-y-scroll max-h-52 p-1 border border-slate-300 dark:bg-neutral-900 dark:border-neutral-700 bg-slate-200 rounded transition duration-300'>
     <li *ngFor="let companion of companions" (click)='onAddCompanion(companion)'
-        class='cursor-pointer hover:bg-stone-100 p-1 rounded flex gap-1 items-center text-sm'>
+        class='cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 p-1 rounded flex gap-1 items-center text-sm'>
         {{companion}}
     </li>
 </ul>

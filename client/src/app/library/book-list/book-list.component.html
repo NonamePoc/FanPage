@@ -29,14 +29,14 @@
                             class="object-cover h-[15rem] md:h-[20rem] w-[10rem] md:w-[15rem] rounded-l-xl cursor-pointer transition duration-300"
                             [src]='book.image | imageNormalize' alt="Book" />
                         <div
-                            class="h-[15rem] md:h-[20rem] bg-neutral-50 p-3 rounded-r-xl grid grid-rows-[1fr_auto] gap-1">
+                            class="h-[15rem] md:h-[20rem] bg-neutral-50 dark:bg-neutral-800 p-3 rounded-r-xl grid grid-rows-[1fr_auto] gap-1">
                             <div>
                                 <h2
                                     class="md:text-lg font-semibold cursor-pointer hover:underline transition duration-300">
                                     {{book.title}}
                                 </h2>
                                 <h3
-                                    class="text-sm md:text-base text-sky-800 font-semibold cursor-pointer hover:text-sky-900 transition duration-300">
+                                    class="text-sm md:text-base text-sky-800 dark:text-sky-600 font-semibold cursor-pointer hover:text-sky-900 transition duration-300">
                                     by {{book.authorName}}
                                 </h3>
                                 <p class="text-sm text-neutral-500 line-clamp-3 md:line-clamp-5">
@@ -50,7 +50,7 @@
                                         {{category.name}}
                                     </p>
                                     <p *ngFor="let tag of book.tags"
-                                        class="text-sm text-neutral-600 bg-neutral-200 rounded-xl px-2 py-1 cursor-pointer hover:bg-neutral-300 transition duration-300">
+                                        class="text-sm text-neutral-600 dark:text-neutral-200 bg-neutral-200 dark:bg-neutral-700 rounded-xl px-2 py-1 cursor-pointer hover:bg-neutral-300 dark:hover:bg-neutral-700 transition duration-300">
                                         {{tag.name}}
                                     </p>
                                 </div>

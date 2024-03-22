@@ -40,9 +40,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.autoLogin();
-    this.themeSubscription = this.themeService.isDarkMode.subscribe((value) => {
-      this.isDarkMode = value;
+
+    this.themeSubscription = this.themeService.isDarkMode.subscribe(() => {
+      this.isDarkMode = this.themeService.getTheme();
     });
+
     if (this.authService.user.value) {
       this.friendService.fetchUserTies();
       this.chatService.connect();

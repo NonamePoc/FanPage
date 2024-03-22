@@ -1,10 +1,15 @@
 <form [formGroup]="chapterForm" (ngSubmit)='onSubmit()'>
 
     <input formControlName='title' placeholder="Title"
-        class='p-2 rounded-lg border bg-white w-full transition duration-200 text-center' />
+        class='p-2 rounded-lg border bg-white dark:bg-neutral-800 dark:border-neutral-800 w-full transition duration-200 text-center' />
 
-    <editor #editor apiKey="{{API_KEY}}" formControlName="content"
-        [init]="{ plugins: 'lists link image table code help wordcount', browser_spellcheck: true, height: 'calc(100vh - 170px)' }">
+    <editor #editor apiKey="{{API_KEY}}" formControlName="content" [init]="{ 
+        plugins: 'link image code lists',
+        browser_spellcheck: true, 
+        height: 'calc(100vh - 170px)',
+        statusbar: false,
+        menubar: false,
+        }">
     </editor>
 
     <div [ngClass]="{'flex items-center justify-end gap-2': editMode}">

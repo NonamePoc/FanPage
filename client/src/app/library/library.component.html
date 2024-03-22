@@ -1,17 +1,18 @@
 <div class='grid grid-cols-2 justify-center'>
     <button (click)="onReadingMode()"
-        [ngClass]="{'bg-neutral-100 text-neutral-800': isReadingMode, 'bg-neutral-200 text-neutral-700': !isReadingMode}"
-        class='text-center px-5 py-2 border-l border-t border-neutral-300 rounded-tl-lg font-semibold hover:bg-slate-50 hover:text-neutral-800 transition duration-200'>
+        [ngClass]="{'bg-neutral-100 dark:bg-neutral-800 text-neutral-800': isReadingMode, 'bg-neutral-200 text-neutral-700 dark:bg-neutral-900': !isReadingMode}"
+        class='text-center px-5 py-2 border-l border-t border-neutral-300 dark:border-neutral-700 rounded-tl-lg font-semibold hover:bg-slate-50 dark:hover:bg-neutral-700 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-200 transition duration-200'>
         Reading
     </button>
     <button (click)="onWritingMode()"
-        [ngClass]="{'bg-neutral-100 text-neutral-800': !isReadingMode, 'bg-neutral-200 text-neutral-700': isReadingMode}"
-        class='text-center px-5 py-2 border-l border-r border-t border-neutral-300 rounded-tr-lg text-neutral-700 font-semibold hover:bg-slate-50 hover:text-neutral-800 transition duration-200'>
+        [ngClass]="{'bg-neutral-100 dark:bg-neutral-800 text-neutral-800': !isReadingMode, 'bg-neutral-200 text-neutral-700 dark:bg-neutral-900': isReadingMode}"
+        class='text-center px-5 py-2 border-l border-r border-t border-neutral-300 dark:border-neutral-700 rounded-tr-lg text-neutral-700 font-semibold hover:bg-slate-50 dark:hover:bg-neutral-700 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-200 transition duration-200'>
         Writing
     </button>
 </div>
 
-<div class='bg-neutral-100 pt-2 border-l border-r border-b border-neutral-300'>
+<div
+    class='bg-neutral-100 dark:bg-neutral-800 pt-2 border-l border-r border-b border-neutral-300 dark:border-neutral-700'>
     <ng-container *ngIf='isReadingMode'>
         <app-book-list></app-book-list>
     </ng-container>

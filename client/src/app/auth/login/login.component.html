@@ -1,22 +1,22 @@
 <form [formGroup]="signinForm" (ngSubmit)='onSubmit()'>
-    <div class='grid gap-3'>
+    <div class='grid'>
         <div>
-            <label for='loginEmail' class='pl-1 text-sm text-stone-600 font-medium'>Email</label>
+            <label for='loginEmail' class='pl-1 text-sm text-stone-600 dark:text-neutral-400 font-medium'>Email</label>
             <input formControlName='email' type="email" id='loginEmail' placeholder="username@mail.com"
                 autocomplete='email'
-                class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 transition duration-200' />
+                class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 dark:focus:border-blue-700 dark:bg-neutral-900 dark:border-neutral-700  transition duration-200' />
             <div [ngClass]="{'opacity-100': signinForm.get('email')?.invalid && signinForm.get('email')?.touched}"
-                class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
+                class="opacity-0 cursor-default transition duration-300 text-sm text-red-500 rounded px-2">
                 <span>Please enter valid email</span>
             </div>
         </div>
         <div>
-            <label for='password' class='pl-1 text-sm text-stone-600 font-medium'>Password</label>
+            <label for='password' class='pl-1 text-sm text-stone-600 dark:text-neutral-400 font-medium'>Password</label>
             <input formControlName='password' type="password" id='password' placeholder="***********"
                 autocomplete='current-password'
-                class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 transition duration-200' />
-            <div [ngClass]="{'opacity-100 z-10': signinForm.get('password')?.invalid && signinForm.get('password')?.touched}"
-                class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
+                class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 dark:focus:border-blue-700 dark:bg-neutral-900 dark:border-neutral-700  transition duration-200' />
+            <div [ngClass]="{'opacity-100': signinForm.get('password')?.invalid && signinForm.get('password')?.touched}"
+                class="opacity-0 cursor-default transition duration-300 text-sm text-red-500 rounded px-2">
                 <span *ngIf="signinForm.get('password')?.errors?.['required']">
                     Password cannot be empty
                 </span>
@@ -28,11 +28,12 @@
     </div>
 
     <button type='submit'
-        class='rounded-lg mt-3 py-2 w-full px-4 text-center bg-blue-600 hover:bg-blue-700 gap-2 drop-shadow-lg font-medium text-neutral-100 transition duration-200'>
+        class='rounded-lg mt-5 py-2 w-full px-4 text-center bg-blue-600 hover:bg-blue-700 gap-2 drop-shadow-lg font-medium text-neutral-100 transition duration-200'>
         Sign In
     </button>
 </form>
 
-<p (click)='openRestorePassModal()' class='cursor-pointer text-sm text-center text-neutral-600 hover:text-black mt-2'>
+<p (click)='openRestorePassModal()'
+    class='cursor-pointer text-sm text-center text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-neutral-200 mt-2'>
     Forgot your password?
 </p>

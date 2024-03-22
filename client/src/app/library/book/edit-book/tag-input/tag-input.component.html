@@ -1,7 +1,7 @@
 <div class="relative flex flex-wrap gap-1 items-start">
     <div *ngFor="let selectedTag of selectedTags; index as i" class="relative">
         <div
-            class="relative p-2 rounded-full border border-slate-300 bg-slate-200 focus:border-blue-300 text-sm transition duration-200 flex items-center">
+            class="relative p-2 rounded-full border border-slate-300 bg-slate-200 dark:bg-neutral-900 dark:border-neutral-700 text-sm transition duration-200 flex items-center">
             <span class='pr-5'>{{ selectedTag }}</span>
             <span (click)="onRemoveTag(i)"
                 class="material-symbols-rounded cursor-pointer w-auto text-xl text-rose-600 hover:text-rose-400 transition duration-200 absolute right-2">
@@ -12,12 +12,12 @@
 
     <div class="relative">
         <div
-            class="relative p-2 rounded-full border border-slate-300 bg-slate-200 focus:border-blue-300 text-sm transition duration-200 flex items-center">
+            class="relative p-2 rounded-full border border-slate-300 bg-slate-200 dark:bg-neutral-900 dark:border-neutral-700 text-sm transition duration-200 flex items-center">
             <input [formControl]="tagInputControl" (input)="filterTags()" placeholder="Tag Name" autocomplete="off"
                 class="bg-transparent" />
         </div>
         <ul *ngIf="filteredTags.length > 0 && tagInputControl.value && tagInputControl.value.length >= 2"
-            class="w-full drop-shadow-lg overflow-y-scroll max-h-52 p-1 absolute top-10 border border-slate-300 bg-slate-200 rounded transition duration-300">
+            class="w-full drop-shadow-lg overflow-y-scroll max-h-52 p-1 absolute top-10 border border-slate-300 bg-slate-200 dark:bg-neutral-900 dark:border-neutral-700 rounded transition duration-300">
             <li *ngFor="let tag of filteredTags" (click)="onSelectTag(tag)"
                 class="cursor-pointer hover:bg-stone-100 p-1 rounded flex gap-1 items-center text-sm">
                 {{ tag }}
@@ -26,5 +26,5 @@
     </div>
 
     <span (click)="onAddTag()"
-        class="material-symbols-rounded cursor-pointer bg-stone-100 hover:bg-stone-200 transition duration-200 font-medium rounded-full p-1 text-xl">check</span>
+        class="material-symbols-rounded cursor-pointer bg-stone-100 hover:bg-stone-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 transition duration-200 font-medium rounded-full p-1 text-xl">check</span>
 </div>

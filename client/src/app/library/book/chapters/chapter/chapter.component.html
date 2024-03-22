@@ -1,57 +1,67 @@
 <h1 *ngIf='isLoading'>Loading...</h1>
 
-<section *ngIf='!isLoading' class='p-2 grid grid-cols-[auto_1fr_auto] gap-1 items-center]'>
-    <img class='object-cover rounded drop-shadow-lg mx-auto h-10 w-10' [src]="chapter.image | imageNormalize"
-        alt="Book Image">
-    <div class='flex flex-col items-center'>
-        <a routerLink="/books/{{bookId}}"
-            class='text-lg md:text-2xl font-semibold text-neutral-800 hover:text-neutral-600'>Book
-            Title</a>
-        <a routerLink="/" class='text-sm text-sky-800'>Author username</a>
-    </div>
-    <div class='flex items-center'>
-        <a routerLink="/books/{{bookId}}">
-            <span
-                class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 transition duration-300">
-                undo
-            </span>
-        </a>
-        <a routerLink='/books/{{bookId}}/chapters/{{chapterId}}/edit'>
-            <span
-                class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 transition duration-300">edit_note
-            </span>
-        </a>
-    </div>
-</section>
-<hr>
-<section class='mt-1 grid grid-cols-[auto_1fr_auto] gap-1 items-center xl:px-72'>
-    <span
-        class="material-symbols-rounded p-2 rounded-full bg-stone-200 cursor-pointer hover:bg-stone-100 transition duration-300">
-        arrow_back_ios_new
-    </span>
-    <h2 class='font-medium text-center p-1'>{{chapter.title}}</h2>
-    <span
-        class="material-symbols-rounded p-2 rounded-full bg-stone-200 cursor-pointer hover:bg-stone-100 transition duration-300">
-        arrow_forward_ios
-    </span>
-</section>
-<section [innerHTML]='chapter.content' class='mt-2 grid gap-2 2xl:px-72 font-open-sans'>
-</section>
-<section class='mt-4 mb-8 grid grid-cols-2 gap-4 items-center xl:px-72'>
-    <div
-        class='flex gap-1 items-center justify-center p-2 rounded-md bg-stone-200 cursor-pointer hover:bg-stone-100 transition duration-300'>
-        <span class="material-symbols-rounded">
+<div *ngIf="notFound && !isLoading" class='grid justify-center items-center'>
+    <h1 class='font-medium lg:text-2xl'>Nothing there</h1>
+    <p class='text-sm md:text-base'>You have read all the chapters for now!</p>
+</div>
+
+<ng-container *ngIf='!notFound && !isLoading'>
+    <section class='p-2 grid grid-cols-[auto_1fr_auto] gap-1 items-center]'>
+        <img class='object-cover rounded drop-shadow-lg mx-auto h-10 w-10' [src]="chapter.fanficPhoto | imageNormalize"
+            alt="Book Cover">
+        <div class='flex flex-col items-center'>
+            <a routerLink="/books/{{bookId}}"
+                class='text-lg md:text-2xl font-semibold text-neutral-800 hover:text-neutral-600 dark:text-neutral-300 dark:hover:text-neutral-200'>
+                {{chapter.fanficTitle}}
+            </a>
+            <a routerLink="/user/{{chapter.authorName}}" class='text-sm text-sky-800 dark:text-sky-200'>
+                {{chapter.authorName}}
+            </a>
+        </div>
+        <div class='flex items-center'>
+            <a routerLink="/books/{{bookId}}">
+                <span
+                    class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition duration-300">
+                    undo
+                </span>
+            </a>
+            <a routerLink='/books/{{bookId}}/chapters/{{chapterId}}/edit'>
+                <span
+                    class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition duration-300">edit_note
+                </span>
+            </a>
+        </div>
+    </section>
+    <hr class='dark:border-zinc-800'>
+    <section class='mt-1 grid grid-cols-[auto_1fr_auto] gap-1 items-center xl:px-72'>
+        <span (click)="onPrevious()"
+            class="material-symbols-rounded p-2 rounded-full bg-stone-200 cursor-pointer hover:bg-stone-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition duration-300">
             arrow_back_ios_new
         </span>
-        <p class='font-medium'>Previous</p>
-    </div>
-    <div
-        class='flex gap-1 items-center justify-center p-2 rounded-md bg-stone-200 cursor-pointer hover:bg-stone-100 transition duration-300'>
-        <p class='font-medium'>Next</p>
-        <span class="material-symbols-rounded">
+        <h2 class='font-medium text-center p-1'>{{chapter.title}}</h2>
+        <span (click)="onNext()"
+            class="material-symbols-rounded p-2 rounded-full bg-stone-200 cursor-pointer hover:bg-stone-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition duration-300">
             arrow_forward_ios
         </span>
-    </div>
-</section>
-<hr>
-<app-comments></app-comments>
+    </section>
+    <section #content [innerHTML]='chapter.content' class='mt-2 grid gap-2 2xl:px-72 font-open-sans'>
+    </section>
+    <section class='mt-4 mb-8 grid grid-cols-2 gap-4 items-center xl:px-72'>
+        <div (click)="onPrevious()"
+            class='flex gap-1 items-center justify-center p-2 rounded-md bg-stone-200 cursor-pointer hover:bg-stone-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition duration-300'>
+            <span class="material-symbols-rounded">
+                arrow_back_ios_new
+            </span>
+            <p class='font-medium'>Previous</p>
+        </div>
+        <div (click)="onNext()"
+            class='flex gap-1 items-center justify-center p-2 rounded-md bg-stone-200 cursor-pointer hover:bg-stone-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition duration-300'>
+            <p class='font-medium'>Next</p>
+            <span class="material-symbols-rounded">
+                arrow_forward_ios
+            </span>
+        </div>
+    </section>
+    <hr class='dark:border-zinc-800'>
+    <app-comments></app-comments>
+</ng-container>

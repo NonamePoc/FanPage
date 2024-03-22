@@ -2,14 +2,15 @@
     description="Please enter the username you want to go with">
     <form [formGroup]="usernameForm" (ngSubmit)="onSubmit()">
         <input formControlName='username' type='username' id='username' placeholder="Username" autocomplete='username'
-            class='mt-5 p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200' />
-        <div [ngClass]="{'opacity-100': usernameForm.get('email')?.invalid && usernameForm.get('email')?.touched}"
+            class='mt-5 p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 dark:bg-neutral-900 dark:border-neutral-700 dark:focus:border-blue-700
+ transition duration-200' />
+        <div [ngClass]="{'opacity-100': usernameForm.get('username')?.invalid && usernameForm.get('username')?.touched}"
             class="opacity-0 cursor-default transition duration-300 text-sm text-red-500 rounded px-2">
             <span>
                 Please enter a valid username.
             </span>
         </div>
-        <p class='text-sm text-stone-700'>
+        <p class='text-sm text-stone-700 dark:text-stone-300'>
             Enter a unique username that will represent you across the platform.
         </p>
 

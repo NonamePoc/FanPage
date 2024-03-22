@@ -2,8 +2,8 @@
     <form [formGroup]="chatForm" (ngSubmit)="onSubmit()">
         <div class='grid md:grid-cols-2 gap-2'>
             <div (click)="chatForm.get('type')?.setValue('public')"
-                [ngClass]="{'bg-slate-300': chatForm.get('type')?.value === 'public'}"
-                class='cursor-pointer grid grid-cols-[auto_1fr] gap-1 px-2 py-4 bg-slate-200 hover:bg-slate-300 rounded transition duration-300'>
+                [ngClass]="{'bg-slate-300 dark:bg-slate-600': chatForm.get('type')?.value === 'public'}"
+                class='cursor-pointer grid grid-cols-[auto_1fr] gap-1 px-2 py-4 bg-slate-200 dark:bg-neutral-900 hover:bg-slate-300 dark:hover:bg-neutral-700 rounded transition duration-300'>
                 <span class="material-symbols-rounded text-3xl">
                     public
                 </span>
@@ -13,8 +13,8 @@
                 </div>
             </div>
             <div (click)="chatForm.get('type')?.setValue('private')"
-                [ngClass]="{'bg-slate-300': chatForm.get('type')?.value === 'private'}"
-                class='cursor-pointer grid grid-cols-[auto_1fr] gap-1 px-2 py-4 bg-slate-200 hover:bg-slate-300 rounded transition duration-300'>
+                [ngClass]="{'bg-slate-300 dark:bg-slate-700': chatForm.get('type')?.value === 'private'}"
+                class='cursor-pointer grid grid-cols-[auto_1fr] gap-1 px-2 py-4 bg-slate-200 dark:bg-neutral-900 hover:bg-slate-300 dark:hover:bg-neutral-700 rounded transition duration-300'>
                 <span class="material-symbols-rounded text-3xl">
                     visibility_lock
                 </span>
@@ -28,23 +28,13 @@
         <div class='mt-4'>
             <label for='name' class='font-medium'>Name</label>
             <input formControlName='name' id='name' placeholder="Enter a name for your chatroom"
-                class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200' />
-            <!-- <div [ngClass]="{'opacity-100': personForm.get('username')?.invalid && personForm.get('username')?.touched}"
-            class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
-            <span *ngIf="personForm.get('username')?.errors?.['required']">Username cannot be empty</span>
-            <span *ngIf="personForm.get('username')?.errors?.['minlength']">
-                This username is too short
-            </span>
-            <span *ngIf="personForm.get('username')?.errors?.['maxlength']">
-                This username is too long
-            </span>
-        </div> -->
+                class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 dark:bg-neutral-900 dark:border-neutral-700 focus:border-blue-300 transition duration-200' />
         </div>
 
         <div class='mt-4'>
             <label for='description' class='font-medium'>Description</label>
             <input formControlName='description' id='description' placeholder="Enter a description for your chatroom"
-                class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 transition duration-200' />
+                class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 dark:bg-neutral-900 dark:border-neutral-700 transition duration-200' />
         </div>
 
         <div class='mt-4'>
@@ -53,7 +43,7 @@
         </div>
 
         <button type='submit'
-            class='mt-4 p-2 rounded-md border border-blue-300 bg-blue-200 hover:bg-blue-300 transition duration-300'>
+            class='mt-4 p-2 w-full rounded-md border border-blue-300 bg-blue-200 hover:bg-blue-300 dark:hover:bg-sky-800 dark:bg-sky-900 dark:border-sky-800 transition duration-300'>
             Create
         </button>
     </form>

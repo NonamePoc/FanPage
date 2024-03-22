@@ -1,0 +1,35 @@
+@media (prefers-color-scheme: dark) {
+  p {
+    color: #fff !important;
+  }
+  .tox * {
+    background-color: transparent !important;
+    color: #fff !important;
+    fill: #fff !important;
+  }
+  .tox-edit-area__iframe {
+    background-color: #9a938d !important;
+  }
+  .tox:not(.tox-tinymce-inline) .tox-editor-header {
+    background-color: #171717 !important;
+  }
+  .tox-tinymce {
+    border: 2px solid #262626 !important;
+  }
+  .tox-menubar {
+    background-color: #171717 !important;
+  }
+  .tox-menubar button:hover {
+    color: #404040 !important;
+  }
+  .tox-toolbar__primary {
+    background-color: #262626 !important;
+  }
+  .tox .tox-tbtn--bespoke {
+    background: #404040 !important;
+  }
+  .tox-tbtn--enabled,
+  .tox-tbtn--enabled:hover {
+    background: #404040 !important;
+  }
+}

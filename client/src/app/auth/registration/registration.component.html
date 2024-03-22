@@ -1,11 +1,11 @@
 <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-    <div class='grid gap-5'>
+    <div class='grid'>
         <div>
-            <label for='username' class='pl-1 text-sm text-stone-600 font-medium'>Username</label>
+            <label for='username' class='pl-1 text-sm text-stone-600 dark:text-neutral-400 font-medium'>Username</label>
             <input formControlName='username' id='username' placeholder="username" autocomplete='username'
-                class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 transition duration-200' />
+                class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 dark:focus:border-blue-700 dark:bg-neutral-900 dark:border-neutral-700 transition duration-200' />
             <div [ngClass]="{'opacity-100': signupForm.get('username')?.invalid && signupForm.get('username')?.touched}"
-                class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
+                class="opacity-0 cursor-default transition duration-300 text-sm text-red-500 rounded px-2">
                 <span *ngIf="signupForm.get('username')?.errors?.['required']">Username cannot be empty</span>
                 <span *ngIf="signupForm.get('username')?.errors?.['minlength']">
                     This username is too short
@@ -16,34 +16,37 @@
             </div>
         </div>
         <div>
-            <label for='signupEmail' class='pl-1 text-sm text-stone-600 font-medium'>Email</label>
+            <label for='signupEmail' class='pl-1 text-sm text-stone-600 dark:text-neutral-400 font-medium'>Email</label>
             <input formControlName='email' type="email" id='signupEmail' placeholder="username@email.com"
                 autocomplete='email'
-                class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 transition duration-200' />
+                class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 dark:focus:border-blue-700 dark:bg-neutral-900 dark:border-neutral-700 transition duration-200' />
             <div [ngClass]="{'opacity-100': signupForm.get('email')?.invalid && signupForm.get('email')?.touched}"
-                class="opacity-0 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
+                class="opacity-0 cursor-default transition duration-300 text-sm text-red-500 rounded px-2">
                 <span>Please enter valid email</span>
             </div>
         </div>
         <div class='relative grid grid-cols-2 gap-x-2'>
             <div>
-                <label for='password' class='pl-1 text-sm text-stone-600 font-medium'>Password</label>
+                <label for='password'
+                    class='pl-1 text-sm text-stone-600 dark:text-neutral-400 font-medium'>Password</label>
                 <input formControlName='password' type="password" id='password' placeholder="***********"
                     autocomplete='new-password'
-                    class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 transition duration-200' />
+                    class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 dark:focus:border-blue-700 dark:bg-neutral-900 dark:border-neutral-700 transition duration-200' />
             </div>
             <div>
-                <label for='confirmPassword' class='pl-1 text-sm text-stone-600 font-medium'>Repeat password</label>
+                <label for='confirmPassword'
+                    class='pl-1 text-sm text-stone-600 dark:text-neutral-400 font-medium'>Repeat password</label>
                 <input formControlName='confirmPassword' type="password" id='confirmPassword' placeholder="***********"
                     autocomplete='new-password'
-                    class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 transition duration-200' />
+                    class='p-2 rounded-md border border-slate-300 w-full bg-slate-100 focus:border-blue-300 dark:focus:border-blue-700 dark:bg-neutral-900 dark:border-neutral-700 transition duration-200' />
             </div>
 
-            <div [ngClass]="{'opacity-100 z-10': signupForm.get('password')?.invalid && signupForm.get('password')?.touched || signupForm.get('confirmPassword')?.invalid && signupForm.get('confirmPassword')?.touched}"
-                class="opacity-0 -bottom-5 cursor-default transition duration-300 absolute text-sm bg-red-200 rounded px-2">
+            <div [ngClass]="{'opacity-100': signupForm.get('password')?.invalid && signupForm.get('password')?.touched || signupForm.get('confirmPassword')?.invalid && signupForm.get('confirmPassword')?.touched}"
+                class="opacity-0 cursor-default transition duration-300 text-sm text-red-500 rounded px-2">
                 <span
-                    *ngIf="signupForm.get('password')?.errors?.['required'] || signupForm.get('confirmPassword')?.errors?.['required']">Password
-                    fields cannot be empty</span>
+                    *ngIf="signupForm.get('password')?.errors?.['required'] || signupForm.get('confirmPassword')?.errors?.['required']">
+                    Password fields cannot be empty
+                </span>
                 <span
                     *ngIf="signupForm.get('password')?.errors?.['minlength'] || signupForm.get('confirmPassword')?.errors?.['minlength']">
                     Password must be at least 8 characters long
@@ -53,7 +56,7 @@
     </div>
 
     <button type='submit'
-        class='rounded-lg mt-7 py-2 w-full px-4 text-center bg-blue-600 hover:bg-blue-700 gap-2 drop-shadow-lg font-medium text-neutral-100 transition duration-200'>
+        class='rounded-lg mt-5 py-2 w-full px-4 text-center bg-blue-600 hover:bg-blue-700 gap-2 drop-shadow-lg font-medium text-neutral-100 transition duration-200'>
         Sign Up
     </button>
 </form>

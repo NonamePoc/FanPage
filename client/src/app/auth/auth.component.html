@@ -5,7 +5,7 @@
     <app-login *ngIf='isLoginMode'></app-login>
     <app-registration *ngIf='!isLoginMode'></app-registration>
 
-    <p (click)='onSwitchMode()' class='cursor-pointer text-sm text-center text-neutral-600'>
+    <p (click)='onSwitchMode()' class='cursor-pointer text-sm text-center text-neutral-600 dark:text-neutral-400'>
         {{ isLoginMode ? 'Don\'t' : 'Already' }}
         have an account?
         <span class='font-medium text-purple-500 hover:text-purple-600 transition duration-200'>
