@@ -19,7 +19,7 @@ namespace FanPage.Domain.Fanfic.Repos.Interfaces
 
         Task<List<FanficDto>> GetTopRatingFanficsAsync(int count);
 
-        Task<FanficDto> CreateAsync(CreateDto fanfic);
+        Task<FanficDto> CreateAsync(CreateDto fanfic, string imageFanfic);
         Task UpdateAsync(UpdateDto fanfic, int fanficId);
         Task DeleteAsync(int id);
         Task<List<FanficDto>> SearchAsync(string searchString, bool originalFandom);
@@ -38,6 +38,8 @@ namespace FanPage.Domain.Fanfic.Repos.Interfaces
         Task<List<ReviewsDto>> GetAllReview();
 
         Task<double> GetAverageRatingAsync(int fanficId);
+
+        Task ChangeAvatar(int fanficId, string imageFanfic);
         Task SaveChangesAsync();
     }
 }

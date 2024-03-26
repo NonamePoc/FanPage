@@ -3,6 +3,7 @@ using FanPage.Api.JsonResponse;
 using FanPage.Api.Models.Fanfic;
 using FanPage.Api.ViewModels.Fanfic;
 using FanPage.Application.Fanfic;
+using FanPage.Infrastructure.Implementations.Helper;
 using FanPage.Infrastructure.Interfaces.Fanfic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,10 +20,14 @@ namespace FanPage.Api.Controllers.Fanfic
 
         private readonly IMapper _mapper;
 
-        public FanficController(IFanfic fanfic, IMapper mapper)
+        private readonly IStorageHttp _storageHttp;
+
+
+        public FanficController(IFanfic fanfic, IMapper mapper, IStorageHttp storageHttp)
         {
             _fanfic = fanfic;
             _mapper = mapper;
+            _storageHttp = storageHttp;
         }
 
         /// <summary>
@@ -38,13 +43,15 @@ namespace FanPage.Api.Controllers.Fanfic
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Create([FromBody] CreateModel createModel)
+        public async Task<IActionResult> Create([FromForm] CreateModel createModel)
         {
             var dto = _mapper.Map<CreateDto>(createModel);
             var retrieval = await _fanfic.CreateAsync(dto, HttpContext.Request);
             var response = _mapper.Map<FanficViewModel>(retrieval);
             return Ok(response);
         }
+
+
 
         /// <summary>
         ///  Update fanfic
@@ -60,10 +67,7 @@ namespace FanPage.Api.Controllers.Fanfic
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Update(
-            [FromBody] UpdateModel updateFanfic,
-            [FromQuery] int id
-        )
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateModel updateFanfic)
         {
             var dto = _mapper.Map<UpdateDto>(updateFanfic);
             var retrieval = await _fanfic.UpdateAsync(id, dto, HttpContext.Request);

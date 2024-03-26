@@ -2,5 +2,5 @@
 
 public class FanficPhotoModel
 {
-    public byte[] Image { get; set; }
+    public IFormFile Image { get; set; }
 }

@@ -111,8 +111,9 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
         return fanficEntities.Select(MapFanficEntityToDto).ToList();
     }
 
-    public async Task<FanficDto> CreateAsync(CreateDto fanficDto)
+    public async Task<FanficDto> CreateAsync(CreateDto fanficDto, string imageFanfic)
     {
+        imageFanfic ??= " ";
         var fanficEntity = new Entities.Fanfic
         {
             AuthorName = fanficDto.AuthorName,
@@ -122,9 +123,9 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
             Stage = fanficDto.Stage!,
             Language = fanficDto.Language!,
             CreationDate = DateTimeOffset.UtcNow,
-            Photos = fanficDto
-                .ImageFanfic.Select(p => new FanficPhoto { Image = p.Image })
-                .ToList(),
+            Photos = imageFanfic != null
+                ? new List<FanficPhoto> { new() { Image = imageFanfic } }
+                : new List<FanficPhoto>(),
         };
 
         var createdFanfic = await _fanficContext.Fanfic.AddAsync(fanficEntity);
@@ -354,5 +355,19 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
                 .Where(review => review.FanficId == fanficEntity.FanficId)
                 .ToList()
         };
+    }
+
+    public async Task ChangeAvatar(int fanficId, string imageFanfic)
+    {
+        var fanfic = await _fanficContext.Fanfic.FirstOrDefaultAsync(x => x.FanficId == fanficId);
+
+        if (fanfic == null)
+        {
+            throw new FanficException("Fanfic not found");
+        }
+
+        fanfic.Photos = new List<FanficPhoto> { new() { Image = imageFanfic } };
+
+        await _fanficContext.SaveChangesAsync();
     }
 }

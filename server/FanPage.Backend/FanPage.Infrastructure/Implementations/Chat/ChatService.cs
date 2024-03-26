@@ -85,6 +85,7 @@ public class ChatService : IChat
             throw new ChatException($"Error Chat");
         }
 
+        chat.AuthorName = userName;
         var chatEntity = await _chatRepository.CreateAsync(chat);
         return new ChatDto
         {

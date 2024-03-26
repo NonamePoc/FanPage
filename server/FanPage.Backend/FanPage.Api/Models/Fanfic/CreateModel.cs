@@ -8,9 +8,9 @@
         public string? Language { get; set; }
         public string? Stage { get; set; }
 
+        public IFormFile File { get; set; }
+
         public List<string> Categories { get; set; }
         public List<string> Tags { get; set; }
-
-        public List<FanficPhotoModel> ImageFanfic { get; set; }
     }
 }

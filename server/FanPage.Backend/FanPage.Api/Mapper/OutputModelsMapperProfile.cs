@@ -2,15 +2,18 @@
 using FanPage.Api.Models.Account;
 using FanPage.Api.Models.Admin;
 using FanPage.Api.Models.Auth;
+using FanPage.Api.Models.Chat;
 using FanPage.Api.Models.Fanfic;
 using FanPage.Api.ViewModels.Fanfic;
 using FanPage.Api.ViewModels.User;
 using FanPage.Application.Account;
 using FanPage.Application.Admin;
 using FanPage.Application.Auth;
+using FanPage.Application.Chat;
 using FanPage.Application.Fanfic;
 using FanPage.Application.UserProfile;
 using FanPage.Domain.Account.Entities;
+using FanPage.Domain.Chat.Entities;
 using FanPage.Domain.Fanfic.Entities;
 
 namespace FanPage.Api.Mapper
@@ -23,6 +26,7 @@ namespace FanPage.Api.Mapper
             AdminMaps();
             FanficAuthMaps();
             ProfileMaps();
+            ChatMaps();
         }
 
         private void RegisterAuthMaps()
@@ -39,6 +43,13 @@ namespace FanPage.Api.Mapper
             CreateMap<RequestToChangeEmailModel, RequestToChangeEmailDto>();
         }
 
+        private void ChatMaps()
+        {
+            CreateMap<ChatModel, ChatDto>();
+            CreateMap<ChatDto, Chat>();
+            CreateMap<Chat, ChatDto>();
+
+        }
         private void AdminMaps()
         {
             CreateMap<BanModel, BanDto>();

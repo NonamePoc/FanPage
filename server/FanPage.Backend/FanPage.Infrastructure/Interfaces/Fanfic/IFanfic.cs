@@ -7,9 +7,9 @@ namespace FanPage.Infrastructure.Interfaces.Fanfic
     {
         Task<FanficDto> CreateAsync(CreateDto createFanfic, HttpRequest request);
 
-        Task<FanficDto> UpdateAsync(int fanficId, UpdateDto updateFanfic, HttpRequest request);
+        Task<FanficDto> UpdateAsync(int fanficId, UpdateDto updateFanfic, HttpRequest request);  
 
         Task DeleteAsync(int id, HttpRequest request);
-        
+
     }
 }

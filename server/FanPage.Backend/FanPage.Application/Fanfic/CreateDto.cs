@@ -1,4 +1,6 @@
-﻿namespace FanPage.Application.Fanfic
+﻿using Microsoft.AspNetCore.Http;
+
+namespace FanPage.Application.Fanfic
 {
     public class CreateDto
     {
@@ -10,6 +12,8 @@
         public string? Stage { get; set; }
 
         public string? Language { get; set; }
+
+        public IFormFile File { get; set; }
         public List<string> Categories { get; set; }
         public List<string> Tags { get; set; }
 

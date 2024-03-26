@@ -7,7 +7,6 @@ using FanPage.Infrastructure.Interfaces.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace FanPage.Api.Controllers.User;
 
 [ApiController]
@@ -55,7 +54,7 @@ public class AdminController : ControllerBase
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Authorize(Roles = "Admin, Moderator")]
-    public async Task<IActionResult> Ban([FromBody]BanModel ban)
+    public async Task<IActionResult> Ban([FromBody] BanModel ban)
     {
         var request = HttpContext.Request;
         var dto = _mapper.Map<BanDto>(ban);

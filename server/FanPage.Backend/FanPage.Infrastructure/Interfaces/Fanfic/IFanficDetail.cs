@@ -17,4 +17,7 @@ public interface IFanficDetail
     Task<List<FanficDto>> GetTopRatingFanficsAsync(int count, HttpRequest request);
 
     Task<FanficDto> GetByIdAsync(int id);
+
+    Task ChangeAvatar(int id, IFormFile file, HttpRequest request);
+
 }

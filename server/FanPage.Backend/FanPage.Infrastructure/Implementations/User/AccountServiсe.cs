@@ -6,6 +6,7 @@ using FanPage.Domain.Account.Repos.Interfaces;
 using FanPage.EmailService.Interfaces;
 using FanPage.EmailService.Models;
 using FanPage.Exceptions;
+using FanPage.Infrastructure.Implementations.Helper;
 using FanPage.Infrastructure.Interfaces.User;
 using Flurl;
 using Microsoft.AspNetCore.Http;
@@ -27,17 +28,19 @@ namespace FanPage.Infrastructure.Implementations.User
 
         private readonly ICustomizationSettingsRepository _customizationSettings;
 
+        private readonly IStorageHttp _storageHttp;
+
         public AccountServiсe(
             ICustomizationSettingsRepository customizationSettings,
             IPasswordManager passwordManager,
             SignInManager<Domain.Account.Entities.User> signInManager,
             IJwtTokenManager jwtTokenManager,
             IdentityUserManager identityUser,
-            IEmailService emailService
-        )
+            IEmailService emailService, IStorageHttp storageHttp)
         {
             _userManager = identityUser;
             _emailService = emailService;
+            _storageHttp = storageHttp;
             _jwtTokenManager = jwtTokenManager;
             _signInManager = signInManager;
             _passwordManager = passwordManager;
@@ -73,6 +76,7 @@ namespace FanPage.Infrastructure.Implementations.User
                 throw new UserNotFoundException("User not found");
 
             var role = await _userManager.GetRolesAsync(user);
+            var avatar = await _storageHttp.GetImageBase64FromStorageService(user.UserAvatar);
 
             var token = await _jwtTokenManager.GenerateToken(user);
             return new LogInResponseDto
@@ -83,7 +87,7 @@ namespace FanPage.Infrastructure.Implementations.User
                 Token = token,
                 Role = role.FirstOrDefault(),
                 WhoBan = user.WhoBan,
-                UserAvatar = user.UserAvatar,
+                UserAvatar = avatar,
             };
         }
 
@@ -115,6 +119,18 @@ namespace FanPage.Infrastructure.Implementations.User
                 throw new AggregateException(
                     email.Errors.Select(s => new ResetPasswordException(s.Description))
                 );
+        }
+
+        public async Task ChangeAvatar(string avatar, HttpRequest request)
+        {
+            var userName = _jwtTokenManager.GetUserNameFromToken(request);
+            var user = await _userManager.FindByNameAsync(userName);
+
+            if (user is null)
+                throw new UserNotFoundException("User not found");
+
+            user.UserAvatar = avatar;
+            await _userManager.UpdateAsync(user);
         }
 
         public async Task RequestToChangeEmail(
@@ -256,6 +272,7 @@ namespace FanPage.Infrastructure.Implementations.User
             {
                 Email = registration.Email,
                 UserName = registration.UserName,
+                UserAvatar = "None",
                 CustomizationSettingsId = customizationSettingId,
                 WhoBan = "None"
             };
@@ -331,7 +348,6 @@ namespace FanPage.Infrastructure.Implementations.User
                 WhoBan = "None"
             };
 
-            // провірка на унікальність імені користувача
             if (await _userManager.FindByNameAsync(user.UserName) != null)
             {
                 user.UserName = GenerateUniqueUsername();

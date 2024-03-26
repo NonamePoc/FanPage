@@ -4,6 +4,7 @@ using FanPage.Api.Models.Account;
 using FanPage.Application.Account;
 using FanPage.Application.Url;
 using FanPage.Infrastructure.Configurations;
+using FanPage.Infrastructure.Implementations.Helper;
 using FanPage.Infrastructure.Interfaces.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,16 +20,19 @@ namespace FanPage.Api.Controllers.User
         private readonly IAccount _accountService;
         private readonly IMapper _mapper;
         private readonly ApplicationConfiguration _appConfiguration;
+        private readonly IStorageHttp _storageHttp;
 
         public AccountController(
             IAccount accountService,
             IMapper mapper,
-            ApplicationConfiguration configuration
+            ApplicationConfiguration configuration,
+            IStorageHttp storageHttp
         )
         {
             _accountService = accountService;
             _mapper = mapper;
             _appConfiguration = configuration;
+            _storageHttp = storageHttp;
         }
 
         /// <summary>
@@ -172,6 +176,20 @@ namespace FanPage.Api.Controllers.User
         public async Task<IActionResult> ChangeUserName([FromQuery] string userName)
         {
             await _accountService.ChangeUserName(userName, HttpContext.Request);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Route("changeAvatar")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
+        [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+        public async Task<IActionResult> ChangeAvatar(IFormFile avatar)
+        {
+            var uploadResult = await _storageHttp.SendFileToStorageService(avatar);
+            await _accountService.ChangeAvatar(uploadResult.FilePath, HttpContext.Request);
             return Ok();
         }
     }

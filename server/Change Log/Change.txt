@@ -66,4 +66,9 @@
 - Fix bug (Now, before checking whether an entity exists, it will be processed in the dto )
 - Add banner and fix custom service
 
+## Version 1.0.0 Pavlo Shaban (26.03.2023)
+- Added new functionality for interconnection between two api (StoredHttp)
+- The functionality responsible for photos has been changed
+- The database has been changed, now we don't keep the byte code of photos but only their links
+
 

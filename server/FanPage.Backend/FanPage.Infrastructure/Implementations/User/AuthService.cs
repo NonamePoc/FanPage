@@ -3,6 +3,7 @@ using FanPage.Application.GoogleAuth;
 using FanPage.Common.Interfaces;
 using FanPage.Domain.Account.Entities;
 using FanPage.Exceptions;
+using FanPage.Infrastructure.Implementations.Helper;
 using FanPage.Infrastructure.Interfaces.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -13,15 +14,17 @@ namespace FanPage.Infrastructure.Implementations.User
     {
         private readonly IJwtTokenManager _jwtTokenManager;
 
+        private readonly IStorageHttp _storageHttp;
         private readonly SignInManager<Domain.Account.Entities.User> _signInManager;
         private readonly IdentityUserManager _userManager;
 
         public AuthService(IJwtTokenManager jwtTokenManager, SignInManager<Domain.Account.Entities.User> signInManager,
-            IdentityUserManager userManager)
+            IdentityUserManager userManager, IStorageHttp storageHttp)
         {
             _jwtTokenManager = jwtTokenManager;
             _signInManager = signInManager;
             _userManager = userManager;
+            _storageHttp = storageHttp;
         }
 
         public async Task<LogInResponseDto> LogIn(AuthDto authDto)
@@ -31,6 +34,7 @@ namespace FanPage.Infrastructure.Implementations.User
 
             var userRole = await _userManager.GetRolesAsync(user);
 
+            var avatar = await _storageHttp.GetImageBase64FromStorageService(user.UserAvatar);
 
             if (user is null)
                 throw new LogInException("Wrong login or password");
@@ -49,7 +53,7 @@ namespace FanPage.Infrastructure.Implementations.User
                 Token = token,
                 Role = userRole.FirstOrDefault(),
                 WhoBan = user.WhoBan,
-                UserAvatar = user.UserAvatar,
+                UserAvatar = avatar,
                 LifeTimeToken = DateTime.UtcNow.AddDays(7)
             };
         }
@@ -98,6 +102,12 @@ namespace FanPage.Infrastructure.Implementations.User
             var emailFromToken = await _jwtTokenManager.DecodeTokenAndGetEmail(token);
 
             var user = await _userManager.FindByEmailAsync(emailFromToken);
+            var avatar = await _storageHttp.GetImageBase64FromStorageService(user.UserAvatar);
+            
+            if (string.IsNullOrEmpty(avatar))
+            {
+                avatar = string.Empty;
+            }
 
             var userRole = await _userManager.GetRolesAsync(user);
 
@@ -109,7 +119,7 @@ namespace FanPage.Infrastructure.Implementations.User
                 Token = token,
                 Role = userRole.FirstOrDefault(),
                 WhoBan = user.WhoBan,
-                UserAvatar = user.UserAvatar,
+                UserAvatar = avatar,
                 LifeTimeToken = DateTime.UtcNow.AddDays(7)
             };
         }

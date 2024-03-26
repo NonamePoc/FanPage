@@ -30,7 +30,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
         corsPolicyBuilder => corsPolicyBuilder
-            .WithOrigins("http://127.0.0.1:5500")
+            .WithOrigins("http://localhost:4200")
             .AllowAnyMethod()
             .SetIsOriginAllowed((host) => true) //allow all connections (including Signalr)
             .AllowAnyHeader()
@@ -64,7 +64,7 @@ app.UseStaticFiles(new StaticFileOptions
     }
 });
 app.UseMiddleware<GlobalExceptionMiddleware>();
-app.UseMiddleware<CorsMiddleware>(); 
+app.UseMiddleware<CorsMiddleware>();
 
 app.UseApiLogging();
 
@@ -72,11 +72,9 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapHub<CommentHub>("/commentHub");
-    endpoints.MapHub<ChatHub>("/chatHub");
-});
+
+app.MapHub<ChatHub>("/chat");
+app.MapHub<CommentHub>("/comments");
 
 app.MapControllers();
 

@@ -138,4 +138,22 @@ public class FanficDetailController : BaseController
         var fanfics = await _fanficDetail.SearchAsync(searchString, originalFandom);
         return Ok(fanfics);
     }
+
+    /// <summary>
+    ///  Update photo fanfic
+    /// </summary>
+    /// <param name="fanficId">id fanfic</param>
+    /// <param name="imageFanfic">file</param>
+    /// <returns>status code 200</returns>
+    [HttpPost]
+    [Route("updateAvatar")]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
+    [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    public async Task<IActionResult> ChangeAvatar(int fanficId,  IFormFile imageFanfic)
+    {
+        await _fanficDetail.ChangeAvatar(fanficId, imageFanfic, HttpContext.Request);
+        return Ok();
+    }
 }

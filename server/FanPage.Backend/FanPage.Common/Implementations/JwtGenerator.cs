@@ -100,17 +100,19 @@ namespace FanPage.Common.Implementations
         public async Task<string> CreateTokenFromGoogle(string googleToken)
         {
             var payload = await GoogleJsonWebSignature.ValidateAsync(googleToken);
-            var email = payload.Email;
-            var userId = payload.Subject;
-            var userName = payload.Name;
+            var users = await _userManager.FindByEmailAsync(payload.Email);
 
-            var user = new User
+            var email = users.Email;
+            var userId = users.Id;
+            var userName = users.UserName;
+            
+            var user = new IdentityUser()
             {
                 Email = email,
                 UserName = userName,
-                Id = userId
+                Id = userId,
             };
-
+            
 
             return await CreateToken(user);
         }
