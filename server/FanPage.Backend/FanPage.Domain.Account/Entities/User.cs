@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using FanPage.Domain.Account.Enum;
 using Microsoft.AspNetCore.Identity;
 
 namespace FanPage.Domain.Account.Entities
@@ -11,9 +12,7 @@ namespace FanPage.Domain.Account.Entities
 
         public int CustomizationSettingsId { get; set; }
         public CustomizationSettings CustomizationSettings { get; set; }
-
-        [InverseProperty("User")]
-        public ICollection<Friendship> MyFriends { get; set; }
+        [InverseProperty("User")] public ICollection<Friendship> MyFriends { get; set; }
 
         [InverseProperty("Friend")]
         public ICollection<Friendship> FriendsOfMine { get; set; }
@@ -23,13 +22,12 @@ namespace FanPage.Domain.Account.Entities
         [InverseProperty("Sub")] public ICollection<Follower> Subcriber { get; set; }
 
         public ICollection<Bookmark> Bookmarks { get; set; }
-
         public ICollection<Photo> Photos { get; set; }
 
         [InverseProperty("User")]
         public ICollection<FriendRequest> SentFriendRequests { get; set; }
 
-        [InverseProperty("Friend")]
-        public ICollection<FriendRequest> ReceivedFriendRequests { get; set; }
+        [InverseProperty("Friend")] public ICollection<FriendRequest> ReceivedFriendRequests { get; set; }
+        
     }
 }

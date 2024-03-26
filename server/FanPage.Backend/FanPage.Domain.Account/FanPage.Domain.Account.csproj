@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\FanPage.Application\FanPage.Application.csproj" />
+      <ProjectReference Include="..\FanPage.Domain.Fanfic\FanPage.Domain.Fanfic.csproj" />
     </ItemGroup>
 
     <ItemGroup>

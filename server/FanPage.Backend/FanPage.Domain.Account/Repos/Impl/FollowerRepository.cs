@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using FanPage.Application.UserProfile;
+﻿using FanPage.Application.UserProfile;
 using FanPage.Domain.Account.Context;
 using FanPage.Domain.Account.Entities;
 using FanPage.Domain.Account.Repos.Interfaces;
@@ -11,7 +10,9 @@ namespace FanPage.Domain.Account.Repos.Impl;
 public class FollowerRepository : IFollowerRepository
 {
     private readonly UserContext _userContext;
+
     private readonly UserManager<User> _userManager;
+
     // For Pasha. Sub is current user, блять!!!
     public FollowerRepository(UserContext userContext, UserManager<User> userManager)
     {
@@ -61,6 +62,7 @@ public class FollowerRepository : IFollowerRepository
         await _userContext.SaveChangesAsync();
         return true;
     }
+
     public async Task<bool> Unsubscribe(string subName, string userName)
     {
         var unsub = await _userContext.Followers

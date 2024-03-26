@@ -26,7 +26,7 @@ namespace FanPage.Domain.Fanfic.Entities
 
         public DateTimeOffset CreationDate { get; set; }
 
-        public ICollection<FanficPhoto> Photos { get; set; } = new List<FanficPhoto>();
+        public ICollection<FanficPhoto>? Photos { get; set; } = new List<FanficPhoto>();
 
         public ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
     }

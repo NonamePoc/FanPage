@@ -2,6 +2,7 @@
 using FanPage.Application.Admin;
 using FanPage.Application.Fanfic;
 using FanPage.Common.Interfaces;
+using FanPage.Domain.Account.Entities;
 using FanPage.Domain.Fanfic.Repos.Interfaces;
 using FanPage.Exceptions;
 using FanPage.Infrastructure.Interfaces.User;
@@ -62,9 +63,9 @@ public class AdminService : IAdmin
         {
             throw new UserNotFoundException("User not found");
         }
-
         var result = await _userManager.SetLockoutEndDateAsync(userToUnblock, null);
-
+        userToUnblock.WhoBan = "None";
+        await _userManager.UpdateAsync(userToUnblock);
         return result.Succeeded ? true : throw new InvalidOperationException("Failed to unban user.");
     }
 
@@ -111,20 +112,8 @@ public class AdminService : IAdmin
         return userDtos;
     }
 
-    public async Task<bool> ApproveTag(int tagId, HttpRequest request)
+    public async Task<bool> ApproveTag(int tagId)
     {
-        var user = _jwtTokenManager.GetUserNameFromToken(request);
-        var userForChangeRole = await _userManager.FindByNameAsync(user);
-
-        if (userForChangeRole != null)
-        {
-            var roles = await _userManager.GetRolesAsync(userForChangeRole);
-            if (roles.Contains("Admin"))
-            {
-                throw new InvalidOperationException("Cannot change the role of another admin.");
-            }
-        }
-
         var tag = _tagRepository.ApproveTag(tagId);
         return await tag;
     }
@@ -158,25 +147,6 @@ public class AdminService : IAdmin
         };
     }
 
-    public async Task<UserInfoResponseDto> GetModeratorAsync(HttpRequest request)
-    {
-        var user = _jwtTokenManager.GetUserNameFromToken(request);
-        var userRole = await _userManager.FindByNameAsync(user);
-        var moderator = await _userManager.GetRolesAsync(userRole);
-        if (moderator.Contains("Moderator"))
-        {
-            throw new InvalidOperationException("This user is not admin.");
-        }
-
-        return new UserInfoResponseDto
-        {
-            Name = userRole.UserName,
-            Email = userRole.Email,
-            PhoneNumber = userRole.PhoneNumber,
-            Role = moderator.FirstOrDefault()
-        };
-    }
-
     public async Task<UserInfoResponseDto> GetUserRoleAsync(string userName)
     {
         var userRole = await _userManager.FindByNameAsync(userName);
@@ -189,4 +159,23 @@ public class AdminService : IAdmin
             Role = role.FirstOrDefault()
         };
     }
+
+    public async Task<UserInfoResponseDto> Screach(string userName)
+    {
+        var user = await _userManager.FindByNameAsync(userName);
+        var role = await _userManager.GetRolesAsync(user ?? throw new InvalidOperationException(" User not found"));
+        return new UserInfoResponseDto
+        {
+          
+            Id = user.Id,
+            Name = user.UserName,
+            Avatar = user.UserAvatar,
+            Role = role.FirstOrDefault(),
+            WhoBan = user.WhoBan,
+            PhoneNumber = user.PhoneNumber,
+            Email = user.Email
+            
+        };
+    }
 }
+

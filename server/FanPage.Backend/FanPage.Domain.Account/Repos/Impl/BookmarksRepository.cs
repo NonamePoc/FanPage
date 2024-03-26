@@ -1,27 +1,46 @@
 ﻿using AutoMapper;
+using FanPage.Application.Fanfic;
 using FanPage.Application.UserProfile;
 using FanPage.Domain.Account.Context;
 using FanPage.Domain.Account.Entities;
 using FanPage.Domain.Account.Repos.Interfaces;
+using FanPage.Domain.Fanfic.Context;
+using FanPage.Domain.Fanfic.Repos.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace FanPage.Domain.Account.Repos.Impl
 {
     public class BookmarksRepository : IBookmarkRepository
     {
-        private readonly IMapper _mapper;
-        private readonly UserContext _userContext;
 
-        public BookmarksRepository(IMapper mapper, UserContext userContext)
+        private readonly UserContext _userContext;
+        private readonly IFanficRepository _fanficRepository; 
+
+        public BookmarksRepository(UserContext userContext, IFanficRepository fanficRepository)
         {
-            _mapper = mapper;
             _userContext = userContext;
+            _fanficRepository = fanficRepository;
+
+
         }
 
-        public async Task<List<BookmarkDto>> BookmarkList(string userId)
+        public async Task<List<FanficDto>> BookmarkList(string userId)
         {
-            var bookmarks = await _userContext.Bookmarks.Where(w => w.UserId == userId).ToListAsync();
-            return _mapper.Map<List<BookmarkDto>>(bookmarks);
+            var bookmarks = await _userContext.Bookmarks
+            .Where(w => w.UserId == userId)
+            .Select(w => w.FanficReadingId)
+            .ToListAsync();
+
+            var bookmarkDtos = new List<FanficDto>();
+
+            foreach (var bookmarkId in bookmarks)
+            {
+                var fanficBookmark = await _fanficRepository.GetByIdAsync(bookmarkId);
+                bookmarkDtos.Add(fanficBookmark);
+            }
+
+            return bookmarkDtos;
+            
         }
 
         public async Task<bool> Add(string userId, int fanficId)

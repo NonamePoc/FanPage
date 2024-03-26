@@ -27,5 +27,7 @@ public interface IChat
 
     Task DeclineUserToChatAsync(int chatId, string userId, HttpRequest request);
 
-    Task<ChatDto> SearchChatAsync(string search,HttpRequest request);
+    Task<List<Domain.Chat.Entities.Chat>> SearchChatAsync(string search);
+    Task<List<ChatDto>> PrivetChat(HttpRequest request);
+    Task<List<ChatDto>> PublicChat(HttpRequest request);
 }

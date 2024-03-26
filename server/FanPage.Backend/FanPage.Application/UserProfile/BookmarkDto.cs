@@ -2,9 +2,12 @@
 {
     public class BookmarkDto
     {
-        public string UserId { get; set; }
         public int TitelId { get; set; }
-        public int BookmarkId { get; set; }
+        public string TitleName { get; set; }
+
+        public string TitleAuthor { get; set; }
+
+        public string TitleDescrip { get; set; }
 
     }
 }

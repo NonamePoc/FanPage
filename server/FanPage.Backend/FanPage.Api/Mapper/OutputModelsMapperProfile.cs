@@ -63,7 +63,7 @@ namespace FanPage.Api.Mapper
             CreateMap<FriendRequest, FriendRequestDto>();
 
             CreateMap<Follower, FollowerDto>();
-
+            CreateMap<ChangeEmailModel, ChangeEmailDto>();
             CreateMap<Bookmark, BookmarkDto>();
         }
 
@@ -155,6 +155,13 @@ namespace FanPage.Api.Mapper
                 .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.FanficCategories))
                 .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.FanficTags))
                 .ForMember(dest => dest.Chapters, opt => opt.MapFrom(src => src.Chapters));
+        }
+
+        private void ChatMaps()
+        {
+            CreateMap<ChatModel, ChatDto>();
+            CreateMap<ChatDto, Chat>();
+            CreateMap<Chat, ChatDto>();
         }
     }
 }

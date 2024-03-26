@@ -111,6 +111,7 @@ public class TagController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> DeleteTag([FromQuery] int tagId)
     {
         await _tag.DeleteTagAsync(tagId, HttpContext.Request);

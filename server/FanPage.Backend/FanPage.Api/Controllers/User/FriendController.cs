@@ -63,7 +63,7 @@ namespace FanPage.Api.Controllers.User
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> UserSend()
         {
-            var list = await _friend.GetFriendRequests(HttpContext.Request);
+            var list = await _friend.GetUserRequests(HttpContext.Request);
             return Ok(list);
         }
 
@@ -96,7 +96,7 @@ namespace FanPage.Api.Controllers.User
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> SendToUser()
         {
-            var list = await _friend.GetUserRequests(HttpContext.Request);
+            var list = await _friend.GetFriendRequests(HttpContext.Request);
             return Ok(list);
         }
 
