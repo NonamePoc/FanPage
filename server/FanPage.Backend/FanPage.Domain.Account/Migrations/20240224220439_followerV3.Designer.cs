@@ -3,6 +3,7 @@ using System;
 using FanPage.Domain.Account.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FanPage.Domain.Account.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20240224220439_followerV3")]
+    partial class followerV3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,24 +75,12 @@ namespace FanPage.Domain.Account.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FollowerId"));
 
                     b.Property<string>("SubId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("SubName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("FollowerId");
-
-                    b.HasIndex("SubId");
 
                     b.HasIndex("UserId");
 
@@ -108,18 +99,10 @@ namespace FanPage.Domain.Account.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("FriendName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<bool>("IsApproving")
                         .HasColumnType("boolean");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -144,15 +127,7 @@ namespace FanPage.Domain.Account.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("FriendName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -173,9 +148,9 @@ namespace FanPage.Domain.Account.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Image")
+                    b.Property<byte[]>("Image")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("bytea");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -261,9 +236,8 @@ namespace FanPage.Domain.Account.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("UserAvatar")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<byte[]>("UserAvatar")
+                        .HasColumnType("bytea");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -432,19 +406,9 @@ namespace FanPage.Domain.Account.Migrations
 
             modelBuilder.Entity("FanPage.Domain.Account.Entities.Follower", b =>
                 {
-                    b.HasOne("FanPage.Domain.Account.Entities.User", "Sub")
-                        .WithMany("Subcriber")
-                        .HasForeignKey("SubId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("FanPage.Domain.Account.Entities.User", "User")
-                        .WithMany("UserForSubscribe")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Sub");
+                        .WithMany("Followers")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -580,6 +544,8 @@ namespace FanPage.Domain.Account.Migrations
                 {
                     b.Navigation("Bookmarks");
 
+                    b.Navigation("Followers");
+
                     b.Navigation("FriendsOfMine");
 
                     b.Navigation("MyFriends");
@@ -589,10 +555,6 @@ namespace FanPage.Domain.Account.Migrations
                     b.Navigation("ReceivedFriendRequests");
 
                     b.Navigation("SentFriendRequests");
-
-                    b.Navigation("Subcriber");
-
-                    b.Navigation("UserForSubscribe");
                 });
 #pragma warning restore 612, 618
         }

@@ -18,7 +18,9 @@ namespace FanPage.Domain.Account.Entities
         [InverseProperty("Friend")]
         public ICollection<Friendship> FriendsOfMine { get; set; }
 
-        public ICollection<Follower> Followers { get; set; }
+        [InverseProperty("User")] public ICollection<Follower> UserForSubscribe { get; set; }
+
+        [InverseProperty("Sub")] public ICollection<Follower> Subcriber { get; set; }
 
         public ICollection<Bookmark> Bookmarks { get; set; }
 

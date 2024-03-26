@@ -8,13 +8,14 @@ public class FriendRequest
     [Key] 
     public int FriendRequestId { get; set; }
 
+    public string UserName { get; set; }
     public string UserId { get; set; }
     
     [ForeignKey("UserId")] 
     public User User { get; set; }
 
-    public string FriendId { get; set; }
-    
+    public string FriendName { get; set; }
+    public string FriendId { get; set; } 
     [ForeignKey("FriendId")] 
     public User Friend { get; set; }
 

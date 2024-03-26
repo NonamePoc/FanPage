@@ -65,6 +65,14 @@
 - Add google auth/register
 - Fix bug (Now, before checking whether an entity exists, it will be processed in the dto )
 - Add banner and fix custom service
+## Version 1.0.0 Teslewitch Mihailo(26.02.2024)
+-Follower and friend fix:
+	-Now method use name instead Id
+	-Added avatar output
+	-Bug fix:
+		-not worked "add friend" and "add follower". Since these two key methods did not work - other methods related to followers and friends did not work either.
+-Bookmaker fix:
+	-not worked "add bookmark". 
 
 ## Version 1.0.0 Pavlo Shaban (26.03.2023)
 - Added new functionality for interconnection between two api (StoredHttp)

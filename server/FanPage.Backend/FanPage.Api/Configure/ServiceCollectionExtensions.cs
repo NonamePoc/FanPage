@@ -41,42 +41,30 @@ namespace FanPage.Api.Configure
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection DataBase(
-            this IServiceCollection services,
-            IConfiguration configuration
-        )
+        public static IServiceCollection DataBase(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton(
-                configuration.GetSection("DefaultUserConfiguration").Get<DefaultUserConfiguration>()
-            );
-            services.AddSingleton(
-                configuration.GetSection("DefaultUserConfiguration").Get<DefaultUserConfiguration>()
-            );
+            services.AddSingleton(configuration.GetSection("DefaultUserConfiguration").Get<DefaultUserConfiguration>());
+            services.AddSingleton(configuration.GetSection("DefaultUserConfiguration").Get<DefaultUserConfiguration>());
 
             services.AddDbContext<UserContext>(optionsAction =>
             {
-                optionsAction
-                    .UseNpgsql(configuration.GetConnectionString("User-Connection"))
+                optionsAction.UseNpgsql(configuration.GetConnectionString("User-Connection"))
                     .UseLoggerFactory(new LoggerFactory());
             });
 
-            services
-                .AddIdentity<User, IdentityRole>(options => { })
+            services.AddIdentity<User, IdentityRole>(options => { })
                 .AddEntityFrameworkStores<UserContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddDbContext<FanficContext>(optionsAction =>
-                optionsAction.UseNpgsql(configuration.GetConnectionString("Fanfic-Connection"))
-            );
+            services.AddDbContext<FanficContext>(optionsAction => optionsAction
+                .UseNpgsql(configuration.GetConnectionString("Fanfic-Connection")));
 
-            services.AddDbContext<ChatContext>(optionsAction =>
-                optionsAction.UseNpgsql(configuration.GetConnectionString("Chat-Connection"))
-            );
+            services.AddDbContext<ChatContext>(optionsAction => optionsAction
+                .UseNpgsql(configuration.GetConnectionString("Chat-Connection")));
 
             services.AddScoped<IdentityUserManager>();
 
-            services
-                .AddIdentityCore<User>(opts =>
+            services.AddIdentityCore<User>(opts =>
                 {
                     opts.Password.RequireDigit = true;
                     opts.Password.RequireLowercase = true;
@@ -111,10 +99,7 @@ namespace FanPage.Api.Configure
             return services;
         }
 
-        public static IServiceCollection Logger(
-            this IServiceCollection services,
-            IConfiguration configuration
-        )
+        public static IServiceCollection Logger(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<LoggingConfiguration>(configuration.GetSection("Logging"));
             services.AddScoped<LoggingService>();
@@ -123,39 +108,25 @@ namespace FanPage.Api.Configure
 
         public static IApplicationBuilder UseApiLogging(this IApplicationBuilder app)
         {
-            app.Use(
-                async (context, next) =>
-                {
-                    var loggingService =
-                        context.RequestServices.GetRequiredService<LoggingService>();
-                    loggingService.LogApiRequest(context);
-                    await next();
-                    loggingService.LogApiResponse(context);
-                }
-            );
+            app.Use(async (context, next) =>
+            {
+                var loggingService = context.RequestServices.GetRequiredService<LoggingService>();
+                loggingService.LogApiRequest(context);
+                await next();
+                loggingService.LogApiResponse(context);
+            });
 
             return app;
         }
 
-        public static IServiceCollection ConfigureAuthentication(
-            this IServiceCollection services,
-            IConfiguration configuration
-        )
+        public static IServiceCollection ConfigureAuthentication(this IServiceCollection services,
+            IConfiguration configuration)
         {
             var jwtConfig = configuration.GetSection("JwtConfiguration").Get<JwtConfiguration>();
-            var googleConfig = configuration
-                .GetSection("GoogleConfiguration")
-                .Get<GoogleConfiguration>();
+            var googleConfig = configuration.GetSection("GoogleConfiguration").Get<GoogleConfiguration>();
 
-            services.AddSingleton<IPasswordSettings>(s => new UserPasswordSettings(
-                true,
-                true,
-                true,
-                true,
-                16,
-                int.MaxValue,
-                false
-            ));
+            services.AddSingleton<IPasswordSettings>(s =>
+                new UserPasswordSettings(true, true, true, true, 16, int.MaxValue, false));
             services.AddSingleton<IPasswordManager, PasswordManager>();
 
             services.AddSingleton(jwtConfig);
@@ -168,23 +139,23 @@ namespace FanPage.Api.Configure
             services.AddScoped<CustomizationSettingsService>();
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Key));
-            services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddGoogle(options =>
                 {
                     options.ClientId = googleConfig.GoogleClientId;
                     options.ClientSecret = googleConfig.GoogleClientSecret;
                 })
-                .AddJwtBearer(opt =>
-                {
-                    opt.TokenValidationParameters = new TokenValidationParameters
+                .AddJwtBearer(
+                    opt =>
                     {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = key,
-                        ValidateAudience = false,
-                        ValidateIssuer = false,
-                        ClockSkew = TimeSpan.Zero
-                    };
+                        opt.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = key,
+                            ValidateAudience = false,
+                            ValidateIssuer = false,
+                            ClockSkew = TimeSpan.Zero
+                        };
 
                     opt.Events = new JwtBearerEvents
                     {
@@ -212,22 +183,24 @@ namespace FanPage.Api.Configure
                             )
                                 context.Response.Headers.Add("Token-Expired", "true");
 
-                            return Task.CompletedTask;
-                        }
-                    };
-                });
+                                return Task.CompletedTask;
+                            }
+                        };
+                    });
 
             return services;
         }
 
         public static IServiceCollection ConfigureMapper(this IServiceCollection services)
         {
-            services.AddSingleton(
-                new MapperConfiguration(mc =>
+            services.AddSingleton(new MapperConfiguration(mc =>
                 {
-                    mc.AddProfiles(new Profile[] { new OutputModelsMapperProfile(), });
-                }).CreateMapper()
-            );
+                    mc.AddProfiles(new Profile[]
+                    {
+                        new OutputModelsMapperProfile(),
+                    });
+                })
+                .CreateMapper());
 
             return services;
         }
@@ -253,29 +226,18 @@ namespace FanPage.Api.Configure
             return services;
         }
 
-        public static IServiceCollection ConfigureApplication(
-            this IServiceCollection services,
-            IConfiguration configuration
-        )
+        public static IServiceCollection ConfigureApplication(this IServiceCollection services,
+            IConfiguration configuration)
         {
-            services.AddSingleton(
-                configuration.GetSection("ApplicationConfiguration").Get<ApplicationConfiguration>()
-            );
+            services.AddSingleton(configuration.GetSection("ApplicationConfiguration").Get<ApplicationConfiguration>());
             return services;
         }
 
-        public static IServiceCollection ConfigureSmtp(
-            this IServiceCollection services,
-            IConfiguration configuration
-        )
+        public static IServiceCollection ConfigureSmtp(this IServiceCollection services,
+            IConfiguration configuration)
         {
-            services.AddSingleton(
-                configuration.GetSection("SmtpConfiguration").Get<SmtpConfiguration>()
-            );
-            services.AddSingleton<
-                IEmailService,
-                FanPage.EmailService.Implementations.EmailService
-            >();
+            services.AddSingleton(configuration.GetSection("SmtpConfiguration").Get<SmtpConfiguration>());
+            services.AddSingleton<IEmailService, FanPage.EmailService.Implementations.EmailService>();
 
             return services;
         }
@@ -283,26 +245,21 @@ namespace FanPage.Api.Configure
         public static IServiceCollection ConfigureSwagger(
             this IServiceCollection services,
             IConfiguration configuration,
-            OpenApiInfo info
-        )
+            OpenApiInfo info)
         {
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc(info.Version, info);
                 c.DocumentFilter<EnumDescriptionFilter>();
-                c.AddSecurityDefinition(
-                    "bearer",
-                    new OpenApiSecurityScheme
-                    {
-                        Name = "Authorization",
-                        Type = SecuritySchemeType.ApiKey,
-                        Scheme = "bearer",
-                        BearerFormat = "JWT",
-                        In = ParameterLocation.Header,
-                        Description =
-                            "JWT Authorization header using the Bearer scheme. Set `Bearer ` before ur `Token`",
-                    }
-                );
+                c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme. Set `Bearer ` before ur `Token`",
+                });
 
                 c.OperationFilter<AuthOperationFilter>();
             });

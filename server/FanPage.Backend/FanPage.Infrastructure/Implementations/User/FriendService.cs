@@ -1,5 +1,6 @@
 ﻿using FanPage.Application.UserProfile;
 using FanPage.Common.Interfaces;
+using FanPage.Domain.Account.Entities;
 using FanPage.Domain.Account.Repos.Interfaces;
 using FanPage.Infrastructure.Interfaces.User;
 using Microsoft.AspNetCore.Http;
@@ -10,19 +11,23 @@ namespace FanPage.Infrastructure.Implementations.User
     {
         private readonly IFriendRepository _friendRepository;
         private readonly IJwtTokenManager _jwtTokenManager;
+        private readonly IdentityUserManager _userManager;
 
-        public FriendService(IFriendRepository friendRepository, IJwtTokenManager jwtTokenManager)
+        public FriendService(IFriendRepository friendRepository, IJwtTokenManager jwtTokenManager, IdentityUserManager userManager)
         {
             _friendRepository = friendRepository;
             _jwtTokenManager = jwtTokenManager;
+            _userManager = userManager;
         }
 
         public async Task<FriendRequestDto> AddFriend(HttpRequest request, string friendName)
         {
             var userName = _jwtTokenManager.GetUserNameFromToken(request);
-            await _friendRepository.AddFriend(userName, friendName);
+            var userId = _jwtTokenManager.GetUserIdFromToken(request);
+            var friend = await _userManager.FindByNameAsync(friendName);
+            await _friendRepository.AddFriend(userName, friendName, userId, friend.Id);
             return new FriendRequestDto
-                { UserName = userName, FriendName = friendName };
+                { UserName = userName, FriendName = friendName};
         }
 
 
@@ -65,7 +70,9 @@ namespace FanPage.Infrastructure.Implementations.User
         public async Task<bool> AcceptFriend(HttpRequest request, string friendName)
         {
             var userName = _jwtTokenManager.GetUserNameFromToken(request);
-            await _friendRepository.AcceptFriend(userName, friendName);
+            var userId = _jwtTokenManager.GetUserIdFromToken(request);
+            var friend = await _userManager.FindByNameAsync(friendName);
+            await _friendRepository.AcceptFriend(userName, friendName, userId, friend.Id);
             return true;
         }
     }

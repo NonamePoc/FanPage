@@ -61,7 +61,9 @@ namespace FanPage.Api.Mapper
         {
             CreateMap<Friendship, FriendDto>();
             CreateMap<FriendRequest, FriendRequestDto>();
+
             CreateMap<Follower, FollowerDto>();
+
             CreateMap<Bookmark, BookmarkDto>();
         }
 
