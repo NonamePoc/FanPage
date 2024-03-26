@@ -73,3 +73,15 @@
 		-not worked "add friend" and "add follower". Since these two key methods did not work - other methods related to followers and friends did not work either.
 -Bookmaker fix:
 	-not worked "add bookmark". 
+## Version 1.0.0 Teslewitch Mihailo(26.03.2024)
+-Add admin access for DeleteTag
+-Delete Profile section. Method ChangeEmail and ChangePassword go back to Account section
+-Add admin access for ApproveTag and GetNotApprovedTags.
+-Add method for screaching user
+-Fix bug with null referens when user registration 
+-Fix bug with mail for change email
+-Add swagger commets
+-Bookmarks now show more info about titel
+-Fix bug with google token(he was not hold user role)
+-Little change for friend and follower logic(now using user name, not Id)
+-Fix bug in admin menu(Unban was not overwrite the field "WhoBan" to "None")
