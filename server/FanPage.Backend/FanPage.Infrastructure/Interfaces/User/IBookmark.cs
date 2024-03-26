@@ -1,4 +1,5 @@
-﻿using FanPage.Application.UserProfile;
+﻿using FanPage.Application.Fanfic;
+using FanPage.Application.UserProfile;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace FanPage.Infrastructure.Interfaces.User
 {
     public interface IBookmark
     {
-        Task<List<BookmarkDto>> BookmarkList(HttpRequest request);
+        Task<List<FanficDto>> BookmarkList(HttpRequest request);
 
         Task<bool> Add(HttpRequest request, int titelId);
 

@@ -4,6 +4,7 @@ using FanPage.Domain.Chat.Context;
 using FanPage.Domain.Chat.Entities;
 using FanPage.Domain.Chat.Repos.Interface;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace FanPage.Domain.Chat.Repos.Impl;
 
@@ -39,7 +40,6 @@ public class ChatRepository : IChatRepository
             UserName = s.UserName
         }).ToList();
     }
-
     public async Task<List<ChatDto>> GetChatRequestAsync(string userId)
     {
         var chats = await _context.ChatUsers
@@ -76,15 +76,15 @@ public class ChatRepository : IChatRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<ChatDto> CreateAsync(ChatDto chat)
+    public async Task<ChatDto> CreateAsync(ChatDto chat, ChatUserDto chatUser)
     {
         var chatEntity = _mapper.Map<Entities.Chat>(chat);
+        var userEntity = _mapper.Map<Entities.ChatUser>(chatUser);
         await _context.Chats.AddAsync(chatEntity);
+        await _context.ChatUsers.AddAsync(userEntity);
         await _context.SaveChangesAsync();
-
         return _mapper.Map<ChatDto>(chatEntity);
     }
-
     public async Task<List<Entities.Chat>> SearchChatAsync(string search)
     {
         var searchWorld = search.Split(' ');
@@ -168,5 +168,29 @@ public class ChatRepository : IChatRepository
 
         _context.ChatUsers.Remove(chatUser);
         await _context.SaveChangesAsync();
+    }
+    public async Task<List<ChatDto>> GetPublicChat(string userId)
+    {
+        var userChat = await _context.ChatUsers.FirstOrDefaultAsync(x=>x.UserId == userId);
+        var chatToShow = await _context.Chats.Where(x=>x.Id == userChat.ChatId && x.Type=="Public").
+            Select(s => new {s.Name, s.Type}).
+            ToListAsync();
+        return chatToShow.Select(s => new ChatDto()
+        {
+            Name = s.Name,
+            Type = s.Type
+        }).ToList();
+    }
+    public async Task<List<ChatDto>> GetPrivetChat(string userId)
+    {
+        var userChat = await _context.ChatUsers.FirstOrDefaultAsync(x => x.UserId == userId);
+        var chatToShow = await _context.Chats.Where(x => x.Id == userChat.ChatId && x.Type == "Privet").
+            Select(s => new { s.Name, s.Type }).
+            ToListAsync();
+        return chatToShow.Select(s => new ChatDto()
+        {
+            Name = s.Name,
+            Type = s.Type
+        }).ToList();
     }
 }

@@ -2,15 +2,18 @@
 using FanPage.Api.Models.Account;
 using FanPage.Api.Models.Admin;
 using FanPage.Api.Models.Auth;
+using FanPage.Api.Models.Chat;
 using FanPage.Api.Models.Fanfic;
 using FanPage.Api.ViewModels.Fanfic;
 using FanPage.Api.ViewModels.User;
 using FanPage.Application.Account;
 using FanPage.Application.Admin;
 using FanPage.Application.Auth;
+using FanPage.Application.Chat;
 using FanPage.Application.Fanfic;
 using FanPage.Application.UserProfile;
 using FanPage.Domain.Account.Entities;
+using FanPage.Domain.Chat.Entities;
 using FanPage.Domain.Fanfic.Entities;
 
 namespace FanPage.Api.Mapper
@@ -23,6 +26,7 @@ namespace FanPage.Api.Mapper
             AdminMaps();
             FanficAuthMaps();
             ProfileMaps();
+            ChatMaps();
         }
 
         private void RegisterAuthMaps()
@@ -52,7 +56,7 @@ namespace FanPage.Api.Mapper
             CreateMap<FriendRequest, FriendRequestDto>();
 
             CreateMap<Follower, FollowerDto>();
-
+            CreateMap<ChangeEmailModel, ChangeEmailDto>();
             CreateMap<Bookmark, BookmarkDto>();
         }
 
@@ -144,6 +148,13 @@ namespace FanPage.Api.Mapper
                 .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.FanficCategories))
                 .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.FanficTags))
                 .ForMember(dest => dest.Chapters, opt => opt.MapFrom(src => src.Chapters));
+        }
+
+        private void ChatMaps()
+        {
+            CreateMap<ChatModel, ChatDto>();
+            CreateMap<ChatDto, Chat>();
+            CreateMap<Chat, ChatDto>();
         }
     }
 }

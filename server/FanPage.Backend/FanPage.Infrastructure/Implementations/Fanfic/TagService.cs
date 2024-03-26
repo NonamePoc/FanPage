@@ -112,17 +112,10 @@ public class TagService : ITag
     public async Task DeleteTagAsync(int tagId, HttpRequest request)
     {
         var tag = await _tagRepository.GetByIdAsync(tagId);
-        var admin = await _admin.GetAdminAsync(request);
-        if (admin.Role != "Admin")
-        {
-            throw new FanficException("Not permission to delete tag");
-        }
-
         if (tag == null)
         {
             throw new FanficException("Error update");
         }
-
         await _tagRepository.DeleteAsync(tagId);
     }
 

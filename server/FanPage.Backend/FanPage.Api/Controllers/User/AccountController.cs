@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using FanPage.Api.JsonResponse;
 using FanPage.Api.Models.Account;
+using FanPage.Api.ViewModels.User;
 using FanPage.Application.Account;
+using FanPage.Application.Auth;
 using FanPage.Application.Url;
 using FanPage.Infrastructure.Configurations;
 using FanPage.Infrastructure.Interfaces.User;
@@ -42,7 +44,7 @@ namespace FanPage.Api.Controllers.User
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-        public async Task<IActionResult> Registration([FromQuery] RegistrationModel content)
+        public async Task<IActionResult> Registration([FromBody] RegistrationModel content)
         {
             var dto = _mapper.Map<RegistrationDto>(content);
             dto.ConfirmEmailUrl = new UrlInformationDto(
@@ -114,6 +116,24 @@ namespace FanPage.Api.Controllers.User
         }
 
         /// <summary>
+        ///  Change email
+        /// </summary>
+        /// <param name="content">Model change email</param>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("changeEmail")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
+        [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+        public async Task<IActionResult> ChangeEmail([FromQuery] ChangeEmailModel content)
+        {
+            var dto = _mapper.Map<ChangeEmailDto>(content);
+            await _accountService.ChangeEmail(dto);
+            return Ok();
+        }
+
+        /// <summary>
         ///  Request restore password to email
         /// </summary>
         /// <param name="content">Model request restore password</param>
@@ -173,6 +193,38 @@ namespace FanPage.Api.Controllers.User
         {
             await _accountService.ChangeUserName(userName, HttpContext.Request);
             return Ok();
+        }
+        /// <summary>
+        ///  Change password
+        /// </summary>
+        /// <param name="content">Model to change password</param>
+        /// <returns></returns>
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Route("changePassword")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
+        [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+        public async Task<IActionResult> ChangePassword([FromBody] PasswordChangeModel content)
+        {
+            var dto = _mapper.Map<ChangePasswordDto>(content);
+            await _accountService.ChangePassword(dto, HttpContext.Request);
+            return Ok();
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Route("getProfile")]
+        [ProducesResponseType(typeof(JsonResponseContainer<LogInViewModel>), 200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
+        [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+        public async Task<IActionResult> GetProfile([FromQuery] string userName)
+        {
+            var retrieval = await _accountService.GetUserInfo(userName);
+            var response = _mapper.Map<LogInResponseDto>(retrieval);
+            return Ok(response);
         }
     }
 }

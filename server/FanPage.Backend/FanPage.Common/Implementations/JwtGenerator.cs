@@ -1,13 +1,12 @@
-﻿using FanPage.Common.Configurations;
-using FanPage.Common.Interfaces;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using FanPage.Common.Configurations;
+using FanPage.Common.Interfaces;
 using FanPage.Domain.Account.Entities;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
-
+using Microsoft.IdentityModel.Tokens;
 
 namespace FanPage.Common.Implementations
 {
@@ -19,19 +18,26 @@ namespace FanPage.Common.Implementations
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public JwtGenerator(JwtConfiguration options, JwtSecurityTokenHandler tokenHandler,
-            UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public JwtGenerator(
+            JwtConfiguration options,
+            JwtSecurityTokenHandler tokenHandler,
+            UserManager<User> userManager,
+            RoleManager<IdentityRole> roleManager
+        )
         {
             _jwtConfiguration = options;
             _tokenHandler = tokenHandler;
             _userManager = userManager;
             _roleManager = roleManager;
 
-
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfiguration.Key));
-            _credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
+            var securityKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_jwtConfiguration.Key)
+            );
+            _credentials = new SigningCredentials(
+                securityKey,
+                SecurityAlgorithms.HmacSha512Signature
+            );
         }
-
 
         public async Task<string> CreateToken(IdentityUser user)
         {
@@ -100,17 +106,18 @@ namespace FanPage.Common.Implementations
         public async Task<string> CreateTokenFromGoogle(string googleToken)
         {
             var payload = await GoogleJsonWebSignature.ValidateAsync(googleToken);
-            var email = payload.Email;
-            var userId = payload.Subject;
-            var userName = payload.Name;
+            var users = await _userManager.FindByEmailAsync(payload.Email);
 
-            var user = new User
+            var email = users.Email;
+            var userId = users.Id;
+            var userName = users.UserName;
+
+            var user = new IdentityUser()
             {
                 Email = email,
                 UserName = userName,
-                Id = userId
+                Id = userId,
             };
-
 
             return await CreateToken(user);
         }

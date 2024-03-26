@@ -5,15 +5,14 @@ namespace FanPage.Domain.Chat.Repos.Interface;
 public interface IChatRepository
 {
     Task<ChatDto> GetChatAsync(int id, string type);
-    
+
     Task<List<ChatUserDto>> GetChatUsersAsync(int chatId);
 
     Task<List<ChatDto>> GetChatsAsync(string type);
 
     Task CreateMessageAsync(int chatId, MessageDto message);
 
-    Task<ChatDto> CreateAsync(ChatDto chat);
-    
+    Task<ChatDto> CreateAsync(ChatDto chat, ChatUserDto chatUser);
     Task<List<Entities.Chat>> SearchChatAsync(string search);
 
     Task<ChatDto> UpdateAsync(ChatDto chat);
@@ -29,4 +28,7 @@ public interface IChatRepository
     Task AcceptUserToChatAsync(int chatId, string userId);
 
     Task DeclineUserToChatAsync(int chatId, string userId);
+
+    Task<List<ChatDto>> GetPublicChat(string userId);
+    Task<List<ChatDto>> GetPrivetChat(string userId);
 }

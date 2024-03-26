@@ -75,7 +75,7 @@ public class AdminController : ControllerBase
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Authorize(Roles = "Admin, Moderator")]
-    public async Task<IActionResult> Unban([FromBody] string id)
+    public async Task<IActionResult> Unban([FromQuery] string id)
     {
         await _admin.Unban(id);
         return Ok();
@@ -103,35 +103,21 @@ public class AdminController : ControllerBase
     // /// <summary>
     // /// Info about user
     // /// </summary>
-    // /// <param name="id">For know to find out user information</param>
+    // /// <param name="name">For know to find out user information</param>
     // /// <returns>Email, Phone Number, is the user in the ban(and if so, how much)</returns>
-    // [HttpPost]
-    // [Route("info")]
-    // [ProducesResponseType(typeof(JsonResponseContainer<UserInfoViewModel>), 200)]
-    // [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
-    // [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-    // [Authorize(AuthenticationSchemes = "Bearer")]
-    // [Authorize(Roles = "Admin, Moderator")]
-    // public async Task<UserInfoResponseDto> UserInfo(string id)
-    // {
-    //     var response = _admin.GetUserInformation(id);
-    //     return await response;
-    // }
-
-    /// <summary>
-    ///  Get moderator
-    /// </summary>
-    /// <returns> object moderator</returns>
-    [HttpGet]
-    [Route("moderator")]
+     [HttpPost]
+     [Route("info")]
     [ProducesResponseType(typeof(JsonResponseContainer<UserInfoViewModel>), 200)]
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
-    [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-    public async Task<IActionResult> GetModerator()
-    {
-        var response = await _admin.GetModeratorAsync(HttpContext.Request);
-        return Ok(response);
-    }
+     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+     [Authorize(AuthenticationSchemes = "Bearer")]
+     [Authorize(Roles = "Admin, Moderator")]
+     public async Task<UserInfoResponseDto> Screach(string name)
+     {
+         var result = await _admin.Screach(name);
+         return result;
+     }
+
 
     /// <summary>
     /// Approve tag
@@ -142,9 +128,11 @@ public class AdminController : ControllerBase
     [Route("approve")]
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> ApproveTag([FromBody] int tagId)
     {
-        await _admin.ApproveTag(tagId, HttpContext.Request);
+        await _admin.ApproveTag(tagId);
         return Ok();
     }
 
@@ -152,6 +140,8 @@ public class AdminController : ControllerBase
     [Route("notapproved")]
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> GetNotApprovedTags()
     {
         var response = await _admin.GetNotApprovedTags();

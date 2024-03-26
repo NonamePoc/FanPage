@@ -4,6 +4,7 @@ using FanPage.Domain.Fanfic.Repos.Interfaces;
 using FanPage.Domain.Account.Repos.Interfaces;
 using FanPage.Infrastructure.Interfaces.User;
 using Microsoft.AspNetCore.Http;
+using FanPage.Application.Fanfic;
 
 namespace FanPage.Infrastructure.Implementations.User
 {
@@ -31,7 +32,7 @@ namespace FanPage.Infrastructure.Implementations.User
             return true;
         }
 
-        public async Task<List<BookmarkDto>> BookmarkList(HttpRequest request)
+        public async Task<List<FanficDto>> BookmarkList(HttpRequest request)
         {
             var userId = _jwtTokenManager.GetUserIdFromToken(request);
             var list = await _bookmarkRepository.BookmarkList(userId);

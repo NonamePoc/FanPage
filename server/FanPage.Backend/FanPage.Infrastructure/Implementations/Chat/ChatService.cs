@@ -14,7 +14,11 @@ public class ChatService : IChat
     private readonly IJwtTokenManager _jwtTokenManager;
     private readonly IAdmin _admin;
 
-    public ChatService(IChatRepository chatRepository, IJwtTokenManager jwtTokenManager, IAdmin admin)
+    public ChatService(
+        IChatRepository chatRepository,
+        IJwtTokenManager jwtTokenManager,
+        IAdmin admin
+    )
     {
         _chatRepository = chatRepository;
         _jwtTokenManager = jwtTokenManager;
@@ -32,20 +36,16 @@ public class ChatService : IChat
         var chatUsers = await _chatRepository.GetChatUsersAsync(id);
         var chat = await _chatRepository.GetChatAsync(id, type);
 
-
         return new ChatDto
         {
             Id = chat.Id,
             Type = chat.Type,
             Name = chat.Name,
-            ChatUsers = chatUsers.Select(u => new ChatUserDto
-            {
-                UserId = u.UserId,
-                UserName = u.UserName
-            }).ToList()
+            ChatUsers = chatUsers
+                .Select(u => new ChatUserDto { UserId = u.UserId, UserName = u.UserName })
+                .ToList()
         };
     }
-
 
     public async Task<List<ChatDto>> GetChatsAsync(string type, HttpRequest request)
     {
@@ -57,15 +57,22 @@ public class ChatService : IChat
 
         var chats = await _chatRepository.GetChatsAsync(type);
 
-        return chats.Select(c => new ChatDto
-        {
-            Id = c.Id,
-            Type = c.Type,
-            Name = c.Name
-        }).ToList();
+        return chats
+            .Select(c => new ChatDto
+            {
+                Id = c.Id,
+                Type = c.Type,
+                Name = c.Name
+            })
+            .ToList();
     }
 
-    public async Task CreateMessageAsync(int chatId, string type, MessageDto message, HttpRequest request)
+    public async Task CreateMessageAsync(
+        int chatId,
+        string type,
+        MessageDto message,
+        HttpRequest request
+    )
     {
         var userName = _jwtTokenManager.GetUserNameFromToken(request);
         var chat = await _chatRepository.GetChatAsync(chatId, type);
@@ -80,12 +87,19 @@ public class ChatService : IChat
     public async Task<ChatDto> CreateAsync(ChatDto chat, HttpRequest request)
     {
         var userName = _jwtTokenManager.GetUserNameFromToken(request);
+        var userId = _jwtTokenManager.GetUserIdFromToken(request);
         if (userName == null)
         {
             throw new ChatException($"Error Chat");
         }
-
-        var chatEntity = await _chatRepository.CreateAsync(chat);
+        var userChat = new ChatUserDto
+        {
+            ChatId = chat.Id,
+            UserName = userName,
+            UserId = userId,
+            AcceptedRequest = false
+        };
+        var chatEntity = await _chatRepository.CreateAsync(chat, userChat);
         return new ChatDto
         {
             Id = chatEntity.Id,
@@ -101,7 +115,11 @@ public class ChatService : IChat
         var chatEntity = await _chatRepository.GetChatAsync(chat.Id, chat.Type);
 
         // if user not admin or moderator and not author chat
-        if (userRole.Role != "Admin" && userRole.Role != "Moderator" && chatEntity.AuthorName != userName)
+        if (
+            userRole.Role != "Admin"
+            && userRole.Role != "Moderator"
+            && chatEntity.AuthorName != userName
+        )
         {
             throw new ChatException($"Not permission to update chat");
         }
@@ -112,7 +130,6 @@ public class ChatService : IChat
 
         var result = await _chatRepository.UpdateAsync(chat);
 
-
         return new ChatDto
         {
             Id = result.Id,
@@ -120,7 +137,6 @@ public class ChatService : IChat
             Name = result.Name
         };
     }
-
 
     public async Task DeleteAsync(int id, string type, HttpRequest request)
     {
@@ -134,12 +150,21 @@ public class ChatService : IChat
         await _chatRepository.DeleteAsync(id);
     }
 
-    public async Task RemoveUserFromChatAsync(int chatId, string userId, string type, HttpRequest request)
+    public async Task RemoveUserFromChatAsync(
+        int chatId,
+        string userId,
+        string type,
+        HttpRequest request
+    )
     {
         var userName = _jwtTokenManager.GetUserNameFromToken(request);
         var userRole = await _admin.GetUserRoleAsync(userName);
         var chatEntity = await _chatRepository.GetChatAsync(chatId, type);
-        if (userRole.Role != "Admin" && userRole.Role != "Moderator" && chatEntity.AuthorName != userName)
+        if (
+            userRole.Role != "Admin"
+            && userRole.Role != "Moderator"
+            && chatEntity.AuthorName != userName
+        )
         {
             throw new ChatException($"Not permission to update chat");
         }
@@ -147,7 +172,12 @@ public class ChatService : IChat
         await _chatRepository.RemoveUserFromChatAsync(chatId, userId);
     }
 
-    public async Task InviteUserToChatAsync(int chatId, string userId, string userName, HttpRequest request)
+    public async Task InviteUserToChatAsync(
+        int chatId,
+        string userId,
+        string userName,
+        HttpRequest request
+    )
     {
         var userNameFromToken = _jwtTokenManager.GetUserNameFromToken(request);
         var userRole = await _admin.GetUserRoleAsync(userNameFromToken);
@@ -169,12 +199,14 @@ public class ChatService : IChat
 
         var chats = await _chatRepository.GetChatRequestAsync(userId);
 
-        return chats.Select(c => new ChatDto
-        {
-            Id = c.Id,
-            Type = c.Type,
-            Name = c.Name
-        }).ToList();
+        return chats
+            .Select(c => new ChatDto
+            {
+                Id = c.Id,
+                Type = c.Type,
+                Name = c.Name
+            })
+            .ToList();
     }
 
     public async Task AcceptUserToChatAsync(int chatId, string userId, HttpRequest request)
@@ -213,8 +245,23 @@ public class ChatService : IChat
         await _chatRepository.DeclineUserToChatAsync(chatId, userId);
     }
 
-    public Task<ChatDto> SearchChatAsync(string search, HttpRequest request)
+    public async Task<List<Domain.Chat.Entities.Chat>> SearchChatAsync(string search)
     {
-        throw new NotImplementedException();
+        var chatScreach = await _chatRepository.SearchChatAsync(search);
+        return chatScreach;
+    }
+
+    public async Task<List<ChatDto>> PublicChat(HttpRequest request)
+    {
+        var userId = _jwtTokenManager.GetUserIdFromToken(request);
+        var chat = await _chatRepository.GetPublicChat(userId);
+        return chat;
+    }
+
+    public async Task<List<ChatDto>> PrivetChat(HttpRequest request)
+    {
+        var userId = _jwtTokenManager.GetUserIdFromToken(request);
+        var chat = await _chatRepository.GetPrivetChat(userId);
+        return chat;
     }
 }

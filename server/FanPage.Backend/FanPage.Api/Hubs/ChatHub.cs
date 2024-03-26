@@ -124,8 +124,21 @@ public class ChatHub : Hub
 
     public async Task SearchChat(string search)
     {
-        var request = Context.GetHttpContext().Request;
-        var result = await _chat.SearchChatAsync(search, request);
+        var result = await _chat.SearchChatAsync(search);
         await Clients.All.SendAsync("SearchChat", result);
+    }
+
+    public async Task GetPublic()
+    {
+        var request = Context.GetHttpContext().Request;
+        var result = await _chat.PublicChat(request);
+        await Clients.All.SendAsync("GetPublicChat", result);
+    }
+
+    public async Task GetPrivet()
+    {
+        var request = Context.GetHttpContext().Request;
+        var result = await _chat.PrivetChat(request);
+        await Clients.All.SendAsync("GetPrivetChat", result);
     }
 }

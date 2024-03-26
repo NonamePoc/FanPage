@@ -13,12 +13,11 @@ namespace FanPage.Infrastructure.Interfaces.User
         Task<IdentityResult> ChangeRole(ChangeRoleDto user);
         Task<List<UserBanInfoResponseDto>> GetUserInBan();
         Task<List<UserInfoResponseDto>> AllUsers();
+        Task<UserInfoResponseDto> Screach(string userName);
 
-        Task<bool> ApproveTag(int tagId, HttpRequest request);
+        Task<bool> ApproveTag(int tagId);
 
         Task<UserInfoResponseDto> GetAdminAsync(HttpRequest request);
-
-        Task<UserInfoResponseDto> GetModeratorAsync(HttpRequest request);
 
         Task<UserInfoResponseDto> GetUserRoleAsync(string userName);
 

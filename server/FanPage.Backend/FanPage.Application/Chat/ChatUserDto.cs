@@ -7,4 +7,6 @@ public class ChatUserDto
     public string UserName { get; set; }
 
     public int ChatId { get; set; }
+    
+    public bool AcceptedRequest {  get; set; } 
 }

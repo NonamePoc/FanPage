@@ -13,6 +13,6 @@
         public List<string> Categories { get; set; }
         public List<string> Tags { get; set; }
 
-        public List<FanficPhotoDto> ImageFanfic { get; set; }
+        public List<FanficPhotoDto>? ImageFanfic { get; set; }
     }
 }
