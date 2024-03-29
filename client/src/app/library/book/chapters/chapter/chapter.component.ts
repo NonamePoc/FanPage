@@ -1,9 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
-import { Component, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { CommentsComponent } from './comments/comments.component';
 import { ChapterService } from '../chapter.service';
 import { ImageNormalizePipe } from '../../../../shared/image-normalize.pipe';
+import { ReadingProgressService } from './reading-progress.service';
 
 @Component({
   selector: 'app-chapter',
@@ -13,16 +20,16 @@ import { ImageNormalizePipe } from '../../../../shared/image-normalize.pipe';
   imports: [CommonModule, RouterLink, CommentsComponent, ImageNormalizePipe],
 })
 export class ChapterComponent implements OnInit {
-  @HostListener('window:scroll', ['$event'])
-  onScroll(event: any) {
+  @ViewChild('chapterContent') chapterContent!: ElementRef;
+  @HostListener('window:scroll')
+  onScroll() {
     const scrollPosition = window.scrollY;
-    const documentHeight = document.documentElement.scrollHeight;
-    const viewportHeight = window.innerHeight;
 
-    const scrolledPercentage =
-      scrollPosition / (documentHeight - viewportHeight);
-
-    console.log('User scrolled to:', scrolledPercentage * 100, '%');
+    this.readingProgressService.setScrollPosition(
+      this.bookId,
+      this.chapterId,
+      scrollPosition
+    );
   }
 
   bookId!: number;
@@ -34,13 +41,15 @@ export class ChapterComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private chapterService: ChapterService
+    private chapterService: ChapterService,
+    private readingProgressService: ReadingProgressService
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.bookId = +params['id'];
       this.chapterId = +params['chapterId'];
+
       this.chapterService.getChapter(this.chapterId, this.bookId).subscribe({
         next: (data: any) => {
           this.chapter = data;
@@ -52,19 +61,36 @@ export class ChapterComponent implements OnInit {
           this.notFound = true;
         },
       });
+
+      this.initProgress();
     });
   }
 
   onPrevious() {
-    if (this.chapterId === 1) return;
-    this.router.navigate(['../', this.chapterId - 1], {
-      relativeTo: this.route,
-    });
+    this.chapterId !== 1 &&
+      this.router.navigate(['../', this.chapterId - 1], {
+        relativeTo: this.route,
+      });
   }
 
   onNext() {
     this.router.navigate(['../', this.chapterId + 1], {
       relativeTo: this.route,
     });
+  }
+
+  private initProgress() {
+    const bookProgress = this.readingProgressService.getBookProgress(
+      this.bookId
+    );
+
+    (!bookProgress || this.chapterId > bookProgress.chapterId) &&
+      this.readingProgressService.setReadingProgress(
+        this.bookId,
+        this.chapterId
+      );
+
+    this.chapterId === bookProgress?.chapterId &&
+      setTimeout(() => window.scrollTo(0, bookProgress.scrollPosition ?? 0), 0);
   }
 }

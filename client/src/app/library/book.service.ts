@@ -20,17 +20,17 @@ export class BookService {
   }
 
   addBook(data: any): Observable<any> {
+    const formData = new FormData();
+    formData.append('Title', data.title);
+    formData.append('Description', data.description);
+    formData.append('File', data.cover);
+    formData.append('Categories', data.categories);
+    formData.append('Tags', data.tags);
+    formData.append('OriginFandom', data.origin);
+    formData.append('Stage', data.stage);
+    formData.append('Language', data.language);
     return this.http
-      .post(environment.apiUrl + '/v1/fanfic/create', {
-        title: data.title,
-        description: data.description,
-        language: data.language,
-        imageFanfic: [{ image: data.cover }],
-        categories: data.categories,
-        tags: data.tags,
-        originFandom: data.origin,
-        stage: data.stage,
-      })
+      .post(environment.apiUrl + '/v1/fanfic/create', formData)
       .pipe(
         tap((response: any) => {
           this.writtenBooks.push(response.book);
@@ -43,7 +43,6 @@ export class BookService {
       .put(environment.apiUrl + '/v1/fanfic/update?id=' + id, {
         title: data.title,
         description: data.description,
-        image: data.cover,
         categories: data.categories,
         tags: data.tags,
         originFandom: data.origin,
@@ -58,6 +57,15 @@ export class BookService {
           }
         })
       );
+  }
+
+  updateCover(bookId: number, image: any): Observable<any> {
+    const formData = new FormData();
+    formData.append('imageFanfic', image);
+    return this.http.post(
+      environment.apiUrl + '/v1/detail/updateAvatar?fanficId=' + bookId,
+      formData
+    );
   }
 
   deleteBook(id: number): Observable<any> {

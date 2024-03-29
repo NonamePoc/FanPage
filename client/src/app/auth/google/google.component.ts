@@ -1,9 +1,11 @@
 import {
   AfterViewInit,
   Component,
+  EventEmitter,
   Inject,
   Input,
   OnDestroy,
+  Output,
   PLATFORM_ID,
 } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
@@ -23,6 +25,7 @@ declare let google: any;
 })
 export class GoogleComponent implements AfterViewInit, OnDestroy {
   @Input() isLogin: boolean = true;
+  @Output() loadingChanged = new EventEmitter<boolean>();
 
   CLIENT_ID = environment.googleClientId;
 
@@ -54,6 +57,7 @@ export class GoogleComponent implements AfterViewInit, OnDestroy {
   }
 
   private handleGoogleAuth(response: any) {
+    this.loadingChanged.emit(true);
     response.credential
       ? this.isLogin
         ? this.handleLogin(response.credential)
@@ -75,6 +79,9 @@ export class GoogleComponent implements AfterViewInit, OnDestroy {
           timeOut: 3000,
         });
       },
+      complete: () => {
+        this.loadingChanged.emit(false);
+      },
     });
   }
 
@@ -91,6 +98,9 @@ export class GoogleComponent implements AfterViewInit, OnDestroy {
         this.toastr.error(errorMessage, 'Error', {
           timeOut: 3000,
         });
+      },
+      complete: () => {
+        this.loadingChanged.emit(false);
       },
     });
   }

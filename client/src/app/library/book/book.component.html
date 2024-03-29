@@ -19,15 +19,13 @@
             {{book.description}}
         </p>
         <div class='grid items-end grid-cols-[1fr_auto] gap-3 py-2'>
-            <button *ngIf='book.chapters.length !== 0'
-                class='p-2 bg-neutral-700 hover:bg-neutral-800 rounded text-white  transition duration-300'>
-                <a class='flex gap-1 justify-center items-center' [routerLink]="'/books/'+ id +'/chapters/1'">
-                    Start
-                    reading
-                    <span class="material-symbols-rounded text-xl">
-                        arrow_outward
-                    </span>
-                </a>
+            <button *ngIf='book.chapters.length !== 0' (click)="onStartReading()"
+                class='flex gap-1 justify-center items-center p-2 bg-neutral-700 hover:bg-neutral-800 rounded text-white  transition duration-300'>
+                Start
+                reading
+                <span class="material-symbols-rounded text-xl">
+                    arrow_outward
+                </span>
             </button>
             <div *ngIf='book.chapters.length === 0'
                 class='p-2 bg-neutral-700 rounded text-white  transition duration-300 text-center'>
@@ -39,11 +37,11 @@
                     class="material-symbols-rounded p-2 rounded-full  cursor-pointer  transition duration-300">
                     bookmark
                 </span>
-                <span appDropdown
+                <span *ngIf='isAuthor' appDropdown
                     class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition duration-300">
                     edit
                 </span>
-                <ul
+                <ul *ngIf='isAuthor'
                     class='drop-shadow-lg px-2 py-2 opacity-0 -z-1 mt-2 absolute bg-stone-200 dark:bg-neutral-800 rounded transition duration-300 -translate-x-5 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:left-3 before:w-4 before:h-4 before:bg-stone-200 dark:before:bg-neutral-800 before:rounded before:rotate-45'>
                     <li
                         class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-700 px-1 py-1 rounded flex gap-1 items-center'>
@@ -64,7 +62,7 @@
                         </a>
                     </li>
                 </ul>
-                <span (click)="onOpenDeleteModal()"
+                <span *ngIf='isAuthor' (click)="onOpenDeleteModal()"
                     class="material-symbols-rounded p-2 rounded-full bg-rose-200 cursor-pointer hover:bg-rose-300 dark:bg-rose-800 dark:hover:bg-rose-700 transition duration-300">
                     delete
                 </span>

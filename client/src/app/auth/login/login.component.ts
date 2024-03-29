@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormControl,
@@ -21,6 +21,7 @@ import { ModalService } from '../../shared/modal/modal.service';
 })
 export class LoginComponent implements OnInit {
   signinForm!: FormGroup;
+  @Output() loadingChanged = new EventEmitter<boolean>();
 
   constructor(
     private authService: AuthService,
@@ -42,8 +43,9 @@ export class LoginComponent implements OnInit {
     if (this.signinForm.invalid) {
       return;
     }
-    const { email, password } = this.signinForm.value;
+    this.loadingChanged.emit(true);
 
+    const { email, password } = this.signinForm.value;
     let authObs: Observable<any> = this.authService.login(email, password);
 
     authObs.subscribe({
@@ -53,6 +55,9 @@ export class LoginComponent implements OnInit {
         this.toastr.error(errorMessage, 'Error', {
           timeOut: 3000,
         });
+      },
+      complete: () => {
+        this.loadingChanged.emit(false);
       },
     });
 

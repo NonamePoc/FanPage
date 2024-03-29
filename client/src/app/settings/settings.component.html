@@ -71,8 +71,12 @@
         </div>
     </div>
     <div class='grid sm:grid-cols-[25%_1fr] px-3'>
-        <img class='transform -translate-y-10 md:-translate-y-16 rounded-full h-20 w-20 md:h-32 md:w-32 object-cover mx-auto border-4 border-neutral-100 dark:border-neutral-800 cursor-pointer'
-            src="https://picsum.photos/400" alt="User">
+        <div
+            class='transform -translate-y-10 md:-translate-y-16 rounded-full mx-auto border-4 border-neutral-100 dark:border-neutral-800'>
+            <input (change)='onChangeAvatar($event)' type="file" accept='image/*'
+                class='cursor-pointer opacity-1 absolute z-20 h-20 w-20 md:h-32 md:w-32 opacity-0' />
+            <img [src]="avatar | imageNormalize" alt="User" class='object-cover h-20 w-20 md:h-32 md:w-32 rounded-full'>
+        </div>
     </div>
 </div>
 

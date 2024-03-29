@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -22,6 +22,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RegistrationComponent implements OnInit {
   signupForm!: FormGroup;
+  @Output() loadingChanged = new EventEmitter<boolean>();
 
   constructor(
     private authService: AuthService,
@@ -54,6 +55,7 @@ export class RegistrationComponent implements OnInit {
     if (this.signupForm.invalid) {
       return;
     }
+    this.loadingChanged.emit(true);
     const { username, email, password, confirmPassword } =
       this.signupForm.value;
 
@@ -63,7 +65,6 @@ export class RegistrationComponent implements OnInit {
       password,
       confirmPassword
     );
-    console.log(authObs);
     authObs.subscribe({
       next: () => {
         this.toastr.success('Please check you mail', 'Email sent', {
@@ -75,6 +76,9 @@ export class RegistrationComponent implements OnInit {
         this.toastr.error(errorMessage, 'Error', {
           timeOut: 3000,
         });
+      },
+      complete: () => {
+        this.loadingChanged.emit(false);
       },
     });
 

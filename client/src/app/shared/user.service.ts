@@ -74,4 +74,13 @@ export class UserService {
       }
     );
   }
+
+  changeAvatar(image: any): Observable<any> {
+    const formData = new FormData();
+    formData.append('avatar', image);
+    return this.http.post<any>(
+      environment.apiUrl + '/v1/account/changeAvatar',
+      formData
+    );
+  }
 }

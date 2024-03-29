@@ -22,7 +22,7 @@
             <div *ngIf="isListLayout"
                 [ngClass]='{"grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6": !isListLayout, "2xl:grid-cols-3": isListLayout} '
                 class='grid gap-2 mt-2'>
-                <a *ngFor='let book of filteredBooks' routerLink='books/{{book.id}}'
+                <a *ngFor='let book of filteredBooks' routerLink='/books/{{book.id}}'
                     class="max-w-[30rem] cursor-pointer overflow-hidden">
                     <div class="flex flex-cols drop-shadow-lg">
                         <img loading="eager"

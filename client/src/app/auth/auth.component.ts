@@ -24,10 +24,15 @@ import { RestorePasswordModalComponent } from './restore-password-modal/restore-
 })
 export class AuthComponent implements OnDestroy {
   isLoginMode = true;
+  isLoading = false;
 
   private closeSub?: Subscription;
 
   constructor(private modalService: ModalService) {}
+
+  onLoadingChange(isLoading: boolean): void {
+    this.isLoading = isLoading;
+  }
 
   onSwitchMode(): void {
     this.modalService.closeModal('authModal');

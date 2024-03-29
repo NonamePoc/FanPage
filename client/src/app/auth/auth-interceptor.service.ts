@@ -15,9 +15,7 @@ export const authInterceptor: HttpInterceptorFn = (
     const token = userData._token;
     if (token) {
       const modifiedReq = req.clone({
-        headers: req.headers
-          .append('Authorization', 'Bearer ' + token)
-          .append('Content-Type', 'application/json'),
+        headers: req.headers.append('Authorization', 'Bearer ' + token),
       });
       return next(modifiedReq);
     }

@@ -9,6 +9,8 @@ import { ModalService } from '../../shared/modal/modal.service';
 import { BookService } from '../book.service';
 import { response } from 'express';
 import { ImageNormalizePipe } from '../../shared/image-normalize.pipe';
+import { ReadingProgressService } from './chapters/chapter/reading-progress.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-book',
@@ -30,12 +32,15 @@ export class BookComponent implements OnInit {
   id!: number;
   isLoading = true;
   isBookmarked = false;
+  isAuthor = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private modalService: ModalService,
-    private bookService: BookService
+    private bookService: BookService,
+    private readingProgressService: ReadingProgressService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -45,8 +50,21 @@ export class BookComponent implements OnInit {
         this.book = book;
         this.isBookmarked = this.bookService.checkBookmark(this.id);
         this.isLoading = false;
+        this.isAuthor = this.authService.user.value?.id === this.book.authorId;
       });
     });
+  }
+
+  onStartReading() {
+    const bookProgress = this.readingProgressService.getBookProgress(this.id);
+
+    bookProgress
+      ? this.router.navigate(['chapters', bookProgress.chapterId], {
+          relativeTo: this.route,
+        })
+      : this.router.navigate(['chapters', 1], {
+          relativeTo: this.route,
+        });
   }
 
   onBookmark() {

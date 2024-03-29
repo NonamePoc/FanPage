@@ -50,17 +50,19 @@ export class EditBookComponent implements OnInit {
   }
 
   onSubmit(): void {
+    console.log(this.bookForm.value);
     this.editMode ? this.updateBook() : this.addBook();
   }
 
   selectImage(event: any): void {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
+      this.bookForm.patchValue({
+        cover: file,
+      });
+
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.bookForm.patchValue({
-          cover: e.target.result.split(',')[1],
-        });
         this.preview = e.target.result;
       };
       reader.readAsDataURL(file);
@@ -79,16 +81,15 @@ export class EditBookComponent implements OnInit {
 
     this.editMode &&
       this.bookService.getBook(this.id).subscribe((data) => {
-        console.log(data);
         title = data.title;
         description = data.description;
         language = data.language;
-        cover = data.image;
-        this.preview = `data:image/png;base64,${data.image}`;
         categories = data.categories.map((category: any) => category.name);
         tags = data.tags.map((tag: any) => tag.name);
         origin = data.originFandom;
         stage = data.stage;
+        cover = data.image;
+        this.preview = `data:image/png;base64,${data.image}`;
       });
 
     this.bookForm = new FormGroup({
@@ -115,7 +116,8 @@ export class EditBookComponent implements OnInit {
 
   private addBook(): void {
     if (this.bookForm.valid) {
-      this.bookService.addBook(this.bookForm.getRawValue()).subscribe({
+      const data = this.bookForm.getRawValue();
+      this.bookService.addBook(data).subscribe({
         next: (response: any) => {
           this.router.navigate(['/books/', response.id, 'chapters', 'new']);
           this.bookService.getBooksByUser(
@@ -135,21 +137,30 @@ export class EditBookComponent implements OnInit {
 
   private updateBook(): void {
     if (this.bookForm.valid) {
-      this.bookService
-        .updateBook(this.bookForm.getRawValue(), this.id)
-        .subscribe({
-          next: (response: any) => {
-            this.router.navigate(['/books/', response.id]);
-            this.bookService.getBooksByUser(
-              JSON.parse(localStorage.getItem('userData')!)?.username
-            );
-          },
-          error: (error) => {
-            this.toastr.error(
-              'An error occurred while updating the book: ' + error.message
-            );
-          },
-        });
+      const data = this.bookForm.getRawValue();
+      this.bookService.updateBook(data, this.id).subscribe({
+        next: () => {
+          if (data.cover) {
+            this.bookService.updateCover(this.id, data.cover).subscribe({
+              next: () => {
+                this.router.navigate(['/books/', this.id]);
+              },
+              error: (error) => {
+                this.toastr.error(
+                  'An error occurred while updating the cover: ' + error.message
+                );
+              },
+            });
+          } else {
+            this.router.navigate(['/books/', this.id]);
+          }
+        },
+        error: (error) => {
+          this.toastr.error(
+            'An error occurred while updating the book: ' + error.message
+          );
+        },
+      });
     } else {
       this.toastr.error('Please fill in all required fields');
     }
