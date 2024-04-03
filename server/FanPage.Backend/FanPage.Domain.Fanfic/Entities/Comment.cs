@@ -11,12 +11,12 @@ namespace FanPage.Domain.Fanfic.Entities
 
         public string AuthorName { get; set; }
 
+ 
         public int FanficId { get; set; }
         
         public DateTimeOffset CreatedAt { get; set; }
 
         [ForeignKey("FanficId")] public Fanfic Fanfic { get; set; }
 
-        public ICollection<CommentPhoto> CommentPhoto { get; set; }
     }
 }

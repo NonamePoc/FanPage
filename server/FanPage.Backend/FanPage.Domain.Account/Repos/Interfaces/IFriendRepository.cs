@@ -11,4 +11,6 @@ public interface IFriendRepository
     Task<bool> CancelSend(string userName, string friendName);
     Task<List<FriendRequestDto>> GetFriendRequests(string userName);
     Task<List<FriendRequestDto>> GetUserRequests(string friendName);
+
+    Task<bool> GetUserFriend(string userName, string friendName);
 }

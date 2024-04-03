@@ -369,6 +369,7 @@ public class FanficDetailService : IFanficDetail
             if (fanfic.Image != null)
             {
                 var uploadResult = await _storageHttp.GetImageBase64FromStorageService(fanfic.Image);
+         
                 fanficDto.Image = uploadResult;
             }
 

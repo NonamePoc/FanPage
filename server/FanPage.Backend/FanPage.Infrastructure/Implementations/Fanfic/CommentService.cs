@@ -1,7 +1,9 @@
 ﻿using FanPage.Application.Fanfic;
 using FanPage.Common.Interfaces;
+using FanPage.Domain.Account.Entities;
 using FanPage.Domain.Fanfic.Repos.Interfaces;
 using FanPage.Exceptions;
+using FanPage.Infrastructure.Implementations.Helper;
 using FanPage.Infrastructure.Interfaces.Fanfic;
 using Microsoft.AspNetCore.Http;
 
@@ -9,38 +11,35 @@ namespace FanPage.Infrastructure.Implementations.Fanfic;
 
 public class CommentService : IComment
 {
-    private readonly ICommentPhotoRepository _commentPhotoRepository;
     private readonly ICommentRepository _commentRepository;
 
     private readonly IJwtTokenManager _jwtTokenManager;
 
     private readonly IFanficRepository _fanficRepository;
 
+    private readonly IStorageHttp _storageHttp;
+
+    private readonly IdentityUserManager _userManager;
 
     public CommentService(ICommentRepository commentRepository, IJwtTokenManager jwtTokenManager,
-        IFanficRepository fanficRepository, ICommentPhotoRepository commentPhotoRepository)
+        IFanficRepository fanficRepository, IStorageHttp storageHttp, IdentityUserManager userManager)
     {
         _commentRepository = commentRepository;
         _jwtTokenManager = jwtTokenManager;
         _fanficRepository = fanficRepository;
-        _commentPhotoRepository = commentPhotoRepository;
+        _storageHttp = storageHttp;
+        _userManager = userManager;
     }
 
     public async Task<CommentDto> AddCommentAsync(CommentDto commentDto, HttpRequest request)
     {
         var authorName = _jwtTokenManager.GetUserNameFromToken(request);
         var fanfic = _fanficRepository.GetByIdAsync(commentDto.FanficId);
-
+        var user = await _userManager.FindByNameAsync(authorName);
+        var userAvatar = await _storageHttp.GetImageBase64FromStorageService(user.UserAvatar);
         commentDto.AuthorName = authorName;
-
-        var commentPhotoDto = new CommentPhotoDto
-        {
-            CommentId = commentDto.CommentId,
-            Image = commentDto.Image
-        };
-
-        await _commentPhotoRepository.CreateAsync(commentPhotoDto);
-
+        commentDto.CreatedAt = DateTimeOffset.Now;
+        commentDto.AuthorAvatar = userAvatar;
 
         if (fanfic == null)
         {
@@ -56,7 +55,7 @@ public class CommentService : IComment
             Content = result.Content,
             CreatedAt = result.CreatedAt,
             AuthorName = authorName,
-            Image = commentPhotoDto.Image
+            AuthorAvatar = userAvatar,
         };
     }
 
@@ -64,12 +63,15 @@ public class CommentService : IComment
     {
         var authorName = _jwtTokenManager.GetUserNameFromToken(request);
         var comment = await _commentRepository.GetCommentByCommentIdAsync(commentDto.CommentId, authorName);
+        var user = await _userManager.FindByNameAsync(authorName);
+        var userAvatar = await _storageHttp.GetImageBase64FromStorageService(user.UserAvatar);
+
+        if (user == null) throw new FanficException("User not found");
 
         if (authorName != comment.AuthorName)
             throw new FanficException($"You can't update this comment");
 
         comment.Content = commentDto.Content ?? comment.Content;
-        comment.Image = commentDto.Image ?? comment.Image;
 
         var result = await _commentRepository.UpdateCommentAsync(comment);
 
@@ -80,7 +82,7 @@ public class CommentService : IComment
             Content = result.Content,
             CreatedAt = result.CreatedAt,
             AuthorName = authorName,
-            Image = result.Image
+            AuthorAvatar = userAvatar,
         };
     }
 
@@ -95,10 +97,13 @@ public class CommentService : IComment
         await _commentRepository.DeleteCommentAsync(id);
     }
 
-    public async Task<CommentDto> GetCommentByFanficIdAsync(int id, HttpRequest request)
+    public async Task<CommentDto> GetCommentByCommentIdAsync(int id, HttpRequest request)
     {
         var authorName = _jwtTokenManager.GetUserNameFromToken(request);
         var result = await _commentRepository.GetCommentByCommentIdAsync(id, authorName);
+        var user = await _userManager.FindByNameAsync(authorName);
+        if (user == null) throw new FanficException("User not found");
+        var userAvatar = await _storageHttp.GetImageBase64FromStorageService(user.UserAvatar);
         return new CommentDto()
         {
             FanficId = result.FanficId,
@@ -106,7 +111,7 @@ public class CommentService : IComment
             Content = result.Content,
             CreatedAt = result.CreatedAt,
             AuthorName = authorName,
-            Image = result.Image
+            AuthorAvatar = userAvatar,
         };
     }
 
@@ -114,34 +119,35 @@ public class CommentService : IComment
     {
         var result = await _commentRepository.GetCommentsByFanficIdAsync(fanficId);
 
-        return result.Select(comment => new CommentDto()
+        var resultList = new List<CommentDto>();
+
+        foreach (var comment in result)
         {
-            FanficId = comment.FanficId,
-            CommentId = comment.CommentId,
-            Content = comment.Content,
-            CreatedAt = comment.CreatedAt,
-            AuthorName = comment.AuthorName,
-            Image = comment.Image
-        }).ToList();
+            var user = await _userManager.FindByNameAsync(comment.AuthorName);
+            var userAvatar = await _storageHttp.GetImageBase64FromStorageService(user.UserAvatar);
+            resultList.Add(new CommentDto()
+            {
+                FanficId = comment.FanficId,
+                CommentId = comment.CommentId,
+                Content = comment.Content,
+                CreatedAt = comment.CreatedAt,
+                AuthorName = comment.AuthorName,
+                AuthorAvatar = userAvatar,
+            });
+        }
+        return resultList;
     }
 
     public async Task<CommentDto> ReplyCommentAsync(CommentDto commentDto, HttpRequest request)
     {
         var authorName = _jwtTokenManager.GetUserNameFromToken(request);
+        var user = await _userManager.FindByNameAsync(authorName);
+        var userAvatar = await _storageHttp.GetImageBase64FromStorageService(user.UserAvatar);
 
         var parentComment = await _commentRepository.GetCommentByCommentIdAsync(commentDto.CommentId, authorName);
         if (parentComment == null) throw new FanficException("Parent comment not found");
 
         commentDto.AuthorName = authorName;
-        commentDto.CreatedAt = DateTimeOffset.Now;
-
-        var commentPhotoDto = new CommentPhotoDto
-        {
-            CommentId = commentDto.CommentId,
-            Image = commentDto.Image
-        };
-
-        await _commentPhotoRepository.CreateAsync(commentPhotoDto);
 
         var result = await _commentRepository.ReplyCommentAsync(commentDto);
 
@@ -152,7 +158,7 @@ public class CommentService : IComment
             Content = result.Content,
             CreatedAt = result.CreatedAt,
             AuthorName = authorName,
-            Image = commentPhotoDto.Image
+            AuthorAvatar = userAvatar,
         };
     }
 }

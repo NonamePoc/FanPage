@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Data.Entity.Core.Metadata.Edm;
+using System.Net.Http.Json;
 using Microsoft.AspNetCore.Http;
 
 namespace FanPage.Infrastructure.Implementations.Helper
@@ -11,7 +12,7 @@ namespace FanPage.Infrastructure.Implementations.Helper
 
     public class StorageHttp : IStorageHttp
     {
-        private const string _url = "http://localhost:5002";
+        private const string _url = "https://zkdmv48c-5002.euw.devtunnels.ms";
 
         public async Task<UploadResult> SendFileToStorageService(IFormFile file)
         {
@@ -29,11 +30,13 @@ namespace FanPage.Infrastructure.Implementations.Helper
         public async Task<string> GetImageBase64FromStorageService(string path)
         {
             using var client = new HttpClient();
-            var response =
-                await client.GetAsync($"{_url}/MinioFile?path={path}", HttpCompletionOption.ResponseHeadersRead);
+            var response = await client.GetAsync(
+                $"{_url}/MinioFile?path={path}",
+                HttpCompletionOption.ResponseHeadersRead
+            );
 
             if (!response.IsSuccessStatusCode)
-                throw new Exception("Failed to get file from storage service");
+                return "";
 
             var imageBytes = await response.Content.ReadAsByteArrayAsync();
             return Convert.ToBase64String(imageBytes);

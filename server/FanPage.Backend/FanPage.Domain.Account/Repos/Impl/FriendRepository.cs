@@ -5,6 +5,7 @@ using FanPage.Domain.Account.Context;
 using FanPage.Domain.Account.Entities;
 using FanPage.Domain.Account.Repos.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -13,13 +14,11 @@ namespace FanPage.Domain.Account.Repos.Impl
     public class FriendRepository : IFriendRepository
     {
         private readonly UserContext _userContext;
-        private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
 
-        public FriendRepository(UserContext userContext, IMapper mapper, UserManager<User> userManager)
+        public FriendRepository(UserContext userContext, UserManager<User> userManager)
         {
             _userContext = userContext;
-            _mapper = mapper;
             _userManager = userManager;
         }
 
@@ -94,7 +93,7 @@ namespace FanPage.Domain.Account.Repos.Impl
         {
             var friendRequest = await _userContext.FriendRequests
                  .FirstOrDefaultAsync(fr => fr.UserName == friendName && fr.FriendName == userName);
-            _userContext.FriendRequests.Remove(friendRequest);
+             _userContext.FriendRequests.Remove(friendRequest);
 
             var friendship = new Friendship
             {
@@ -155,6 +154,19 @@ namespace FanPage.Domain.Account.Repos.Impl
                 .ToListAsync();
 
             return userFriendReques;
+        }
+
+        public async Task<bool> GetUserFriend(string userName, string friendName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            var friendId = await _userContext.Friendships
+                .Where(f => f.UserName == userName && f.FriendName == friendName)
+                .Select(f => f.FriendId)
+                .FirstOrDefaultAsync();
+
+            if (friendId == null) return false;
+
+            return true;
         }
     }
 }

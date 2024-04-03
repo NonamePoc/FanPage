@@ -18,8 +18,12 @@ namespace FanPage.Infrastructure.Implementations.User
         private readonly SignInManager<Domain.Account.Entities.User> _signInManager;
         private readonly IdentityUserManager _userManager;
 
-        public AuthService(IJwtTokenManager jwtTokenManager, SignInManager<Domain.Account.Entities.User> signInManager,
-            IdentityUserManager userManager, IStorageHttp storageHttp)
+        public AuthService(
+            IJwtTokenManager jwtTokenManager,
+            SignInManager<Domain.Account.Entities.User> signInManager,
+            IdentityUserManager userManager,
+            IStorageHttp storageHttp
+        )
         {
             _jwtTokenManager = jwtTokenManager;
             _signInManager = signInManager;
@@ -31,15 +35,23 @@ namespace FanPage.Infrastructure.Implementations.User
         {
             var user = await _userManager.FindByEmailAsync(authDto.Email);
 
-
             var userRole = await _userManager.GetRolesAsync(user);
 
             var avatar = await _storageHttp.GetImageBase64FromStorageService(user.UserAvatar);
 
+            if (string.IsNullOrEmpty(avatar))
+            {
+                avatar = string.Empty;
+            }
+
             if (user is null)
                 throw new LogInException("Wrong login or password");
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, authDto.Password, false);
+            var result = await _signInManager.CheckPasswordSignInAsync(
+                user,
+                authDto.Password,
+                false
+            );
 
             if (!result.Succeeded)
                 throw new LogInException("Wrong login or password");
@@ -79,7 +91,6 @@ namespace FanPage.Infrastructure.Implementations.User
             }
         }
 
-
         public async Task<RefreshTokenDto> RefreshToken(HttpRequest request)
         {
             var token = _jwtTokenManager.GetTokenFromHeader(request);
@@ -87,13 +98,9 @@ namespace FanPage.Infrastructure.Implementations.User
             var userId = _jwtTokenManager.GetUserIdFromToken(request);
             var user = await _userManager.FindByIdAsync(userId);
 
-
             var newToken = _jwtTokenManager.RefreshToken(token, user.Email, userId);
 
-            return new RefreshTokenDto
-            {
-                Token = newToken
-            };
+            return new RefreshTokenDto { Token = newToken };
         }
 
         public async Task<GoogleResponseDto> GoogleLogin(string googleToken)
@@ -103,7 +110,7 @@ namespace FanPage.Infrastructure.Implementations.User
 
             var user = await _userManager.FindByEmailAsync(emailFromToken);
             var avatar = await _storageHttp.GetImageBase64FromStorageService(user.UserAvatar);
-            
+
             if (string.IsNullOrEmpty(avatar))
             {
                 avatar = string.Empty;

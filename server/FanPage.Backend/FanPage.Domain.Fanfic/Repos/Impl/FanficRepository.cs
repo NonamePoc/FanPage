@@ -162,7 +162,7 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
     {
         var searchWords = searchString.Split(' ');
 
-        var query = _fanficContext
+        var query =  _fanficContext
             .Fanfic.Include(f => f.FanficCategories)
             .ThenInclude(fc => fc.Category)
             .Include(f => f.FanficTags)

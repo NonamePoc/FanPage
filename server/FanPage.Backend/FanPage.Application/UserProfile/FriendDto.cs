@@ -5,8 +5,9 @@
         public string UserName { get; set; }
         public string FriendName { get; set; }
 
-        public byte[] userAvatar { get; set; }
+        public string userAvatar { get; set; }
 
-        public byte[] friendAvatar { get; set; }
+        public string friendAvatar { get; set; }
+
     }
 }
