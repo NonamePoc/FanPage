@@ -12,5 +12,7 @@ namespace FanPage.Infrastructure.Interfaces.User
         Task<bool> CancelSend(HttpRequest request, string friendName);
         Task<List<FriendRequestDto>> GetUserRequests(HttpRequest request);
         Task<bool> AcceptFriend(HttpRequest request, string friendName);
+
+        Task<bool> GetUserFriend(string userName, string friendName);
     }
 }

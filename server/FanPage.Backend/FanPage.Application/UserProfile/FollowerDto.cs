@@ -6,6 +6,6 @@
 
         public string SubName { get; set; }
 
-        public byte[] Avatar { get; set; }
+        public string Avatar { get; set; }
     }
 }

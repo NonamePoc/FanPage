@@ -32,7 +32,6 @@ using FanPage.Infrastructure.Interfaces.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PasswordGenerator;
@@ -49,10 +48,7 @@ namespace FanPage.Api.Configure
             services.AddSingleton(
                 configuration.GetSection("DefaultUserConfiguration").Get<DefaultUserConfiguration>()
             );
-            services.AddSingleton(
-                configuration.GetSection("DefaultUserConfiguration").Get<DefaultUserConfiguration>()
-            );
-
+         
             services.AddDbContext<UserContext>(optionsAction =>
             {
                 optionsAction
@@ -99,7 +95,6 @@ namespace FanPage.Api.Configure
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IFanficPhotoRepository, FanficPhotoRepository>();
-            services.AddScoped<ICommentPhotoRepository, CommentPhotoRepository>();
             services.AddScoped<IUserPhotoRepository, UserPhotoRepository>();
             services.AddScoped<IChapterRepository, ChapterRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();

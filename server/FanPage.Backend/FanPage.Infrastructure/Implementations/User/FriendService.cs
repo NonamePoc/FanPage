@@ -75,5 +75,11 @@ namespace FanPage.Infrastructure.Implementations.User
             await _friendRepository.AcceptFriend(userName, friendName, userId, friend.Id);
             return true;
         }
+
+        public async Task<bool> GetUserFriend(string userName, string friendName)
+        {
+            var friend = await _friendRepository.GetUserFriend(userName, friendName);
+            return friend;
+        }
     }
 }

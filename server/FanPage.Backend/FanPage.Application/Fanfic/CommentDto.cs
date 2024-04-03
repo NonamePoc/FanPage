@@ -11,5 +11,5 @@ public class CommentDto
     public DateTimeOffset CreatedAt { get; set; }
     public int FanficId { get; set; }
 
-    public byte[] Image { get; set; }
+    public string AuthorAvatar { get; set; }
 }

@@ -92,3 +92,7 @@
 -Fix bug with google token(he was not hold user role)
 -Little change for friend and follower logic(now using user name, not Id)
 -Fix bug in admin menu(Unban was not overwrite the field "WhoBan" to "None")
+
+## Version 1.0.0 Pavlo Shaban (04.04.2024) 
+-Rewritten SignalR logic 
+-Update database and delete without a useful column  CommentPhoto 

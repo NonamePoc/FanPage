@@ -27,7 +27,9 @@ namespace FanPage.Domain.Fanfic.Context
         public DbSet<FanficPhoto> FanficPhotos { get; set; }
 
         public DbSet<Reviews> Reviews { get; set; }
-        public DbSet<CommentPhoto> CommentPhotos { get; set; }
+
+        // To do implement
+        //public DbSet<CommentPhoto> CommentPhotos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

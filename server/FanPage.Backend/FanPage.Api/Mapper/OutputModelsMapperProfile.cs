@@ -49,7 +49,16 @@ namespace FanPage.Api.Mapper
             CreateMap<ChatDto, Chat>();
             CreateMap<Chat, ChatDto>();
 
+            CreateMap<MessageModel, MessageDto>();
+            CreateMap<MessageDto, Message>();
+            CreateMap<Message, MessageDto>();
+
+            CreateMap<ChatUser, ChatUserDto>();
+            CreateMap<ChatUserDto, ChatUser>();
+            
+
         }
+
         private void AdminMaps()
         {
             CreateMap<BanModel, BanDto>();
@@ -155,13 +164,6 @@ namespace FanPage.Api.Mapper
                 .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.FanficCategories))
                 .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.FanficTags))
                 .ForMember(dest => dest.Chapters, opt => opt.MapFrom(src => src.Chapters));
-        }
-
-        private void ChatMaps()
-        {
-            CreateMap<ChatModel, ChatDto>();
-            CreateMap<ChatDto, Chat>();
-            CreateMap<Chat, ChatDto>();
         }
     }
 }

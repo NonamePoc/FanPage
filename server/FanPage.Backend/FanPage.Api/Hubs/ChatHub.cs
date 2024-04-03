@@ -24,121 +24,175 @@ public class ChatHub : Hub
     }
 
     // join to chat
-    public async Task JoinChat(int chatId, string type)
+    public async Task JoinChat(int chatId)
     {
         await Groups.AddToGroupAsync(Context.ConnectionId, chatId.ToString());
         var request = Context.GetHttpContext().Request;
-        var result = await _chat.GetChatAsync(chatId, type, request);
+        var result = await _chat.GetChatAsync(chatId, request);
         await Clients.All.SendAsync("JoinChat", result);
     }
 
     // leave chat
 
-    public async Task LeaveChat(int chatId, string type)
+    public async Task LeaveChat(int chatId)
     {
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, chatId.ToString());
         var request = Context.GetHttpContext().Request;
-        var result = await _chat.GetChatAsync(chatId, type, request);
+        var result = await _chat.GetChatAsync(chatId, request);
         await Clients.All.SendAsync("LeaveChat", result);
     }
 
-    public async Task GetChat(int id, string type)
+    /// <summary>
+    ///  Get object chat
+    /// </summary>
+    /// <param name="chatId">id chat</param>
+    /// <param name="type">private or public</param>
+    /// <returns>Chat object</returns>
+
+    public async Task Chat(int chatId)
     {
         var request = Context.GetHttpContext().Request;
-        var result = await _chat.GetChatAsync(id, type, request);
+        var result = await _chat.GetChatAsync(chatId, request);
         await Clients.All.SendAsync("GetChat", result);
     }
 
-    public async Task GetChats(string type)
+    /// <summary>
+    /// Get global chats
+    /// </summary>
+    /// <param name="offset">count chat</param>
+    /// <returns>List chat object</returns>
+    public async Task GlobalChats(int offset)
     {
         var request = Context.GetHttpContext().Request;
-        var result = await _chat.GetChatsAsync(type, request);
-        await Clients.All.SendAsync("GetChats", result);
+        var result = await _chat.GetGlobalChats(offset, request);
+        await Clients.All.SendAsync("GlobalChats", result);
     }
 
-    public async Task CreateMessage(int chatId, string type, MessageModel message)
+    /// <summary>
+    ///  Get user chats
+    /// </summary>
+    /// <param name="offset">chat count</param>
+    /// <param name="type">public or private</param>
+    /// <returns>List user chat object</returns>
+    public async Task ChatsUser(int offset, string type)
     {
         var request = Context.GetHttpContext().Request;
-        var dt = _mapper.Map<MessageDto>(message);
-        await _chat.CreateMessageAsync(chatId, type, dt, request);
-        await Clients.All.SendAsync("CreateMessage", message);
+        var result = await _chat.GetChatsUser(offset, type, request);
+        await Clients.All.SendAsync("ChatUser", result);
     }
 
-    public async Task CreateChat(ChatModel chat)
+    /// <summary>
+    ///  Create chat
+    /// </summary>
+    /// <param name="chat">object chat</param>
+    /// <returns>Object chat</returns>
+    public async Task Create(ChatModel chat)
     {
         var request = Context.GetHttpContext().Request;
         var dt = _mapper.Map<ChatDto>(chat);
         var result = await _chat.CreateAsync(dt, request);
-        await Clients.All.SendAsync("CreateChat", result);
+        await Clients.All.SendAsync("Create", result);
     }
 
-    public async Task UpdateChat(ChatModel chat)
+    /// <summary>
+    /// Update chat
+    /// </summary>
+    /// <param name="chat">object chat</param>
+    /// <returns>Object chat</returns>
+    public async Task Update(ChatModel chat)
     {
         var request = Context.GetHttpContext().Request;
         var dt = _mapper.Map<ChatDto>(chat);
         var result = await _chat.UpdateAsync(dt, request);
-        await Clients.All.SendAsync("UpdateChat", result);
+        await Clients.All.SendAsync("Update", result);
     }
 
-    public async Task DeleteChat(int id, string type)
+    /// <summary>
+    ///  Delete chat
+    /// </summary>
+    /// <param name="id">id chat</param>
+    /// <returns>Status code</returns>
+    public async Task Delete(int id)
     {
         var request = Context.GetHttpContext().Request;
-        await _chat.DeleteAsync(id, type, request);
-        await Clients.All.SendAsync("DeleteChat", id);
+        await _chat.DeleteAsync(id, request);
+        await Clients.All.SendAsync("Delete", "Complete");
     }
 
-    public async Task InviteUserToChat(int chatId, string userId, string userName)
+    /// <summary>
+    /// Add message to chat
+    /// </summary>
+    /// <param name="chatId">chat id</param>
+    /// <param name="message">text message</param>
+    /// <returns>Message object</returns>
+    public async Task Message(int chatId, MessageModel message)
     {
         var request = Context.GetHttpContext().Request;
-        await _chat.InviteUserToChatAsync(chatId, userId, userName, request);
-        await Clients.All.SendAsync("InviteUserToChat", chatId, userId, userName);
+        var dt = _mapper.Map<MessageDto>(message);
+        var result = await _chat.CreateMessageAsync(chatId, dt, request);
+        await Clients.All.SendAsync("AddMessage", result);
     }
 
-    public async Task AcceptUserToChat(int chatId, string userId)
+    /// <summary>
+    /// Invite user to chat
+    /// </summary>
+    /// <param name="chatId">chat id</param>
+    /// <param name="userName">friend name</param>
+    /// <returns>Complete</returns>
+    public async Task InviteUser(int chatId, string userName)
     {
         var request = Context.GetHttpContext().Request;
-        await _chat.AcceptUserToChatAsync(chatId, userId, request);
-        await Clients.All.SendAsync("AcceptUserToChat", chatId, userId);
+        await _chat.InviteUserToChatAsync(chatId, userName, request);
+        await Clients.All.SendAsync("InviteUser", "Complete");
     }
 
-    public async Task DeclineUserToChat(int chatId, string userId)
+    /// <summary>
+    /// User accept invite to chat
+    /// </summary>
+    /// <param name="chatId">chat id</param>
+    /// <returns>Complete</returns>
+    public async Task UserAccept(int chatId)
     {
         var request = Context.GetHttpContext().Request;
-        await _chat.DeclineUserToChatAsync(chatId, userId, request);
-        await Clients.All.SendAsync("DeclineUserToChat", chatId, userId);
+        await _chat.AcceptUserToChatAsync(chatId, request);
+        await Clients.All.SendAsync("UserAccept", "Complete");
     }
 
-    public async Task GetUserChatRequest(string userId)
+    /// <summary>
+    ///  User decline invite to chat
+    /// </summary>
+    /// <param name="chatId">chat id</param>
+    /// <returns>Complete</returns>
+    public async Task UserDecline(int chatId)
     {
         var request = Context.GetHttpContext().Request;
-        var result = await _chat.GetChatRequestAsync(userId, request);
-        await Clients.All.SendAsync("GetUserChatRequest", result);
+        await _chat.DeclineUserToChatAsync(chatId, request);
+        await Clients.All.SendAsync("UserLeave", "Complete");
     }
 
-    public async Task RemoveUserFromChat(int chatId, string userId, string type)
+    /// <summary>
+    /// Chats request user
+    /// </summary>
+    /// <returns></returns>
+    public async Task ChatsRequestUser()
     {
         var request = Context.GetHttpContext().Request;
-        await _chat.RemoveUserFromChatAsync(chatId, userId, type, request);
-        await Clients.All.SendAsync("RemoveUserFromChat", chatId, userId);
+        var result = await _chat.GetChatRequestAsync(request);
+        await Clients.All.SendAsync("ChatRequestUser", result);
     }
 
-    public async Task SearchChat(string search)
-    {
-        var result = await _chat.SearchChatAsync(search);
-        await Clients.All.SendAsync("SearchChat", result);
-    }
+    // Зробити що декілька юзерів можна зразу добавити в чат добавити сюди чат
 
-    public async Task GetPublic()
-    {
-        var request = Context.GetHttpContext().Request;
-        var result = await _chat.PublicChat(request);
-        await Clients.All.SendAsync("GetPublicChat", result);
-    }
-
-    public async Task GetPrivet()
+   
+    /// <summary>
+    ///  Chat search by name
+    /// </summary>
+    /// <param name="search">name fanfic</param>
+    /// <returns></returns>
+    public async Task Search(string search)
     {
         var request = Context.GetHttpContext().Request;
-        var result = await _chat.PrivetChat(request);
-        await Clients.All.SendAsync("GetPrivetChat", result);
+        var result = await _chat.SearchChatAsync(search, request);
+        await Clients.All.SendAsync("Search", result);
     }
 }

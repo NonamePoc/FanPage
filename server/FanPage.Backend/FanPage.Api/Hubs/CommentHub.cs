@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FanPage.Api.Models.Fanfic;
 using FanPage.Application.Fanfic;
+using FanPage.Domain.Fanfic.Entities;
 using FanPage.Infrastructure.Interfaces.Fanfic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
@@ -24,48 +25,79 @@ public class CommentHub : Hub
     }
     
     
-    public async Task AddComment(CommentModel comment)
+    /// <summary>
+    ///  Create new comment
+    /// </summary>
+    /// <param name="comment"> comment model</param>
+    /// <returns>Comment object</returns>
+    public async Task Create(CommentModel comment)
     {
-        var request = Context.GetHttpContext().Request;
+        var request = Context.GetHttpContext().Request; 
         var dt = _mapper.Map<CommentDto>(comment);
         var result = await _comment.AddCommentAsync(dt, request);
-        await Clients.All.SendAsync("AddComment", result);
+        await Clients.All.SendAsync("Create", result);
     }
 
-    public async Task UpdateComment(CommentModel comment)
+    /// <summary>
+    /// Update comment
+    /// </summary>
+    /// <param name="comment">comment model</param>
+    /// <returns>Comment object</returns>
+    public async Task Update(CommentModel comment)
     {
         var request = Context.GetHttpContext().Request;
         var dt = _mapper.Map<CommentDto>(comment);
         var result = await _comment.UpdateCommentAsync(dt, request);
-        await Clients.All.SendAsync("UpdateComment", result);
+        await Clients.All.SendAsync("Update", result);
     }
 
-    public async Task DeleteComment(int id)
+    /// <summary>
+    ///  Delete comment
+    /// </summary>
+    /// <param name="id">comment id</param>
+    /// <returns>Comment object</returns>
+    public async Task Delete(int id)
     {
         var request = Context.GetHttpContext().Request;
         await _comment.DeleteCommentAsync(id, request);
-        await Clients.All.SendAsync("DeleteComment", id);
+        await Clients.All.SendAsync("Delete", id);
     }
 
-    public async Task GetCommentByFanficId(int id)
+    /// <summary>
+    ///  Get comment by id
+    /// </summary>
+    /// <param name="id">comment id</param>
+    /// <returns>Comment object</returns>
+    public async Task CommentById(int id)
     {
         var request = Context.GetHttpContext().Request;
 
-        var result = await _comment.GetCommentByFanficIdAsync(id, request);
-        await Clients.All.SendAsync("GetCommentByFanficId", result);
+        var result = await _comment.GetCommentByCommentIdAsync(id, request);
+        await Clients.All.SendAsync("CommentById", result);
     }
 
-    public async Task GetCommentsByFanficId(int fanficId)
+    /// <summary>
+    /// Get comments by fanfic id
+    /// </summary>
+    /// <param name="fanficId">id fanfic</param>
+    /// <returns>List object comments</returns>
+    public async Task CommentsByFanficId(int fanficId)
     {
         var request = Context.GetHttpContext().Request;
         var result = await _comment.GetCommentsByFanficIdAsync(fanficId, request);
-        await Clients.All.SendAsync("GetCommentsByFanficId", result);
+        await Clients.All.SendAsync("CommentsByFanficId", result);
     }
 
-    public async Task ReplyComment(CommentDto commentDto)
+    /// <summary>
+    /// Write a reply to another comment
+    /// </summary>
+    /// <param name="commentDto">comment object</param>
+    /// <returns>Comment Object</returns>
+    public async Task ReplyComment(CommentModel comment)
     {
         var request = Context.GetHttpContext().Request;
-        var result = await _comment.ReplyCommentAsync(commentDto, request);
+        var dt = _mapper.Map<CommentDto>(comment);
+        var result = await _comment.ReplyCommentAsync(dt, request);
         await Clients.All.SendAsync("ReplyComment", result);
     }
 }
