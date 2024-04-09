@@ -18,8 +18,13 @@ namespace FanPage.Infrastructure.Implementations.Helper
         {
             using var client = new HttpClient();
             using var formData = new MultipartFormDataContent();
-            formData.Add(new StreamContent(file.OpenReadStream()), "file", file.FileName);
+            var fileExtension = Path.GetExtension(file.FileName);
 
+            formData.Add(
+                new StreamContent(file.OpenReadStream()),
+                "file",
+                file.FileName + fileExtension
+            );
             var response = await client.PostAsync(_url + "/MinioFile", formData);
             if (!response.IsSuccessStatusCode)
                 throw new Exception("Failed to upload file to storage service");

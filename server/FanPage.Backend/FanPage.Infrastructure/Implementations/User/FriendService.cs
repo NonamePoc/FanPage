@@ -1,7 +1,10 @@
-﻿using FanPage.Application.UserProfile;
+﻿using FanPage.Application.Fanfic;
+using FanPage.Application.UserProfile;
 using FanPage.Common.Interfaces;
 using FanPage.Domain.Account.Entities;
 using FanPage.Domain.Account.Repos.Interfaces;
+using FanPage.Domain.Fanfic.Entities;
+using FanPage.Infrastructure.Implementations.Helper;
 using FanPage.Infrastructure.Interfaces.User;
 using Microsoft.AspNetCore.Http;
 
@@ -12,12 +15,19 @@ namespace FanPage.Infrastructure.Implementations.User
         private readonly IFriendRepository _friendRepository;
         private readonly IJwtTokenManager _jwtTokenManager;
         private readonly IdentityUserManager _userManager;
+        private readonly IStorageHttp _storageHttp;
 
-        public FriendService(IFriendRepository friendRepository, IJwtTokenManager jwtTokenManager, IdentityUserManager userManager)
+        public FriendService(
+            IFriendRepository friendRepository,
+            IJwtTokenManager jwtTokenManager,
+            IdentityUserManager userManager,
+            IStorageHttp storageHttp
+        )
         {
             _friendRepository = friendRepository;
             _jwtTokenManager = jwtTokenManager;
             _userManager = userManager;
+            _storageHttp = storageHttp;
         }
 
         public async Task<FriendRequestDto> AddFriend(HttpRequest request, string friendName)
@@ -26,15 +36,32 @@ namespace FanPage.Infrastructure.Implementations.User
             var userId = _jwtTokenManager.GetUserIdFromToken(request);
             var friend = await _userManager.FindByNameAsync(friendName);
             await _friendRepository.AddFriend(userName, friendName, userId, friend.Id);
-            return new FriendRequestDto
-                { UserName = userName, FriendName = friendName};
+            return new FriendRequestDto { UserName = userName, FriendName = friendName };
         }
-
 
         public async Task<List<FriendDto>> FriendsList(HttpRequest request)
         {
             var userName = _jwtTokenManager.GetUserNameFromToken(request);
-            var list = await _friendRepository.FriendsList(userName);
+            var friends = await _friendRepository.FriendsList(userName);
+            var list = new List<FriendDto>();
+            foreach (var friend in friends)
+            {
+                var friendDto = new FriendDto
+                {
+                    UserName = userName,
+                    FriendName = friend.FriendName,
+                    friendAvatar = friend.friendAvatar
+                };
+                if (friend.friendAvatar != null)
+                {
+                    var uploadResult = await _storageHttp.GetImageBase64FromStorageService(
+                        friend.friendAvatar
+                    );
+                    friendDto.friendAvatar = uploadResult;
+                }
+
+                list.Add(friendDto);
+            }
             return list;
         }
 

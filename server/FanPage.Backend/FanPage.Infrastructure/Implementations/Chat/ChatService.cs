@@ -69,7 +69,9 @@ public class ChatService : IChat
             {
                 Id = c.Id,
                 Type = c.Type,
-                Name = c.Name
+                Name = c.Name,
+                Description = c.Description,
+                AuthorName = c.AuthorName,
             })
             .ToList();
     }
@@ -89,7 +91,9 @@ public class ChatService : IChat
             {
                 Id = c.Id,
                 Type = c.Type,
-                Name = c.Name
+                Name = c.Name,
+                Description = c.Description,
+                AuthorName = c.AuthorName,
             })
             .ToList();
     }

@@ -17,8 +17,11 @@ public class AdminService : IAdmin
     private readonly IJwtTokenManager _jwtTokenManager;
     private readonly ITagRepository _tagRepository;
 
-    public AdminService(UserManager<Domain.Account.Entities.User> userManager, IJwtTokenManager jwtTokenManager,
-        ITagRepository tagRepository)
+    public AdminService(
+        UserManager<Domain.Account.Entities.User> userManager,
+        IJwtTokenManager jwtTokenManager,
+        ITagRepository tagRepository
+    )
     {
         _userManager = userManager;
         _jwtTokenManager = jwtTokenManager;
@@ -40,8 +43,9 @@ public class AdminService : IAdmin
 
     public async Task<bool> Ban(BanDto user, HttpRequest request)
     {
-        var userToBlock =
-            await _userManager.FindByIdAsync(user.Id ?? throw new InvalidOperationException("User not found"));
+        var userToBlock = await _userManager.FindByIdAsync(
+            user.Id ?? throw new InvalidOperationException("User not found")
+        );
         var admin = _jwtTokenManager.GetUserNameFromToken(request);
         if (userToBlock == null)
         {
@@ -66,21 +70,25 @@ public class AdminService : IAdmin
         var result = await _userManager.SetLockoutEndDateAsync(userToUnblock, null);
         userToUnblock.WhoBan = "None";
         await _userManager.UpdateAsync(userToUnblock);
-        return result.Succeeded ? true : throw new InvalidOperationException("Failed to unban user.");
+        return result.Succeeded
+            ? true
+            : throw new InvalidOperationException("Failed to unban user.");
     }
 
     public async Task<IdentityResult> ChangeRole(ChangeRoleDto user)
     {
-        var userForChangeRole =
-            await _userManager.FindByIdAsync(user.Id ?? throw new InvalidOperationException("User not found"));
+        var userForChangeRole = await _userManager.FindByIdAsync(
+            user.Id ?? throw new InvalidOperationException("User not found")
+        );
 
         if (user == null)
         {
             throw new UserNotFoundException("User not found");
         }
 
-        var roles = await _userManager.GetRolesAsync(userForChangeRole ??
-                                                     throw new InvalidOperationException("User not found"));
+        var roles = await _userManager.GetRolesAsync(
+            userForChangeRole ?? throw new InvalidOperationException("User not found")
+        );
         if (roles.Contains("Admin"))
         {
             throw new InvalidOperationException("Cannot change the role of another admin.");
@@ -92,8 +100,8 @@ public class AdminService : IAdmin
 
     public async Task<List<UserBanInfoResponseDto>> GetUserInBan()
     {
-        var bannedUsers = await _userManager.Users
-            .Where(u => u.LockoutEnd != null && u.LockoutEnd > DateTime.Now)
+        var bannedUsers = await _userManager
+            .Users.Where(u => u.LockoutEnd != null && u.LockoutEnd > DateTime.Now)
             .Select(u => new UserBanInfoResponseDto
             {
                 Id = u.Id,
@@ -108,7 +116,9 @@ public class AdminService : IAdmin
     public async Task<List<UserInfoResponseDto>> AllUsers()
     {
         var users = await _userManager.Users.ToListAsync();
-        var userDtos = users.Select(u => new UserInfoResponseDto { Id = u.Id, Name = u.UserName }).ToList();
+        var userDtos = users
+            .Select(u => new UserInfoResponseDto { Id = u.Id, Name = u.UserName })
+            .ToList();
         return userDtos;
     }
 
@@ -121,11 +131,7 @@ public class AdminService : IAdmin
     public async Task<List<TagDto>> GetNotApprovedTags()
     {
         var tags = await _tagRepository.GetNotApprovedTags();
-        return tags.Select(tag => new TagDto
-        {
-            TagId = tag.TagId,
-            Name = tag.Name
-        }).ToList();
+        return tags.Select(tag => new TagDto { TagId = tag.TagId, Name = tag.Name }).ToList();
     }
 
     public async Task<UserInfoResponseDto> GetAdminAsync(HttpRequest request)
@@ -150,7 +156,9 @@ public class AdminService : IAdmin
     public async Task<UserInfoResponseDto> GetUserRoleAsync(string userName)
     {
         var userRole = await _userManager.FindByNameAsync(userName);
-        var role = await _userManager.GetRolesAsync(userRole ?? throw new InvalidOperationException(" User not found"));
+        var role = await _userManager.GetRolesAsync(
+            userRole ?? throw new InvalidOperationException(" User not found")
+        );
         return new UserInfoResponseDto
         {
             Name = userRole.UserName,
@@ -163,10 +171,11 @@ public class AdminService : IAdmin
     public async Task<UserInfoResponseDto> Screach(string userName)
     {
         var user = await _userManager.FindByNameAsync(userName);
-        var role = await _userManager.GetRolesAsync(user ?? throw new InvalidOperationException(" User not found"));
+        var role = await _userManager.GetRolesAsync(
+            user ?? throw new InvalidOperationException(" User not found")
+        );
         return new UserInfoResponseDto
         {
-          
             Id = user.Id,
             Name = user.UserName,
             Avatar = user.UserAvatar,
@@ -174,8 +183,6 @@ public class AdminService : IAdmin
             WhoBan = user.WhoBan,
             PhoneNumber = user.PhoneNumber,
             Email = user.Email
-            
         };
     }
 }
-

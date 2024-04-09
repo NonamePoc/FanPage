@@ -198,6 +198,7 @@ namespace FanPage.Api.Controllers.User
             await _accountService.ChangeUserName(userName, HttpContext.Request);
             return Ok();
         }
+
         /// <summary>
         ///  Change password
         /// </summary>
@@ -228,7 +229,7 @@ namespace FanPage.Api.Controllers.User
         {
             var uploadResult = await _storageHttp.SendFileToStorageService(avatar);
             await _accountService.ChangeAvatar(uploadResult.FilePath, HttpContext.Request);
-            return Ok();
+            return Ok(avatar);
         }
 
         [HttpGet]

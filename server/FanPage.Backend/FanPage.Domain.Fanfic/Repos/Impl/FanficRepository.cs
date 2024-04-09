@@ -133,7 +133,26 @@ public class FanficRepository : RepositoryBase<Entities.Fanfic>, IFanficReposito
 
         return MapFanficEntityToDto(createdFanfic.Entity);
     }
+    public async Task<FanficDto> UpdateBannerAsync(int fanficId, string newBannerImage)
+    {
+        var fanficEntity = await _fanficContext.Fanfic.FindAsync(fanficId);
 
+        if (fanficEntity == null)
+        {
+
+            throw new ArgumentException($"Fanfic with ID {fanficId} not found");
+        }
+        fanficEntity.Photos.Clear();
+        if (!string.IsNullOrEmpty(newBannerImage))
+        {
+            fanficEntity.Photos.Add(new FanficPhoto { Image =  newBannerImage });
+        }
+
+        _fanficContext.Fanfic.Update(fanficEntity);
+        await _fanficContext.SaveChangesAsync();
+
+        return MapFanficEntityToDto(fanficEntity);
+    }
     public async Task UpdateAsync(UpdateDto update, int fanficId)
     {
         var fanfic = await _fanficContext

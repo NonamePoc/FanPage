@@ -1,5 +1,7 @@
 using FanPage.Application.Fanfic;
 using FanPage.Common.Interfaces;
+using FanPage.Domain.Fanfic.Context;
+using FanPage.Domain.Fanfic.Entities;
 using FanPage.Domain.Fanfic.Repos.Interfaces;
 using FanPage.Exceptions;
 using FanPage.Infrastructure.Extensions;
@@ -22,7 +24,9 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
             IFanficRepository fanficRepository,
             IFanficPhotoRepository fanficPhotoRepository,
             ICategoryRepository categoryRepository,
-            ITagRepository tagRepository, IStorageHttp storageHttp)
+            ITagRepository tagRepository,
+            IStorageHttp storageHttp
+        )
         {
             _jwtTokenManager = jwtTokenManager;
             _fanficRepository = fanficRepository;
@@ -46,7 +50,10 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
             using var transaction = _fanficRepository.BeginTransactionAsync(); // start transaction
             try
             {
-                var fanficResult = await _fanficRepository.CreateAsync(createFanfic, uploadResult.FilePath);
+                var fanficResult = await _fanficRepository.CreateAsync(
+                    createFanfic,
+                    uploadResult.FilePath
+                );
 
                 foreach (var categoryName in createFanfic.Categories.OrEmptyIfNull())
                 {
@@ -115,6 +122,18 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
                 await _fanficRepository.RollBackAsync();
                 throw new FanficException($"Error create fanfic {ex.Message}");
             }
+        }
+
+        public async Task<FanficDto> UpdateBanner(string image, int id, HttpRequest request)
+        {
+            var userName = _jwtTokenManager.GetUserNameFromToken(request);
+            var fanfic = await _fanficRepository.GetByIdAsync(id);
+            if (fanfic.AuthorName != userName)
+            {
+                throw new FanficException("Årror when changing the banner");
+            }
+            var resul = await _fanficRepository.UpdateBannerAsync(id, image);
+            return resul;
         }
 
         public async Task<FanficDto> UpdateAsync(
@@ -198,7 +217,6 @@ namespace FanPage.Infrastructure.Implementations.Fanfic
                 }
 
                 var img = await _storageHttp.GetImageBase64FromStorageService(fanfic.Image);
-
 
                 var result = new UpdateDto()
                 {

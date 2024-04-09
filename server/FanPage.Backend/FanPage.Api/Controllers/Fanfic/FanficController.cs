@@ -22,7 +22,6 @@ namespace FanPage.Api.Controllers.Fanfic
 
         private readonly IStorageHttp _storageHttp;
 
-
         public FanficController(IFanfic fanfic, IMapper mapper, IStorageHttp storageHttp)
         {
             _fanfic = fanfic;
@@ -51,8 +50,6 @@ namespace FanPage.Api.Controllers.Fanfic
             return Ok(response);
         }
 
-
-
         /// <summary>
         ///  Update fanfic
         /// </summary>
@@ -73,6 +70,26 @@ namespace FanPage.Api.Controllers.Fanfic
             var retrieval = await _fanfic.UpdateAsync(id, dto, HttpContext.Request);
             var response = _mapper.Map<FanficViewModel>(retrieval);
             return Ok(response);
+        }
+
+        /// <summary>
+        ///  Update fanfic
+        /// </summary>
+        /// <param name="updateFanfic"> Update fanfic model </param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("banner")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(typeof(JsonResponseContainer<FanficViewModel>), 200)]
+        [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
+        [ProducesResponseType(typeof(JsonResponseContainer), 500)]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> NewBanner(int id, string image)
+        {
+            var resul = _fanfic.UpdateBanner(image, id, HttpContext.Request);
+            return Ok(resul);
         }
 
         /// <summary>

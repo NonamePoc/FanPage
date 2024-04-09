@@ -11,5 +11,9 @@ namespace FanPage.Infrastructure.Interfaces.Fanfic
 
         Task DeleteAsync(int id, HttpRequest request);
 
+        Task<FanficDto> UpdateBanner(string image, int id, HttpRequest request);
+
+
+
     }
 }

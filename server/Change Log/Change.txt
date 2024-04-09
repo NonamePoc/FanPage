@@ -96,3 +96,9 @@
 ## Version 1.0.0 Pavlo Shaban (04.04.2024) 
 -Rewritten SignalR logic 
 -Update database and delete without a useful column  CommentPhoto 
+## Version 1.0.0 Teslewitch Mikhailo (08.04.2024)
+-Now after changed avatar frontend can see this avatar
+-Add Change Banner for fanfic
+-Add in Admin, Follower and Friend servise changes for normal image display
+-Removed User Avatar from Follower, Friend and Friend Request Dto
+-GetChatsUser and GetGlobalChats show more information about chat

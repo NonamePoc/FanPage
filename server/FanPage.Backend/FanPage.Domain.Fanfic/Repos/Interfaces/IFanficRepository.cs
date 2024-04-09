@@ -20,6 +20,8 @@ namespace FanPage.Domain.Fanfic.Repos.Interfaces
         Task<List<FanficDto>> GetTopRatingFanficsAsync(int count);
 
         Task<FanficDto> CreateAsync(CreateDto fanfic, string imageFanfic);
+        Task<FanficDto> UpdateBannerAsync(int fanficId, string newBannerImage);
+
         Task UpdateAsync(UpdateDto fanfic, int fanficId);
         Task DeleteAsync(int id);
         Task<List<FanficDto>> SearchAsync(string searchString, bool originalFandom);

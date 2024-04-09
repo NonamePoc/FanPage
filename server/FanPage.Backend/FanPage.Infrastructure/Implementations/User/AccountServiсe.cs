@@ -36,7 +36,9 @@ namespace FanPage.Infrastructure.Implementations.User
             SignInManager<Domain.Account.Entities.User> signInManager,
             IJwtTokenManager jwtTokenManager,
             IdentityUserManager identityUser,
-            IEmailService emailService, IStorageHttp storageHttp)
+            IEmailService emailService,
+            IStorageHttp storageHttp
+        )
         {
             _userManager = identityUser;
             _emailService = emailService;
@@ -125,7 +127,13 @@ namespace FanPage.Infrastructure.Implementations.User
         {
             var userName = _jwtTokenManager.GetUserNameFromToken(request);
             var user = await _userManager.FindByNameAsync(userName);
-
+            if (string.IsNullOrWhiteSpace(avatar))
+            {
+                throw new ArgumentException(
+                    "Avatar cannot be empty or whitespace.",
+                    nameof(avatar)
+                );
+            }
             if (user is null)
                 throw new UserNotFoundException("User not found");
 
