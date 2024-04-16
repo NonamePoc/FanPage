@@ -7,7 +7,7 @@ import { ImageNormalizePipe } from '../../shared/image-normalize.pipe';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../auth/user.model';
 import { UserService } from '../../shared/user.service';
-import { FriendsService } from '../friends/friends.service';
+import { FriendsService } from '../../shared/friends.service';
 
 @Component({
   selector: 'app-user-details',

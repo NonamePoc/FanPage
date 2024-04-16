@@ -12,6 +12,6 @@ export class ThemeChangeComponent {
   constructor(private themeService: ThemeService) {}
 
   onThemeChange(theme: boolean) {
-    this.themeService.setTheme(theme);
+    this.themeService.setDarkMode(theme);
   }
 }

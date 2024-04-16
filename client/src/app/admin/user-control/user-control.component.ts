@@ -29,7 +29,7 @@ export class UserControlComponent {
   ) {}
 
   ngOnInit(): void {
-    this.themeService.setTheme(true);
+    this.themeService.setDarkMode(true);
 
     this.searchSubject.pipe(debounceTime(500)).subscribe((value) => {
       this.performSearch(value);

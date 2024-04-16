@@ -67,10 +67,7 @@ export class RegistrationComponent implements OnInit {
     );
     authObs.subscribe({
       next: () => {
-        this.toastr.success('Please check you mail', 'Email sent', {
-          timeOut: 3000,
-          positionClass: 'toast-center-center',
-        });
+        this.loadingChanged.emit(false);
       },
       error: (errorMessage) => {
         this.toastr.error(errorMessage, 'Error', {
@@ -78,7 +75,10 @@ export class RegistrationComponent implements OnInit {
         });
       },
       complete: () => {
-        this.loadingChanged.emit(false);
+        this.toastr.success('Please check you mail', 'Email sent', {
+          timeOut: 3000,
+          positionClass: 'toast-center-center',
+        });
       },
     });
 

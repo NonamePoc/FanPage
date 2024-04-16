@@ -1,47 +1,81 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.development';
 import {
+  HttpTransportType,
   HubConnection,
   HubConnectionBuilder,
   HubConnectionState,
-  LogLevel,
 } from '@microsoft/signalr';
+import { environment } from '../../environments/environment.development';
 import { AuthService } from '../auth/auth.service';
+import { BehaviorSubject } from 'rxjs';
+import { timeout } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
-  private hubConnection!: HubConnection;
+  hubConnection!: HubConnection;
+
+  private connectionStateSubject = new BehaviorSubject<HubConnectionState>(
+    HubConnectionState.Disconnected
+  );
+  connectionState = this.connectionStateSubject.asObservable();
+  private chatsSubject = new BehaviorSubject<any[]>([]);
+  chats = this.chatsSubject.asObservable();
+  private publicChatsSubject = new BehaviorSubject<any[]>([]);
+  publicChats = this.publicChatsSubject.asObservable();
+  private invitesSubject = new BehaviorSubject<any[]>([]);
+  invites = this.invitesSubject.asObservable();
 
   constructor(private authService: AuthService) {}
 
   connect() {
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl(`${environment.apiUrl}/chatHub`, {
+      .withUrl(`${environment.apiUrl}/chat`, {
         accessTokenFactory: () => {
           return this.authService.user.value?.token!;
         },
+        transport: HttpTransportType.LongPolling,
       })
-      .configureLogging(LogLevel.Trace)
+      .withAutomaticReconnect()
       .build();
 
+    this.hubConnection.onclose(() => {
+      this.startConnection();
+    });
+
+    this.startConnection();
+  }
+
+  private startConnection() {
     this.hubConnection
       .start()
       .then(() => {
-        console.log('Connection started');
-      })
-      .catch((err) => console.error('Error while starting connection: ' + err));
-  }
+        this.connectionStateSubject.next(this.hubConnection.state);
 
-  createChat(data: any) {
-    if (this.hubConnection.state !== HubConnectionState.Connected) {
-      console.error('Connection is not established');
-    }
-    this.hubConnection.invoke('CreateChat', data);
-    this.hubConnection.on('CreateChat', () => {
-      console.log('Chat created');
-    });
+        this.hubConnection.invoke('GlobalChats', 4, 1);
+        this.hubConnection.invoke('ChatsUser', 15, 1);
+        this.hubConnection.invoke('ChatsRequestUser');
+
+        this.hubConnection.on('GlobalChats', (data) => {
+          this.publicChatsSubject.next(data);
+        });
+
+        this.hubConnection.on('ChatsUser', (data) => {
+          this.chatsSubject.next(data);
+        });
+
+        this.hubConnection.on('ChatRequestUser', (data) => {
+          console.log('ChatsRequestUser', data);
+          this.invitesSubject.next(data);
+        });
+      })
+      .catch(
+        (err) => (
+          setTimeout(() => this.startConnection(), 5000),
+          console.error('Error', err)
+        )
+      );
   }
 
   disconnect() {

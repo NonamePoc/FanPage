@@ -4,7 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { DropdownDirective } from '../../shared/dropdown.directive';
-import { FriendsService } from './friends.service';
+import { FriendsService } from '../../shared/friends.service';
 import { ImageNormalizePipe } from '../../shared/image-normalize.pipe';
 
 @Component({

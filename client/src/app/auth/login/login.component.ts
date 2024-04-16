@@ -49,7 +49,9 @@ export class LoginComponent implements OnInit {
     let authObs: Observable<any> = this.authService.login(email, password);
 
     authObs.subscribe({
-      next: () => {},
+      next: () => {
+        this.loadingChanged.emit(false);
+      },
       error: (errorMessage) => {
         console.log(errorMessage);
         this.toastr.error(errorMessage, 'Error', {
@@ -57,11 +59,10 @@ export class LoginComponent implements OnInit {
         });
       },
       complete: () => {
-        this.loadingChanged.emit(false);
+        this.toastr.success('You have been logged in', 'Welcome');
       },
     });
 
-    this.toastr.success('You have been logged in', 'Welcome');
     this.signinForm.reset();
     this.modalService.closeModal('authModal');
   }

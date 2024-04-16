@@ -7,7 +7,7 @@ import { HeaderComponent } from './header/header.component';
 // import function to register Swiper custom elements
 import { register } from 'swiper/element/bundle';
 import { AuthService } from './auth/auth.service';
-import { FriendsService } from './user/friends/friends.service';
+import { FriendsService } from './shared/friends.service';
 import { ThemeService } from './shared/theme.service';
 import { Subscription } from 'rxjs';
 import { ChatService } from './chat/chat.service';
@@ -41,11 +41,12 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.authService.autoLogin();
 
-    this.themeSubscription = this.themeService.isDarkMode.subscribe(() => {
-      this.isDarkMode = this.themeService.getTheme();
-    });
-
-    if (this.authService.user.value) {
+    this.themeSubscription = this.themeService.isDarkMode.subscribe(
+      (isDarkMode) => {
+        this.isDarkMode = isDarkMode;
+      }
+    );
+    if (this.authService.user.value?.token) {
       this.friendService.fetchUserTies();
       this.chatService.connect();
     }

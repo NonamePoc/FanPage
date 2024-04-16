@@ -12,6 +12,6 @@ export class AdminComponent implements OnInit {
   constructor(private themeService: ThemeService) {}
 
   ngOnInit(): void {
-    this.themeService.setTheme(true);
+    this.themeService.setDarkMode(true);
   }
 }

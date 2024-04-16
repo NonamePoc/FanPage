@@ -19,7 +19,7 @@ export class TagsManageComponent {
   ) {}
 
   ngOnInit(): void {
-    this.themeService.setTheme(true);
+    this.themeService.setDarkMode(true);
     this.adminService.getTags().subscribe((tags) => {
       this.tags = tags;
     });

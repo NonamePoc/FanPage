@@ -70,8 +70,7 @@ export class GoogleComponent implements AfterViewInit, OnDestroy {
 
     authObs.subscribe({
       next: () => {
-        this.toastr.success('You have been logged in', 'Welcome');
-        this.modalService.closeModal('authModal');
+        this.loadingChanged.emit(false);
       },
       error: (errorMessage) => {
         console.log(errorMessage);
@@ -80,7 +79,8 @@ export class GoogleComponent implements AfterViewInit, OnDestroy {
         });
       },
       complete: () => {
-        this.loadingChanged.emit(false);
+        this.toastr.success('You have been logged in', 'Welcome');
+        this.modalService.closeModal('authModal');
       },
     });
   }

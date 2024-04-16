@@ -17,7 +17,7 @@ export class UserService {
     else
       return this.http
         .get<any>(
-          environment.apiUrl + '/v1/profile/getProfile?userName=' + username
+          environment.apiUrl + '/v1/account/getProfile?userName=' + username
         )
         .pipe(
           map((user: any) => {

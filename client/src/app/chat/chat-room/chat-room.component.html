@@ -1,4 +1,4 @@
-<article class=' md:px-4 w-full h-[90vh] p-2 flex grow flex-col overflow-hidden'>
+<article class='md:px-4 w-full h-[90vh] p-2 flex grow flex-col overflow-hidden'>
     <div class='flex justify-between items-center p-2 mb-4 border-b border-stone-200 dark:border-stone-800'>
         <a routerLink="/chat">
             <span class="material-symbols-rounded cursor-pointer">
@@ -6,38 +6,58 @@
             </span>
         </a>
         <div class='flex flex-col items-center'>
-            <h1 class='text-lg font-medium'>Chat name</h1>
-            <p class='text-sm text-stone-600 dark:text-stone-500'>2 people</p>
+            <h1 class='text-lg font-medium'>{{chat?.name}}</h1>
+            <p class='text-sm text-stone-600 dark:text-stone-500'>{{chat?.chatUsers?.length}} people</p>
         </div>
 
-        <span class="material-symbols-rounded cursor-pointer">
-            more_horiz
-        </span>
+        <div>
+            <span appDropdown class="material-symbols-rounded cursor-pointer">
+                more_horiz
+            </span>
+            <ul
+                class='drop-shadow-lg px-2 py-2 opacity-0 -z-1 mt-2 right-6 md:right-14 absolute bg-stone-200 dark:bg-neutral-800 rounded transition duration-300 -translate-x-4 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:right-3 before:w-4 before:h-4 before:bg-stone-200 dark:before:bg-neutral-800 before:rounded before:rotate-45'>
+                <li (click)='onOpenParticipants()'
+                    class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-700 px-1 py-1 rounded flex gap-1 items-center'>
+                    <span class="material-symbols-rounded">
+                        person
+                    </span>
+                    Show participants
+                </li>
+                <li
+                    class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-700 px-1 py-1 rounded flex gap-1 items-center'>
+                    <span class="material-symbols-rounded">
+                        block
+                    </span>
+                    Exit
+                </li>
+            </ul>
+        </div>
 
     </div>
     <div class='mb-2 flex-1 overflow-auto lg:px-40'>
-        <ul class='h-full flex flex-col items-center'>
-            <li class='px-4 py-2 bg-stone-200 dark:bg-zinc-800 self-start rounded-lg flex gap-3 items-center'>
+        <div class='h-full flex flex-col items-center gap-y-2'>
+            <div *ngFor='let msg of chat?.messages || []'
+                [ngClass]="{'self-end': isCurrentUser, 'self-start': !isCurrentUser}"
+                class='px-4 py-2 bg-stone-200 dark:bg-zinc-800 self-start rounded-lg flex gap-3 items-center'>
                 <div class='h-10 w-10 bg-stone-400 rounded-full'></div>
                 <div>
-                    <h3 class='font-medium'>Usrname</h3>
-                    <div>textt</div>
+                    <h3 class='font-medium'>{{msg.userName}}</h3>
+                    <div>{{msg.content}}</div>
                 </div>
-            </li>
-            <li class='px-4 py-2 self-end bg-slate-200 dark:bg-zinc-800 rounded-lg'>
-                <h3 class='font-medium'>Me</h3>
-                <div>gfdk!!</div>
-            </li>
-        </ul>
+                <p class='text-xs'>{{msg.receivedDateUtc | date}}</p>
+            </div>
+        </div>
     </div>
     <div class='flex gap-4 border-t border-stone-200 dark:border-stone-800 p-2 lg:px-40'>
-        <input
+        <input (input)='onInput($event)'
             class="p-3 flex-1 bg-stone-200 dark:bg-zinc-800 dark:border-zinc-900 rounded border-2 focus:border-blue-400 dark:focus:border-blue-800 transition duration-300"
             type="text" name='message' placeholder='Type a message here...'>
-        <button
+        <button (click)="sendMessage()"
             class='px-6 bg-blue-600 hover:bg-blue-500 dark:bg-blue-800 dark:hover:bg-blue-700 text-white rounded font-medium flex items-center transition duration-200'>Send
             <span class="material-symbols-rounded">
                 arrow_upward_alt
             </span></button>
     </div>
 </article>
+
+<app-participants-modal></app-participants-modal>

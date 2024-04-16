@@ -5,7 +5,7 @@ import { FriendsComponent } from './friends/friends.component';
 import { ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../shared/user.service';
 import { ImageNormalizePipe } from '../shared/image-normalize.pipe';
-import { FriendsService } from './friends/friends.service';
+import { FriendsService } from '../shared/friends.service';
 import { CommonModule } from '@angular/common';
 import { User } from '../auth/user.model';
 import { map, tap } from 'rxjs/operators';

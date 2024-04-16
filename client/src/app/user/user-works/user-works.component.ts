@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
 import { AuthService } from './../../auth/auth.service';
 import { UserService } from '../../shared/user.service';
+import { ChatService } from '../../chat/chat.service';
 import { BookListComponent } from '../../library/book-list/book-list.component';
 import { FilterComponent } from '../../library/book-list/filter/filter.component';
-import { ChatService } from '../../chat/chat.service';
 
 @Component({
   selector: 'app-user-works',
@@ -16,10 +18,12 @@ import { ChatService } from '../../chat/chat.service';
 })
 export class UserWorksComponent implements OnInit {
   username: string = '';
+  user: any;
   isCurrentUser: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
+    private toastr: ToastrService,
     private userService: UserService,
     private authService: AuthService,
     private chatService: ChatService
@@ -29,6 +33,7 @@ export class UserWorksComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.username = params['username'];
       this.userService.getUser(this.username).subscribe((data) => {
+        this.user = data;
         this.isCurrentUser =
           data?.username === this.authService.user?.getValue()?.username;
       });
@@ -36,10 +41,13 @@ export class UserWorksComponent implements OnInit {
   }
 
   onChat() {
-    this.chatService.createChat({
-      name: 'newChat',
-      description: 'nu tipaa',
-      type: 'private',
+    this.chatService.hubConnection.invoke('Create', {
+      Name: this.username + '&' + this.authService.user?.getValue()?.username,
+      Description: 'Private chat',
+      Type: 'private',
+      FriendId: this.user.id,
     });
+
+    this.toastr.info('User was invited to chat', 'Chat invitation sent!');
   }
 }

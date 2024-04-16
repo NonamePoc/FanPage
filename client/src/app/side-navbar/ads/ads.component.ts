@@ -18,7 +18,6 @@ export class AdsComponent implements OnInit {
   ngOnInit() {
     this.authService.user.subscribe((user) => {
       this.isAdmin = user?.role === 'Admin';
-      console.log('isAdmin', this.isAdmin);
     });
   }
 }
