@@ -5,22 +5,21 @@ namespace FanPage.Infrastructure.Interfaces.Chat;
 
 public interface IChat
 {
-    Task<ChatDto> GetChatAsync(int id, HttpRequest request);
+    Task<ChatDto> GetChatAsync(int id, int messagePage, int userPage, HttpRequest request);
 
-    Task<List<ChatDto>> GetGlobalChats(int offset, HttpRequest request);
-
-    Task<List<ChatDto>> GetChatsUser(int offset, string type, HttpRequest request);
+    Task<List<ChatDto>> GetGlobalChats(int offset, int page, HttpRequest request);
+    Task<List<ChatDto>> GetChatsUser(int offset, int page, HttpRequest request);
     Task<MessageDto> CreateMessageAsync(int chatId, MessageDto message, HttpRequest request);
 
     Task<ChatDto> CreateAsync(ChatDto chat, HttpRequest request);
 
-    Task<ChatDto> UpdateAsync(ChatDto chat, HttpRequest request);
+    Task<ChatDto> UpdateAsync(int chatId,ChatDto chat, HttpRequest request);
 
     Task DeleteAsync(int id, HttpRequest request);
 
-    Task RemoveUserFromChatAsync(int chatId, string userId, string type, HttpRequest request);
+    Task RemoveUserFromChatAsync(int chatId, string userId, HttpRequest request);
 
-    Task InviteUserToChatAsync(int chatId, string userName, HttpRequest request);
+    Task InviteUserToChatAsync(int chatId, List<ChatUserDto> chatUsers, HttpRequest request);
 
     Task<List<ChatDto>> GetChatRequestAsync(HttpRequest request);
 

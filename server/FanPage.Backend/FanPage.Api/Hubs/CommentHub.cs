@@ -14,17 +14,17 @@ public class CommentHub : Hub
     private readonly IComment _comment;
 
     private readonly IHubContext<CommentHub> _hubContext;
-    
+
     private readonly IMapper _mapper;
-    
+
     public CommentHub(IComment comment, IHubContext<CommentHub> hubContext, IMapper mapper)
     {
         _comment = comment;
         _hubContext = hubContext;
         _mapper = mapper;
     }
-    
-    
+
+
     /// <summary>
     ///  Create new comment
     /// </summary>
@@ -32,7 +32,7 @@ public class CommentHub : Hub
     /// <returns>Comment object</returns>
     public async Task Create(CommentModel comment)
     {
-        var request = Context.GetHttpContext().Request; 
+        var request = Context.GetHttpContext().Request;
         var dt = _mapper.Map<CommentDto>(comment);
         var result = await _comment.AddCommentAsync(dt, request);
         await Clients.All.SendAsync("Create", result);

@@ -80,13 +80,12 @@ namespace FanPage.Infrastructure.Implementations.User
             var role = await _userManager.GetRolesAsync(user);
             var avatar = await _storageHttp.GetImageBase64FromStorageService(user.UserAvatar);
 
-            var token = await _jwtTokenManager.GenerateToken(user);
             return new LogInResponseDto
             {
                 Id = user.Id,
                 Email = user.Email,
                 Name = user.UserName,
-                Token = token,
+                Token = "",
                 Role = role.FirstOrDefault(),
                 WhoBan = user.WhoBan,
                 UserAvatar = avatar,

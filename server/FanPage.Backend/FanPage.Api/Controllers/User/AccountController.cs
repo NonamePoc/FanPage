@@ -233,7 +233,6 @@ namespace FanPage.Api.Controllers.User
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = "Bearer")]
         [Route("getProfile")]
         [ProducesResponseType(typeof(JsonResponseContainer<LogInViewModel>), 200)]
         [ProducesResponseType(401)]

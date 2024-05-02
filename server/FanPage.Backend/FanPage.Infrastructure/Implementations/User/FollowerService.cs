@@ -4,7 +4,6 @@ using FanPage.Domain.Account.Entities;
 using FanPage.Domain.Account.Repos.Interfaces;
 using FanPage.Infrastructure.Implementations.Helper;
 using FanPage.Infrastructure.Interfaces.User;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Http;
 
 namespace FanPage.Infrastructure.Implementations.User
@@ -29,46 +28,68 @@ namespace FanPage.Infrastructure.Implementations.User
             _storageHttp = storageHttp;
         }
 
-        public async Task<List<FollowerDto>> FollowerList(HttpRequest request)
+        public async Task<List<FollowerDto>> FollowerList(HttpRequest request, int page)
         {
-            var userName = _jwtTokenManager.GetUserNameFromToken(request);
-            var followers = await _repository.FollowerList(userName);
-            var list = new List<FollowerDto>();
-            foreach (var follower in followers)
+            try
             {
-                var followerDto = new FollowerDto
+                var userName = _jwtTokenManager.GetUserNameFromToken(request);
+                var followers = await _repository.FollowerList(userName, page);
+                var list = new List<FollowerDto>();
+                foreach (var follower in followers)
                 {
-                    UserName = follower.UserName,
-                    SubName = follower.SubName,
-                    Avatar = follower.Avatar
-                };
-                if (follower.Avatar != null)
-                {
-                    var uploadResult = await _storageHttp.GetImageBase64FromStorageService(
-                        follower.Avatar
-                    );
-                    followerDto.Avatar = uploadResult;
+                    var followerDto = new FollowerDto
+                    {
+                        UserName = follower.UserName,
+                        SubName = follower.SubName,
+                        Avatar = follower.Avatar
+                    };
+                    if (follower.Avatar != null)
+                    {
+                        var uploadResult = await _storageHttp.GetImageBase64FromStorageService(
+                            follower.Avatar
+                        );
+                        followerDto.Avatar = uploadResult;
+                    }
+
+                    list.Add(followerDto);
                 }
 
-                list.Add(followerDto);
+                return list;
             }
-            return list;
+            catch (Exception e)
+            {
+                throw new Exception("Error get follower list: " + e.Message);
+            }
         }
 
         public async Task<bool> Subscribe(HttpRequest request, string userName)
         {
-            var subName = _jwtTokenManager.GetUserNameFromToken(request);
-            var subId = _jwtTokenManager.GetUserIdFromToken(request);
-            var user = await _userManager.FindByNameAsync(userName);
-            await _repository.Subscribe(subName, userName, user.Id, subId);
-            return true;
+            try
+            {
+                var subName = _jwtTokenManager.GetUserNameFromToken(request);
+                var subId = _jwtTokenManager.GetUserIdFromToken(request);
+                var user = await _userManager.FindByNameAsync(userName);
+                await _repository.Subscribe(subName, userName, user.Id, subId);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error subscribe: " + e.Message);
+            }
         }
 
         public async Task<bool> Unsubscribe(HttpRequest request, string userName)
         {
-            var subName = _jwtTokenManager.GetUserNameFromToken(request);
-            await _repository.Unsubscribe(subName, userName);
-            return true;
+            try
+            {
+                var subName = _jwtTokenManager.GetUserNameFromToken(request);
+                await _repository.Unsubscribe(subName, userName);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error unsubscribe: " + e.Message);
+            }
         }
     }
 }

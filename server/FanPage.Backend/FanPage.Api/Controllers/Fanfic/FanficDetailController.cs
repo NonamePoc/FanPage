@@ -14,12 +14,9 @@ public class FanficDetailController : BaseController
 
     private readonly IFanficDetail _fanficDetail;
 
-    private readonly IMapper _mapper;
-
-    public FanficDetailController(IFanficDetail fanfic, IMapper mapper)
+    public FanficDetailController(IFanficDetail fanfic)
     {
         _fanficDetail = fanfic;
-        _mapper = mapper;
     }
 
     /// <summary>
@@ -37,8 +34,8 @@ public class FanficDetailController : BaseController
         var fanfic = await _fanficDetail.GetLastCreationDateFanficsAsync(count, HttpContext.Request);
         return Ok(fanfic);
     }
-    
-    
+
+
     /// <summary>
     ///  Get top rating fanfics
     /// </summary>
@@ -54,8 +51,8 @@ public class FanficDetailController : BaseController
         var fanfic = await _fanficDetail.GetTopRatingFanficsAsync(count, HttpContext.Request);
         return Ok(fanfic);
     }
-    
-    
+
+
     /// <summary>
     /// rating fanfic
     /// </summary>
@@ -81,7 +78,7 @@ public class FanficDetailController : BaseController
     [ProducesResponseType(401)]
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
-    public async Task<IActionResult> GetAll([FromQuery]int offset)
+    public async Task<IActionResult> GetAll([FromQuery] int offset)
     {
         var fanfic = await _fanficDetail.GetAllAsync(offset);
         return Ok(fanfic);
@@ -115,9 +112,9 @@ public class FanficDetailController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> GetByAuthorName([FromQuery] string authorName,[FromQuery]int offset)
+    public async Task<IActionResult> GetByAuthorName([FromQuery] string authorName, [FromQuery] int offset)
     {
-        var fanfic = await _fanficDetail.GetByAuthorNameAsync(authorName,offset);
+        var fanfic = await _fanficDetail.GetByAuthorNameAsync(authorName, offset);
         return Ok(fanfic);
     }
 
@@ -151,7 +148,7 @@ public class FanficDetailController : BaseController
     [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
     [ProducesResponseType(typeof(JsonResponseContainer), 500)]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public async Task<IActionResult> ChangeAvatar(int fanficId,  IFormFile imageFanfic)
+    public async Task<IActionResult> ChangeAvatar(int fanficId, IFormFile imageFanfic)
     {
         await _fanficDetail.ChangeAvatar(fanficId, imageFanfic, HttpContext.Request);
         return Ok();

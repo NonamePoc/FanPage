@@ -31,11 +31,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FanPage.EmailService", "Fan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanPage.EmailService", "FanPage.EmailService\FanPage.EmailService.csproj", "{429BA6C6-9DC1-44C1-84E6-1245A6BB1E09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanPage.Domain.Chat", "FanPage.Domain.Chat\FanPage.Domain.Chat.csproj", "{0B943F2D-A5FF-49A3-875D-16A2E8BB7CA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanPage.Domain.Chat", "FanPage.Domain.Chat\FanPage.Domain.Chat.csproj", "{0B943F2D-A5FF-49A3-875D-16A2E8BB7CA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanPage.Domain.Account", "FanPage.Domain.Account\FanPage.Domain.Account.csproj", "{8BD8359A-361D-4C51-B1D7-2FAB30DC5E11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanPage.Domain.Account", "FanPage.Domain.Account\FanPage.Domain.Account.csproj", "{8BD8359A-361D-4C51-B1D7-2FAB30DC5E11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanPage.Domain.Fanfic", "FanPage.Domain.Fanfic\FanPage.Domain.Fanfic.csproj", "{682337EA-9F58-4226-A487-59AFF3C50DB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanPage.Domain.Fanfic", "FanPage.Domain.Fanfic\FanPage.Domain.Fanfic.csproj", "{682337EA-9F58-4226-A487-59AFF3C50DB6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StoredApi", "StoredApi", "{59725B7A-0568-44FB-8A1E-593A12B18D4B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinioFileStorage.Api", "..\..\..\MinioFileStorage\MinioFileStorage.Api\MinioFileStorage.Api.csproj", "{1F416A4D-738F-433C-B054-BBF14A93BF05}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{76E76BAA-3D23-4BED-BE12-5DA7F13DAE98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +85,14 @@ Global
 		{682337EA-9F58-4226-A487-59AFF3C50DB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{682337EA-9F58-4226-A487-59AFF3C50DB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{682337EA-9F58-4226-A487-59AFF3C50DB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F416A4D-738F-433C-B054-BBF14A93BF05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F416A4D-738F-433C-B054-BBF14A93BF05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F416A4D-738F-433C-B054-BBF14A93BF05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F416A4D-738F-433C-B054-BBF14A93BF05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76E76BAA-3D23-4BED-BE12-5DA7F13DAE98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76E76BAA-3D23-4BED-BE12-5DA7F13DAE98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76E76BAA-3D23-4BED-BE12-5DA7F13DAE98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76E76BAA-3D23-4BED-BE12-5DA7F13DAE98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +114,9 @@ Global
 		{0B943F2D-A5FF-49A3-875D-16A2E8BB7CA5} = {51173840-8B42-4458-9B66-4A1B65194450}
 		{8BD8359A-361D-4C51-B1D7-2FAB30DC5E11} = {51173840-8B42-4458-9B66-4A1B65194450}
 		{682337EA-9F58-4226-A487-59AFF3C50DB6} = {51173840-8B42-4458-9B66-4A1B65194450}
+		{59725B7A-0568-44FB-8A1E-593A12B18D4B} = {ACC8F0C5-6DC2-4061-A549-342D9B5606CC}
+		{1F416A4D-738F-433C-B054-BBF14A93BF05} = {59725B7A-0568-44FB-8A1E-593A12B18D4B}
+		{76E76BAA-3D23-4BED-BE12-5DA7F13DAE98} = {ACC8F0C5-6DC2-4061-A549-342D9B5606CC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {60742B1C-B418-40D1-9E98-D511B1C7D0C6}

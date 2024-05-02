@@ -6,12 +6,12 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 var swaggerInfo = new OpenApiInfo { Title = "Fan Page Api", Version = "v1" };
 
 builder.Services.ConfigureSwagger(builder.Configuration, swaggerInfo);
-builder.Services.AddAutoMapper(typeof(OutputModelsMapperProfile));
 builder.Services.DataBase(builder.Configuration);
 builder.Services.Logger(builder.Configuration);
 builder.Services.ConfigureAuthentication(builder.Configuration);
@@ -32,10 +32,10 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowCredentials());
 });
-
 builder.Services.AddSignalR();
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -73,6 +73,7 @@ app.UseAuthorization();
 
 app.MapHub<ChatHub>("/chat");
 app.MapHub<CommentHub>("/comments");
+app.MapHub<FollowerHub>("/followers");
 
 app.MapControllers();
 

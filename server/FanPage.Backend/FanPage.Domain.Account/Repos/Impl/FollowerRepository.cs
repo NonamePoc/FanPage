@@ -11,34 +11,34 @@ public class FollowerRepository : IFollowerRepository
 {
     private readonly UserContext _userContext;
 
-    private readonly UserManager<User> _userManager;
-
-    // For Pasha. Sub is current user, блять!!!
-    public FollowerRepository(UserContext userContext, UserManager<User> userManager)
+    public FollowerRepository(UserContext userContext)
     {
         _userContext = userContext;
-        _userManager = userManager;
     }
 
-    public async Task<List<FollowerDto>> FollowerList(string userName)
+    public async Task<List<FollowerDto>> FollowerList(string userName, int page)
     {
-        var friendIds = await _userContext.Followers
-            .Where(f => f.SubName == userName)
-            .Select(f => f.UserName)
-            .ToListAsync();
-        var userAvatar = await _userManager.FindByNameAsync(userName);
-        var userFo = await _userManager.Users
-            .Where(u => friendIds.Contains(u.UserName))
-            .Select(u => new FollowerDto
-            {
-                UserName = userName,
-                Avatar = userAvatar.UserAvatar,
-                SubName = u.UserName
-            })
+        var followers = await _userContext.Followers
+            .Where(sub => sub.UserName == userName)
+            .Skip((page - 1) * 10)
+            .Take(10)
             .ToListAsync();
 
-        return userFo;
+        var list = new List<FollowerDto>();
+        foreach (var follower in followers)
+        {
+            var followerDto = new FollowerDto
+            {
+                UserName = follower.UserName,
+                SubName = follower.SubName,
+                Avatar = ""
+            };
+            list.Add(followerDto);
+        }
+
+        return list;
     }
+
 
     public async Task<bool> Subscribe(string subName, string userName, string userId, string subId)
     {

@@ -9,5 +9,9 @@ public class MessageDto
     
     public int ChatId { get; set; }
 
-    public int SenderId { get; set; }
+    public string UserId { get; set; }
+
+    public string UserName { get; set; }
+
+    public string SenderAvatar { get; set; }
 }

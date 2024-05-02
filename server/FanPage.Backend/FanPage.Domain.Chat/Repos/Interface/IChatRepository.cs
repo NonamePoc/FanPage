@@ -5,15 +5,15 @@ namespace FanPage.Domain.Chat.Repos.Interface;
 
 public interface IChatRepository
 {
-    Task<ChatDto> GetByIdAsync(int id);
+    Task<ChatDto> GetByIdAsync(int id, int pageUser, int pageMessage);
 
     Task <bool> IsNameExistAsync(string name, string type);
 
-    Task<ChatDto> GetChatAsync(int id, string type);
+    Task<ChatDto> GetChatAsync(int id);
 
-    Task<List<ChatDto>> GetChatsUserAsync(string userName, int offset,string type);
+    Task<List<ChatDto>> GetChatsUserAsync(string userName, int offset, int page);
 
-    Task<List<ChatDto>> GetGlobalChatsAsync(int offset);
+    Task<List<ChatDto>> GetGlobalChatsAsync(int offset, int page);
 
     Task<List<ChatUserDto>> PrivateGetChatUsersAsync(int chatId);
 
@@ -24,7 +24,7 @@ public interface IChatRepository
 
     Task AddUserToChatAsync(int chatId, string userId, string userName);
 
-    Task<ChatDto> UpdateAsync(ChatDto chat);
+    Task<ChatDto> UpdateAsync(int id, ChatDto chat);
 
     Task DeleteAsync(int id);
 
@@ -32,7 +32,7 @@ public interface IChatRepository
 
     Task<List<ChatDto>> GetChatRequestAsync(string userName);
 
-    Task InviteUserToChatAsync(int chatId, string userId, string userName);
+    Task InviteUserToChatAsync(int chatId , ICollection<ChatUserDto> chatUsers);
 
     Task AcceptUserToChatAsync(int chatId, string userId);
 

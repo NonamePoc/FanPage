@@ -8,5 +8,6 @@ public class ChatModel
 
     public string Type { get; set; }
 
-    public string? FriendId { get; set; }
+    public List<ChatUserModel>? Users { get; set; }
+
 }

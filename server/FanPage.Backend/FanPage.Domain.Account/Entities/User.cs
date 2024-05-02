@@ -12,11 +12,6 @@ namespace FanPage.Domain.Account.Entities
 
         public int CustomizationSettingsId { get; set; }
         public CustomizationSettings CustomizationSettings { get; set; }
-        [InverseProperty("User")] public ICollection<Friendship> MyFriends { get; set; }
-
-        [InverseProperty("Friend")]
-        public ICollection<Friendship> FriendsOfMine { get; set; }
-
         [InverseProperty("User")] public ICollection<Follower> UserForSubscribe { get; set; }
 
         [InverseProperty("Sub")] public ICollection<Follower> Subcriber { get; set; }
@@ -24,10 +19,5 @@ namespace FanPage.Domain.Account.Entities
         public ICollection<Bookmark> Bookmarks { get; set; }
         public ICollection<Photo> Photos { get; set; }
 
-        [InverseProperty("User")]
-        public ICollection<FriendRequest> SentFriendRequests { get; set; }
-
-        [InverseProperty("Friend")] public ICollection<FriendRequest> ReceivedFriendRequests { get; set; }
-        
     }
 }

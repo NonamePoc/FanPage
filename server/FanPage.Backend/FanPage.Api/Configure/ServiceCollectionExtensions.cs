@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
 using System.Text;
 using AutoMapper;
 using FanPage.Api.Mapper;
@@ -99,10 +100,10 @@ namespace FanPage.Api.Configure
             services.AddScoped<IChapterRepository, ChapterRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IChatRepository, ChatRepository>();
-            services.AddScoped<IFriendRepository, FriendRepository>();
-            services.AddScoped<IFollowerRepository, FollowerRepository>();
             services.AddScoped<IBookmarkRepository, BookmarksRepository>();
             services.AddScoped<ICustomizationSettingsRepository, CustomizationSettingsRepository>();
+            services.AddScoped<IFollowerRepository, FollowerRepository>();
+
             return services;
         }
 
@@ -240,7 +241,6 @@ namespace FanPage.Api.Configure
             services.AddScoped<IReview, ReviewService>();
             services.AddScoped<IComment, CommentService>();
             services.AddScoped<IChat, ChatService>();
-            services.AddScoped<IFriend, FriendService>();
             services.AddScoped<IFollower, FollowerService>();
             services.AddScoped<IBookmark, BookmarkService>();
             services.AddScoped<ICustomizationSettings, CustomizationSettingsService>();
@@ -294,6 +294,10 @@ namespace FanPage.Api.Configure
                     In = ParameterLocation.Header,
                     Description = "JWT Authorization header using the Bearer scheme. Set `Bearer ` before ur `Token`",
                 });
+
+                var filename = Assembly.GetExecutingAssembly().GetName().Name + ".xml";
+                var filepath = Path.Combine(AppContext.BaseDirectory, filename);
+                c.IncludeXmlComments(filepath);
 
                 c.OperationFilter<AuthOperationFilter>();
             });

@@ -23,7 +23,6 @@ public class CustomizationController : ControllerBase
         _mapper = mapper;
     }
 
-    
     /// <summary>
     ///   Change banner image
     /// </summary>

@@ -19,36 +19,45 @@ public class ChatRepository : IChatRepository
         _mapper = mapper;
     }
 
-    public async Task<ChatDto> GetByIdAsync(int id)
+    public async Task<ChatDto> GetByIdAsync(int id, int messagePage, int userPage)
     {
-        var chat = await _context.Chats.FindAsync(id);
+        var chat = await _context.Chats
+            .Include(x => x.ChatUsers)
+            .Include(x => x.Messages)
+            .FirstOrDefaultAsync(x => x.Id == id);
+
+        if (chat != null)
+        {
+            if (userPage * 10 < chat.ChatUsers.Count)
+            {
+                chat.ChatUsers = chat.ChatUsers.Skip(userPage * 10).Take(10).ToList();
+            }
+            else
+            {
+                chat.ChatUsers = new List<ChatUser>();
+            }
+        }
+
         return _mapper.Map<ChatDto>(chat);
     }
 
-    public async Task<ChatDto> GetChatAsync(int id, string type)
+    public async Task<ChatDto> GetChatAsync(int id)
     {
         var chat = await _context
-            .Chats.Where(w => type == "public" || type == "private")
-            .FirstOrDefaultAsync(x => x.Id == id && x.Type == type);
+            .Chats.FindAsync(id);
         return _mapper.Map<ChatDto>(chat);
     }
 
-    public async Task<List<ChatDto>> GetChatsUserAsync(string userName, int offset, string type)
+    public async Task<List<ChatDto>> GetChatsUserAsync(string userName, int offset, int page)
     {
-        var userChats = await _context
-            .ChatUsers.Include(i => i.Chat)
-            .Where(x => x.UserName == userName && x.Chat.Type == type)
+        var chatUser = await _context.ChatUsers
+            .Where(w => w.UserName == "vlasta2" && w.AcceptedRequest == true)
+            .Include(x => x.Chat.Messages.OrderByDescending(m => m.ReceivedDateUtc))
+            .Skip((page - 1) * offset)
             .Take(offset)
             .ToListAsync();
 
-        return userChats
-            .Select(s => new ChatDto()
-            {
-                Id = s.ChatId,
-                Name = s.Chat.Name,
-                Type = s.Chat.Type
-            })
-            .ToList();
+        return _mapper.Map<List<ChatDto>>(chatUser);
     }
 
     public async Task<List<ChatUserDto>> PrivateGetChatUsersAsync(int chatId)
@@ -65,29 +74,34 @@ public class ChatRepository : IChatRepository
 
     public async Task<List<ChatDto>> GetChatRequestAsync(string userName)
     {
-        var chats = await _context
-            .ChatUsers.Where(w => w.UserName == userName && w.AcceptedRequest == false)
-            .Select(s => new
+        var chats = await _context.ChatUsers
+            .Where(w => w.UserName == userName || w.AcceptedRequest == false)
+            .Select(s => new ChatDto
             {
-                s.ChatId,
-                s.Chat.Name,
-                s.Chat.Type
+                Id = s.ChatId,
+                Name = s.Chat.Name,
+                Type = s.Chat.Type,
+                Description = s.Chat.Description,
+                AuthorName = s.Chat.AuthorName,
+                FriendId = s.UserId,
+                ChatUsers = new List<ChatUserDto>(),
+                Messages = new List<MessageDto>()
             })
             .ToListAsync();
 
-        return chats
-            .Select(s => new ChatDto()
-            {
-                Id = s.ChatId,
-                Name = s.Name,
-                Type = s.Type
-            })
-            .ToList();
+        return chats;
     }
 
-    public async Task<List<ChatDto>> GetGlobalChatsAsync(int offset)
+    public async Task<List<ChatDto>> GetGlobalChatsAsync(int offset, int page)
     {
-        var chats = await _context.Chats.Where(w => w.Type == "public").Take(offset).ToListAsync();
+        var chats = await _context.Chats
+              .Where(w => w.Type == "public")
+              .Include(x => x.ChatUsers)
+              .Include(x => x.Messages.OrderByDescending(m => m.ReceivedDateUtc))
+              .Skip((page - 1) * offset)
+              .Take(offset)
+              .ToListAsync();
+
         return _mapper.Map<List<ChatDto>>(chats);
     }
 
@@ -118,32 +132,56 @@ public class ChatRepository : IChatRepository
     {
         var searchWords = search.Split(' ');
 
-        var query = _context.ChatUsers.Where(x => x.UserName == username);
+        var userChatsQuery = _context.ChatUsers
+            .Where(x => x.UserName == username)
+            .Select(chatUser => chatUser.ChatId);
 
-        query = searchWords.Aggregate(
-            query,
-            (current, word) => current.Where(chatUser => chatUser.Chat.Name.Contains(word))
+        var publicChatsQuery = _context.Chats
+            .Where(chat => chat.Type == "public");
+
+        var combinedQuery = publicChatsQuery.Union(
+            _context.ChatUsers
+                .Where(chatUser => userChatsQuery.Contains(chatUser.ChatId))
+                .Select(chatUser => chatUser.Chat)
         );
 
-        var result = await query
-            .Select(chatUser => new ChatDto
+        combinedQuery = searchWords.Aggregate(
+            combinedQuery,
+            (current, word) => current.Where(chat => chat.Name.Contains(word))
+        );
+
+        var result = await combinedQuery
+            .Select(chat => new ChatDto
             {
-                Id = chatUser.Chat.Id,
-                Name = chatUser.Chat.Name,
-                Type = chatUser.Chat.Type
+                Id = chat.Id,
+                Name = chat.Name,
+                Type = chat.Type,
+                AuthorName = chat.AuthorName,
+                ChatUsers = new List<ChatUserDto>(),
+                Description = chat.Description,
+                Messages = new List<MessageDto>(),
+                FriendId = ""
             })
             .ToListAsync();
 
         return result;
     }
 
-    public async Task<ChatDto> UpdateAsync(ChatDto chat)
+    public async Task<ChatDto> UpdateAsync(int id, ChatDto chat)
     {
-        var chatEntity = _mapper.Map<Entities.Chat>(chat);
-        _context.Chats.Update(chatEntity);
+        var existingChat = await _context.Chats.FindAsync(id);
+        if (existingChat == null)
+        {
+            throw new Exception("Chat not found");
+        }
+
+        existingChat.Name = chat.Name;
+        existingChat.Description = chat.Description;
+        existingChat.Type = chat.Type;
+
         await _context.SaveChangesAsync();
 
-        return _mapper.Map<ChatDto>(chatEntity);
+        return _mapper.Map<ChatDto>(existingChat);
     }
 
     public async Task DeleteAsync(int id)
@@ -168,27 +206,42 @@ public class ChatRepository : IChatRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task InviteUserToChatAsync(int chatId, string userId, string userName)
+    public async Task InviteUserToChatAsync(int chatId, ICollection<ChatUserDto> chats)
     {
-        var chatUser = await _context.ChatUsers.FirstOrDefaultAsync(x =>
-            x.ChatId == chatId && x.UserName == userName
-        );
-        if (chatUser != null)
+        var chat = await _context.Chats.FindAsync(chatId);
+
+        if (chat != null)
         {
-            throw new Exception("User is already in chat");
+            foreach (var chatUser in chats)
+            {
+                var existingChatUser = await _context.ChatUsers.FirstOrDefaultAsync(x =>
+                    x.ChatId == chatId && x.UserName == chatUser.UserName
+                );
+
+                if (existingChatUser != null)
+                {
+                    throw new Exception($"User {chatUser.UserName} is already in chat");
+                }
+
+                var newChatUser = new ChatUser
+                {
+                    ChatId = chatId,
+                    UserName = chatUser.UserName,
+                    UserId = chatUser.UserId,
+                    AcceptedRequest = false
+                };
+
+                await _context.ChatUsers.AddAsync(newChatUser);
+            }
+
+            await _context.SaveChangesAsync();
         }
-
-        chatUser = new ChatUser
+        else
         {
-            UserId = userId,
-            UserName = userName,
-            ChatId = chatId,
-            AcceptedRequest = false
-        };
-
-        _context.ChatUsers.Add(chatUser);
-        await _context.SaveChangesAsync();
+            throw new Exception("Chat not found");
+        }
     }
+
 
     public async Task AddUserToChatAsync(int chatId, string userId, string userName)
     {

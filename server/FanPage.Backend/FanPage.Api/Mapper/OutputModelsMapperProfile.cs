@@ -4,6 +4,7 @@ using FanPage.Api.Models.Admin;
 using FanPage.Api.Models.Auth;
 using FanPage.Api.Models.Chat;
 using FanPage.Api.Models.Fanfic;
+using FanPage.Api.ViewModels;
 using FanPage.Api.ViewModels.Fanfic;
 using FanPage.Api.ViewModels.User;
 using FanPage.Application.Account;
@@ -29,18 +30,11 @@ namespace FanPage.Api.Mapper
             ChatMaps();
         }
 
-        private void RegisterAuthMaps()
+        private void AdminMaps()
         {
-            CreateMap<LogInResponseDto, LogInViewModel>();
-
-            CreateMap<RefreshTokenDto, RefreshTokenViewModel>();
-            CreateMap<RegistrationModel, RegistrationDto>();
-            CreateMap<ConfirmEmailModel, ConfirmEmailDto>();
-            CreateMap<AuthModel, AuthDto>();
-            CreateMap<RestorePasswordModel, RestorePasswordDto>();
-            CreateMap<RequestToRestorePassModel, RequestRestorePasswordDto>();
-            CreateMap<PasswordChangeModel, ChangePasswordDto>();
-            CreateMap<RequestToChangeEmailModel, RequestToChangeEmailDto>();
+            CreateMap<BanModel, BanDto>();
+            CreateMap<ChangeRoleModel, ChangeRoleDto>();
+            CreateMap<UserInfoResponseDto, UserInfoViewModel>();
         }
 
         private void ChatMaps()
@@ -52,28 +46,22 @@ namespace FanPage.Api.Mapper
             CreateMap<MessageModel, MessageDto>();
             CreateMap<MessageDto, Message>();
             CreateMap<Message, MessageDto>();
+            CreateMap<MessageViewModel, MessageDto>();
+            CreateMap<MessageDto, MessageViewModel>();
 
             CreateMap<ChatUser, ChatUserDto>();
             CreateMap<ChatUserDto, ChatUser>();
-            
+            CreateMap<ChatUser, ChatDto>()
+              .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Chat.Id))
+              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Chat.Name))
+              .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Chat.Description))
+              .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Chat.Type))
+              .ForMember(dest => dest.ChatUsers, opt => opt.MapFrom(src => src.Chat.ChatUsers))
+              .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.Chat.Messages))
+              .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Chat.AuthorName))
+              .ReverseMap();
 
-        }
 
-        private void AdminMaps()
-        {
-            CreateMap<BanModel, BanDto>();
-            CreateMap<ChangeRoleModel, ChangeRoleDto>();
-            CreateMap<UserInfoResponseDto, UserInfoViewModel>();
-        }
-
-        private void ProfileMaps()
-        {
-            CreateMap<Friendship, FriendDto>();
-            CreateMap<FriendRequest, FriendRequestDto>();
-
-            CreateMap<Follower, FollowerDto>();
-            CreateMap<ChangeEmailModel, ChangeEmailDto>();
-            CreateMap<Bookmark, BookmarkDto>();
         }
 
         private void FanficAuthMaps()
@@ -120,11 +108,11 @@ namespace FanPage.Api.Mapper
             CreateMap<List<Tag>, List<TagDto>>()
                 .ConvertUsing(tags =>
                     tags.Select(tag => new TagDto
-                        {
-                            TagId = tag.TagId,
-                            Name = tag.Name,
-                            IsApproved = tag.IsApproved
-                        })
+                    {
+                        TagId = tag.TagId,
+                        Name = tag.Name,
+                        IsApproved = tag.IsApproved
+                    })
                         .ToList()
                 );
 
@@ -164,6 +152,26 @@ namespace FanPage.Api.Mapper
                 .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.FanficCategories))
                 .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.FanficTags))
                 .ForMember(dest => dest.Chapters, opt => opt.MapFrom(src => src.Chapters));
+        }
+
+        private void ProfileMaps()
+        {
+            CreateMap<ChangeEmailModel, ChangeEmailDto>();
+            CreateMap<Bookmark, BookmarkDto>();
+        }
+
+        private void RegisterAuthMaps()
+        {
+            CreateMap<LogInResponseDto, LogInViewModel>();
+
+            CreateMap<RefreshTokenDto, RefreshTokenViewModel>();
+            CreateMap<RegistrationModel, RegistrationDto>();
+            CreateMap<ConfirmEmailModel, ConfirmEmailDto>();
+            CreateMap<AuthModel, AuthDto>();
+            CreateMap<RestorePasswordModel, RestorePasswordDto>();
+            CreateMap<RequestToRestorePassModel, RequestRestorePasswordDto>();
+            CreateMap<PasswordChangeModel, ChangePasswordDto>();
+            CreateMap<RequestToChangeEmailModel, RequestToChangeEmailDto>();
         }
     }
 }

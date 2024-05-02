@@ -12,7 +12,7 @@ namespace FanPage.Infrastructure.Implementations.Helper
 
     public class StorageHttp : IStorageHttp
     {
-        private const string _url = "https://zkdmv48c-5002.euw.devtunnels.ms";
+        private const string _url = "https://zkdmv48c-5002.euw.devtunnels.ms/swagger/index.html";
 
         public async Task<UploadResult> SendFileToStorageService(IFormFile file)
         {

@@ -17,7 +17,7 @@ namespace FanPage.Domain.Account.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -94,75 +94,6 @@ namespace FanPage.Domain.Account.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Followers");
-                });
-
-            modelBuilder.Entity("FanPage.Domain.Account.Entities.FriendRequest", b =>
-                {
-                    b.Property<int>("FriendRequestId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FriendRequestId"));
-
-                    b.Property<string>("FriendId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("FriendName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsApproving")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("FriendRequestId");
-
-                    b.HasIndex("FriendId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("FriendRequests");
-                });
-
-            modelBuilder.Entity("FanPage.Domain.Account.Entities.Friendship", b =>
-                {
-                    b.Property<int>("FriendshipId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FriendshipId"));
-
-                    b.Property<string>("FriendId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("FriendName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("FriendshipId");
-
-                    b.HasIndex("FriendId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Friendships");
                 });
 
             modelBuilder.Entity("FanPage.Domain.Account.Entities.Photo", b =>
@@ -393,14 +324,9 @@ namespace FanPage.Domain.Account.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId1")
-                        .HasColumnType("text");
-
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
@@ -450,44 +376,6 @@ namespace FanPage.Domain.Account.Migrations
                         .IsRequired();
 
                     b.Navigation("Sub");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("FanPage.Domain.Account.Entities.FriendRequest", b =>
-                {
-                    b.HasOne("FanPage.Domain.Account.Entities.User", "Friend")
-                        .WithMany("ReceivedFriendRequests")
-                        .HasForeignKey("FriendId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FanPage.Domain.Account.Entities.User", "User")
-                        .WithMany("SentFriendRequests")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Friend");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("FanPage.Domain.Account.Entities.Friendship", b =>
-                {
-                    b.HasOne("FanPage.Domain.Account.Entities.User", "Friend")
-                        .WithMany("FriendsOfMine")
-                        .HasForeignKey("FriendId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FanPage.Domain.Account.Entities.User", "User")
-                        .WithMany("MyFriends")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Friend");
 
                     b.Navigation("User");
                 });
@@ -565,10 +453,6 @@ namespace FanPage.Domain.Account.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("FanPage.Domain.Account.Entities.User", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -589,17 +473,7 @@ namespace FanPage.Domain.Account.Migrations
                 {
                     b.Navigation("Bookmarks");
 
-                    b.Navigation("FriendsOfMine");
-
-                    b.Navigation("MyFriends");
-
                     b.Navigation("Photos");
-
-                    b.Navigation("ReceivedFriendRequests");
-
-                    b.Navigation("Roles");
-
-                    b.Navigation("SentFriendRequests");
 
                     b.Navigation("Subcriber");
 

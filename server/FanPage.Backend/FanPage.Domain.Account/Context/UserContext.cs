@@ -11,11 +11,6 @@ namespace FanPage.Domain.Account.Context
         public DbSet<CustomizationSettings> CustomizationSettings { get; set; }
 
         public DbSet<Follower> Followers { get; set; }
-        
-        public DbSet<FriendRequest> FriendRequests { get; set; }
-
-        public DbSet<Friendship> Friendships { get; set; }
-
         public DbSet<Sticker> Stickers { get; set; }
 
         public DbSet<Photo> Photos { get; set; }
