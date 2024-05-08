@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>ca6adcdf-12f3-4afd-ad8c-2e6a5bef4f0b</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="8.0.0-preview.5.24201.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FanPage.Api\FanPage.Api.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  miniofilestorage:
+    build:
+     context: E:\Repos\MinioFileStorage\MinioFileStorage.Api
+     dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - MinIO__Endpoint=http://miniofilestorage:9000
+      - MinIO__AccessKey=U8cGPpA81SXWJfyCgcy7
+      - MinIO__SecretKey=QgVwO51ilvLyUhSzqbQqc6UUI0xcdFdez7ScFUoD
+    networks:
+      - app-network
+
+  fanpageapi:
+    build:
+      context: .
+      dockerfile: FanPage.Api/Dockerfile
+    ports:
+      - "8081:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__User-Connection=Host=postgres_user_db;Port=5432;Database=UserFanPage;Username=postgres;Password=4411;Include Error Detail=true
+      - ConnectionStrings__Fanfic-Connection=Host=postgres_fanfic_db;Port=5432;Database=FanficFanPage;Username=postgres;Password=4411;Include Error Detail=true
+      - ConnectionStrings__Chat-Connection=Host=postgres_chat_db;Port=5432;Database=ChatFanPage;Username=postgres;Password=4411;Include Error Detail=true
+    depends_on:
+      - postgres_user_db
+      - postgres_fanfic_db
+      - postgres_chat_db
+      - miniofilestorage
+    networks:
+      - app-network
+
+
+  postgres_user_db:
+    image: postgres
+    environment:
+      POSTGRES_DB: UserFanPage
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 4411
+    networks:
+      - app-network
+
+  postgres_fanfic_db:
+    image: postgres
+    environment:
+      POSTGRES_DB: FanficFanPage
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 4411
+    networks:
+      - app-network
+
+  postgres_chat_db:
+    image: postgres
+    environment:
+      POSTGRES_DB: ChatFanPage
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 4411
+    networks:
+      - app-network
+
+networks:
+  app-network:
