@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { ModalService } from '../shared/modal/modal.service';
+import { ChatService } from './chat.service';
+import { AuthService } from '../auth/auth.service';
 import { EditChatComponent } from './edit-chat/edit-chat.component';
 import { InvitationsComponent } from './invitations/invitations.component';
-import { ChatService } from './chat.service';
-import { CommonModule } from '@angular/common';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-chat',
@@ -17,12 +17,9 @@ import { AuthService } from '../auth/auth.service';
 })
 export class ChatComponent implements OnInit {
   currentUsername!: string;
-  joinedChats: any[] = [];
-  publicChats: any[] = [];
+  chats: any[] = [];
 
-  private joinedChatsSubscription!: Subscription;
-  private publicChatsSubscription!: Subscription;
-
+  private chatsSubscription!: Subscription;
   private currentChatSubject = new BehaviorSubject<any>(null);
   chat = this.currentChatSubject.asObservable();
 
@@ -34,13 +31,8 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.currentUsername = this.authService.user.value?.username!;
-    this.publicChatsSubscription = this.chatService.publicChats.subscribe(
-      (data) => {
-        this.publicChats = data;
-      }
-    );
-    this.joinedChatsSubscription = this.chatService.chats.subscribe((data) => {
-      this.joinedChats = data;
+    this.chatsSubscription = this.chatService.chats.subscribe((data) => {
+      this.chats = data;
     });
   }
 
@@ -58,7 +50,7 @@ export class ChatComponent implements OnInit {
     this.chatService.hubConnection.invoke('Search', $event.target.value);
 
     this.chatService.hubConnection.on('Search', (data) => {
-      this.publicChats = data;
+      this.chats = data;
     });
   }
 }

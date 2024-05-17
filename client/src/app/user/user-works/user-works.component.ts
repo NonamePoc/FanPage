@@ -1,11 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-
 import { AuthService } from './../../auth/auth.service';
 import { UserService } from '../../shared/user.service';
-import { ChatService } from '../../chat/chat.service';
 import { BookListComponent } from '../../library/book-list/book-list.component';
 import { FilterComponent } from '../../library/book-list/filter/filter.component';
 
@@ -23,10 +20,8 @@ export class UserWorksComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private toastr: ToastrService,
     private userService: UserService,
-    private authService: AuthService,
-    private chatService: ChatService
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -38,16 +33,5 @@ export class UserWorksComponent implements OnInit {
           data?.username === this.authService.user?.getValue()?.username;
       });
     });
-  }
-
-  onChat() {
-    this.chatService.hubConnection.invoke('Create', {
-      Name: this.username + '&' + this.authService.user?.getValue()?.username,
-      Description: 'Private chat',
-      Type: 'private',
-      FriendId: this.user.id,
-    });
-
-    this.toastr.info('User was invited to chat', 'Chat invitation sent!');
   }
 }

@@ -65,8 +65,6 @@ export class ChatRoomComponent implements OnInit {
   }
 
   sendMessage() {
-    console.log('Message', this.message);
-
     this.chatService.hubConnection.invoke('Message', +this.chat.id, {
       Content: this.message,
     });

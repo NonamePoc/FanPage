@@ -8,10 +8,11 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { AuthService } from '../auth.service';
-import { Observable } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registration',
@@ -67,21 +68,16 @@ export class RegistrationComponent implements OnInit {
     );
     authObs.subscribe({
       next: () => {
-        this.loadingChanged.emit(false);
-      },
-      error: (errorMessage) => {
-        this.toastr.error(errorMessage, 'Error', {
-          timeOut: 3000,
-        });
-      },
-      complete: () => {
         this.toastr.success('Please check you mail', 'Email sent', {
-          timeOut: 3000,
           positionClass: 'toast-center-center',
         });
       },
+      error: (errorMessage) => {
+        this.toastr.error(errorMessage, 'Error');
+      },
     });
 
+    this.loadingChanged.emit(false);
     this.signupForm.reset();
   }
 

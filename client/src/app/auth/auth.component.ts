@@ -32,6 +32,7 @@ export class AuthComponent implements OnDestroy {
 
   onLoadingChange(isLoading: boolean): void {
     this.isLoading = isLoading;
+    console.log('Loading Changed to', isLoading);
   }
 
   onSwitchMode(): void {

@@ -15,7 +15,8 @@
         </p>
 
         <div class='mt-4 flex justify-end'>
-            <button type='submit' [disabled]='usernameForm.invalid' [ngClass]="{'opacity-50': usernameForm.invalid}"
+            <button type='submit' [disabled]='usernameForm.invalid || usernameForm.disabled'
+                [ngClass]="{'opacity-50': usernameForm.invalid}"
                 class='bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-200'>
                 Save Changes
             </button>

@@ -1,9 +1,11 @@
-<div class="py-4 px-4 md:px-8 lg:px-10 grid grid-cols-[auto_1fr_auto] lg:grid-cols-[1fr_auto] gap-2">
+<div
+    class="py-4 px-4 md:px-8 lg:px-10 grid grid-cols-[auto_1fr_auto_auto] lg:grid-cols-[1fr_auto_auto] items-center gap-2">
     <button (click)='onToggleSideNavbar()' class="block w-full lg:hidden dark:text-neutral-400">
         <span class="material-symbols-rounded text-2xl"> menu </span>
     </button>
 
     <app-search></app-search>
+    <app-notifs [isAuthenticated]='isAuthenticated'></app-notifs>
 
     <div (click)="onAuth()" class='dark:text-neutral-400 flex items-center cursor-pointer'>
         <span class="material-symbols-rounded">

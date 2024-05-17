@@ -1,13 +1,6 @@
 <section class='bg-neutral-100 dark:bg-neutral-800 rounded px-2 sm:px-4 py-2'>
     <div class='flex items-center justify-between my-4'>
         <h1 class='text-xl md:text-2xl'>{{username}}</h1>
-        <button *ngIf='!isCurrentUser' (click)='onChat()'
-            class='py-1 px-4 sm:px-6 border border-blue-500 hover:bg-blue-500 rounded text-blue-600 hover:text-white text-sm font-medium transition duration-300 flex gap-1 items-center justify-center w-[25%]'>
-            <span class="pt-1 material-symbols-rounded">
-                3p
-            </span>
-            Chat
-        </button>
     </div>
     <app-book-list title="Books"></app-book-list>
 </section>

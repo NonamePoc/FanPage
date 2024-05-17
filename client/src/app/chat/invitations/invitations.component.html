@@ -1,22 +1,27 @@
-<ng-container>
-    <h1 class='font-semibold text-lg mb-2'>Invitations</h1>
+<ng-container *ngIf='invitations.length > 0'>
+    <h1 class='font-semibold text-lg mb-2'>Your Invitations</h1>
     <swiper-container slides-per-view="4" space-between='4'>
         <swiper-slide *ngFor='let invite of invitations'>
             <div
-                class='relative h-32 bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition duration-300 rounded flex flex-col justify-center items-center py-2'>
-                <img class='object-cover h-14 w-14 rounded-full' src="https://picsum.photos/200/300" alt="User Invites">
-                <h2 class='font-semibold'>Chat 1_</h2>
-                <div class='flex'>
-                    <div class='cursor-pointer flex justify-center items-center gap-2'>
-                        <span
-                            class="material-symbols-rounded bg-green-400 hover:bg-green-500 dark:bg-green-700 dark:hover:bg-green-800 rounded-full p-[1px] transition duration-300">
+                class='relative h-32 bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition duration-300 rounded flex flex-col justify-center items-center py-2'>
+                <h2 class='font-semibold'>{{invite.name}}</h2>
+                <p class='text-sm text-neutral-700 dark:text-neutral-300'>{{invite.description}}</p>
+                <span class='text-xs text-neutral-600 dark:text-neutral-400'>{{invite.type}}</span>
+                <div class='flex justify-center items-center gap-1 mt-1'>
+                    <button (click)="onAccept(invite.id)"
+                        class='text-sm px-2 flex items-center bg-blue-400 hover:bg-blue-300 dark:bg-blue-700 dark:hover:bg-blue-800 rounded-lg p-[1px] transition duration-300'>
+                        <span class="material-symbols-rounded text-xl">
                             add
                         </span>
-                        <span
-                            class="material-symbols-rounded bg-red-400 hover:bg-red-500 dark:bg-red-700 dark:hover:bg-red-800 rounded-full p-[1px] transition duration-300">
+                        Join
+                    </button>
+                    <button (click)="onDecline(invite.id)"
+                        class='text-sm px-2 flex items-center bg-neutral-300 hover:bg-neutral-400 dark:bg-neutral-700 dark:hover:bg-neutral-800 rounded-lg p-[1px] transition duration-300'>
+                        <span class="material-symbols-rounded text-xl">
                             close
                         </span>
-                    </div>
+                        Cancel
+                    </button>
                 </div>
             </div>
         </swiper-slide>

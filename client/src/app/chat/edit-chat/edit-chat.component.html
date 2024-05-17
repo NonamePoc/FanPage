@@ -1,27 +1,14 @@
 <app-modal modalId='chatFormModal' title='Chat Room'>
     <form [formGroup]="chatForm" (ngSubmit)="onSubmit()">
-        <div [ngClass]="{'grid md:grid-cols-2 gap-2': editMode}">
+        <div>
             <div (click)="chatForm.get('type')?.setValue('public')"
-                [ngClass]="{'bg-slate-300 dark:bg-neutral-700 cursor-pointer': chatForm.get('Type')?.value === 'public' && editMode, 'cursor-pointer hover:bg-slate-300 dark:hover:bg-neutral-700': editMode}"
-                class='grid grid-cols-[auto_1fr] gap-1 px-2 py-4 bg-slate-200 dark:bg-neutral-900 rounded transition duration-300'>
+                class='grid grid-cols-[auto_1fr] gap-1 px-2 py-4 bg-slate-300 dark:bg-neutral-700 rounded transition duration-300'>
                 <span class="material-symbols-rounded text-3xl">
                     public
                 </span>
                 <div>
                     <h2 class='font-semibold'>Public</h2>
                     <p class='text-sm'>Anyone can join</p>
-                </div>
-            </div>
-
-            <div *ngIf='editMode' (click)="chatForm.get('type')?.setValue('private')"
-                [ngClass]="{'bg-slate-300 dark:bg-neutral-700': chatForm.get('Type')?.value === 'private'}"
-                class='cursor-pointer grid grid-cols-[auto_1fr] gap-1 px-2 py-4 bg-slate-200 dark:bg-neutral-900 hover:bg-slate-300 dark:hover:bg-neutral-700 rounded transition duration-300'>
-                <span class="material-symbols-rounded text-3xl">
-                    visibility_lock
-                </span>
-                <div>
-                    <h2 class='font-semibold'>Private</h2>
-                    <p class='text-sm'>Only invited users can join</p>
                 </div>
             </div>
         </div>

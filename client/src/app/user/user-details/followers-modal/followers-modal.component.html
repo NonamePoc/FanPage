@@ -1,0 +1,44 @@
+<app-modal modalId="followers" title='Followers'>
+    <div class='grid md:grid-cols-2 gap-2'>
+        <div *ngFor='let follower of followers' routerLink="/user/{{ follower.subName }}"
+            class='grid grid-cols-[auto_1fr_auto] items-center gap-3 p-2 rounded-lg bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 cursor-pointer'>
+            <img [src]="follower.avatar | imageNormalize" alt="User Friend"
+                class="rounded-full h-10 w-10 md:h-12 md:w-12 object-cover">
+            <div>
+                <h3 class='font-medium'>
+                    {{ follower.subName }}
+                </h3>
+            </div>
+            <div>
+                <span appDropdown
+                    class="material-symbols-rounded cursor-pointer p-1 hover:bg-neutral-100 dark:hover:bg-neutral-700  transition duration-300 rounded-full">
+                    more_horiz
+                </span>
+                <ul
+                    class='absolute drop-shadow-lg p-1 opacity-0 -z-10 bg-stone-200 dark:bg-neutral-800 rounded transition duration-300 -translate-x-5 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:left-1/2 md:before:left-3 before:w-4 before:h-4 before:bg-stone-200 dark:before:bg-neutral-800 before:rounded before:rotate-45'>
+                    <li (click)="onRemove(follower)"
+                        class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-700 px-1 py-1 rounded flex gap-1 items-center text-sm'>
+                        <span class="material-symbols-rounded text-xl">close</span>
+                        Remove
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div *ngIf='followers.length === 0' class='flex justify-center items-center h-32'>
+        <p class='text-lg font-medium text-neutral-500 dark:text-neutral-400'>No followers yet</p>
+    </div>
+
+    <nav aria-label="Followers navigation" *ngIf='followers.length >= 15'>
+        <ul class="list-style-none flex justify-center">
+            <li
+                class="cursor-pointer rounded-lg bg-transparent px-3 py-1.5 text-sm text-surface transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200 focus:text-primary-700 focus:outline-none active:bg-neutral-100 active:text-primary-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:focus:text-primary-500 dark:active:bg-neutral-700 dark:active:text-primary-500">
+                Previous
+            </li>
+            <li
+                class="cursor-pointer rounded-lg bg-transparent px-3 py-1.5 text-sm text-surface transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200 focus:text-primary-700 focus:outline-none active:bg-neutral-100 active:text-primary-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:focus:text-primary-500 dark:active:bg-neutral-700 dark:active:text-primary-500">
+                Next
+            </li>
+        </ul>
+    </nav>
+</app-modal>

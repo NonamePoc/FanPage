@@ -10,6 +10,7 @@ import { AuthService } from '../auth/auth.service';
 import { ImageNormalizePipe } from '../shared/image-normalize.pipe';
 import { ChatService } from '../chat/chat.service';
 import { User } from './../auth/user.model';
+import { NotifsComponent } from './notifs/notifs.component';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,7 @@ import { User } from './../auth/user.model';
     SearchComponent,
     DropdownDirective,
     ImageNormalizePipe,
+    NotifsComponent,
   ],
 })
 export class HeaderComponent implements OnInit {

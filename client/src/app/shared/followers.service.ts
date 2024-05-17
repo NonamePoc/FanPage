@@ -12,23 +12,16 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ChatService {
+export class FollowersService {
   hubConnection!: HubConnection;
-
-  private connectionStateSubject = new BehaviorSubject<HubConnectionState>(
-    HubConnectionState.Disconnected
-  );
-  connectionState = this.connectionStateSubject.asObservable();
-  private chatsSubject = new BehaviorSubject<any[]>([]);
-  chats = this.chatsSubject.asObservable();
-  private invitesSubject = new BehaviorSubject<any[]>([]);
-  invites = this.invitesSubject.asObservable();
+  private followersSubject = new BehaviorSubject<any[]>([]);
+  followers = this.followersSubject.asObservable();
 
   constructor(private authService: AuthService) {}
 
   connect() {
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl(`${environment.apiUrl}/chat`, {
+      .withUrl(`${environment.apiUrl}/followers`, {
         accessTokenFactory: () => {
           return this.authService.user.value?.token!;
         },
@@ -38,21 +31,14 @@ export class ChatService {
       .build();
 
     this.hubConnection.onclose = (err) => {
-      console.error('Chat hub connection FAILED', err);
+      console.error('Followers hub connection FAILED', err);
     };
 
     this.hubConnection.start().then(() => {
-      this.connectionStateSubject.next(this.hubConnection.state);
-
-      this.hubConnection.invoke('GlobalChats', 4, 1);
-      this.hubConnection.invoke('ChatsRequestUser');
-
-      this.hubConnection.on('GlobalChats', (data) => {
-        this.chatsSubject.next(data);
-      });
-
-      this.hubConnection.on('ChatRequestUser', (data) => {
-        this.invitesSubject.next(data);
+      this.hubConnection.invoke('FollowerList', 1);
+      this.hubConnection.on('FollowerList', (data) => {
+        console.log('Followers: ', data);
+        this.followersSubject.next(data);
       });
     });
   }

@@ -1,7 +1,7 @@
 @media (prefers-color-scheme: dark) {
-  p {
+  /* p {
     color: #fff !important;
-  }
+  } */
   .tox * {
     background-color: transparent !important;
     color: #fff !important;

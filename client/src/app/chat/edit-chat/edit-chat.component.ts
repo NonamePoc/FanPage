@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -55,10 +55,7 @@ export class EditChatComponent implements OnInit {
           type: this.chatForm.value.Type,
         }),
         this.chatService.hubConnection.on('Update', (data) => {
-          this.chatComp.joinedChats = this.chatComp.joinedChats.map((chat) =>
-            chat.id === data.id ? data : chat
-          );
-          this.chatComp.publicChats = this.chatComp.publicChats.map((chat) =>
+          this.chatComp.chats = this.chatComp.chats.map((chat) =>
             chat.id === data.id ? data : chat
           );
         }))
@@ -66,8 +63,7 @@ export class EditChatComponent implements OnInit {
       this.chatService.hubConnection.on(
         'Create',
         (data) =>
-          this.chatComp.joinedChats.length < 15 &&
-          this.chatComp.joinedChats.push(data)
+          this.chatComp.chats.length < 15 && this.chatComp.chats.push(data)
       );
 
     this.modalService.closeModal('chatFormModal');
@@ -76,10 +72,7 @@ export class EditChatComponent implements OnInit {
   onDelete() {
     this.chatService.hubConnection.invoke('Delete', this.chat.id);
     this.chatService.hubConnection.on('Delete', () => {
-      this.chatComp.joinedChats = this.chatComp.joinedChats.filter(
-        (chat) => chat.id !== this.chat.id
-      );
-      this.chatComp.publicChats = this.chatComp.publicChats.filter(
+      this.chatComp.chats = this.chatComp.chats.filter(
         (chat) => chat.id !== this.chat.id
       );
     });

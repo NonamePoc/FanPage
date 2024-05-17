@@ -1,0 +1,24 @@
+<div *ngIf='isAuthenticated'>
+    <span appDropdown class="material-symbols-rounded dark:text-neutral-400 flex self-center cursor-pointer">
+        notifications
+    </span>
+
+    <ul
+        class='drop-shadow-lg px-2 py-2 opacity-0 -z-1 mt-2 absolute right-2 bg-stone-200 dark:bg-neutral-800 rounded transition duration-300 -translate-x-5 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:right-11 md:before:right-16 before:w-4 before:h-4 before:bg-stone-200 dark:before:bg-neutral-800 before:rounded before:rotate-45'>
+        <li *ngFor='let notif of notifications'
+            class='cursor-pointer grid grid-cols-[1fr_auto] gap-3 items-center bg-stone-300 hover:bg-stone-100 dark:bg-neutral-700 dark:hover:bg-zinc-700 px-1 py-1 rounded'>
+            <div>
+                <h1 class='font-medium text-sm'>You have got a notification!</h1>
+                <p class='text-xs'>Text message</p>
+            </div>
+            <span class='text-xs'>
+                <!-- If there would be date -->
+                11:11
+            </span>
+        </li>
+        <li *ngIf='notifications.length < 1'>
+            <p class='text-center text-sm px-1 py-1'>No notifications yet</p>
+        </li>
+    </ul>
+
+</div>

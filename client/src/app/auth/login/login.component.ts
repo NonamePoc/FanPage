@@ -6,10 +6,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { AuthService } from '../auth.service';
-import { Observable } from 'rxjs';
 import { ModalService } from '../../shared/modal/modal.service';
 
 @Component({
@@ -48,23 +49,22 @@ export class LoginComponent implements OnInit {
     const { email, password } = this.signinForm.value;
     let authObs: Observable<any> = this.authService.login(email, password);
 
-    authObs.subscribe({
-      next: () => {
-        this.loadingChanged.emit(false);
-      },
-      error: (errorMessage) => {
-        console.log(errorMessage);
-        this.toastr.error(errorMessage, 'Error', {
-          timeOut: 3000,
-        });
-      },
-      complete: () => {
-        this.toastr.success('You have been logged in', 'Welcome');
-      },
-    });
-
+    authObs
+      .pipe(
+        finalize(() => {
+          this.modalService.closeModal('authModal');
+          window.location.reload();
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.toastr.success('You have been logged in', 'Welcome');
+        },
+        error: (errorMessage) => {
+          this.toastr.error(errorMessage, 'Error');
+        },
+      });
     this.signinForm.reset();
-    this.modalService.closeModal('authModal');
   }
 
   openRestorePassModal(): void {

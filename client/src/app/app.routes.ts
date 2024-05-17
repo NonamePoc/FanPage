@@ -4,7 +4,6 @@ import { BookComponent } from './library/book/book.component';
 import { UserComponent } from './user/user.component';
 import { ChatComponent } from './chat/chat.component';
 import { AuthComponent } from './auth/auth.component';
-import { AdminComponent } from './admin/admin.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ChatRoomComponent } from './chat/chat-room/chat-room.component';
 import { LibraryComponent } from './library/library.component';
@@ -83,11 +82,6 @@ export const routes: Routes = [
   {
     path: 'auth',
     component: AuthComponent,
-  },
-  {
-    path: 'admin',
-    component: AdminComponent,
-    canActivate: [AdminGuard],
   },
   {
     path: 'admin',

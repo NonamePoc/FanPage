@@ -7,7 +7,8 @@ import { Directive, ElementRef, HostListener, NgZone } from '@angular/core';
 export class DropdownDirective {
   private isOpen = false;
 
-  @HostListener('document:click', ['$event']) toggleOpen(event: Event) {
+  @HostListener('document:click', ['$event'])
+  toggleOpen(event: Event) {
     this.isOpen =
       this.elRef.nativeElement.contains(event.target) && !this.isOpen;
 
@@ -18,13 +19,12 @@ export class DropdownDirective {
     this.zone.runOutsideAngular(() => {
       setTimeout(() => {
         this.zone.run(() => {
-          this.isOpen
-            ? this.elRef.nativeElement.nextElementSibling.classList.add('open')
-            : this.elRef.nativeElement.nextElementSibling.classList.remove(
-                'open'
-              );
+          const nextSibling = this.elRef.nativeElement.nextElementSibling;
+          if (nextSibling) {
+            nextSibling.classList.toggle('open', this.isOpen);
+          }
         });
-      });
+      }, 0);
     });
   }
 
