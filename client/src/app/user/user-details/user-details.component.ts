@@ -19,6 +19,7 @@ import { Subscription } from 'rxjs';
 })
 export class UserDetailsComponent implements OnInit {
   user: User | null = null;
+  isFollowing: boolean = false;
   isLoading: boolean = true;
   isCurrentUser: boolean = false;
   followersCount: number = 0;
@@ -38,31 +39,47 @@ export class UserDetailsComponent implements OnInit {
       const username = params['username'];
       this.userService.getUser(username).subscribe((data) => {
         this.user = data;
-        console.log('User: ', this.user);
+        this.isFollowing = data.isFollowing;
         this.isCurrentUser =
           this.user?.username === this.authService.user?.getValue()?.username;
       });
       this.isLoading = false;
 
-      this.followersSubscription = this.followersService.followers.subscribe(
+      /* this.followersSubscription = this.followersService.followers.subscribe(
         (data) => {
           this.followersCount = data.length;
         }
-      );
+      ); */
     });
   }
 
   onFollow() {
+    this.isFollowing ? this.unfollow() : this.follow();
+  }
+
+  openFollowersModal() {
+    this.modalService.openModal('followers');
+  }
+
+  private follow() {
     this.followersService.hubConnection.invoke(
       'Subscribe',
       this.user?.username
     );
     this.followersService.hubConnection.on('Subscribe', (data) => {
       console.log('Subscribed to: ', data);
+      this.isFollowing = true;
     });
   }
 
-  openFollowersModal() {
-    this.modalService.openModal('followers');
+  private unfollow() {
+    this.followersService.hubConnection.invoke(
+      'Unsubscribe',
+      this.user?.username
+    );
+    this.followersService.hubConnection.on('Unsubscribe', (data) => {
+      console.log('Unsubscribed from: ', data);
+      this.isFollowing = false;
+    });
   }
 }

@@ -4,9 +4,9 @@
 
     <button *ngIf='!isCurrentUser' (click)="onFollow()"
         class='mx-auto mt-4 w-[90%] py-2 md:px-4 bg-slate-500 hover:bg-slate-600 rounded text-white text-sm md:text-base font-medium tranistion duration-300 flex gap-1 items-center justify-center'>
+        {{ isFollowing ? 'Unfollow' : 'Follow' }}
         <span class="material-symbols-rounded">
-            <!-- Change TRUE to a variable -->
-            {{ true ? 'person_cancel' : 'person_add' }}
+            {{ isFollowing ? 'person_cancel' : 'person_add' }}
         </span>
     </button>
 

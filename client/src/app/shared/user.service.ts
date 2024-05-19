@@ -28,6 +28,7 @@ export class UserService {
               role: user.role,
               avatar: user.userAvatar,
               bannedBy: user.whoBan,
+              isFollowing: user.isSubscribed,
               _token: user.token,
               _expirationDate: user.lifeTimeToken,
             };

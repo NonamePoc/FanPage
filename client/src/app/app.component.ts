@@ -11,6 +11,7 @@ import { AuthService } from './auth/auth.service';
 import { ThemeService } from './shared/theme.service';
 import { ChatService } from './chat/chat.service';
 import { FollowersService } from './shared/followers.service';
+import { CommentService } from './library/book/chapters/chapter/comments/comment.service';
 
 register();
 
@@ -35,7 +36,8 @@ export class AppComponent implements OnInit {
     private authService: AuthService,
     private themeService: ThemeService,
     private chatService: ChatService,
-    private followerService: FollowersService
+    private followerService: FollowersService,
+    private commentService: CommentService
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +51,7 @@ export class AppComponent implements OnInit {
     if (this.authService.user.value?.token) {
       this.chatService.connect();
       this.followerService.connect();
+      /* this.commentService.connect(); */
     }
   }
 }

@@ -1,6 +1,6 @@
 <section class='mt-4 mb-8 grid grid-cols-[auto_1fr] gap-4 items-center xl:px-72'>
     <div class='mt-2'>
-        <div class='grid grid-cols-[auto_1fr] gap-x-3 items-center'>
+        <div *ngFor='let comment of comments' class='grid grid-cols-[auto_1fr] gap-x-3 items-center'>
             <img class='h-10 w-10 rounded-full' src="https://picsum.photos/200" alt="User">
             <div class='flex gap-2 items-center'>
                 <p class='font-semibold'>Userrnam</p>
@@ -11,29 +11,19 @@
                     harum eos quas
                     labore doloremque laboriosam quia vero molestias consequatur cum. Laboriosam, velit
                     voluptate. Soluta numquam delectus, ea cum atque a!</p>
-                <span class="material-symbols-rounded cursor-pointer flex flex-col justify-end items-end text-xl">
-                    thumb_up
+                <span *ngIf='comment.authorName === currentUsername' (click)='openEditModal(comment)'
+                    class="material-symbols-rounded cursor-pointer flex flex-col justify-end items-end text-xl">
+                    edit
                 </span>
             </div>
-            <div
+            <!-- <div
                 class='col-start-2 flex items-center justify-between p-2 bg-stone-100 dark:bg-neutral-800 rounded my-2'>
                 <textarea type="text" class='resize-none p-1 bg-transparent w-full h-[36px]'
                     placeholder='Type a replay...'></textarea>
                 <span class="material-symbols-rounded cursor-pointer text-stone-500">
                     send
                 </span>
-            </div>
-        </div>
-        <div class='ml-12 mt-2 grid grid-cols-[auto_1fr] gap-x-3 items-center'>
-            <img class='h-10 w-10 rounded-full' src="https://picsum.photos/200" alt="User">
-            <div class='flex gap-2 items-center'>
-                <p class='font-semibold'>Userrnam</p>
-            </div>
-            <p class='col-start-2'>Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Aperiam,
-                harum eos quas
-                labore doloremque laboriosam quia vero molestias consequatur cum. Laboriosam, velit
-                voluptate. Soluta numquam delectus, ea cum atque a!</p>
+            </div> -->
         </div>
     </div>
 </section>

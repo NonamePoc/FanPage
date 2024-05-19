@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute, Params } from '@angular/router';
 import { ModalComponent } from '../../../shared/modal/modal.component';
 import { ImageNormalizePipe } from '../../../shared/image-normalize.pipe';
 import { FollowersService } from '../../../shared/followers.service';
@@ -22,30 +22,47 @@ import { DropdownDirective } from '../../../shared/dropdown.directive';
 })
 export class FollowersModalComponent implements OnInit {
   followers: any[] = [];
+  username: string = '';
   page: number = 1;
 
-  private followersSubscription!: Subscription;
-
-  constructor(private followersService: FollowersService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private followersService: FollowersService
+  ) {}
 
   ngOnInit() {
-    this.followersSubscription = this.followersService.followers.subscribe(
-      (data) => {
+    this.route.params.subscribe((params: Params) => {
+      this.username = params['username'];
+      this.followersService.hubConnection.invoke(
+        'FollowerList',
+        this.username,
+        this.page
+      );
+
+      this.followersService.hubConnection.on('FollowerList', (data) => {
         this.followers = data;
-      }
-    );
+      });
+    });
   }
 
   onPagePrevious(page: number) {
     this.page < 1 ? (this.page = 1) : (this.page = page - 1);
 
-    this.followersService.hubConnection.invoke('GetFollowers', this.page);
+    this.followersService.hubConnection.invoke(
+      'FollowerList',
+      this.username,
+      this.page
+    );
   }
 
   onPageNext(page: number) {
     this.page = page + 1;
 
-    this.followersService.hubConnection.invoke('GetFollowers', this.page);
+    this.followersService.hubConnection.invoke(
+      'FollowerList',
+      this.username,
+      this.page
+    );
   }
 
   onRemove(follower: any) {

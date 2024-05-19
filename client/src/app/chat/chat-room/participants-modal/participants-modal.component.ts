@@ -33,10 +33,10 @@ export class ParticipantsModalComponent implements OnInit {
       this.chatId = data[0]?.chatId;
     });
 
-    this.followersService.followers.subscribe((data) => {
+    /* this.followersService.followers.subscribe((data) => {
       this.followers = data;
       this.filteredFollowers = data;
-    });
+    }); */
   }
 
   search($event: any) {
