@@ -39,8 +39,15 @@ namespace FanPage.Api.Mapper
 
         private void ChatMaps()
         {
-            CreateMap<ChatModel, ChatDto>();
+            CreateMap<ChatModel, ChatDto>()
+                  .ForMember(dest => dest.ChatUsers, opt => opt.MapFrom(src => src.Users.Select(u => new ChatUserDto
+                  {
+                      UserName = u.UserName
+                  })));
+
             CreateMap<ChatDto, Chat>();
+                            
+    
             CreateMap<Chat, ChatDto>();
 
             CreateMap<MessageModel, MessageDto>();
@@ -60,7 +67,6 @@ namespace FanPage.Api.Mapper
               .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.Chat.Messages))
               .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Chat.AuthorName))
               .ReverseMap();
-
 
         }
 

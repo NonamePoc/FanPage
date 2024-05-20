@@ -16,5 +16,9 @@ namespace FanPage.Domain.Account.Entities
 
         [ForeignKey("SubId")] public User Sub { get; set; }
 
+        public bool is_AreFollowersMutual { get; set; }
+
+        public string UnsubscribedBy { get; set; }
+
     }
 }

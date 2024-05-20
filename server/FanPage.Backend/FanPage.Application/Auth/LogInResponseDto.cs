@@ -14,6 +14,8 @@
 
         public string UserAvatar { get; set; }
 
+        public bool IsSubscribed { get; set; }
+
         public DateTime LifeTimeToken { get; set; }
     }
 }

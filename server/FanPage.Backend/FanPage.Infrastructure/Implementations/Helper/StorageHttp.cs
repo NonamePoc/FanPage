@@ -12,7 +12,7 @@ namespace FanPage.Infrastructure.Implementations.Helper
 
     public class StorageHttp : IStorageHttp
     {
-        private const string _url = "https://zkdmv48c-5002.euw.devtunnels.ms/swagger/index.html";
+        private const string _url = "https://zkdmv48c-5002.euw.devtunnels.ms";
 
         public async Task<UploadResult> SendFileToStorageService(IFormFile file)
         {
@@ -27,7 +27,11 @@ namespace FanPage.Infrastructure.Implementations.Helper
             );
             var response = await client.PostAsync(_url + "/MinioFile", formData);
             if (!response.IsSuccessStatusCode)
-                throw new Exception("Failed to upload file to storage service");
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Failed to upload file to storage service. Server response: {response.Content}");
+            }
+
             var result = await response.Content.ReadFromJsonAsync<UploadResult>();
             return result;
         }

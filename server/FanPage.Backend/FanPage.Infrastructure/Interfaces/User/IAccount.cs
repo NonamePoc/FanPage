@@ -24,8 +24,7 @@ namespace FanPage.Infrastructure.Interfaces.User
 
         Task ChangeAvatar(string avatar, HttpRequest request);
 
-        Task<LogInResponseDto> GetUserInfo(string userId);
-
+        Task<LogInResponseDto> GetUserInfo(HttpRequest request, string userName);
         Task GoogleRegistration(string googleToken);
     }
 }

@@ -6,8 +6,6 @@ public class ChatModel
 
     public string Description { get; set; }
 
-    public string Type { get; set; }
-
     public List<ChatUserModel>? Users { get; set; }
 
 }

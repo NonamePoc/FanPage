@@ -64,8 +64,10 @@ public class ChatService : IChat
     {
         try
         {
+            chat.Type = "public";
             var userName = _jwtTokenManager.GetUserNameFromToken(request);
             var userId = _jwtTokenManager.GetUserIdFromToken(request);
+            var usersList = chat.ChatUsers.ToList();
 
             if (userName == null)
             {
@@ -80,11 +82,13 @@ public class ChatService : IChat
                 throw new ChatException($"Chat with this name already exists");
             }
 
+
             var chatEntity = await _chatRepository.CreateAsync(chat);
 
             await _chatRepository.AddUserToChatAsync(chatEntity.Id, userId, userName);
 
-            var usersTasks = chat.ChatUsers
+
+            var usersTasks = usersList
                 .Select(async usersChat =>
                 {
                     var user = await _userManager.FindByNameAsync(usersChat.UserName);
@@ -93,13 +97,16 @@ public class ChatService : IChat
                         usersChat.UserId = user.Id;
                         usersChat.Avatar = await _storageHttp.GetImageBase64FromStorageService(user.UserAvatar);
                         usersChat.ChatId = chatEntity.Id;
-                        usersChat.AcceptedRequest = false;
+                        if (chatEntity.AuthorName == userName)
+                        {
+                            usersChat.AcceptedRequest = true;
+                        }
                     }
                 });
 
             await Task.WhenAll(usersTasks);
 
-            var listChatUser = chat.ChatUsers.Where(u => u.UserId != null).ToList();
+            var listChatUser = usersList.Where(u => u.UserId != null).ToList();
 
             await _chatRepository.InviteUserToChatAsync(chatEntity.Id, listChatUser);
 

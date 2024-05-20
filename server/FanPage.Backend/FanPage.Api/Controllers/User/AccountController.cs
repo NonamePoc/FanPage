@@ -234,13 +234,14 @@ namespace FanPage.Api.Controllers.User
 
         [HttpGet]
         [Route("getProfile")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(typeof(JsonResponseContainer<LogInViewModel>), 200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(typeof(JsonResponseContainer[]), 400)]
         [ProducesResponseType(typeof(JsonResponseContainer), 500)]
         public async Task<IActionResult> GetProfile([FromQuery] string userName)
         {
-            var retrieval = await _accountService.GetUserInfo(userName);
+            var retrieval = await _accountService.GetUserInfo(HttpContext.Request,userName);
             var response = _mapper.Map<LogInResponseDto>(retrieval);
             return Ok(response);
         }

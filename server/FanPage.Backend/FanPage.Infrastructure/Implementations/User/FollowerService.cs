@@ -28,11 +28,48 @@ namespace FanPage.Infrastructure.Implementations.User
             _storageHttp = storageHttp;
         }
 
-        public async Task<List<FollowerDto>> FollowerList(HttpRequest request, int page)
+
+        // Повертає список підписників користувача
+        public async Task<List<FollowerDto>> UserFollower(string userName, int page)
         {
             try
             {
-                var userName = _jwtTokenManager.GetUserNameFromToken(request);
+
+
+                var followers = await _repository.UserFollower(userName, page);
+                var list = new List<FollowerDto>();
+                foreach (var follower in followers)
+                {
+                    var followerDto = new FollowerDto
+                    {
+                        UserName = follower.UserName,
+                        SubName = follower.SubName,
+                        Avatar = follower.Avatar
+                    };
+                    if (follower.Avatar != null)
+                    {
+                        var uploadResult = await _storageHttp.GetImageBase64FromStorageService(
+                            follower.Avatar
+                        );
+                        followerDto.Avatar = uploadResult;
+                    }
+
+                    list.Add(followerDto);
+                }
+
+                return list;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error get user follower: " + e.Message);
+            }
+        }
+
+        // Повертає список підписників користувача
+        public async Task<List<FollowerDto>> FollowerList(string userName, int page)
+        {
+            try
+            {
                 var followers = await _repository.FollowerList(userName, page);
                 var list = new List<FollowerDto>();
                 foreach (var follower in followers)
@@ -66,6 +103,15 @@ namespace FanPage.Infrastructure.Implementations.User
         {
             try
             {
+                //var token = ExtractTokenFromRequest(request);
+
+
+                //request.Headers["Authorization"] = $"Bearer {token}";
+
+                //if (userName == _jwtTokenManager.GetUserNameFromToken(request))
+                //{
+                //    throw new Exception("You can't subscribe to yourself");
+                //}
                 var subName = _jwtTokenManager.GetUserNameFromToken(request);
                 var subId = _jwtTokenManager.GetUserIdFromToken(request);
                 var user = await _userManager.FindByNameAsync(userName);
@@ -78,10 +124,22 @@ namespace FanPage.Infrastructure.Implementations.User
             }
         }
 
+
+
+
         public async Task<bool> Unsubscribe(HttpRequest request, string userName)
         {
             try
             {
+                //var token = ExtractTokenFromRequest(request);
+
+
+                //request.Headers["Authorization"] = $"Bearer {token}";
+
+                //if (userName == _jwtTokenManager.GetUserNameFromToken(request))
+                //{
+                //    throw new Exception("You can't unsubscribe to yourself");
+                //}
                 var subName = _jwtTokenManager.GetUserNameFromToken(request);
                 await _repository.Unsubscribe(subName, userName);
                 return true;
@@ -90,6 +148,16 @@ namespace FanPage.Infrastructure.Implementations.User
             {
                 throw new Exception("Error unsubscribe: " + e.Message);
             }
+        }
+
+
+        private string ExtractTokenFromRequest(HttpRequest request)
+        {
+            if (request.Query.TryGetValue("access_token", out var token))
+            {
+                return token;
+            }
+            throw new Exception("Token is missing");
         }
     }
 }

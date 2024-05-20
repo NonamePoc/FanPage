@@ -30,6 +30,8 @@ namespace FanPage.Infrastructure.Implementations.User
 
         private readonly IStorageHttp _storageHttp;
 
+        private readonly IFollowerRepository _followerRepository;
+
         public AccountServiсe(
             ICustomizationSettingsRepository customizationSettings,
             IPasswordManager passwordManager,
@@ -37,7 +39,8 @@ namespace FanPage.Infrastructure.Implementations.User
             IJwtTokenManager jwtTokenManager,
             IdentityUserManager identityUser,
             IEmailService emailService,
-            IStorageHttp storageHttp
+            IStorageHttp storageHttp,
+            IFollowerRepository followerRepository
         )
         {
             _userManager = identityUser;
@@ -47,6 +50,7 @@ namespace FanPage.Infrastructure.Implementations.User
             _signInManager = signInManager;
             _passwordManager = passwordManager;
             _customizationSettings = customizationSettings;
+            _followerRepository = followerRepository;
         }
 
         public async Task ConfirmEmail(ConfirmEmailDto confirmEmail)
@@ -70,15 +74,17 @@ namespace FanPage.Infrastructure.Implementations.User
             }
         }
 
-        public async Task<LogInResponseDto> GetUserInfo(string userName)
+        public async Task<LogInResponseDto> GetUserInfo(HttpRequest request,string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
+            var usernameIsToken = _jwtTokenManager.GetUserNameFromToken(request);
 
             if (user is null)
                 throw new UserNotFoundException("User not found");
 
             var role = await _userManager.GetRolesAsync(user);
             var avatar = await _storageHttp.GetImageBase64FromStorageService(user.UserAvatar);
+            var isSubscribed = await _followerRepository.IsSubscribed(usernameIsToken,userName);
 
             return new LogInResponseDto
             {
@@ -89,6 +95,7 @@ namespace FanPage.Infrastructure.Implementations.User
                 Role = role.FirstOrDefault(),
                 WhoBan = user.WhoBan,
                 UserAvatar = avatar,
+                IsSubscribed = isSubscribed
             };
         }
 

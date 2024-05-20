@@ -19,10 +19,14 @@ public class FollowerHub : Hub
         _mapper = mapper;
     }
 
-    public async Task FollowerList(int page)
+    public async Task UserFollower(string userName, int page)
     {
-        var request = Context.GetHttpContext().Request;
-        var result = await _follower.FollowerList(request, page);
+        var result = await _follower.UserFollower(userName, page);
+        await Clients.All.SendAsync("UserFollower", result);
+    }
+    public async Task FollowerList(string userName,int page)
+    {
+        var result = await _follower.FollowerList(userName, page);
         await Clients.All.SendAsync("FollowerList", result);
     }
 
@@ -36,6 +40,7 @@ public class FollowerHub : Hub
     public async Task Unsubscribe(string username)
     {
         var request = Context.GetHttpContext().Request;
-        await _follower.Unsubscribe(request, username);
+        var result = await _follower.Unsubscribe(request, username);
+        await Clients.All.SendAsync("Unsubscribe", result);
     }
 }

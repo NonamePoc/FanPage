@@ -24,24 +24,22 @@ public class ChatHub : Hub
         _mapper = mapper;
     }
 
-    // join to chat
-    //public async Task JoinChat(int chatId)
-    //{
-    //    await Groups.AddToGroupAsync(Context.ConnectionId, chatId.ToString());
-    //    var request = Context.GetHttpContext().Request;
-    //    var result = await _chat.GetChatAsync(chatId, request);
-    //    await Clients.All.SendAsync("JoinChat", result);
-    //}
+    public async Task JoinChat(int chatId,int messagePage, int userPage)
+    {
+        await Groups.AddToGroupAsync(Context.ConnectionId, chatId.ToString());
+        var request = Context.GetHttpContext().Request;
+        var result = await _chat.GetChatAsync(chatId, messagePage, userPage, request);
+        await Clients.All.SendAsync("JoinChat", result);
+    }
 
-    //// leave chat
 
-    //public async Task LeaveChat(int chatId)
-    //{
-    //    await Groups.RemoveFromGroupAsync(Context.ConnectionId, chatId.ToString());
-    //    var request = Context.GetHttpContext().Request;
-    //    var result = await _chat.GetChatAsync(chatId, request);
-    //    await Clients.All.SendAsync("LeaveChat", result);
-    //}
+    public async Task LeaveChat(int chatId)
+    {
+        await Groups.RemoveFromGroupAsync(Context.ConnectionId, chatId.ToString());
+        var request = Context.GetHttpContext().Request;
+        var result = await _chat.GetChatAsync(chatId,1,1, request);
+        await Clients.All.SendAsync("LeaveChat", result);
+    }
 
     /// <summary>
     ///  Get object chat

@@ -122,10 +122,23 @@ public class ChatRepository : IChatRepository
 
     public async Task<ChatDto> CreateAsync(ChatDto chat)
     {
-        var chatEntity = _mapper.Map<Entities.Chat>(chat);
-        await _context.Chats.AddAsync(chatEntity);
-        await _context.SaveChangesAsync();
-        return _mapper.Map<ChatDto>(chatEntity);
+        try
+        {
+            var chatEntity = _mapper.Map<Entities.Chat>(chat);
+
+            if (chatEntity.ChatUsers.Count > 0)
+            {
+                chatEntity.ChatUsers = new List<ChatUser>();
+            }
+            await _context.Chats.AddAsync(chatEntity);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<ChatDto>(chatEntity);
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+       
     }
 
     public async Task<List<ChatDto>> SearchChatAsync(string search, string username)
@@ -266,10 +279,10 @@ public class ChatRepository : IChatRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task AcceptUserToChatAsync(int chatId, string userId)
+    public async Task AcceptUserToChatAsync(int chatId, string userName)
     {
         var chatUser = await _context.ChatUsers.FirstOrDefaultAsync(x =>
-            x.ChatId == chatId && x.UserId == userId
+            x.ChatId == chatId && x.UserName == userName
         );
 
         if (chatUser == null)
