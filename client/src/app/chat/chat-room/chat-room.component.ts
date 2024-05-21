@@ -1,6 +1,6 @@
 import { ModalService } from './../../shared/modal/modal.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, RouterLink } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { DropdownDirective } from '../../shared/dropdown.directive';
 import { ChatService } from '../chat.service';
 import { HubConnectionState } from '@microsoft/signalr';
@@ -31,6 +31,7 @@ export class ChatRoomComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private chatService: ChatService,
     private modalService: ModalService,
     private authService: AuthService
@@ -40,18 +41,37 @@ export class ChatRoomComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.chatService.connectionState.subscribe((state) => {
         if (state === HubConnectionState.Connected) {
-          console.log('ChatId', +params['id']);
-          this.chatService.hubConnection.invoke('GetChat', +params['id'], 1, 1);
+          this.chatService.hubConnection.invoke('ChatsUser');
         }
       });
 
+      this.chatService.hubConnection.on('ChatsUser', (joinedChats) => {
+        this.chatService.chats.subscribe((publicChats) => {
+          console.log('publicChats', publicChats);
+          console.log('joinedChats', joinedChats);
+
+          const chatId = +params['id'];
+          console.log('chatId', chatId);
+          //check if there is a chat user joined
+          const isJoined = joinedChats.some((chat: any) => chat.id === chatId);
+          console.log('isJoined', isJoined);
+
+          !isJoined
+            ? this.chatService.hubConnection.invoke('JoinChat', chatId)
+            : this.chatService.hubConnection.invoke('GetChat', chatId);
+
+          this.chatService.hubConnection.invoke('GetChat', chatId);
+        });
+      });
+
       this.chatService.hubConnection.on('GetChat', (data) => {
-        this.chat = data;
         console.log('GetChat', data);
-        this.isCurrentUser = data.chatUsers.some(
-          (user: any) => user.userName === this.authService.user.value?.username
-        );
-        this.membersSubject.next(data.chatUsers);
+        this.setChatandMembers(data);
+      });
+
+      this.chatService.hubConnection.on('JoinChat', (data) => {
+        console.log('JoinChat', data);
+        this.setChatandMembers(data);
       });
     });
   }
@@ -73,5 +93,20 @@ export class ChatRoomComponent implements OnInit {
       console.log('Content', data);
       this.chat.messages.push(data);
     });
+  }
+
+  onLeave() {
+    this.chatService.hubConnection.invoke('LeaveChat', +this.chat.id);
+    this.chatService.hubConnection.on('LeaveChat', () => {
+      this.router.navigate(['/chat']);
+    });
+  }
+
+  private setChatandMembers(data: any) {
+    this.chat = data;
+    this.isCurrentUser = data.chatUsers.some(
+      (user: any) => user.userName === this.authService.user.value?.username
+    );
+    this.membersSubject.next(data.chatUsers);
   }
 }

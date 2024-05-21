@@ -8,7 +8,7 @@ import { User } from '../../auth/user.model';
 import { UserService } from '../../shared/user.service';
 import { FollowersService } from '../../shared/followers.service';
 import { FollowersModalComponent } from './followers-modal/followers-modal.component';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-details',
@@ -22,8 +22,9 @@ export class UserDetailsComponent implements OnInit {
   isFollowing: boolean = false;
   isLoading: boolean = true;
   isCurrentUser: boolean = false;
-  followersCount: number = 0;
 
+  private currentModalTypeSubject = new BehaviorSubject<boolean>(true);
+  modalType = this.currentModalTypeSubject.asObservable();
   private followersSubscription!: Subscription;
 
   constructor(
@@ -44,12 +45,6 @@ export class UserDetailsComponent implements OnInit {
           this.user?.username === this.authService.user?.getValue()?.username;
       });
       this.isLoading = false;
-
-      /* this.followersSubscription = this.followersService.followers.subscribe(
-        (data) => {
-          this.followersCount = data.length;
-        }
-      ); */
     });
   }
 
@@ -58,6 +53,12 @@ export class UserDetailsComponent implements OnInit {
   }
 
   openFollowersModal() {
+    this.currentModalTypeSubject.next(true);
+    this.modalService.openModal('followers');
+  }
+
+  openFollowingModal() {
+    this.currentModalTypeSubject.next(false);
     this.modalService.openModal('followers');
   }
 

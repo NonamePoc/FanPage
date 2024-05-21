@@ -5,6 +5,7 @@ import { ChatRoomComponent } from '../chat-room.component';
 import { FollowersService } from '../../../shared/followers.service';
 import { ChatService } from '../../chat.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-participants-modal',
@@ -24,7 +25,8 @@ export class ParticipantsModalComponent implements OnInit {
     private toastr: ToastrService,
     private chatRoomComp: ChatRoomComponent,
     private followersService: FollowersService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -33,10 +35,15 @@ export class ParticipantsModalComponent implements OnInit {
       this.chatId = data[0]?.chatId;
     });
 
-    /* this.followersService.followers.subscribe((data) => {
+    this.followersService.hubConnection.invoke(
+      'UserFollower',
+      this.authService.user.value?.username,
+      1
+    );
+
+    this.followersService.hubConnection.on('UserFollower', (data) => {
       this.followers = data;
-      this.filteredFollowers = data;
-    }); */
+    });
   }
 
   search($event: any) {

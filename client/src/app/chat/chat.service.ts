@@ -44,7 +44,7 @@ export class ChatService {
     this.hubConnection.start().then(() => {
       this.connectionStateSubject.next(this.hubConnection.state);
 
-      this.hubConnection.invoke('GlobalChats', 4, 1);
+      this.hubConnection.invoke('GlobalChats');
       this.hubConnection.invoke('ChatsRequestUser');
 
       this.hubConnection.on('GlobalChats', (data) => {

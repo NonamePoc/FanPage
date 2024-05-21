@@ -28,7 +28,6 @@ import { ImageValidateService } from '../shared/image-validate.service';
 })
 export class SettingsComponent implements OnInit {
   avatar?: string = '';
-  bannerImage?: string = '';
 
   constructor(
     private modalService: ModalService,

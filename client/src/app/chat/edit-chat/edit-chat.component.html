@@ -1,7 +1,7 @@
 <app-modal modalId='chatFormModal' title='Chat Room'>
     <form [formGroup]="chatForm" (ngSubmit)="onSubmit()">
         <div>
-            <div (click)="chatForm.get('type')?.setValue('public')"
+            <div
                 class='grid grid-cols-[auto_1fr] gap-1 px-2 py-4 bg-slate-300 dark:bg-neutral-700 rounded transition duration-300'>
                 <span class="material-symbols-rounded text-3xl">
                     public
@@ -24,6 +24,39 @@
             <input formControlName='Description' id='description' placeholder="Enter a description for your chatroom"
                 class='p-2 rounded-md border border-slate-300 w-full bg-slate-200 focus:border-blue-300 dark:bg-neutral-900 dark:border-neutral-700 transition duration-200' />
         </div>
+
+        <!--         <div class='mt-4'>
+            <label for='participants' class='font-medium flex gap-1 items-center justify-between'>Participants
+                <span (click)='onAddFollowerSelector()'
+                    class='p-2 cursor-pointer bg-stone-200 hover:bg-stone-200 dark:bg-neutral-900 dark:border-neutral-700  transition duration-200 font-medium rounded-full w-5 h-5 flex items-center justify-center'>
+                    +
+                </span>
+            </label>
+
+            <div *ngFor="let select of selectedFollowers; index as i" class='relative mb-2'>
+                <div appDropdown
+                    class='flex items-center justify-between p-2 rounded-md border border-slate-300 bg-slate-200 dark:bg-neutral-900 dark:border-neutral-700 cursor-pointer transition duration-200'>
+                    <span>{{select.userName}} </span>
+                    <div>
+                        <span *ngIf="selectedFollowers.length > 1" (click)='onRemoveFollower(i)'
+                            class="material-symbols-rounded text-xl text-rose-600 hover:text-rose-400 transition duration-200">
+                            close
+                        </span>
+                        <span class="material-symbols-rounded text-xl">
+                            keyboard_arrow_down
+                        </span>
+                    </div>
+                </div>
+                <ul
+                    class='w-full drop-shadow-lg overflow-y-scroll max-h-52 p-1 opacity-0 -z-10 absolute border border-slate-300 bg-slate-200 dark:bg-neutral-900 dark:border-neutral-700  rounded transition duration-300'>
+                    <li [ngClass]="{'bg-stone-100 dark:bg-neutral-700': follower.name === select}"
+                        *ngFor='let follower of followers' (click)='onSelectFollower(i, follower)'
+                        class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-800 p-1 rounded flex gap-1 items-center text-sm'>
+                        {{follower.userName}}
+                    </li>
+                </ul>
+            </div>
+        </div> -->
 
         <div class='flex gap-2'>
             <button type='submit'
