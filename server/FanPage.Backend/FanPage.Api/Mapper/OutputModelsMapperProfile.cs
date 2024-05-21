@@ -46,8 +46,8 @@ namespace FanPage.Api.Mapper
                   })));
 
             CreateMap<ChatDto, Chat>();
-                            
-    
+
+            CreateMap<ChatUserDto, ChatUserModel>();
             CreateMap<Chat, ChatDto>();
 
             CreateMap<MessageModel, MessageDto>();

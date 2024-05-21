@@ -14,5 +14,5 @@ public class ChapterViewModel
 
     public string? AuthorName { get; set; }
 
-    public byte[]? FanficPhoto { get; set; }
+    public string FanficPhoto { get; set; }
 }

@@ -19,24 +19,14 @@ public class ChatRepository : IChatRepository
         _mapper = mapper;
     }
 
-    public async Task<ChatDto> GetByIdAsync(int id, int messagePage, int userPage)
+    public async Task<ChatDto> GetByIdAsync(int id)
     {
         var chat = await _context.Chats
             .Include(x => x.ChatUsers)
             .Include(x => x.Messages)
             .FirstOrDefaultAsync(x => x.Id == id);
 
-        if (chat != null)
-        {
-            if (userPage * 10 < chat.ChatUsers.Count)
-            {
-                chat.ChatUsers = chat.ChatUsers.Skip(userPage * 10).Take(10).ToList();
-            }
-            else
-            {
-                chat.ChatUsers = new List<ChatUser>();
-            }
-        }
+
 
         return _mapper.Map<ChatDto>(chat);
     }
@@ -48,13 +38,11 @@ public class ChatRepository : IChatRepository
         return _mapper.Map<ChatDto>(chat);
     }
 
-    public async Task<List<ChatDto>> GetChatsUserAsync(string userName, int offset, int page)
+    public async Task<List<ChatDto>> GetChatsUserAsync(string userName)
     {
         var chatUser = await _context.ChatUsers
             .Where(w => w.UserName == "vlasta2" && w.AcceptedRequest == true)
             .Include(x => x.Chat.Messages.OrderByDescending(m => m.ReceivedDateUtc))
-            .Skip((page - 1) * offset)
-            .Take(offset)
             .ToListAsync();
 
         return _mapper.Map<List<ChatDto>>(chatUser);
@@ -84,7 +72,7 @@ public class ChatRepository : IChatRepository
                 Description = s.Chat.Description,
                 AuthorName = s.Chat.AuthorName,
                 FriendId = s.UserId,
-                ChatUsers = new List<ChatUserDto>(),
+                //ChatUsers = new List<ChatUserDto>(),
                 Messages = new List<MessageDto>()
             })
             .ToListAsync();
@@ -92,14 +80,12 @@ public class ChatRepository : IChatRepository
         return chats;
     }
 
-    public async Task<List<ChatDto>> GetGlobalChatsAsync(int offset, int page)
+    public async Task<List<ChatDto>> GetGlobalChatsAsync()
     {
         var chats = await _context.Chats
               .Where(w => w.Type == "public")
               .Include(x => x.ChatUsers)
               .Include(x => x.Messages.OrderByDescending(m => m.ReceivedDateUtc))
-              .Skip((page - 1) * offset)
-              .Take(offset)
               .ToListAsync();
 
         return _mapper.Map<List<ChatDto>>(chats);

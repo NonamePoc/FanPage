@@ -24,11 +24,11 @@ public class ChatHub : Hub
         _mapper = mapper;
     }
 
-    public async Task JoinChat(int chatId,int messagePage, int userPage)
+    public async Task JoinChat(int chatId)
     {
         await Groups.AddToGroupAsync(Context.ConnectionId, chatId.ToString());
         var request = Context.GetHttpContext().Request;
-        var result = await _chat.GetChatAsync(chatId, messagePage, userPage, request);
+        var result = await _chat.GetChatAsync(chatId, request);
         await Clients.All.SendAsync("JoinChat", result);
     }
 
@@ -37,7 +37,7 @@ public class ChatHub : Hub
     {
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, chatId.ToString());
         var request = Context.GetHttpContext().Request;
-        var result = await _chat.GetChatAsync(chatId,1,1, request);
+        var result = await _chat.GetChatAsync(chatId, request);
         await Clients.All.SendAsync("LeaveChat", result);
     }
 
@@ -47,12 +47,12 @@ public class ChatHub : Hub
     /// <param name="chatId">id chat</param>
     /// <returns>Chat object</returns>
 
-    public async Task GetChat(int chatId, int messagePage, int userPage)
+    public async Task GetChat(int chatId)
     {
         try
         {
             var request = Context.GetHttpContext().Request;
-            var result = await _chat.GetChatAsync(chatId, messagePage, userPage, request);
+            var result = await _chat.GetChatAsync(chatId, request);
             await Clients.All.SendAsync("GetChat", result);
         }
         catch (Exception e)
@@ -66,12 +66,12 @@ public class ChatHub : Hub
     /// </summary>
     /// <param name="offset">count chat</param>
     /// <returns>List chat object</returns>
-    public async Task GlobalChats(int offset, int page)
+    public async Task GlobalChats()
     {
         try
         {
             var request = Context.GetHttpContext().Request;
-            var result = await _chat.GetGlobalChats(offset, page, request);
+            var result = await _chat.GetGlobalChats(request);
             await Clients.All.SendAsync("GlobalChats", result);
         }
         catch (Exception e)
@@ -86,12 +86,12 @@ public class ChatHub : Hub
     /// <param name="offset">chat count</param>
     /// <param name="page">page</param>
     /// <returns>List user chat object</returns>
-    public async Task ChatsUser(int offset, int page)
+    public async Task ChatsUser()
     {
         try
         {
             var request = Context.GetHttpContext().Request;
-            var result = await _chat.GetChatsUser(offset, page, request);
+            var result = await _chat.GetChatsUser(request);
             await Clients.All.SendAsync("ChatsUser", result);
         }
         catch (Exception e)

@@ -139,7 +139,7 @@ public class ChatService : IChat
         {
             var userId = _jwtTokenManager.GetUserIdFromToken(request);
             var userName = _jwtTokenManager.GetUserNameFromToken(request);
-            var chat = await _chatRepository.GetByIdAsync(chatId, 1, 1);
+            var chat = await _chatRepository.GetByIdAsync(chatId);
             if (userId == null || chat == null)
             {
                 throw new ChatException($"Error Chat");
@@ -201,7 +201,7 @@ public class ChatService : IChat
         try
         {
             var userName = _jwtTokenManager.GetUserNameFromToken(request);
-            var chat = await _chatRepository.GetByIdAsync(id, 1, 1);
+            var chat = await _chatRepository.GetByIdAsync(id);
             if (chat == null)
             {
                 throw new ChatException($"Chat with id {id} not found.");
@@ -220,7 +220,7 @@ public class ChatService : IChat
         }
     }
 
-    public async Task<ChatDto> GetChatAsync(int id, int messagePage, int userPage, HttpRequest request)
+    public async Task<ChatDto> GetChatAsync(int id, HttpRequest request)
     {
         try
         {
@@ -232,7 +232,7 @@ public class ChatService : IChat
 
             var resultList = new List<ChatDto>();
             var chatUsers = await _chatRepository.PrivateGetChatUsersAsync(id);
-            var chat = await _chatRepository.GetByIdAsync(id, userPage, messagePage);
+            var chat = await _chatRepository.GetByIdAsync(id);
 
             var userTasks = chatUsers.Select(async chatUser =>
             {
@@ -324,7 +324,7 @@ public class ChatService : IChat
         }
     }
 
-    public async Task<List<ChatDto>> GetChatsUser(int offset, int page, HttpRequest request)
+    public async Task<List<ChatDto>> GetChatsUser(HttpRequest request)
     {
         try
         {
@@ -334,7 +334,7 @@ public class ChatService : IChat
                 throw new ChatException($"Username is null");
             }
 
-            var result = await _chatRepository.GetChatsUserAsync(userName, offset, page);
+            var result = await _chatRepository.GetChatsUserAsync(userName);
 
             return result
                 .Select(c => new ChatDto
@@ -352,7 +352,7 @@ public class ChatService : IChat
         catch (Exception e) { throw new Exception("Error get chats: " + e.Message); }
     }
 
-    public async Task<List<ChatDto>> GetGlobalChats(int offset, int page, HttpRequest request)
+    public async Task<List<ChatDto>> GetGlobalChats(HttpRequest request)
     {
         try
         {
@@ -362,7 +362,7 @@ public class ChatService : IChat
                 throw new ChatException($"Username is null");
             }
 
-            var chats = await _chatRepository.GetGlobalChatsAsync(offset, page);
+            var chats = await _chatRepository.GetGlobalChatsAsync();
 
             return chats
                 .Select(c => new ChatDto

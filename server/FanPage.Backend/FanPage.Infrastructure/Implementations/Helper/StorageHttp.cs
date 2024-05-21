@@ -12,7 +12,7 @@ namespace FanPage.Infrastructure.Implementations.Helper
 
     public class StorageHttp : IStorageHttp
     {
-        private const string _url = "https://zkdmv48c-5002.euw.devtunnels.ms";
+        private const string _url = "https://51dx709m-5002.euw.devtunnels.ms";
 
         public async Task<UploadResult> SendFileToStorageService(IFormFile file)
         {
@@ -23,9 +23,11 @@ namespace FanPage.Infrastructure.Implementations.Helper
             formData.Add(
                 new StreamContent(file.OpenReadStream()),
                 "file",
-                file.FileName + fileExtension
+                file.FileName //+ fileExtension
             );
-            var response = await client.PostAsync(_url + "/MinioFile", formData);
+            var testUrl = string.Concat(_url,"/MinioFile");
+            var response = await client.PostAsync(testUrl, formData);
+            
             if (!response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
