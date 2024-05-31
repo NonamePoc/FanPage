@@ -1,109 +1,111 @@
-<section *ngIf='book' class="grid grid-cols-1 md:grid-cols-[auto_1fr] xl:px-48">
-    <img class='object-cover h-[30rem] md:h-[30rem] md:w-[25rem] md:px-8 rounded drop-shadow-lg mx-auto'
-        [src]="book.image | imageNormalize" alt="Book Image">
-    <div class="py-3 grid gap-2">
-        <div>
-            <h2 class="text-xl lg:text-4xl font-semibold">
-                {{book.title}}
-            </h2>
-            <div class='flex gap-1 items-center'>
-                <img class='rounded-full h-[25px] md:h-[30px]' src="https://picsum.photos/200" alt="User">
-                <h3
-                    class="md:text-lg text-sky-800 font-semibold cursor-pointer hover:text-sky-900 transition duration-300">
-                    by {{book.authorName}}
-                </h3>
-            </div>
-        </div>
-        <hr class='dark:border-zinc-800'>
-        <p class="text-sm lg:text-base text-neutral-800 dark:text-neutral-300">
-            {{book.description}}
-        </p>
-        <div class='grid items-end grid-cols-[1fr_auto] gap-3 py-2'>
-            <button *ngIf='book.chapters.length !== 0' (click)="onStartReading()"
-                class='flex gap-1 justify-center items-center p-2 bg-neutral-700 hover:bg-neutral-800 rounded text-white  transition duration-300'>
-                Start
-                reading
-                <span class="material-symbols-rounded text-xl">
-                    arrow_outward
-                </span>
-            </button>
-            <div *ngIf='book.chapters.length === 0'
-                class='p-2 bg-neutral-700 rounded text-white  transition duration-300 text-center'>
-                No chapters yet
-            </div>
+<ng-container *ngIf='book && !isLoading'>
+    <section class="grid grid-cols-1 md:grid-cols-[auto_1fr] xl:px-48">
+        <img class='object-cover h-[30rem] md:h-[30rem] md:w-[25rem] md:px-8 rounded drop-shadow-lg mx-auto'
+            [src]="book.image | imageNormalize" alt="Book Image">
+        <div class="py-3 grid gap-2">
             <div>
-                <span (click)='onBookmark()'
-                    [ngClass]="{'bg-rose-200 hover:bg-rose-300 dark:bg-rose-800 dark:hover:bg-rose-700': isBookmarked, 'bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700': !isBookmarked}"
-                    class="material-symbols-rounded p-2 rounded-full  cursor-pointer  transition duration-300">
-                    bookmark
-                </span>
-                <span *ngIf='isAuthor' appDropdown
-                    class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition duration-300">
-                    edit
-                </span>
-                <ul *ngIf='isAuthor'
-                    class='drop-shadow-lg px-2 py-2 opacity-0 -z-1 mt-2 absolute bg-stone-200 dark:bg-neutral-800 rounded transition duration-300 -translate-x-5 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:left-3 before:w-4 before:h-4 before:bg-stone-200 dark:before:bg-neutral-800 before:rounded before:rotate-45'>
-                    <li
-                        class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-700 px-1 py-1 rounded flex gap-1 items-center'>
-                        <a routerLink="/books/{{book.id}}/edit">
-                            <span class="material-symbols-rounded">
-                                edit
-                            </span>
-                            Edit Book
-                        </a>
-                    </li>
-                    <li
-                        class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-700 px-1 py-1 rounded flex gap-1 items-center'>
-                        <a routerLink="/books/{{book.id}}/chapters/new">
-                            <span class="material-symbols-rounded">
-                                add
-                            </span>
-                            Add Chapter
-                        </a>
-                    </li>
-                </ul>
-                <span *ngIf='isAuthor' (click)="onOpenDeleteModal()"
-                    class="material-symbols-rounded p-2 rounded-full bg-rose-200 cursor-pointer hover:bg-rose-300 dark:bg-rose-800 dark:hover:bg-rose-700 transition duration-300">
-                    delete
-                </span>
-            </div>
-        </div>
-        <hr class='dark:border-zinc-800'>
-        <div class='grid grid-cols-[auto_1fr] gap-y-3 gap-x-6 py-3'>
-            <h3 class='font-semibold'>Categories</h3>
-            <div class="flex flex-wrap gap-1 text-sm">
-                <p *ngFor='let category of book.categories'
-                    class="rounded-xl px-2 py-1 cursor-pointer transition duration-300 bg-neutral-400 dark:bg-neutral-800">
-                    {{category.name}}
-                </p>
-
-            </div>
-            <h3 class='font-semibold'>Tags</h3>
-            <div class="flex flex-wrap gap-1 text-sm">
-                <p *ngFor='let tag of book.tags'
-                    class="text-sm text-neutral-600 bg-neutral-400 dark:text-neutral-400 dark:bg-neutral-800 rounded-xl px-2 py-1 cursor-pointer transition duration-300">
-                    {{tag.name}}
-                </p>
+                <h2 class="text-xl lg:text-4xl font-semibold">
+                    {{book.title}}
+                </h2>
+                <a [routerLink]="['/user', book.authorName]" class="md:text-lg text-sky-800 font-semibold cursor-pointer hover:text-sky-900 transition
+                    duration-300">
+                    by {{book.authorName}}
+                </a>
             </div>
             <hr class='dark:border-zinc-800'>
+            <p class="text-sm lg:text-base text-neutral-800 dark:text-neutral-300">
+                {{book.description}}
+            </p>
+            <div class='grid items-end grid-cols-[1fr_auto] gap-3 py-2'>
+                <button *ngIf='book.chapters.length !== 0' (click)="onStartReading()"
+                    class='flex gap-1 justify-center items-center p-2 bg-neutral-700 hover:bg-neutral-800 rounded text-white  transition duration-300'>
+                    Start
+                    reading
+                    <span class="material-symbols-rounded text-xl">
+                        arrow_outward
+                    </span>
+                </button>
+                <div *ngIf='book.chapters.length === 0'
+                    class='p-2 bg-neutral-700 rounded text-white  transition duration-300 text-center'>
+                    No chapters yet
+                </div>
+                <div>
+                    <span (click)='onBookmark()'
+                        [ngClass]="{'bg-rose-200 hover:bg-rose-300 dark:bg-rose-800 dark:hover:bg-rose-700': isBookmarked, 'bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700': !isBookmarked}"
+                        class="material-symbols-rounded p-2 rounded-full  cursor-pointer  transition duration-300">
+                        bookmark
+                    </span>
+                    <span *ngIf='isAuthor' appDropdown
+                        class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition duration-300">
+                        edit
+                    </span>
+                    <ul *ngIf='isAuthor'
+                        class='drop-shadow-lg px-2 py-2 opacity-0 -z-1 mt-2 absolute bg-stone-200 dark:bg-neutral-800 rounded transition duration-300 -translate-x-5 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:left-3 before:w-4 before:h-4 before:bg-stone-200 dark:before:bg-neutral-800 before:rounded before:rotate-45'>
+                        <li
+                            class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-700 px-1 py-1 rounded flex gap-1 items-center'>
+                            <a routerLink="/books/{{book.id}}/edit">
+                                <span class="material-symbols-rounded">
+                                    edit
+                                </span>
+                                Edit Book
+                            </a>
+                        </li>
+                        <li
+                            class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-700 px-1 py-1 rounded flex gap-1 items-center'>
+                            <a routerLink="/books/{{book.id}}/chapters/new">
+                                <span class="material-symbols-rounded">
+                                    add
+                                </span>
+                                Add Chapter
+                            </a>
+                        </li>
+                    </ul>
+                    <span *ngIf='isAuthor' (click)="onOpenDeleteModal()"
+                        class="material-symbols-rounded p-2 rounded-full bg-rose-200 cursor-pointer hover:bg-rose-300 dark:bg-rose-800 dark:hover:bg-rose-700 transition duration-300">
+                        delete
+                    </span>
+                </div>
+            </div>
             <hr class='dark:border-zinc-800'>
-            <h3 class='font-semibold'>Language</h3>
-            <span>{{book.language}}</span>
-            <h3 class='font-semibold'>Date Updated</h3>
-            <span>17th May 2023</span>
-        </div>
-        <hr class='dark:border-zinc-800'>
-    </div>
-</section>
+            <div class='grid grid-cols-[auto_1fr] gap-y-3 gap-x-6 py-3'>
+                <h3 class='font-semibold'>Categories</h3>
+                <div class="flex flex-wrap gap-1 text-sm">
+                    <p *ngFor='let category of book.categories'
+                        class="rounded-xl px-2 py-1 cursor-pointer transition duration-300 bg-neutral-300 dark:bg-neutral-800">
+                        {{category.name}}
+                    </p>
 
-<ng-container *ngIf="isLoading">
-    <p>Loading...</p>
+                </div>
+                <h3 class='font-semibold'>Tags</h3>
+                <div class="flex flex-wrap gap-1 text-sm">
+                    <p *ngFor='let tag of book.tags'
+                        class="text-sm text-neutral-700 bg-neutral-300 dark:text-neutral-400 dark:bg-neutral-800 rounded-xl px-2 py-1 cursor-pointer transition duration-300">
+                        {{tag.name}}
+                    </p>
+                </div>
+                <hr class='dark:border-zinc-800'>
+                <hr class='dark:border-zinc-800'>
+                <h3 class='font-semibold'>Language</h3>
+                <span>{{book.language}}</span>
+                <h3 class='font-semibold'>Date Updated</h3>
+                <span>17th May 2023</span>
+            </div>
+            <hr class='dark:border-zinc-800'>
+        </div>
+    </section>
+
+    <article class='grid grid-cols-1 lg:grid-cols-2 md:ml-6 md:my-5 gap-6'>
+        <app-reviews></app-reviews>
+        <app-chapters></app-chapters>
+    </article>
 </ng-container>
 
-<article class='grid grid-cols-1 lg:grid-cols-2 md:ml-6 md:my-5 gap-6'>
-    <app-reviews></app-reviews>
-    <app-chapters></app-chapters>
-</article>
+<ng-container *ngIf="isLoading">
+    <div
+        class='flex justify-center items-center rounded absolute inset-0 bottom-0 h-full w-full bg-neutral-100 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-900'>
+        <div class="lds-dual-ring"></div>
+    </div>
+</ng-container>
 
 <app-modal modalId="deleteBookModal" title='Warning'>
     <p class='text-neutral-600 dark:text-neutral-300 font-medium pl-5'>

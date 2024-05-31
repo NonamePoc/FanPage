@@ -1,62 +1,64 @@
-<li class="mt-12 mb-7" (click)="onRouterLinkClick()">
-    <a routerLink='/' class='flex items-center justify-center text-xl'>
-        <span class="material-symbols-rounded"> bolt </span>
-        <h1 class="uppercase font-semibold tracking-wider">Fanpage</h1>
-    </a>
-</li>
-<!-- Admin Menu -->
-<li *ngIf='isAdmin' (click)="onRouterLinkClick()">
-    <a routerLink="/admin/users" routerLinkActive='active border-blue-500 text-blue-500 bg-neutral-800/50'
-        class="flex items-center gap-3 px-6 py-4 text-[1.1rem] border-l-2 border-transparent hover:bg-neutral-800/50 transition duration-300">
-        <span class="material-symbols-rounded"> group </span>
-        User Control
-    </a>
-</li>
-<li *ngIf='isAdmin' (click)="onRouterLinkClick()">
-    <a routerLink="/admin/tags" routerLinkActive='active border-blue-500 text-blue-500 bg-neutral-800/50'
-        class="flex items-center gap-3 px-6 py-4 text-[1.1rem] border-l-2 border-transparent hover:bg-neutral-800/50 transition duration-300">
-        <span class="material-symbols-rounded"> sell </span>
-        Tags Management
-    </a>
-</li>
-<!-- End of Admin Menu -->
-<li (click)="onRouterLinkClick()">
-    <a routerLink='/' routerLinkActive='active border-blue-500 text-blue-500 bg-neutral-800/50'
-        [routerLinkActiveOptions]="{exact:true}"
-        class="flex items-center gap-3 px-6 py-4 text-[1.1rem] border-l-2 border-transparent hover:bg-neutral-800/50 transition duration-300">
-        <span class="material-symbols-rounded"> home </span>
-        Home
-    </a>
-</li>
-<li (click)="onRouterLinkClick()">
-    <a routerLink='/books' routerLinkActive='active border-blue-500 text-blue-500 bg-neutral-800/50'
-        class="flex items-center gap-3 px-6 py-4 text-[1.1rem] border-l-2 border-transparent hover:bg-neutral-800/50 transition duration-300">
-        <span class="material-symbols-rounded">
-            book_2
-        </span>
-        Library
-    </a>
-</li>
-<li (click)="onRouterLinkClick()">
-    <a routerLink='/user/{{username}}' routerLinkActive='active border-blue-500 text-blue-500 bg-neutral-800/50'
-        class="flex items-center gap-3 px-6 py-4 text-[1.1rem] border-l-2 border-transparent hover:bg-neutral-800/50 transition duration-300">
-        <span class="material-symbols-rounded">
-            person
-        </span>
-        Profile
-    </a>
-</li>
-<li (click)="onRouterLinkClick()">
-    <a routerLink='/chat' routerLinkActive='active border-blue-500 text-blue-500 bg-neutral-800/50'
-        class="flex items-center gap-3 px-6 py-4 text-[1.1rem] border-l-2 border-transparent hover:bg-neutral-800/50 transition duration-300">
-        <span class="material-symbols-rounded"> sms </span>
-        Messages
-    </a>
-</li>
-<li (click)="onRouterLinkClick()">
-    <a routerLink='/settings' routerLinkActive='active border-blue-500 text-blue-500 bg-neutral-800/50'
-        class="flex items-center gap-3 px-6 py-4 text-[1.1rem] border-l-2 border-transparent hover:bg-neutral-800/50 transition duration-300">
-        <span class="material-symbols-rounded"> tune </span>
-        Settings
-    </a>
-</li>
+<ul>
+    <li class="mt-12 mb-7" (click)="onRouterLinkClick()">
+        <a routerLink='/' class='flex items-center justify-center text-xl'>
+            <span class="material-symbols-rounded"> bolt </span>
+            <h1 class="uppercase font-semibold tracking-wider">Fanpage</h1>
+        </a>
+    </li>
+    <!-- Admin Menu -->
+    <li *ngIf='isAdmin' (click)="onRouterLinkClick()">
+        <a routerLink="/admin/users" routerLinkActive='active border-blue-500 text-blue-500 bg-neutral-800/50'
+            class="flex items-center gap-3 px-6 py-4 text-[1.1rem] border-l-2 border-transparent hover:bg-neutral-800/50 transition duration-300">
+            <span class="material-symbols-rounded"> group </span>
+            User Control
+        </a>
+    </li>
+    <li *ngIf='isAdmin' (click)="onRouterLinkClick()">
+        <a routerLink="/admin/tags" routerLinkActive='active border-blue-500 text-blue-500 bg-neutral-800/50'
+            class="flex items-center gap-3 px-6 py-4 text-[1.1rem] border-l-2 border-transparent hover:bg-neutral-800/50 transition duration-300">
+            <span class="material-symbols-rounded"> sell </span>
+            Tags Management
+        </a>
+    </li>
+    <!-- End of Admin Menu -->
+    <li (click)="onRouterLinkClick()">
+        <a routerLink='/' routerLinkActive='active border-blue-500 text-blue-500 bg-neutral-800/50'
+            [routerLinkActiveOptions]="{exact:true}"
+            class="flex items-center gap-3 px-6 py-4 text-[1.1rem] border-l-2 border-transparent hover:bg-neutral-800/50 transition duration-300">
+            <span class="material-symbols-rounded"> home </span>
+            Home
+        </a>
+    </li>
+    <li (click)="onRouterLinkClick()">
+        <a routerLink='/books' routerLinkActive='active border-blue-500 text-blue-500 bg-neutral-800/50'
+            class="flex items-center gap-3 px-6 py-4 text-[1.1rem] border-l-2 border-transparent hover:bg-neutral-800/50 transition duration-300">
+            <span class="material-symbols-rounded">
+                book_2
+            </span>
+            Library
+        </a>
+    </li>
+    <li (click)="onRouterLinkClick()">
+        <a routerLink='/user/{{username}}' routerLinkActive='active border-blue-500 text-blue-500 bg-neutral-800/50'
+            class="flex items-center gap-3 px-6 py-4 text-[1.1rem] border-l-2 border-transparent hover:bg-neutral-800/50 transition duration-300">
+            <span class="material-symbols-rounded">
+                person
+            </span>
+            Profile
+        </a>
+    </li>
+    <li (click)="onRouterLinkClick()">
+        <a routerLink='/chat' routerLinkActive='active border-blue-500 text-blue-500 bg-neutral-800/50'
+            class="flex items-center gap-3 px-6 py-4 text-[1.1rem] border-l-2 border-transparent hover:bg-neutral-800/50 transition duration-300">
+            <span class="material-symbols-rounded"> sms </span>
+            Messages
+        </a>
+    </li>
+    <li (click)="onRouterLinkClick()">
+        <a routerLink='/settings' routerLinkActive='active border-blue-500 text-blue-500 bg-neutral-800/50'
+            class="flex items-center gap-3 px-6 py-4 text-[1.1rem] border-l-2 border-transparent hover:bg-neutral-800/50 transition duration-300">
+            <span class="material-symbols-rounded"> tune </span>
+            Settings
+        </a>
+    </li>
+</ul>

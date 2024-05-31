@@ -7,6 +7,7 @@ import { FollowersService } from '../../../shared/followers.service';
 import { Subscription } from 'rxjs';
 import { DropdownDirective } from '../../../shared/dropdown.directive';
 import { UserDetailsComponent } from '../user-details.component';
+import { ModalService } from '../../../shared/modal/modal.service';
 
 @Component({
   selector: 'app-followers-modal',
@@ -31,7 +32,8 @@ export class FollowersModalComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private followersService: FollowersService,
-    private userDetailsComp: UserDetailsComponent
+    private userDetailsComp: UserDetailsComponent,
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {
@@ -49,13 +51,11 @@ export class FollowersModalComponent implements OnInit {
     });
 
     this.followersService.hubConnection.on('FollowerList', (data) => {
-      console.log('FollowerList: ', data);
       this.people = data;
       this.isLoading = false;
     });
 
     this.followersService.hubConnection.on('UserFollower', (data) => {
-      console.log('UserFollower: ', data);
       this.people = data;
       this.isLoading = false;
     });
@@ -75,6 +75,10 @@ export class FollowersModalComponent implements OnInit {
     this.isFollowersType
       ? this.invokeFollowers(this.page)
       : this.invokeFollowing(this.page);
+  }
+
+  closeModal() {
+    this.modalService.closeModal('followers');
   }
 
   private invokeFollowers(page: number) {

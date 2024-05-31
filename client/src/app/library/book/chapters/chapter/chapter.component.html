@@ -1,11 +1,6 @@
 <h1 *ngIf='isLoading'>Loading...</h1>
 
-<div *ngIf="notFound && !isLoading" class='grid justify-center items-center'>
-    <h1 class='font-medium lg:text-2xl'>Nothing there</h1>
-    <p class='text-sm md:text-base'>You have read all the chapters for now!</p>
-</div>
-
-<ng-container *ngIf='!notFound && !isLoading'>
+<ng-container *ngIf='!isLoading'>
     <section class='p-2 grid grid-cols-[auto_1fr_auto] gap-1 items-center]'>
         <img class='object-cover rounded drop-shadow-lg mx-auto h-10 w-10' [src]="chapter.fanficPhoto | imageNormalize"
             alt="Book Cover">
@@ -25,7 +20,8 @@
                     undo
                 </span>
             </a>
-            <a routerLink='/books/{{bookId}}/chapters/{{chapterId}}/edit'>
+            <a *ngIf='chapter.authorName === currentUsername'
+                routerLink='/books/{{bookId}}/chapters/{{chapterId}}/edit'>
                 <span
                     class="material-symbols-rounded p-2 rounded-full bg-neutral-100 cursor-pointer hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition duration-300">edit_note
                 </span>
@@ -62,6 +58,6 @@
             </span>
         </div>
     </section>
-    <hr class='dark:border-zinc-800'>
-    <app-comments></app-comments>
+    <!-- <hr class='dark:border-zinc-800'>
+    <app-comments></app-comments> -->
 </ng-container>

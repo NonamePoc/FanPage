@@ -3,9 +3,18 @@
 @tailwind utilities;
 
 * {
-  font-family: "Montserrat", sans-serif;
+  font-display: optional;
+  font-family: "Montserrat", Verdana, sans-serif;
   box-sizing: border-box;
   text-decoration: none;
+}
+
+@font-face {
+  font-family: Verdana;
+  src: local(Verdana);
+  ascent-override: 105%;
+  descent-override: 35%;
+  line-gap-override: 10%;
 }
 
 *:focus {
@@ -132,7 +141,6 @@ select.ng-invalid.ng-touched {
   font-weight: bold;
   color: #ffffff;
   text-shadow: 0 1px 0 #ffffff;
-  /* opacity: 0.8; */
 }
 .toast-close-button:hover,
 .toast-close-button:focus {

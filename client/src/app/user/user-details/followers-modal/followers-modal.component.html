@@ -1,6 +1,7 @@
 <app-modal modalId="followers" title="{{isFollowersType ? 'Followers' : 'Following'}}">
+
     <div *ngIf='!isLoading' class='grid md:grid-cols-2 gap-2'>
-        <div *ngFor='let person of people' routerLink="/user/{{ person.subName }}"
+        <div *ngFor='let person of people' routerLink="/user/{{ person.subName }}" (click)="closeModal()"
             class='grid grid-cols-[auto_1fr] items-center gap-3 p-2 rounded-lg bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 cursor-pointer'>
             <img [src]="person.avatar | imageNormalize" alt="User Friend"
                 class="rounded-full h-10 w-10 md:h-12 md:w-12 object-cover">
@@ -9,23 +10,30 @@
                     {{ person.subName }}
                 </h3>
             </div>
-
         </div>
+
+        <nav aria-label="Followers navigation" *ngIf='people.length >= 15'>
+            <ul class="list-style-none flex justify-center">
+                <li
+                    class="cursor-pointer rounded-lg bg-transparent px-3 py-1.5 text-sm text-surface transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200 focus:text-primary-700 focus:outline-none active:bg-neutral-100 active:text-primary-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:focus:text-primary-500 dark:active:bg-neutral-700 dark:active:text-primary-500">
+                    Previous
+                </li>
+                <li
+                    class="cursor-pointer rounded-lg bg-transparent px-3 py-1.5 text-sm text-surface transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200 focus:text-primary-700 focus:outline-none active:bg-neutral-100 active:text-primary-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:focus:text-primary-500 dark:active:bg-neutral-700 dark:active:text-primary-500">
+                    Next
+                </li>
+            </ul>
+        </nav>
     </div>
+
     <div *ngIf='people.length === 0' class='flex justify-center items-center h-32'>
         <p class='text-lg font-medium text-neutral-500 dark:text-neutral-400'>No followers yet</p>
     </div>
 
-    <nav aria-label="Followers navigation" *ngIf='people.length >= 15'>
-        <ul class="list-style-none flex justify-center">
-            <li
-                class="cursor-pointer rounded-lg bg-transparent px-3 py-1.5 text-sm text-surface transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200 focus:text-primary-700 focus:outline-none active:bg-neutral-100 active:text-primary-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:focus:text-primary-500 dark:active:bg-neutral-700 dark:active:text-primary-500">
-                Previous
-            </li>
-            <li
-                class="cursor-pointer rounded-lg bg-transparent px-3 py-1.5 text-sm text-surface transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200 focus:text-primary-700 focus:outline-none active:bg-neutral-100 active:text-primary-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:focus:text-primary-500 dark:active:bg-neutral-700 dark:active:text-primary-500">
-                Next
-            </li>
-        </ul>
-    </nav>
+    <ng-container *ngIf='isLoading'>
+        <div
+            class='flex justify-center items-center rounded absolute inset-0 bottom-0 h-full w-full bg-neutral-100 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-900'>
+            <div class="lds-dual-ring"></div>
+        </div>
+    </ng-container>
 </app-modal>

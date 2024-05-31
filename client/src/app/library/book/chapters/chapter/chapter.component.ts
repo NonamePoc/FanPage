@@ -11,6 +11,8 @@ import { CommentsComponent } from './comments/comments.component';
 import { ChapterService } from '../chapter.service';
 import { ImageNormalizePipe } from '../../../../shared/image-normalize.pipe';
 import { ReadingProgressService } from './reading-progress.service';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
   selector: 'app-chapter',
@@ -32,33 +34,36 @@ export class ChapterComponent implements OnInit {
     );
   }
 
+  currentUsername!: string;
   bookId!: number;
   chapterId!: number;
   chapter: any;
   isLoading = true;
-  notFound = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private toastr: ToastrService,
+    private authService: AuthService,
     private chapterService: ChapterService,
     private readingProgressService: ReadingProgressService
   ) {}
 
   ngOnInit(): void {
+    this.currentUsername = this.authService.user.value?.username!;
+
     this.route.params.subscribe((params: Params) => {
       this.bookId = +params['id'];
       this.chapterId = +params['chapterId'];
+      this.isLoading = true;
 
       this.chapterService.getChapter(this.chapterId, this.bookId).subscribe({
         next: (data: any) => {
           this.chapter = data;
           this.isLoading = false;
-          this.notFound = false;
         },
         error: () => {
           this.isLoading = false;
-          this.notFound = true;
         },
       });
 
@@ -66,16 +71,31 @@ export class ChapterComponent implements OnInit {
     });
   }
 
-  onPrevious() {
-    this.chapterId !== 1 &&
+  async onPrevious() {
+    if (await this.checkIfChapterExists(this.chapterId - 1))
       this.router.navigate(['../', this.chapterId - 1], {
         relativeTo: this.route,
       });
   }
 
-  onNext() {
-    this.router.navigate(['../', this.chapterId + 1], {
-      relativeTo: this.route,
+  async onNext() {
+    if (await this.checkIfChapterExists(this.chapterId + 1))
+      this.router.navigate(['../', this.chapterId + 1], {
+        relativeTo: this.route,
+      });
+    else {
+      this.toastr.info('You have reached the end of the book.');
+    }
+  }
+
+  private checkIfChapterExists(chapterId: number): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.chapterService.getChapter(chapterId, this.bookId).subscribe({
+        next: () => resolve(true),
+        error: () => {
+          resolve(false);
+        },
+      });
     });
   }
 

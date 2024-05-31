@@ -50,7 +50,8 @@ export class BookComponent implements OnInit {
         this.book = book;
         this.isBookmarked = this.bookService.checkBookmark(this.id);
         this.isLoading = false;
-        this.isAuthor = this.authService.user.value?.id === this.book.authorId;
+        this.isAuthor =
+          this.authService.user.value?.username === this.book.authorName;
       });
     });
   }

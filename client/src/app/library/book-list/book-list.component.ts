@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Params, RouterLink } from '@angular/router';
 import { ImageNormalizePipe } from '../../shared/image-normalize.pipe';
 import { FilterComponent } from './filter/filter.component';
 import { BookFilter } from '../models/book.model';
@@ -21,21 +21,31 @@ export class BookListComponent implements OnInit {
   filters: BookFilter = {};
   isListLayout: boolean = true;
 
-  constructor(public bookService: BookService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private bookService: BookService
+  ) {}
 
   ngOnInit(): void {
-    const username = JSON.parse(localStorage.getItem('userData')!)?.username;
-    !this.isReading
-      ? this.bookService.getBooksByUser(username).subscribe((books: any) => {
-          this.books = books;
-          this.filteredBooks = books;
-          this.isLoading = false;
-        })
-      : this.bookService.getBookmarks().subscribe((books: any) => {
-          this.books = books;
-          this.filteredBooks = books;
-          this.isLoading = false;
-        });
+    this.route.params.subscribe((params: Params) => {
+      var username = '';
+      params['username']
+        ? (username = params['username'])
+        : (username = JSON.parse(localStorage.getItem('userData')!)?.username);
+      !this.isReading
+        ? this.bookService.getBooksByUser(username).subscribe((books: any) => {
+            console.log('books', books);
+            this.books = books;
+            this.filteredBooks = books;
+            this.isLoading = false;
+          })
+        : this.bookService.getBookmarks().subscribe((books: any) => {
+            console.log('bookmarks', books);
+            this.books = books;
+            this.filteredBooks = books;
+            this.isLoading = false;
+          });
+    });
   }
 
   filterBooks() {

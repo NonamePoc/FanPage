@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ModalService } from '../../shared/modal/modal.service';
 import { ImageNormalizePipe } from '../../shared/image-normalize.pipe';
@@ -18,8 +18,10 @@ import { BehaviorSubject, Subscription } from 'rxjs';
   imports: [CommonModule, ImageNormalizePipe, FollowersModalComponent],
 })
 export class UserDetailsComponent implements OnInit {
-  user: User | null = null;
-  isFollowing: boolean = false;
+  @Input() avatar: string = '';
+  @Input() isFollowing: boolean = false;
+
+  username: string = '';
   isLoading: boolean = true;
   isCurrentUser: boolean = false;
 
@@ -30,22 +32,17 @@ export class UserDetailsComponent implements OnInit {
   constructor(
     private modalService: ModalService,
     private authService: AuthService,
-    private userService: UserService,
     private route: ActivatedRoute,
     private followersService: FollowersService
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      const username = params['username'];
-      this.userService.getUser(username).subscribe((data) => {
-        this.user = data;
-        this.isFollowing = data.isFollowing;
-        this.isCurrentUser =
-          this.user?.username === this.authService.user?.getValue()?.username;
-      });
-      this.isLoading = false;
+      this.username = params['username'];
+      this.isCurrentUser =
+        this.username === this.authService.user?.getValue()?.username;
     });
+    this.isLoading = false;
   }
 
   onFollow() {
@@ -63,10 +60,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   private follow() {
-    this.followersService.hubConnection.invoke(
-      'Subscribe',
-      this.user?.username
-    );
+    this.followersService.hubConnection.invoke('Subscribe', this.username);
     this.followersService.hubConnection.on('Subscribe', (data) => {
       console.log('Subscribed to: ', data);
       this.isFollowing = true;
@@ -74,10 +68,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   private unfollow() {
-    this.followersService.hubConnection.invoke(
-      'Unsubscribe',
-      this.user?.username
-    );
+    this.followersService.hubConnection.invoke('Unsubscribe', this.username);
     this.followersService.hubConnection.on('Unsubscribe', (data) => {
       console.log('Unsubscribed from: ', data);
       this.isFollowing = false;

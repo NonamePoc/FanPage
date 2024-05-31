@@ -1,6 +1,6 @@
 <app-star-rating [bookId]='bookId'></app-star-rating>
 <section>
-    <div class='flex items-end justify-center gap-1'>
+    <div class='flex items-end justify-center'>
         <div (click)='openReviewModal()'
             class='flex items-end gap-1 hover:text-yellow-500 cursor-pointer transition duration-300'>
             <p class="font-semibold text-6xl">{{rating}}</p>
@@ -8,18 +8,12 @@
                 star
             </span>
         </div>
-        <div class="flex items-center gap-[2px]">
-            <p class="font-semibold">100</p>
-            <span class="material-symbols-rounded pl-[4px]">
-                visibility
-            </span>
-        </div>
     </div>
     <div *ngIf="reviews.length>0">
         <hr class='mt-2'>
         <div class='mt-2'>
             <div *ngFor='let review of reviews' class='grid grid-cols-[auto_1fr_auto] gap-x-3 items-center'>
-                <img class='h-10 w-10 rounded-full' src="https://picsum.photos/200" alt="User">
+                <p class='text-sm text-neutral-700 dark:text-neutral-300'>{{review.creationDate | date}}</p>
                 <div class='flex gap-2 items-center'>
                     <p class='font-semibold'>{{review.userName}}</p>
                     <div class='flex items-center'>

@@ -86,7 +86,6 @@ export class BookService {
       .get(environment.apiUrl + '/v1/detail/getById?id=' + id)
       .pipe(
         catchError((error) => {
-          console.error(error);
           return of(error);
         })
       );
@@ -130,8 +129,8 @@ export class BookService {
 
   getBookmarks(): Observable<any> {
     return this.http.get(environment.apiUrl + '/v1/bookmark/List').pipe(
-      map((data: any) => {
-        this.bookmarks = data;
+      tap((response: any) => {
+        this.bookmarks = response;
       })
     );
   }
@@ -146,13 +145,13 @@ export class BookService {
       );
   }
 
-  removeBookmark(book: any): Observable<any> {
+  removeBookmark(bookId: number): Observable<any> {
     return this.http
-      .delete(environment.apiUrl + '/v1/bookmark/Delete?fanficId=' + book.id)
+      .delete(environment.apiUrl + '/v1/bookmark/Delete?fanficId=' + bookId)
       .pipe(
         tap(() => {
           const index = this.bookmarks.findIndex(
-            (bookmark) => bookmark.id === book.id
+            (bookmark) => bookmark.id === bookId
           );
           if (index !== -1) {
             this.bookmarks.splice(index, 1);

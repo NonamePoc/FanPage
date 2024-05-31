@@ -55,9 +55,8 @@ export class SettingsComponent implements OnInit {
       error
         ? this.toastr.error(error)
         : this.userService.changeAvatar(file).subscribe((response) => {
-            /* his.authService.user.next(response.user); */
-            this.avatar = response;
-            console.log(response);
+            this.avatar = response.avatar;
+            this.authService.user.value!.avatar = response.avatar;
           });
     }
   }

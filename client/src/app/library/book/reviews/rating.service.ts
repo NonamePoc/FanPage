@@ -11,7 +11,7 @@ export class RatingService {
 
   getBookRating(id: number): Observable<any> {
     return this.http.get(
-      environment.apiUrl + '/v1/detail/ratingFanfic?id=' + id
+      environment.apiUrl + '/v1/detail/ratingFanfic?fanficId=' + id
     );
   }
 

@@ -1,6 +1,6 @@
 <section *ngIf="!isLoading" class='transform -translate-y-10 md:-translate-y-16 px-3'>
     <img class='rounded-full h-20 w-20 md:h-32 md:w-32 object-cover mx-auto border-4 border-neutral-100 dark:border-neutral-800'
-        [src]="user?.avatar| imageNormalize" alt="User">
+        [src]="avatar| imageNormalize" alt="User">
 
     <button *ngIf='!isCurrentUser' (click)="onFollow()"
         class='mx-auto mt-4 w-[90%] py-2 md:px-4 bg-slate-500 hover:bg-slate-600 rounded text-white text-sm md:text-base font-medium tranistion duration-300 flex gap-1 items-center justify-center'>

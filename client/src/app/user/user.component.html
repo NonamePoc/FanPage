@@ -1,10 +1,10 @@
 <div *ngIf='!isLoading'>
     <div class='rounded'>
-        <img class='h-[5rem] md:h-[10rem] object-cover object-center w-full rounded'
-            [src]="backgroundImage | imageNormalize" alt="User Cover">
+        <img class='h-[5rem] md:h-[10rem] object-cover object-center w-full rounded' [src]="avatar | imageNormalize"
+            alt="User Cover">
     </div>
     <article class='grid sm:grid-cols-[25%_1fr]'>
-        <app-user-details></app-user-details>
+        <app-user-details [avatar]='avatar' [isFollowing]="isFollowing"></app-user-details>
         <app-user-works></app-user-works>
     </article>
 </div>

@@ -19,7 +19,10 @@ import { CommonModule } from '@angular/common';
   ],
 })
 export class UserComponent implements OnInit {
-  backgroundImage = '';
+  avatar: string = '';
+  username: string = '';
+  isFollowing: boolean = false;
+
   isLoading = true;
 
   constructor(
@@ -31,7 +34,9 @@ export class UserComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       const username = params['username'];
       this.userService.getUser(username).subscribe((data) => {
-        this.backgroundImage = data.userAvatar;
+        this.avatar = data.avatar;
+        this.username = data.username;
+        this.isFollowing = data.isFollowing;
         this.isLoading = false;
       });
     });

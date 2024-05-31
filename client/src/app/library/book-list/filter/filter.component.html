@@ -1,11 +1,10 @@
-<div class='flex flex-wrap gap-x-3 gap-y-1 items-center ml-2 mb-1 relative'>
+<div *ngIf='books.length > 0' class='flex flex-wrap gap-x-3 gap-y-1 items-center ml-2 mb-1 relative'>
     <button (click)="onToggle()"
-        class='flex gap-2 items-center px-5 py-1 border border-neutral-400 dark:border-neutral-700 rounded-lg text-neutral-500 dark:text-neutral-100 font-medium bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 hover:text-neutral-800 dark:hover:text-neutral-800 transition duration-200'>
+        class='flex gap-2 items-center px-4 py-1 border border-neutral-400 dark:border-neutral-700 rounded-lg text-neutral-500 dark:text-neutral-100 font-medium bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 hover:text-neutral-800 dark:hover:text-neutral-800 transition duration-200'>
         <span class="material-symbols-rounded hover:text-neutral-800 dark:hover:text-neutral-800">
             tune
         </span>
         Filters
-        <span class='h-6 w-6 rounded-full bg-neutral-200 dark:bg-neutral-600 text-medium'>3</span>
     </button>
     <div [ngClass]="{'opacity-100 z-10': isOpen, 'opacity-0 -z-10': !isOpen}"
         class='drop-shadow-lg px-2 py-2 top-12 absolute bg-neutral-50 dark:bg-neutral-900 rounded transition duration-300 -translate-x-0 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:left-3 before:w-4 before:h-4 before:bg-neutral-50 dark:before:bg-neutral-900 before:rounded before:rotate-45'>

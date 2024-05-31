@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
     if (this.authService.user.value?.token) {
       this.chatService.connect();
       this.followerService.connect();
-      /* this.commentService.connect(); */
+      //this.commentService.connect();
     }
   }
 }
