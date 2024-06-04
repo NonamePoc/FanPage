@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
@@ -5,10 +6,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ModalComponent } from '../../shared/modal/modal.component';
-import { CommonModule } from '@angular/common';
 import { ChatService } from '../chat.service';
 import { ChatComponent } from '../chat.component';
+import { ModalComponent } from '../../shared/modal/modal.component';
 import { ModalService } from '../../shared/modal/modal.service';
 import { FollowersService } from '../../shared/followers.service';
 import { DropdownDirective } from '../../shared/dropdown.directive';
@@ -29,8 +29,6 @@ export class EditChatComponent implements OnInit {
   chatForm!: FormGroup;
   editMode: boolean = false;
   chat: any;
-  /* followers: any[] = [{ userName: 'test' }, { userName: 'test2' }];
-  selectedFollowers: any[] = [{ userName: 'test' }]; */
 
   constructor(
     private chatService: ChatService,
@@ -52,18 +50,13 @@ export class EditChatComponent implements OnInit {
         ]),
       });
     });
-
-    /* this.followersService.hubConnection.on('UserFollower', (data) => {
-      this.followers = data;
-    }); */
   }
 
   onSubmit() {
     this.editMode
       ? (this.chatService.hubConnection.invoke('Update', this.chat.id, {
-          name: this.chatForm.value.Name,
-          description: this.chatForm.value.Description,
-          type: this.chatForm.value.Type,
+          Name: this.chatForm.value.Name,
+          Description: this.chatForm.value.Description,
         }),
         this.chatService.hubConnection.on('Update', (data) => {
           this.chatComp.chats = this.chatComp.chats.map((chat) =>
@@ -90,25 +83,4 @@ export class EditChatComponent implements OnInit {
 
     this.modalService.closeModal('chatFormModal');
   }
-
-  /* onSelectFollower(index: number, follower: any) {
-    if (this.selectedFollowers.includes(follower)) {
-      return;
-    }
-    this.selectedFollowers[index] = follower;
-  }
-
-  onAddFollowerSelector() {
-    const follower = this.followers.find(
-      (follower) => !this.selectedFollowers.includes(follower)
-    );
-    if (!follower) {
-      return;
-    }
-    this.selectedFollowers.push(follower);
-  }
-
-  onRemoveFollower(index: number) {
-    this.selectedFollowers.splice(index, 1);
-  } */
 }

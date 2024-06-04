@@ -38,6 +38,7 @@ export class ChapterComponent implements OnInit {
   bookId!: number;
   chapterId!: number;
   chapter: any;
+  chaptersofBook: any[] = [];
   isLoading = true;
 
   constructor(
@@ -57,6 +58,10 @@ export class ChapterComponent implements OnInit {
       this.chapterId = +params['chapterId'];
       this.isLoading = true;
 
+      this.chapterService.getChapters(this.bookId).subscribe((chapters) => {
+        this.chaptersofBook = chapters;
+      });
+
       this.chapterService.getChapter(this.chapterId, this.bookId).subscribe({
         next: (data: any) => {
           this.chapter = data;
@@ -71,32 +76,31 @@ export class ChapterComponent implements OnInit {
     });
   }
 
-  async onPrevious() {
-    if (await this.checkIfChapterExists(this.chapterId - 1))
-      this.router.navigate(['../', this.chapterId - 1], {
+  onPrevious() {
+    const previousChapter = this.chaptersofBook.find(
+      (chapter) => chapter.chapterId < this.chapterId
+    );
+    if (previousChapter) {
+      this.router.navigate(['../', previousChapter.chapterId], {
         relativeTo: this.route,
       });
-  }
-
-  async onNext() {
-    if (await this.checkIfChapterExists(this.chapterId + 1))
-      this.router.navigate(['../', this.chapterId + 1], {
-        relativeTo: this.route,
-      });
-    else {
-      this.toastr.info('You have reached the end of the book.');
+    } else {
+      this.toastr.info('This is the first chapter of the book');
     }
   }
 
-  private checkIfChapterExists(chapterId: number): Promise<boolean> {
-    return new Promise((resolve) => {
-      this.chapterService.getChapter(chapterId, this.bookId).subscribe({
-        next: () => resolve(true),
-        error: () => {
-          resolve(false);
-        },
+  onNext() {
+    const nextChapter = this.chaptersofBook.find(
+      (chapter) => chapter.chapterId > this.chapterId
+    );
+    if (nextChapter) {
+      this.router.navigate(['../', nextChapter.chapterId], {
+        relativeTo: this.route,
       });
-    });
+    } else {
+      this.toastr.info('This is the last chapter of the book');
+      this.router.navigate(['../../'], { relativeTo: this.route });
+    }
   }
 
   private initProgress() {

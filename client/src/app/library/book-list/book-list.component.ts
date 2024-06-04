@@ -34,13 +34,11 @@ export class BookListComponent implements OnInit {
         : (username = JSON.parse(localStorage.getItem('userData')!)?.username);
       !this.isReading
         ? this.bookService.getBooksByUser(username).subscribe((books: any) => {
-            console.log('books', books);
             this.books = books;
             this.filteredBooks = books;
             this.isLoading = false;
           })
         : this.bookService.getBookmarks().subscribe((books: any) => {
-            console.log('bookmarks', books);
             this.books = books;
             this.filteredBooks = books;
             this.isLoading = false;

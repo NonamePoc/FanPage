@@ -40,7 +40,7 @@ export class UserDetailsComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.username = params['username'];
       this.isCurrentUser =
-        this.username === this.authService.user?.getValue()?.username;
+        this.authService.user.value?.username === this.username;
     });
     this.isLoading = false;
   }
@@ -62,7 +62,6 @@ export class UserDetailsComponent implements OnInit {
   private follow() {
     this.followersService.hubConnection.invoke('Subscribe', this.username);
     this.followersService.hubConnection.on('Subscribe', (data) => {
-      console.log('Subscribed to: ', data);
       this.isFollowing = true;
     });
   }
@@ -70,7 +69,6 @@ export class UserDetailsComponent implements OnInit {
   private unfollow() {
     this.followersService.hubConnection.invoke('Unsubscribe', this.username);
     this.followersService.hubConnection.on('Unsubscribe', (data) => {
-      console.log('Unsubscribed from: ', data);
       this.isFollowing = false;
     });
   }

@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ModalService } from '../../../shared/modal/modal.service';
 import { StarRatingComponent } from './star-rating/star-rating.component';
-import { BehaviorSubject } from 'rxjs';
 import { RatingService } from './rating.service';
+import { BookComponent } from '../book.component';
 
 @Component({
   selector: 'app-reviews',
@@ -24,6 +25,7 @@ export class ReviewsComponent implements OnInit {
   constructor(
     private modalService: ModalService,
     private route: ActivatedRoute,
+    private bookComp: BookComponent,
     private ratingService: RatingService
   ) {}
 
@@ -33,8 +35,8 @@ export class ReviewsComponent implements OnInit {
       this.ratingService
         .getBookRating(this.bookId)
         .subscribe((data) => (this.rating = data));
-      this.ratingService.getBookReviews(this.bookId).subscribe((data) => {
-        this.reviews = data;
+      this.bookComp.currentBook.subscribe((book) => {
+        this.reviews = book.reviews;
       });
     });
   }

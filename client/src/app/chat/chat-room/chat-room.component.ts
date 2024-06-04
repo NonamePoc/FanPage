@@ -1,12 +1,19 @@
-import { ModalService } from './../../shared/modal/modal.service';
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
-import { DropdownDirective } from '../../shared/dropdown.directive';
-import { ChatService } from '../chat.service';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { HubConnectionState } from '@microsoft/signalr';
 import { ParticipantsModalComponent } from './participants-modal/participants-modal.component';
-import { BehaviorSubject } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { DropdownDirective } from '../../shared/dropdown.directive';
+import { ChatService } from '../chat.service';
+import { ModalService } from './../../shared/modal/modal.service';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
@@ -21,10 +28,16 @@ import { AuthService } from '../../auth/auth.service';
     ParticipantsModalComponent,
   ],
 })
-export class ChatRoomComponent implements OnInit {
+export class ChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   chat: any;
   message: string = '';
-  isCurrentUser: boolean = false;
+  currentUserName: string | undefined = '';
+  isLoading: boolean = true;
+
+  @ViewChild('msgContainer', { static: true })
+  msgContainerRef!: ElementRef<HTMLElement>;
+  @ViewChild('messageInput', { static: true })
+  messageInputRef!: ElementRef<HTMLInputElement>;
 
   private membersSubject = new BehaviorSubject<any[]>([]);
   members = this.membersSubject.asObservable();
@@ -38,42 +51,38 @@ export class ChatRoomComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe((params: Params) => {
-      this.chatService.connectionState.subscribe((state) => {
-        if (state === HubConnectionState.Connected) {
-          this.chatService.hubConnection.invoke('ChatsUser');
-        }
-      });
-
-      this.chatService.hubConnection.on('ChatsUser', (joinedChats) => {
-        this.chatService.chats.subscribe((publicChats) => {
-          console.log('publicChats', publicChats);
-          console.log('joinedChats', joinedChats);
-
-          const chatId = +params['id'];
-          console.log('chatId', chatId);
-          //check if there is a chat user joined
-          const isJoined = joinedChats.some((chat: any) => chat.id === chatId);
-          console.log('isJoined', isJoined);
-
-          !isJoined
-            ? this.chatService.hubConnection.invoke('JoinChat', chatId)
-            : this.chatService.hubConnection.invoke('GetChat', chatId);
-
-          this.chatService.hubConnection.invoke('GetChat', chatId);
-        });
-      });
-
-      this.chatService.hubConnection.on('GetChat', (data) => {
-        console.log('GetChat', data);
-        this.setChatandMembers(data);
-      });
-
-      this.chatService.hubConnection.on('JoinChat', (data) => {
-        console.log('JoinChat', data);
-        this.setChatandMembers(data);
-      });
+    this.authService.user.subscribe((user) => {
+      this.currentUserName = user?.username;
     });
+    this.route.params.subscribe((params: Params) => {
+      this.connectionStateSubscription =
+        this.chatService.connectionState.subscribe((state) => {
+          if (state === HubConnectionState.Connected) {
+            this.isLoading = true;
+            this.chatService.hubConnection.invoke('GetChat', +params['id']);
+          }
+        });
+    });
+
+    this.chatService.hubConnection.on('GetChat', (data) => {
+      console.log('GetChat', data);
+      this.setChatandMembers(data);
+      this.isLoading = false;
+    });
+
+    this.chatService.hubConnection.on('Message', (data) => {
+      this.chat.messages.unshift(data);
+    });
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 0);
+  }
+
+  ngOnDestroy() {
+    this.connectionStateSubscription.unsubscribe();
   }
 
   onOpenParticipants() {
@@ -88,11 +97,8 @@ export class ChatRoomComponent implements OnInit {
     this.chatService.hubConnection.invoke('Message', +this.chat.id, {
       Content: this.message,
     });
-
-    this.chatService.hubConnection.on('Message', (data) => {
-      console.log('Content', data);
-      this.chat.messages.push(data);
-    });
+    this.message = '';
+    this.messageInputRef.nativeElement.value = '';
   }
 
   onLeave() {
@@ -104,9 +110,15 @@ export class ChatRoomComponent implements OnInit {
 
   private setChatandMembers(data: any) {
     this.chat = data;
-    this.isCurrentUser = data.chatUsers.some(
-      (user: any) => user.userName === this.authService.user.value?.username
-    );
     this.membersSubject.next(data.chatUsers);
   }
+
+  private scrollToBottom(): void {
+    if (this.msgContainerRef) {
+      const element = this.msgContainerRef.nativeElement;
+      element.scrollTop = element.scrollHeight;
+    }
+  }
+
+  private connectionStateSubscription!: Subscription;
 }

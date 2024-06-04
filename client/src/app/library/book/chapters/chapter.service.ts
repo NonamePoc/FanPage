@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -44,7 +44,9 @@ export class ChapterService {
     );
   }
 
-  deleteChapter(id: number): Observable<any> {
-    return this.http.delete(environment.apiUrl + '/v1/chapter/delete?id=' + id);
+  deleteChapter(id: number, bookId: number): Observable<any> {
+    return this.http.delete(
+      environment.apiUrl + '/v1/chapter/delete?id=' + id + '&fanficId=' + bookId
+    );
   }
 }

@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment.development';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,37 +37,21 @@ export class UserService {
   }
 
   changeUsername(username: string): Observable<any> {
-    return this.http
-      .put<any>(
-        environment.apiUrl + '/v1/account/changeUserName?userName=' + username,
-        {}
-      )
-      .pipe(
-        tap((user: any) => {
-          const currentUser = this.authService.user.getValue();
-          currentUser!.username = user.username;
-          this.authService.user.next(currentUser);
-        })
-      );
+    return this.http.put<any>(
+      environment.apiUrl + '/v1/account/changeUserName?userName=' + username,
+      {}
+    );
   }
 
   changeEmail(email: string): Observable<any> {
-    return this.http
-      .put<any>(environment.apiUrl + '/v1/account/changeEmail', {
-        newEmail: email,
-      })
-      .pipe(
-        tap((user: any) => {
-          const currentUser = this.authService.user.getValue();
-          currentUser!.email = user.email;
-          this.authService.user.next(currentUser);
-        })
-      );
+    return this.http.put<any>(environment.apiUrl + '/v1/account/changeEmail', {
+      newEmail: email,
+    });
   }
 
   changePassword(data: any): Observable<any> {
     return this.http.put<any>(
-      environment.apiUrl + '/v1/profile/changePassword',
+      environment.apiUrl + '/v1/account/changePassword',
       {
         password: data.password,
         newPassword: data.newPassword,

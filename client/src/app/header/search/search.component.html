@@ -11,7 +11,7 @@
         </svg>
     </div>
 
-    <div *ngIf="books.length !== 0"
+    <div *ngIf="books.length !== 0" (focusout)="false"
         class='absolute z-30 max-h-2/6 overflow-y-scroll bg-gray-100 dark:bg-zinc-800 border-gray-300 dark:border-zinc-700 rounded px-5 py-2 mt-1 w-full'>
         <a *ngFor="let book of books" routerLink='/books/{{book.id}}'>
             <div class='grid grid-cols-[auto_1fr] gap-2 py-2 border-b border-b-gray-300 dark:border-b-zinc-700'>

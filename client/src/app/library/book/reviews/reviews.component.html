@@ -10,25 +10,23 @@
         </div>
     </div>
     <div *ngIf="reviews.length>0">
-        <hr class='mt-2'>
-        <div class='mt-2'>
-            <div *ngFor='let review of reviews' class='grid grid-cols-[auto_1fr_auto] gap-x-3 items-center'>
-                <p class='text-sm text-neutral-700 dark:text-neutral-300'>{{review.creationDate | date}}</p>
-                <div class='flex gap-2 items-center'>
-                    <p class='font-semibold'>{{review.userName}}</p>
-                    <div class='flex items-center'>
-                        <p class='font-semibold'>{{review.rating}}</p>
-                        <span class="material-symbols-rounded text-xl">
-                            star
-                        </span>
-                    </div>
+        <hr class='my-2'>
+        <div *ngFor='let review of reviews' class='grid grid-cols-[auto_1fr_auto] gap-x-3 items-center'>
+            <p class='text-sm text-neutral-700 dark:text-neutral-300'>{{review.creationDate | date}}</p>
+            <div class='flex gap-2 items-center'>
+                <p class='font-semibold'>{{review.userName}}</p>
+                <div class='flex items-center'>
+                    <p class='font-semibold'>{{review.rating}}</p>
+                    <span class="material-symbols-rounded text-xl">
+                        star
+                    </span>
                 </div>
-                <span (click)="openReviewModal(review)"
-                    class="material-symbols-rounded text-2xl cursor-pointer flex items-center justify-center p-1 h-10 w-10 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700 transition duration-300">
-                    edit
-                </span>
-                <p class='col-start-2'>{{review.text}}</p>
             </div>
+            <span (click)="openReviewModal(review)"
+                class="material-symbols-rounded text-2xl cursor-pointer flex items-center justify-center p-1 h-10 w-10 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700 transition duration-300">
+                edit
+            </span>
+            <p class='col-start-2'>{{review.text}}</p>
         </div>
     </div>
     <hr class='mt-2 dark:border-zinc-800'>

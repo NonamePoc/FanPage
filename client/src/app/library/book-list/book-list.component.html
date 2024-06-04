@@ -1,12 +1,14 @@
-<section class='mb-4 ml-2'>
+<section class='mb-4 ml-2 min-h-[15rem] md:min-h-[20rem]'>
     <app-filter [books]='books' [isListLayout]="isListLayout" [filterOptions]="filters" (filteredBooks)="filterBooks()"
         (layoutChange)='changeLayout($event)'></app-filter>
     <div *ngIf='isLoading'>
-        <p>Loading...</p>
+        <div class='h-[15rem] md:h-[20rem] drop-shadow-lg bg-neutral-200 dark:bg-neutral-800 p-2 rounded-l-xl'>
+        </div>
     </div>
     <div *ngIf='!isLoading'>
-        <div *ngIf='!filteredBooks' class='h-[15rem] md:h-[20rem]'>
-            <h2 class='text-center align-middle w-full font-medium leading-[15rem] md:leading-[20rem]'>No books found!
+        <div *ngIf='filteredBooks.length === 0'>
+            <h2 class='text-center align-middle w-full font-medium leading-[15rem] md:leading-[20rem]'>
+                No books found!
             </h2>
         </div>
         <div *ngIf="filteredBooks">
@@ -23,8 +25,8 @@
                 [ngClass]='{"grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6": !isListLayout, "2xl:grid-cols-3": isListLayout} '
                 class='grid gap-2 mt-2'>
                 <a *ngFor='let book of filteredBooks' routerLink='/books/{{book.id}}'
-                    class="max-w-[30rem] cursor-pointer overflow-hidden">
-                    <div class="flex flex-cols drop-shadow-lg">
+                    class="cursor-pointer overflow-hidden">
+                    <div class="grid grid-cols-[10rem_1fr] md:grid-cols-[15rem_1fr] drop-shadow-lg">
                         <img loading="eager"
                             class="object-cover h-[15rem] md:h-[20rem] w-[10rem] md:w-[15rem] rounded-l-xl cursor-pointer transition duration-300"
                             [src]='book.image | imageNormalize' alt="Book" />
@@ -45,12 +47,12 @@
                             </div>
                             <div>
                                 <div class="flex flex-wrap gap-1 text-sm">
-                                    <p *ngFor="let category of book.categories" class="{{category.classNames}} rounded-xl px-2 py-1 cursor-pointer transition
-                                              duration-300">
+                                    <p *ngFor="let category of book.categories"
+                                        class="rounded-xl px-2 py-1 bg-neutral-200 dark:bg-neutral-800">
                                         {{category.name}}
                                     </p>
                                     <p *ngFor="let tag of book.tags"
-                                        class="text-sm text-neutral-600 dark:text-neutral-200 bg-neutral-200 dark:bg-neutral-700 rounded-xl px-2 py-1 cursor-pointer hover:bg-neutral-300 dark:hover:bg-neutral-700 transition duration-300">
+                                        class="rounded-xl px-2 py-1 text-sm text-neutral-700 bg-neutral-200 dark:text-neutral-400 dark:bg-neutral-800">
                                         {{tag.name}}
                                     </p>
                                 </div>

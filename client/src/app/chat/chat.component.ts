@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { ModalService } from '../shared/modal/modal.service';
 import { ChatService } from './chat.service';
 import { AuthService } from '../auth/auth.service';
@@ -15,7 +16,7 @@ import { InvitationsComponent } from './invitations/invitations.component';
   styleUrl: './chat.component.css',
   imports: [CommonModule, RouterLink, EditChatComponent, InvitationsComponent],
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
   currentUsername!: string;
   chats: any[] = [];
 
@@ -34,6 +35,19 @@ export class ChatComponent implements OnInit {
     this.chatsSubscription = this.chatService.chats.subscribe((data) => {
       this.chats = data;
     });
+
+    this.searchSubject.pipe(debounceTime(500)).subscribe((value) => {
+      this.performSearch(value);
+    });
+
+    this.chatService.hubConnection.on('Search', (data) => {
+      this.chats = data;
+    });
+  }
+
+  ngOnDestroy() {
+    this.chatsSubscription.unsubscribe();
+    this.searchSubject.complete();
   }
 
   onEdit(chat: any) {
@@ -46,11 +60,13 @@ export class ChatComponent implements OnInit {
     this.modalService.openModal('chatFormModal');
   }
 
-  search($event: any) {
-    this.chatService.hubConnection.invoke('Search', $event.target.value);
-
-    this.chatService.hubConnection.on('Search', (data) => {
-      this.chats = data;
-    });
+  onSearch($event: any) {
+    this.searchSubject.next($event.target.value);
   }
+
+  private performSearch(value: string) {
+    this.chatService.hubConnection.invoke('Search', value);
+  }
+
+  private searchSubject = new Subject<string>();
 }

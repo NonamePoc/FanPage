@@ -2,7 +2,7 @@
 
     <div *ngIf='!isLoading' class='grid md:grid-cols-2 gap-2'>
         <div *ngFor='let person of people' routerLink="/user/{{ person.subName }}" (click)="closeModal()"
-            class='grid grid-cols-[auto_1fr] items-center gap-3 p-2 rounded-lg bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 cursor-pointer'>
+            class='grid grid-cols-[auto_1fr] items-center gap-3 p-2 rounded-lg bg-neutral-200 hover:bg-neutral-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 cursor-pointer'>
             <img [src]="person.avatar | imageNormalize" alt="User Friend"
                 class="rounded-full h-10 w-10 md:h-12 md:w-12 object-cover">
             <div>

@@ -4,9 +4,9 @@ import {
   CanActivateFn,
   RouterStateSnapshot,
 } from '@angular/router';
-import { AuthService } from '../auth/auth.service';
 import { inject } from '@angular/core';
 import { map, take } from 'rxjs/operators';
+import { AuthService } from '../auth/auth.service';
 import { ModalService } from '../shared/modal/modal.service';
 
 export const AdminGuard: CanActivateFn = (

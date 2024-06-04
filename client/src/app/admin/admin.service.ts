@@ -23,7 +23,11 @@ export class AdminService {
     );
   }
 
-  getUser(username: string): Observable<any> {
+  getUsers(): Observable<any> {
+    return this.http.get<any>(environment.apiUrl + '/v1/admin/all');
+  }
+
+  searchUsers(username: string): Observable<any> {
     return this.http.post<any>(
       environment.apiUrl + '/v1/admin/info?name=' + username,
       {}

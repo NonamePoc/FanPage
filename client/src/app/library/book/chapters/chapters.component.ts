@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChapterService } from './chapter.service';
-import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { BookComponent } from '../book.component';
 
 @Component({
   selector: 'app-chapters',
@@ -15,21 +15,13 @@ export class ChaptersComponent implements OnInit {
   isLoading = true;
   bookId!: number;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private chapterService: ChapterService
-  ) {}
+  constructor(private bookComp: BookComponent) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.bookId = +params['id'];
-      this.chapterService
-        .getChapters(this.bookId)
-        .subscribe((chapters: any) => {
-          this.chapters = chapters;
-          this.isLoading = false;
-        });
+    this.bookComp.currentBook.subscribe((book) => {
+      this.bookId = book.id;
+      this.chapters = book.chapters;
+      this.isLoading = false;
     });
   }
 }

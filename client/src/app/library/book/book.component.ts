@@ -11,6 +11,7 @@ import { response } from 'express';
 import { ImageNormalizePipe } from '../../shared/image-normalize.pipe';
 import { ReadingProgressService } from './chapters/chapter/reading-progress.service';
 import { AuthService } from '../../auth/auth.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-book',
@@ -34,6 +35,9 @@ export class BookComponent implements OnInit {
   isBookmarked = false;
   isAuthor = false;
 
+  private currentBookSubject = new BehaviorSubject<any>(null);
+  currentBook = this.currentBookSubject.asObservable();
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -48,6 +52,7 @@ export class BookComponent implements OnInit {
       this.id = +params['id'];
       this.bookService.getBook(this.id).subscribe((book) => {
         this.book = book;
+        this.currentBookSubject.next(book);
         this.isBookmarked = this.bookService.checkBookmark(this.id);
         this.isLoading = false;
         this.isAuthor =

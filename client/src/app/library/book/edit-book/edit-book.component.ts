@@ -50,7 +50,6 @@ export class EditBookComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.bookForm.value);
     this.editMode ? this.updateBook() : this.addBook();
   }
 
@@ -117,6 +116,7 @@ export class EditBookComponent implements OnInit {
   private addBook(): void {
     if (this.bookForm.valid) {
       const data = this.bookForm.getRawValue();
+
       this.bookService.addBook(data).subscribe({
         next: (response: any) => {
           this.router.navigate(['/books/', response.id, 'chapters', 'new']);

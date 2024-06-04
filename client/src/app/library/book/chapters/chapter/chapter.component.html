@@ -1,5 +1,3 @@
-<h1 *ngIf='isLoading'>Loading...</h1>
-
 <ng-container *ngIf='!isLoading'>
     <section class='p-2 grid grid-cols-[auto_1fr_auto] gap-1 items-center]'>
         <img class='object-cover rounded drop-shadow-lg mx-auto h-10 w-10' [src]="chapter.fanficPhoto | imageNormalize"

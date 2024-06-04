@@ -12,6 +12,7 @@ import { UserService } from '../../shared/user.service';
 import { ReCaptchaV3Service, RecaptchaV3Module } from 'ng-recaptcha';
 import { environment } from '../../../environments/environment.development';
 import { ModalService } from '../../shared/modal/modal.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-username-change-modal',
@@ -31,10 +32,11 @@ export class UsernameChangeModalComponent implements OnInit {
   SITE_KEY = environment.recaptcha.siteKey;
 
   constructor(
-    private userService: UserService,
     private toastr: ToastrService,
     private recaptchaV3Service: ReCaptchaV3Service,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private userService: UserService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -48,21 +50,26 @@ export class UsernameChangeModalComponent implements OnInit {
 
   onSubmit() {
     this.recaptchaV3Service.execute('changeUsername').subscribe({
-      next: (token) => {
+      next: () => {
         this.changeUsername();
       },
-      error: (error) => {
+      error: () => {
         this.toastr.error('Recaptcha error');
       },
     });
   }
 
-  changeUsername() {
+  private changeUsername() {
     this.userService
       .changeUsername(this.usernameForm.value.username)
       .subscribe(() => {
-        this.toastr.success('Username changed successfully');
+        this.authService.user.value!.username =
+          this.usernameForm.value.username;
+        this.authService.user.next(this.authService.user.value);
+        this.toastr.success('Username changed successfully', 'Please login');
         this.modalService.closeModal('changeUsernameModal');
+        this.authService.logout();
+        this.modalService.openModal('authModal');
       });
     this.usernameForm.disable();
   }

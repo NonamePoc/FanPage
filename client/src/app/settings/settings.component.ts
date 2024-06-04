@@ -57,6 +57,7 @@ export class SettingsComponent implements OnInit {
         : this.userService.changeAvatar(file).subscribe((response) => {
             this.avatar = response.avatar;
             this.authService.user.value!.avatar = response.avatar;
+            this.authService.user.next(this.authService.user.value);
           });
     }
   }

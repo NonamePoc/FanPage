@@ -24,11 +24,15 @@ export class BookService {
     formData.append('Title', data.title);
     formData.append('Description', data.description);
     formData.append('File', data.cover);
-    formData.append('Categories', data.categories);
-    formData.append('Tags', data.tags);
     formData.append('OriginFandom', data.origin);
     formData.append('Stage', data.stage);
     formData.append('Language', data.language);
+    for (var category of data.categories) {
+      formData.append('Categories', category);
+    }
+    for (var tag of data.tags) {
+      formData.append('Tags', tag);
+    }
     return this.http
       .post(environment.apiUrl + '/v1/fanfic/create', formData)
       .pipe(

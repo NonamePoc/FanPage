@@ -1,4 +1,4 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -16,8 +16,8 @@ import { BanModalComponent } from './ban-modal/ban-modal.component';
   styleUrl: './user-control.component.css',
   imports: [CommonModule, FormsModule, BanModalComponent],
 })
-export class UserControlComponent {
-  user: any;
+export class UserControlComponent implements OnInit, OnDestroy {
+  users: any[] = [];
   selectedUser: any;
   searchInput: string = '';
   selectedUserChanged = new EventEmitter<any>();
@@ -34,6 +34,14 @@ export class UserControlComponent {
     this.searchSubject.pipe(debounceTime(500)).subscribe((value) => {
       this.performSearch(value);
     });
+
+    this.adminService.getUsers().subscribe((users) => {
+      this.users = users;
+    });
+  }
+
+  ngOnDestroy() {
+    this.searchSubject.complete();
   }
 
   onSearch() {
@@ -41,16 +49,14 @@ export class UserControlComponent {
   }
 
   onSelectRole(event: any, user: any) {
-    this.adminService
-      .changeRole(user.id, event.target.value)
-      .subscribe((res) => {
-        user.role = event.target.value;
-      });
+    this.adminService.changeRole(user.id, event.target.value).subscribe(() => {
+      user.role = event.target.value;
+    });
   }
 
   onBan(user: any, isBanned: boolean) {
     if (isBanned) {
-      this.adminService.unbanUser(user.id).subscribe((res) => {
+      this.adminService.unbanUser(user.id).subscribe(() => {
         user.whoBan = 'None';
       });
       return;
@@ -62,15 +68,15 @@ export class UserControlComponent {
 
   onDelete(userId: string) {
     this.adminService.deleteUser(userId).subscribe(() => {
-      this.user = null;
+      this.users = this.users.filter((u) => u.id !== userId);
     });
   }
 
   private performSearch(searchValue: string) {
     !searchValue
-      ? (this.user = [])
-      : this.adminService.getUser(searchValue).subscribe((user) => {
-          this.user = user;
+      ? (this.users = [])
+      : this.adminService.searchUsers(searchValue).subscribe((users) => {
+          this.users = users;
         });
   }
 

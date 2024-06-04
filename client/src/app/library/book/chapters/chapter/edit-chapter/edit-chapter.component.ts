@@ -53,9 +53,11 @@ export class EditChapterComponent implements OnInit {
     this.editMode
       ? this.chapterService
           .updateChapter(this.id, this.bookId, this.chapterForm.value)
-          .subscribe(() => {
+          .subscribe((response: any) => {
             this.toastr.success('Chapter updated');
-            this.router.navigate(['../../'], { relativeTo: this.route });
+            this.router.navigate(['../../', response.chapterId], {
+              relativeTo: this.route,
+            });
           })
       : this.chapterService
           .addChapter(this.bookId, this.chapterForm.value)
@@ -68,9 +70,9 @@ export class EditChapterComponent implements OnInit {
   }
 
   onDelete(): void {
-    this.chapterService.deleteChapter(this.id).subscribe(() => {
+    this.chapterService.deleteChapter(this.id, this.bookId).subscribe(() => {
       this.toastr.success('Chapter deleted');
-      this.router.navigate(['../../'], { relativeTo: this.route });
+      this.router.navigate(['../../../'], { relativeTo: this.route });
     });
   }
 

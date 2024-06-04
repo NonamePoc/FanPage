@@ -15,12 +15,6 @@ export class RatingService {
     );
   }
 
-  getBookReviews(id: number): Observable<any> {
-    return this.http.get(
-      environment.apiUrl + '/v1/review/allFanficReview?fanficId=' + id
-    );
-  }
-
   addRating(id: number, rating: number, text: string): Observable<any> {
     return this.http.post(
       environment.apiUrl + '/v1/review/create?fanficId=' + id,

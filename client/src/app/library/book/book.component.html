@@ -71,7 +71,7 @@
                 <h3 class='font-semibold'>Categories</h3>
                 <div class="flex flex-wrap gap-1 text-sm">
                     <p *ngFor='let category of book.categories'
-                        class="rounded-xl px-2 py-1 cursor-pointer transition duration-300 bg-neutral-300 dark:bg-neutral-800">
+                        class="rounded-xl px-2 py-1 bg-neutral-200 dark:bg-neutral-800">
                         {{category.name}}
                     </p>
 
@@ -79,7 +79,7 @@
                 <h3 class='font-semibold'>Tags</h3>
                 <div class="flex flex-wrap gap-1 text-sm">
                     <p *ngFor='let tag of book.tags'
-                        class="text-sm text-neutral-700 bg-neutral-300 dark:text-neutral-400 dark:bg-neutral-800 rounded-xl px-2 py-1 cursor-pointer transition duration-300">
+                        class="rounded-xl px-2 py-1 text-sm text-neutral-700 bg-neutral-200 dark:text-neutral-400 dark:bg-neutral-800">
                         {{tag.name}}
                     </p>
                 </div>
@@ -87,7 +87,7 @@
                 <hr class='dark:border-zinc-800'>
                 <h3 class='font-semibold'>Language</h3>
                 <span>{{book.language}}</span>
-                <h3 class='font-semibold'>Date Updated</h3>
+                <h3 class='font-semibold'>Date Created</h3>
                 <span>17th May 2023</span>
             </div>
             <hr class='dark:border-zinc-800'>

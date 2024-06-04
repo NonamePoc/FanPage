@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { BookService } from '../../library/book.service';
-import { ImageNormalizePipe } from '../../shared/image-normalize.pipe';
 import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { BookService } from '../../library/book.service';
+import { ImageNormalizePipe } from '../../shared/image-normalize.pipe';
 
 @Component({
   selector: 'app-search',
