@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "fanpage-413012": {
+      "hosting": {
+        "client": [
+          "fanpage-413012"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "fanpage-413012"
+  }
+}
