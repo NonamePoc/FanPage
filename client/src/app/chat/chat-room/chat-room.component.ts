@@ -1,13 +1,7 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { HubConnectionState } from '@microsoft/signalr';
 import { ParticipantsModalComponent } from './participants-modal/participants-modal.component';
@@ -15,6 +9,7 @@ import { DropdownDirective } from '../../shared/dropdown.directive';
 import { ChatService } from '../chat.service';
 import { ModalService } from './../../shared/modal/modal.service';
 import { AuthService } from '../../auth/auth.service';
+import { ScrollToBottomDirective } from './scroll.directive';
 
 @Component({
   selector: 'app-chat-room',
@@ -24,20 +19,20 @@ import { AuthService } from '../../auth/auth.service';
   imports: [
     CommonModule,
     RouterLink,
+    FormsModule,
     DropdownDirective,
     ParticipantsModalComponent,
+    ScrollToBottomDirective,
   ],
 })
-export class ChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ChatRoomComponent implements OnInit, OnDestroy {
+  @ViewChild(ScrollToBottomDirective)
+  scroll!: ScrollToBottomDirective;
+
   chat: any;
-  message: string = '';
   currentUserName: string | undefined = '';
   isLoading: boolean = true;
-
-  @ViewChild('msgContainer', { static: true })
-  msgContainerRef!: ElementRef<HTMLElement>;
-  @ViewChild('messageInput', { static: true })
-  messageInputRef!: ElementRef<HTMLInputElement>;
+  msgInput: string = '';
 
   private membersSubject = new BehaviorSubject<any[]>([]);
   members = this.membersSubject.asObservable();
@@ -65,20 +60,14 @@ export class ChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.chatService.hubConnection.on('GetChat', (data) => {
-      console.log('GetChat', data);
       this.setChatandMembers(data);
       this.isLoading = false;
+      console.log('GetChat', data);
     });
 
     this.chatService.hubConnection.on('Message', (data) => {
-      this.chat.messages.unshift(data);
+      this.chat.messages.push(data);
     });
-  }
-
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.scrollToBottom();
-    }, 0);
   }
 
   ngOnDestroy() {
@@ -89,16 +78,11 @@ export class ChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this.modalService.openModal('participantsModal');
   }
 
-  onInput($event: any) {
-    this.message = $event.target.value;
-  }
-
   sendMessage() {
     this.chatService.hubConnection.invoke('Message', +this.chat.id, {
-      Content: this.message,
+      Content: this.msgInput,
     });
-    this.message = '';
-    this.messageInputRef.nativeElement.value = '';
+    this.msgInput = '';
   }
 
   onLeave() {
@@ -111,13 +95,6 @@ export class ChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   private setChatandMembers(data: any) {
     this.chat = data;
     this.membersSubject.next(data.chatUsers);
-  }
-
-  private scrollToBottom(): void {
-    if (this.msgContainerRef) {
-      const element = this.msgContainerRef.nativeElement;
-      element.scrollTop = element.scrollHeight;
-    }
   }
 
   private connectionStateSubscription!: Subscription;

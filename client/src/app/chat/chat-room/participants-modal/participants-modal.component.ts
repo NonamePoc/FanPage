@@ -52,6 +52,13 @@ export class ParticipantsModalComponent implements OnInit {
 
     this.followersService.hubConnection.on('UserFollower', (data) => {
       this.followers = data;
+      this.filteredFollowers = data.filter(
+        (f: any) =>
+          !this.members.some(
+            (m) => m.userName.toLowerCase() === f.subName.toLowerCase()
+          )
+      );
+      console.log(this.filteredFollowers);
     });
   }
 
@@ -63,7 +70,7 @@ export class ParticipantsModalComponent implements OnInit {
       (f) =>
         f.subName.toLowerCase().includes(searchValue.toLowerCase()) &&
         !this.members.some(
-          (m) => m.subName.toLowerCase() === f.subName.toLowerCase()
+          (m) => m.userName.toLowerCase() === f.subName.toLowerCase()
         )
     );
   }

@@ -26,12 +26,12 @@ export const appConfig: ApplicationConfig = {
     provideToastr(),
     {
       provide: RECAPTCHA_V3_SITE_KEY,
-      useValue: environment.recaptcha.siteKey,
+      useValue: environment.recaptchaSiteKey,
     },
     {
       provide: RECAPTCHA_SETTINGS,
       useValue: {
-        siteKey: environment.recaptcha.siteKey,
+        siteKey: environment.recaptchaSiteKey,
       } as RecaptchaSettings,
     },
   ],

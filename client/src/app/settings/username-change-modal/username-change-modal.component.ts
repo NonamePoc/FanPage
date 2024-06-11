@@ -29,7 +29,7 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class UsernameChangeModalComponent implements OnInit {
   usernameForm!: FormGroup;
-  SITE_KEY = environment.recaptcha.siteKey;
+  SITE_KEY = environment.recaptchaSiteKey;
 
   constructor(
     private toastr: ToastrService,

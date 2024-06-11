@@ -1,11 +1,11 @@
-<article *ngIf='!isLoading' class='md:px-4 w-full h-[90vh] p-2 flex grow flex-col overflow-hidden'>
+<article class='md:px-4 w-full h-[90vh] p-2 flex grow flex-col overflow-hidden'>
     <div class='flex justify-between items-center p-2 mb-4 border-b border-stone-200 dark:border-stone-800'>
         <a routerLink="/chat">
             <span class="material-symbols-rounded cursor-pointer">
                 arrow_back
             </span>
         </a>
-        <div class='flex flex-col items-center'>
+        <div *ngIf='!isLoading' class='flex flex-col items-center'>
             <h1 class='text-lg font-medium'>{{chat?.name}}</h1>
             <p class='text-sm text-stone-600 dark:text-stone-500'>{{chat?.chatUsers?.length}} people</p>
         </div>
@@ -34,9 +34,9 @@
         </div>
 
     </div>
-    <div class='mb-2 flex-1 overflow-auto' #mgsContainer>
-        <div class='h-full flex flex-col items-center gap-y-2'>
-            <div *ngFor='let msg of chat?.messages || []'
+    <div #msgContainer [scrollTop]="msgContainer.scrollHeight" class='mb-2 flex-1 overflow-auto'>
+        <div *ngIf='!isLoading' class='h-full flex flex-col items-center gap-y-2'>
+            <div *ngFor='let msg of chat?.messages || []; let i = index'
                 [ngClass]="{'self-end': msg.userName === currentUserName, 'self-start': !(msg.userName === currentUserName)}"
                 class='px-4 py-2 bg-stone-200 dark:bg-zinc-800 self-start rounded-lg flex gap-3 items-center'>
                 <div>
@@ -44,13 +44,14 @@
                     <div>{{msg.content}}</div>
                 </div>
                 <p class='text-xs'>{{msg.receivedDateUtc | date: 'shortTime'}}</p>
+                <span *ngIf='i === this.chat.messages.length - 1' id='lastMessage'></span>
             </div>
         </div>
     </div>
     <div class='flex gap-4 border-t border-stone-200 dark:border-stone-800 p-2'>
-        <input #messageInput (input)='onInput($event)'
+        <input [(ngModel)]='msgInput' autocomplete="off"
             class="p-3 flex-1 bg-stone-200 dark:bg-zinc-800 dark:border-zinc-900 rounded border-2 focus:border-blue-400 dark:focus:border-blue-800 transition duration-300"
-            type="text" name='message' placeholder='Type a message here...'>
+            type="text" name='message' placeholder='Type a message here...' [disabled]='isLoading'>
         <button (click)="sendMessage()"
             class='px-6 bg-blue-600 hover:bg-blue-500 dark:bg-blue-800 dark:hover:bg-blue-700 text-white rounded font-medium flex items-center transition duration-200'>Send
             <span class="material-symbols-rounded">

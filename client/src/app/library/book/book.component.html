@@ -40,19 +40,17 @@
                         edit
                     </span>
                     <ul *ngIf='isAuthor'
-                        class='drop-shadow-lg px-2 py-2 opacity-0 -z-1 mt-2 absolute bg-stone-200 dark:bg-neutral-800 rounded transition duration-300 -translate-x-5 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:left-3 before:w-4 before:h-4 before:bg-stone-200 dark:before:bg-neutral-800 before:rounded before:rotate-45'>
-                        <li
-                            class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-700 px-1 py-1 rounded flex gap-1 items-center'>
-                            <a routerLink="/books/{{book.id}}/edit">
+                        class='drop-shadow-lg px-2 py-2 opacity-0 -z-1 mt-2 absolute bg-stone-200 dark:bg-neutral-800 rounded transition duration-300 -translate-x-5 before:transition before:duration-200 before:absolute before:content-[""] before:-top-1 before:left-12 before:w-4 before:h-4 before:bg-stone-200 dark:before:bg-neutral-800 before:rounded before:rotate-45'>
+                        <li class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-700 rounded p-1'>
+                            <a routerLink="/books/{{book.id}}/edit" class='flex gap-1 items-center'>
                                 <span class="material-symbols-rounded">
                                     edit
                                 </span>
                                 Edit Book
                             </a>
                         </li>
-                        <li
-                            class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-700 px-1 py-1 rounded flex gap-1 items-center'>
-                            <a routerLink="/books/{{book.id}}/chapters/new">
+                        <li class='cursor-pointer hover:bg-stone-100 dark:hover:bg-neutral-700 rounded p-1'>
+                            <a routerLink="/books/{{book.id}}/chapters/new" class='flex gap-1 items-center'>
                                 <span class="material-symbols-rounded">
                                     add
                                 </span>

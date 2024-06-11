@@ -13,14 +13,10 @@ import { Subscription } from 'rxjs';
 })
 export class InvitationsComponent implements OnInit {
   invitations: any[] = [];
-
-  private inviteSubscription!: Subscription;
-
   constructor(private chatService: ChatService) {}
 
   ngOnInit(): void {
     this.inviteSubscription = this.chatService.invites.subscribe((data) => {
-      console.log('Invitations: ', data);
       this.invitations = data;
     });
   }
@@ -38,4 +34,6 @@ export class InvitationsComponent implements OnInit {
       this.invitations = this.invitations.filter((i) => i.id !== inviteId);
     });
   }
+
+  private inviteSubscription!: Subscription;
 }

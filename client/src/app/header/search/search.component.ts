@@ -16,6 +16,7 @@ import { ImageNormalizePipe } from '../../shared/image-normalize.pipe';
 })
 export class SearchComponent implements OnInit, OnDestroy {
   searchInput: string = '';
+  showResults: boolean = false;
   books: any = [];
 
   constructor(private bookService: BookService) {}
